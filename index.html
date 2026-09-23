@@ -1135,6 +1135,8 @@ function fmtD(v) {
   .qz-pod { background:#F0EAFB; border-radius:12px; padding:14px 18px; text-align:center; min-width:120px; } .qz-pod1 { padding-top:26px; background:#FFF4D6; }
   .qz-medal { font-size:2rem; } .qz-pname { font-weight:700; color:#0D1B4C; }
   .qz-table { width:100%; border-collapse:collapse; margin-bottom:10px; } .qz-table th, .qz-table td { text-align:left; padding:8px; border-bottom:1px solid #EEF1F6; font-size:0.9rem; }
+  .qz-nk { font-weight:800; } .qz-rn { font-weight:500; opacity:.8; }
+  .qz-player .qz-rn { display:block; }
   .qz-mute { position:fixed; right:16px; bottom:16px; z-index:300; width:48px; height:48px; border-radius:50%; border:1px solid #D8DEE8; background:#fff; font-size:1.3rem; box-shadow:0 4px 14px rgba(13,27,76,.15); cursor:pointer; }
   .qz-av { display:inline-flex; width:60px; height:76px; flex-shrink:0; vertical-align:middle; }
   .qz-av svg { width:100%; height:100%; overflow:visible; }
@@ -12620,6 +12622,7 @@ function qzHat(a) {
 const QZ_ADJ = ['Turbo','Rocket','Mighty','Speedy','Cosmic','Nitro','Blazing','Sneaky','Funky','Thunder','Slam-Dunk','Flying','Super','Captain','Ninja','Dazzling','Bouncy','Hyper','Zippy','Golden','Galactic','Lightning'];
 
 function qzAv(id, cls) { return `<span class="qz-av ${cls || ''}">${qzAvatarSvg(id)}</span>`; }
+function qzPname(p) { return `<b class="qz-nk">${qzEsc(p.nick)}</b> <span class="qz-rn">${qzEsc(p.name)}</span>`; }
 function qzFlames(n) { return n >= 2 ? `<span class="qz-flame">🔥${n}</span>` : ''; }
 
 function qzEsc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
@@ -12751,7 +12754,7 @@ function qzRenderLobby(r) {
     const w = document.getElementById('qzLobbyWait'); if (w) w.remove();
     const p = qz.players[id], d = document.createElement('div');
     d.className = 'qz-player qz-enter'; d.style.setProperty('--d', (Math.random() * 1.2).toFixed(2) + 's');
-    d.innerHTML = qzAv(p.av, 'qz-bob') + `<span>${qzEsc(p.nick)}</span>`;
+    d.innerHTML = qzAv(p.av, 'qz-bob') + `<span>${qzPname(p)}</span>`;
     box.appendChild(d);
   });
 }
@@ -12845,7 +12848,7 @@ function qzRenderQuestion(r) {
 function qzMiniBoard() {
   const b = qzBoard().slice(0, 5); if (!b.length) return '';
   return `<div class="qz-mini">${b.map((p, k) => { const l = qz.last[p.id] || {};
-    return `<div class="qz-mini-row" style="animation-delay:${k * 0.1}s"><span class="qz-rank">${k + 1}</span>${qzAv(p.av, 'qz-sm')}<span class="qz-mini-n">${qzEsc(p.nick)} ${qzFlames(p.streak)}</span>
+    return `<div class="qz-mini-row" style="animation-delay:${k * 0.1}s"><span class="qz-rank">${k + 1}</span>${qzAv(p.av, 'qz-sm')}<span class="qz-mini-n">${qzPname(p)} ${qzFlames(p.streak)}</span>
       ${l.pts ? `<span class="qz-gain">+${l.pts}</span>` : ''}<b>${p.score}</b></div>`; }).join('')}</div>`;
 }
 function qzFinish() { qz.phase = 'end'; qzStop(); qzMusic(''); qzSfx('winner'); qzRender(); qzPush(); setTimeout(() => { if (qz.phase === 'end') qzMusic('lobby'); }, 6000); }
@@ -12876,18 +12879,18 @@ function qzRenderEnd(r) {
       <div class="qz-pod qz-pod${k + 1}" style="animation-delay:${[1.6, 0.8, 0][k]}s">
         ${qzAv(p.av, 'qz-lg ' + (k === 0 ? 'qz-dance' : 'qz-bob'))}
         <div class="qz-medal">${['🥇','🥈','🥉'][k]}</div>
-        <div class="qz-pname">${qzEsc(p.nick)}</div><div class="qz-pts">${p.score} pts</div>
+        <div class="qz-pname">${qzPname(p)}</div><div class="qz-pts">${p.score} pts</div>
         <div class="qz-step">${k + 1}</div>
       </div>`; }).join('')}</div>
-    <table class="qz-table"><tr><th>#</th><th>Player</th><th>Learner</th><th>Correct</th><th>Points</th></tr>
-      ${b.map((p, k) => `<tr><td>${k + 1}</td><td>${qzAv(p.av, 'qz-sm')} ${qzEsc(p.nick)}</td><td>${qzEsc(p.name)}</td><td>${p.right} / ${n}</td><td>${p.score}</td></tr>`).join('')}</table>
+    <table class="qz-table"><tr><th>#</th><th>Player</th><th>Correct</th><th>Points</th></tr>
+      ${b.map((p, k) => `<tr><td>${k + 1}</td><td>${qzAv(p.av, 'qz-sm')} ${qzPname(p)}</td><td>${p.right} / ${n}</td><td>${p.score}</td></tr>`).join('')}</table>
     <p class="hub-p">Class average ${avg}%.${hard.length && b.length ? ' Worth going over: ' + hard.map(h => 'Q' + (h.i + 1) + ' (' + Math.round(h.pct * 100) + '% right)').join(', ') + '.' : ''}</p>
     <div class="qz-row"><button class="qz-btn qz-primary" onclick="qzEnd(true)">Done</button><button class="qz-btn" onclick="qzCopy()">Copy results</button></div></div>`;
   qzConfetti(r.querySelector('.qz-endwrap'));
 }
 function qzCopy() {
   const b = qzBoard(), n = qz.qs.length;
-  const t = qz.quiz.title + ' — ' + fmtD(new Date()) + '\n' + b.map((p, k) => (k + 1) + '. ' + p.name + ' (' + p.nick + ') — ' + p.right + '/' + n + ', ' + p.score + ' pts').join('\n');
+  const t = qz.quiz.title + ' — ' + fmtD(new Date()) + '\n' + b.map((p, k) => (k + 1) + '. ' + p.nick + ' ' + p.name + ' — ' + p.right + '/' + n + ', ' + p.score + ' pts').join('\n');
   try { navigator.clipboard.writeText(t); alert('Results copied'); } catch (e) { prompt('Copy results', t); }
 }
 async function qzEnd(skipAsk) {

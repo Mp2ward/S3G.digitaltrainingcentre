@@ -192,13 +192,14 @@ function joinScreen(msg){
   if(!draft||taken.includes(draft.av))pickRandom();
   const grid=QZ_AVATARS.map(a=>{const t=taken.includes(a.id),sel=draft&&draft.av===a.id;return '<button class="tile'+(t?' taken':'')+(sel?' sel':'')+'" '+(t?'disabled':'')+' onclick="choose(\''+a.id+'\')" aria-label="'+a.name+(t?' (taken)':'')+'">'+avHtml(a.id)+'<span>'+(t?'Taken':a.name)+'</span></button>';}).join('');
   app.innerHTML='<div class="card"><h1>Pick your player</h1><p>Each player can only be picked once — first come, first served!</p>'+
-  (draft?'<div class="me"><div id="avBox">'+avHtml(draft.av,'lg bob')+'</div><div class="nick" id="nick">'+esc(draft.nick)+'</div><button class="reroll" id="rr">🎲 Surprise me</button></div>':'<p class="err">All players are taken — ask your trainer.</p>')+
+  (draft?'<div class="me"><div id="avBox">'+avHtml(draft.av,'lg bob')+'</div><div class="nick" id="nick">'+esc(draft.nick)+' <span id="nkName" style="font-weight:600;opacity:.75">'+esc(window._nm||'')+'</span></div><button class="reroll" id="rr">🎲 Surprise me</button></div>':'<p class="err">All players are taken — ask your trainer.</p>')+
   '<div class="grid">'+grid+'</div>'+
   (code?'':'<input id="c" placeholder="Quiz code" maxlength="6" autocapitalize="characters">')+
-  '<input id="n" placeholder="Your real name (for your trainer)" maxlength="30" autocomplete="name" value="'+esc(window._nm||'')+'"><button class="go" id="j" '+(draft?'':'disabled')+'>Let\'s go!</button>'+(msg?'<div class="err">'+esc(msg)+'</div>':'')+'</div>';
+  '<input id="n" placeholder="Your name" oninput="nkType(this.value)" maxlength="30" autocomplete="name" value="'+esc(window._nm||'')+'"><button class="go" id="j" '+(draft?'':'disabled')+'>Let\'s go!</button>'+(msg?'<div class="err">'+esc(msg)+'</div>':'')+'</div>';
   const rr=document.getElementById('rr');if(rr)rr.onclick=()=>{unlock();sfx('pop');window._nm=document.getElementById('n').value;pickRandom();joinScreen();};
   document.getElementById('j').onclick=join;
 }
+function nkType(v){const e=document.getElementById('nkName');if(e)e.textContent=v;}
 function choose(id){unlock();sfx('pop');window._nm=(document.getElementById('n')||{}).value||'';draft={av:id,nick:nickFor(id)};joinScreen();}
 async function startJoin(){if(code){await loadTaken();joinScreen();clearInterval(takenTimer);takenTimer=setInterval(async()=>{if(me){clearInterval(takenTimer);return;}const before=taken.join();await loadTaken();if(taken.join()!==before){window._nm=(document.getElementById('n')||{}).value||'';joinScreen();}},3000);}else joinScreen();}
 async function join(){
@@ -236,12 +237,12 @@ function draw(force){
   const key=JSON.stringify([st&&st.phase,st&&st.i,sentFor,picked]);
   if(!force&&key===lastKey)return; lastKey=key;
   if(!st){app.innerHTML='<div class="centre"><div class="big">Quiz not found</div><p class="muted">Check the code with your trainer.</p></div>';return;}
-  const head=(extra)=>'<div class="qhead"><span>'+avHtml(me.av,'sm')+' '+esc(me.nick)+'</span><span>'+(extra||'')+'</span></div>';
-  if(st.phase==='lobby'){app.innerHTML='<div class="centre">'+avHtml(me.av,'lg dance')+'<div class="big">You\'re in, '+esc(me.nick)+'!</div><p class="muted">'+esc(st.title)+'<br>Look at the big screen — the quiz starts soon.</p></div>';return;}
+  const head=(extra)=>'<div class="qhead"><span>'+avHtml(me.av,'sm')+' <b>'+esc(me.nick)+'</b> '+esc(me.name)+'</span><span>'+(extra||'')+'</span></div>';
+  if(st.phase==='lobby'){app.innerHTML='<div class="centre">'+avHtml(me.av,'lg dance')+'<div class="big">You\'re in, '+esc(me.nick)+' '+esc(me.name)+'!</div><p class="muted">'+esc(st.title)+'<br>Look at the big screen — the quiz starts soon.</p></div>';return;}
   if(st.phase==='end'){const m=myScore();const medal=m&&m.rank<=3?['🥇','🥈','🥉'][m.rank-1]:'🏁';
     app.innerHTML='<div class="centre">'+avHtml(me.av,m&&m.rank===1?'lg dance':'lg bob')+'<div class="medal">'+medal+'</div><div class="big">'+(m&&m.rank===1?'Champion!':'Quiz finished')+'</div>'+(m?'<p class="muted" style="font-size:1.1rem">You came <b>'+m.rank+'</b> of '+m.of+' with <b>'+m.score+'</b> points.</p>':'')+'<p class="muted" style="margin-top:14px">Thanks for playing!</p></div>';localStorage.removeItem(pidKey);return;}
   const q=st.q, rev=st.phase==='reveal', done=sentFor===st.i;
-  const label=(q.bonus?'🍻 Bonus':'Q'+(st.i+1));
+  const label=(q.bonus?'Trivia':'Q'+(st.i+1));
   if(!rev&&done){app.innerHTML=head(label)+'<div class="centre">'+avHtml(me.av,'lg bob')+'<div class="big">Answer locked in!</div><p class="muted">Fingers crossed… waiting for everyone else.</p></div>';return;}
   if(rev){
     const l=(st.last||{})[me.id]||{};const m=myScore();
@@ -254,7 +255,7 @@ function draw(force){
     return;
   }
   const m=myScore();
-  app.innerHTML=head(label+(m&&m.streak>=2?' · 🔥'+m.streak:''))+(q.bonus?'<div class="bonus">🍻 PUB QUIZ BONUS</div>':'')+'<div class="q">'+esc(q.text)+'</div>'+(q.multi?'<div class="hint">Pick two answers</div>':'')+
+  app.innerHTML=head(label+(m&&m.streak>=2?' · 🔥'+m.streak:''))+(q.bonus?'<div class="bonus">🧠 TRIVIA ROUND</div>':'')+'<div class="q">'+esc(q.text)+'</div>'+(q.multi?'<div class="hint">Pick two answers</div>':'')+
    '<div class="opts">'+q.opts.map((o,k)=>'<button class="opt '+(picked.includes(k)?'sel':'')+'" style="background:'+COLS[k]+';animation-delay:'+(k*0.06)+'s" onclick="pick('+k+')">'+SH[k]+' <span>'+esc(o)+'</span></button>').join('')+'</div>';
 }
 async function loop(){
