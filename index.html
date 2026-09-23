@@ -1093,6 +1093,48 @@ function fmtD(v) {
   @keyframes kcShimmer { from { background-position:0% 0; } to { background-position:200% 0; } }
   @keyframes kcSweep { to { transform:translateX(100%); } }
   @keyframes kcGrow { from { width:0; } to { width:68%; } }
+  /* ---- QR pop quizzes ---- */
+  .qz-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:14px; margin-top:6px; }
+  .qz-card { border:1px solid #D8DEE8; border-radius:12px; padding:16px; background:#fff; display:flex; flex-direction:column; gap:6px; }
+  .qz-card-t { font-weight:700; color:#0D1B4C; font-size:1rem; }
+  .qz-card-s { font-size:0.8rem; color:#6B7A94; flex:1; }
+  .qz-card-b { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
+  .qz-btn { border:1px solid #D8DEE8; background:#fff; color:#0D1B4C; padding:10px 16px; border-radius:10px; font-family:'Public Sans',sans-serif; font-weight:600; font-size:0.88rem; cursor:pointer; }
+  .qz-btn:disabled { opacity:0.45; cursor:not-allowed; }
+  .qz-primary { background:#6B4FA8; border-color:#6B4FA8; color:#fff; }
+  .qz-foot { font-size:0.75rem; color:#8494AC; margin-top:16px; }
+  .qz-wait { padding:60px 0; text-align:center; color:#6B7A94; }
+  .qz-lobby { display:flex; gap:28px; flex-wrap:wrap; align-items:flex-start; padding-top:10px; }
+  .qz-lobby-l { text-align:center; flex:0 0 auto; margin:0 auto; }
+  .qz-lobby-r { flex:1; min-width:240px; }
+  .qz-big { font-size:1.7rem; font-weight:800; color:#0D1B4C; margin:4px 0 12px; }
+  .qz-qr { display:flex; justify-content:center; background:#fff; padding:12px; border:1px solid #D8DEE8; border-radius:12px; }
+  .qz-code { margin-top:12px; font-size:1rem; color:#33415C; } .qz-code b { font-size:1.6rem; letter-spacing:0.18em; color:#0D1B4C; margin-left:6px; }
+  .qz-url { font-size:0.72rem; color:#8494AC; word-break:break-all; margin-top:4px; }
+  .qz-count { font-size:1.2rem; font-weight:700; color:#0D1B4C; margin-bottom:12px; }
+  .qz-names { display:flex; flex-wrap:wrap; gap:8px; min-height:60px; }
+  .qz-chip { background:#F0EAFB; color:#4A2F86; padding:7px 12px; border-radius:100px; font-weight:600; font-size:0.9rem; animation:qzPop .3s ease-out; }
+  @keyframes qzPop { from { transform:scale(0.6); opacity:0; } }
+  .qz-muted { color:#6B7A94; font-size:0.85rem; }
+  .qz-row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:20px; }
+  .qz-top { display:flex; justify-content:space-between; align-items:center; margin-top:6px; }
+  .qz-timer { width:48px; height:48px; border-radius:50%; background:#6B4FA8; color:#fff; font-weight:800; font-size:1.2rem; display:flex; align-items:center; justify-content:center; }
+  .qz-bar { height:6px; background:#EEF1F6; border-radius:6px; margin:10px 0 0; overflow:hidden; } .qz-bar div { height:100%; background:#6B4FA8; width:100%; transition:width .25s linear; }
+  .qz-q { font-size:clamp(1.2rem,2.6vw,1.8rem); font-weight:700; color:#0D1B4C; margin:18px 0 6px; line-height:1.3; }
+  .qz-hint { font-size:0.85rem; color:#6B4FA8; font-weight:700; margin-bottom:6px; }
+  .qz-opts { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:12px; margin-top:12px; }
+  .qz-opt { position:relative; overflow:hidden; background:var(--c); color:#fff; border-radius:12px; padding:18px 16px; display:flex; align-items:center; gap:12px; font-weight:700; font-size:1.05rem; min-height:72px; transition:opacity .3s; }
+  .qz-shape { font-size:1.3rem; opacity:0.85; } .qz-otext { flex:1; position:relative; z-index:1; }
+  .qz-n { font-size:1.3rem; position:relative; z-index:1; }
+  .qz-fill { position:absolute; left:0; bottom:0; height:5px; background:rgba(255,255,255,0.7); }
+  .qz-tick { font-size:1.4rem; position:relative; z-index:1; }
+  .qz-dim { opacity:0.35; } .qz-ok { box-shadow:0 0 0 4px #0D1B4C; }
+  .qz-why { margin-top:16px; padding:14px 16px; background:#EAF6F0; border-left:4px solid #1F8A5B; border-radius:8px; color:#0D1B4C; }
+  .qz-mini { margin-top:14px; max-width:420px; } .qz-mini div { display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid #EEF1F6; }
+  .qz-podium { display:flex; gap:12px; justify-content:center; align-items:flex-end; margin:10px 0 20px; flex-wrap:wrap; }
+  .qz-pod { background:#F0EAFB; border-radius:12px; padding:14px 18px; text-align:center; min-width:120px; } .qz-pod1 { padding-top:26px; background:#FFF4D6; }
+  .qz-medal { font-size:2rem; } .qz-pname { font-weight:700; color:#0D1B4C; }
+  .qz-table { width:100%; border-collapse:collapse; margin-bottom:10px; } .qz-table th, .qz-table td { text-align:left; padding:8px; border-bottom:1px solid #EEF1F6; font-size:0.9rem; }
   .kc-page { text-align:center; padding:30px 0 40px; }
   .kc-icon { font-size:3rem; animation:kcPulse 2.4s ease-in-out infinite; }
   @keyframes kcPulse { 0%,100% { transform:scale(1); } 50% { transform:scale(1.08); } }
@@ -1443,7 +1485,7 @@ window.addEventListener('load', function () {
     </button>
     <button class="hub-tile" style="--accent:#6B4FA8;--soft:#F0EAFB;" onclick="showView('knowledge')">
       <span class="hub-ic"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 9a2.5 2.5 0 1 1 3.4 2.3c-.8.3-1.4 1-1.4 1.9v.3"/><circle cx="12" cy="12" r="9"/><circle cx="11.5" cy="17" r="1" fill="currentColor" stroke="none"/></svg></span>
-      <span class="hub-text"><span class="hub-title">Knowledge Centre<span class="hub-flag">In development</span></span><span class="hub-sub">Pop quizzes for learners — not yet available</span></span>
+      <span class="hub-text"><span class="hub-title">Knowledge Centre</span><span class="hub-sub">QR pop quizzes learners answer on their phones</span></span>
       <span class="hub-chev">&rsaquo;</span>
     </button>
     </div>
@@ -1781,22 +1823,7 @@ window.addEventListener('load', function () {
 </div>
 
 <div class="app-view" id="view-knowledge">
-  <div class="rn-wrap">
-    <div class="kc-page">
-      <div class="kc-icon">🧠</div>
-      <div class="hub-eyebrow">Knowledge Centre</div>
-      <div class="hub-h" style="margin-bottom:6px;">Interactive pop quizzes</div>
-      <span class="kc-badge kc-badge-lg">In development</span>
-      <p class="sc-p" style="max-width:520px;margin:16px auto 22px;">Quick quizzes that learners join on their phones by scanning a QR code, with live class results and scores saved to the Course Matrix.</p>
-      <div class="kc-steps">
-        <div class="kc-step done"><span>✓</span>Concept and design</div>
-        <div class="kc-step active"><span class="kc-spin"></span>QR join and live results</div>
-        <div class="kc-step"><span>3</span>Question bank review</div>
-        <div class="kc-step"><span>4</span>Mock exams</div>
-      </div>
-      <button class="rn-nav-btn" style="margin-top:26px;" onclick="showView('hub')">← Menu</button>
-    </div>
-  </div>
+  <div class="rn-wrap" id="qzRoot"></div>
 </div>
 
 <div class="app-view" id="view-lpm">
@@ -3075,7 +3102,7 @@ const MENU_ITEMS = [
   { g:'Tools', items:[
     { label:'Soundboard', sub:'Live scene sound mixer', go:"showView('sounds')" },
     { label:'CPD Log', sub:'Your teaching and learning record', go:"showView('cpd');cpdOpen()" },
-    { label:'Knowledge Centre', sub:'Coming soon', go:"showView('knowledge')" } ] },
+    { label:'Knowledge Centre', sub:'QR pop quizzes', go:"showView('knowledge')" } ] },
 ];
 function openMenu() {
   if (document.getElementById('menuOv')) return closeMenu();
@@ -3174,6 +3201,7 @@ function showView(name) {
   if (name !== 'run' && name !== 'lpm') { window.rnFromCourseId = ''; }
   if (typeof rnCourseBackSync === 'function') rnCourseBackSync();
   if (name === 'hub') { try { hubRender(); } catch (e) {} }
+  if (name === 'knowledge') { try { if (!qz.live) { qz.phase = 'pick'; } qzRender(); } catch (e) {} }
 }
 window.addEventListener('load', function () {
   var go = new URLSearchParams(location.search).get('go');
@@ -12281,6 +12309,295 @@ function erPanel(courseId) {
           <button class="rn-nav-btn" onclick="erDecide('${r.id}','declined')">Decline</button></div>` : ''}
     </div>`).join('');
   return `<div class="sc-h2">Requests to edit</div>${rows}`;
+}
+// =====================================================================
+// KNOWLEDGE CENTRE — QR POP QUIZZES
+// Practice questions written for Sector 3 Group against the FAW syllabus.
+// These are NOT the FAA written assessment papers — keep the live papers unseen.
+// a = index(es) of correct option(s); two answers = learners pick both.
+// =====================================================================
+const QZ_BANK = [
+ { id:'faw-injuries', title:'FAW · Injuries and burns', sub:'Fractures, head and spinal injury, burns, eyes', qs:[
+  { q:'A casualty feels dazed and sick, has a headache and is drowsy after hitting their head. What injury do you suspect?', o:['Fractured limb','Head injury','Spinal injury','Shock'], a:[1], why:'Confusion, drowsiness, nausea, headache and feeling stunned point to a head injury.' },
+  { q:'Which signs most suggest a spinal injury?', o:['Swelling and bruising over a joint','Pins and needles, numbness or loss of control of the limbs','Headache and nausea','A wound with a bone visible'], a:[1], why:'Loss of movement or sensation, tingling, heavy limbs and loss of bladder or bowel control suggest spinal injury.' },
+  { q:'Pain, swelling, bruising and an unnatural shape to the forearm suggest:', o:['Head injury','Spinal injury','Fractured limb','Sprain only'], a:[2], why:'Deformity with pain, swelling and bruising is a suspected fracture.' },
+  { q:'Skin is red, sore and inflamed, but not blistered or broken. This burn is:', o:['Full thickness','Partial thickness','Superficial','Not a burn'], a:[2], why:'Only the outer layer is affected, so it is superficial.' },
+  { q:'Which burns must always be seen in hospital?', o:['Superficial burns','Full thickness burns','Any sunburn','Burns smaller than a coin'], a:[1], why:'Full thickness burns always need hospital treatment.' },
+  { q:'How long should a burn be cooled under cool running water, at the least?', o:['5 minutes','10 minutes','15 minutes','20 minutes'], a:[3], why:'Cool for at least 20 minutes.' },
+  { q:'After cooling, how should you cover a burn?', o:['Butter or cream','A fluffy cotton wool pad','A sterile non-fluffy dressing or a layer of cling film','Leave blisters popped and uncovered'], a:[2], why:'Use a non-fluffy sterile dressing or cling film. Never burst blisters or apply creams.' },
+  { q:'A dry powder chemical is on the casualty\'s skin. What first?', o:['Flush immediately','Brush the powder off, then flush','Never use water','Wait for the ambulance'], a:[1], why:'Brush off dry chemicals first (wearing gloves), then flush with water.' },
+  { q:'At an electrical incident, your first priority is:', o:['Check for burns','Put on gloves','Make sure the area is safe to approach','Start CPR'], a:[2], why:'Danger first: isolate the supply before you touch the casualty.' },
+  { q:'Dust in the eye is best treated by:', o:['Rubbing it out','Flushing with clean water or sterile eye wash','Covering and waiting','Removing it with tweezers'], a:[1], why:'Irrigate with clean water or sterile eye wash.' },
+  { q:'Something is embedded in the eye. You should:', o:['Wash it out','Pull it out gently','Cover the eye without touching the object and get help','Ask what happened first'], a:[2], why:'Do not touch or remove it. Cover without pressure and send to hospital.' },
+ ]},
+ { id:'faw-illness', title:'FAW · Medical conditions', sub:'Poisons, diabetes, asthma, heart attack, stroke, seizures, anaphylaxis', qs:[
+  { q:'Pick TWO ways a poison can enter the body.', o:['Swallowed','Inhaled (breathed in)','Through the hair','By looking at it'], a:[0,1], why:'Poisons can be swallowed, inhaled, injected, absorbed through the skin or splashed into the eyes.' },
+  { q:'A responsive casualty has swallowed a household chemical. After checking airway and breathing and calling 999, you should:', o:['Make them vomit','Try to find out what the poison was','Take them outside for fresh air','Put them in the recovery position'], a:[1], why:'Identify the substance for the emergency services. Never induce vomiting.' },
+  { q:'Hunger, shaking, a fast pulse and pale, cold, sweaty skin in a diabetic suggests:', o:['Stroke','Heart attack','Hypoglycaemia','Asthma'], a:[2], why:'These are signs of low blood sugar (hypoglycaemia).' },
+  { q:'Someone is having a hypo and is responsive. You should:', o:['Wait and watch','Give glucose, a sugary drink or sweet food','Give adrenaline','Give their insulin'], a:[1], why:'Give sugar to raise blood glucose.' },
+  { q:'Wheezing, struggling to breathe, anxious and unable to speak in full sentences suggests:', o:['Asthma attack','Seizure','Heart attack','Stroke'], a:[0], why:'These are classic signs of an asthma attack.' },
+  { q:'During an asthma attack, when must you call 999?', o:['After 30 minutes','If the inhaler has no effect after 5 minutes','Never','Only if they faint'], a:[1], why:'Call if the inhaler fails after 5 minutes, it is their first attack, or they struggle to talk.' },
+  { q:'Chest pain spreading to the left arm, pale, breathless and a sense of doom suggests:', o:['Anaphylaxis','Heart attack','Hypoglycaemia','Hyperventilation'], a:[1], why:'These are signs of a heart attack.' },
+  { q:'Face drooped on one side, arm weakness, slurred speech. You suspect:', o:['Stroke','Seizure','Head injury','Faint'], a:[0], why:'FAST: Face, Arms, Speech, Time to call 999.' },
+  { q:'Swollen lips and eyes, hives and a metallic taste suggest:', o:['Asthma','Anaphylaxis','Heart attack','Food poisoning'], a:[1], why:'These are signs of a severe allergic reaction (anaphylaxis).' },
+  { q:'After an adrenaline auto-injector, the casualty is no better 5 minutes later. You should:', o:['Wait another 15 minutes','Give a second injector in the other thigh','Give them water','Lay them flat and leave them'], a:[1], why:'Give a second auto-injector after 5 minutes if there is no improvement.' },
+  { q:'Once a tonic-clonic seizure has stopped, you should:', o:['Give a drink','Place them in the recovery position','Restrain them','Sit them upright'], a:[1], why:'Check breathing and place them in the recovery position.' },
+  { q:'Which of these seizures needs a 999 call?', o:['Their usual short seizure','A seizure lasting over 5 minutes','Any seizure where they wake quickly','None'], a:[1], why:'Call for seizures over 5 minutes, repeated seizures, a first seizure, a seizure in water, or if unresponsive for over 5 minutes.' },
+ ]},
+ { id:'faw-scenarios', title:'FAW · Practical scenarios', sub:'Choking, CPR, shock, minor injuries, assessment', qs:[
+  { q:'When would you stop choking treatment?', o:['After 3 back blows','When the obstruction clears or the emergency services take over','When they cough once','After 1 minute'], a:[1], why:'Continue until it is cleared or help takes over.' },
+  { q:'A choking casualty becomes unresponsive and you ease them to the floor. What now?', o:['Keep giving back blows','Call 999 and start CPR','Recovery position','Finger sweep'], a:[1], why:'Call for help and start CPR straight away.' },
+  { q:'Where do you place your fist for abdominal thrusts?', o:['On the breastbone','Between the navel and the bottom of the rib cage','Below the navel','On the back'], a:[1], why:'Place it between the navel and the rib cage, then pull sharply in and up.' },
+  { q:'Adult CPR ratio for a lone first aider:', o:['15:2','30:2','30:1','5:1'], a:[1], why:'30 compressions to 2 rescue breaths.' },
+  { q:'Pick TWO signs of shock.', o:['Pale, cold, clammy skin','Rapid, weak pulse','Slow, strong pulse','Warm, flushed skin'], a:[0,1], why:'Other signs include grey-blue skin, thirst, nausea and rapid shallow breathing.' },
+  { q:'Nosebleed: how should the casualty sit?', o:['Head tipped back','Head tipped forward, pinching the soft part of the nose','Lying flat','Standing'], a:[1], why:'Lean forward and pinch for 10 minutes, repeating if needed.' },
+  { q:'How long should a cold compress be applied to a bruise?', o:['1 minute','At least 10 minutes','Overnight','Not at all'], a:[1], why:'Apply a cold compress for at least 10 minutes.' },
+  { q:'Pick TWO sources of information in a secondary survey.', o:['Bystanders','Medical alert jewellery','Social media','Guessing'], a:[0,1], why:'Also: the casualty, clues at the scene, and visible injuries.' },
+  { q:'After a head injury, which is a 999 trigger?', o:['A small bump that settles','Unequal pupils or worsening response','Mild headache that improves','Feeling embarrassed'], a:[1], why:'Also: blood or fluid from the ears or nose, noisy breathing, or a change in personality.' },
+  { q:'Once the ambulance has taken over, pick TWO things the first aider should do.', o:['Complete the accident report','Restock the first aid kit','Go straight home without telling anyone','Throw soiled dressings in a normal bin'], a:[0,1], why:'Also clear the scene, dispose of waste safely, and support bystanders and yourself.' },
+ ]},
+ { id:'oxygen', title:'Oxygen therapy', sub:'Benefits, hypoxia, cylinders and safety', qs:[
+  { q:'Pick TWO signs of hypoxia.', o:['Confusion','Blue-grey lips or nail beds','Slow breathing and calm','Rosy cheeks'], a:[0,1], why:'Also: restlessness, fast heart rate, rapid breathing and breathlessness.' },
+  { q:'What checks the oxygen level in the blood?', o:['Nasal cannula','Pulse oximeter','Non-rebreather mask','Regulator'], a:[1], why:'A pulse oximeter reads oxygen saturation.' },
+  { q:'Pick TWO pre-use cylinder checks.', o:['Expiry date and correct gas','Hoses and fittings not worn','The colour of the cylinder bag','Nothing, just open it'], a:[0,1], why:'Also check the regulator works, there is enough gas, and your hands are free of oil.' },
+  { q:'Pick TWO things that are NOT safe practice with oxygen.', o:['Smoking while setting up','Using alcohol-based cleaners on the cylinder','Securing the cylinder','Refills by authorised people only'], a:[0,1], why:'No smoking at any time, and no alcohol-based or oily products near oxygen.' },
+  { q:'Why must hand cream not be used before handling oxygen?', o:['It stains the mask','Oils and grease can ignite in oxygen','It blocks the flow','No reason'], a:[1], why:'Oil or grease in high-concentration oxygen is a fire risk.' },
+  { q:'Pick TWO good storage practices for cylinders.', o:['Clean, dust-free and where they won\'t be knocked','Easy to reach in an emergency','Next to a radiator','Lying loose in a vehicle'], a:[0,1], why:'Store secured, clean, away from heat and accessible.' },
+  { q:'CPR with a bag-valve-mask on an adult: compressions to ventilations?', o:['15:2','30:2','15:1','30:1'], a:[1], why:'30:2.' },
+  { q:'Pick TWO conditions that may need oxygen therapy.', o:['Smoke inhalation','Anaphylaxis or shock','A small cut','Sprained ankle'], a:[0,1], why:'Others include near drowning, asthma and lung disease.' },
+ ]},
+];
+
+const QZ_COLS = ['#E0473E','#2B5BD7','#E3A21A','#1F8A5B','#7A4FB8'];
+const QZ_SHAPES = ['▲','◆','●','■','★'];
+const QZ_DUR = 25; // seconds per question
+let qz = { mode:'', quiz:null, i:-1, phase:'pick', code:'', live:false, answers:[], players:{}, scores:{}, timer:null, poll:null, t0:0, solo:null };
+
+function qzEsc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function qzRoot() { return document.getElementById('qzRoot'); }
+function qzJoinUrl(code) { return location.origin + location.pathname.replace(/[^/]*$/, '') + 'quiz.html?s=' + code; }
+function qzStop() { clearInterval(qz.timer); clearInterval(qz.poll); qz.timer = qz.poll = null; }
+
+function qzRender() {
+  const r = qzRoot(); if (!r) return;
+  if (qz.phase === 'pick') return qzRenderPick(r);
+  if (qz.phase === 'lobby') return qzRenderLobby(r);
+  if (qz.phase === 'question' || qz.phase === 'reveal') return qzRenderQuestion(r);
+  if (qz.phase === 'end') return qzRenderEnd(r);
+}
+
+function qzRenderPick(r) {
+  const signedIn = typeof CLOUD_ON !== 'undefined' && CLOUD_ON && cloud.session;
+  r.innerHTML = `<div class="hub-eyebrow">Knowledge Centre</div>
+    <div class="hub-h">QR pop quizzes</div>
+    <div class="hub-p">Learners scan the code, enter their name and answer on their phones. Results appear live on this screen.</div>
+    ${signedIn ? '' : `<div class="sc-note" style="margin-bottom:16px;">Sign in to run a live quiz with phones. You can still run any quiz on this screen with a show of hands.</div>`}
+    <div class="qz-grid">${QZ_BANK.map((b, k) => `
+      <div class="qz-card">
+        <div class="qz-card-t">${qzEsc(b.title)}</div>
+        <div class="qz-card-s">${qzEsc(b.sub)} · ${b.qs.length} questions</div>
+        <div class="qz-card-b">
+          <button class="qz-btn qz-primary" ${signedIn ? '' : 'disabled'} onclick="qzStartLive(${k})">Start live quiz</button>
+          <button class="qz-btn" onclick="qzStartSolo(${k})">Run on screen</button>
+        </div>
+      </div>`).join('')}
+    </div>
+    <p class="qz-foot">Practice questions written for Sector 3 Group against the First Aid at Work syllabus. They are not the FAA assessment papers.</p>
+    <button class="rn-nav-btn" style="margin-top:18px;" onclick="showView('hub')">← Menu</button>`;
+}
+
+function qzQuestionList(k) {
+  // shuffle question order each run so repeat runs feel fresh
+  const qs = QZ_BANK[k].qs.map(x => x);
+  for (let i = qs.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [qs[i], qs[j]] = [qs[j], qs[i]]; }
+  return qs;
+}
+
+// ---------------- Solo (no phones) ----------------
+function qzStartSolo(k) {
+  qzStop();
+  qz = Object.assign(qz, { mode:'solo', quiz:QZ_BANK[k], qs:qzQuestionList(k), i:0, phase:'question', live:false, answers:[], players:{}, scores:{} });
+  qz.t0 = Date.now(); qzTick(); qzRender();
+}
+
+// ---------------- Live ----------------
+async function qzStartLive(k) {
+  qzStop();
+  const ch = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  const code = Array.from(crypto.getRandomValues(new Uint8Array(6))).map(b => ch[b % ch.length]).join('');
+  qz = Object.assign(qz, { mode:'live', quiz:QZ_BANK[k], qs:qzQuestionList(k), i:-1, phase:'lobby', code, live:true, answers:[], players:{}, scores:{} });
+  qzRoot().innerHTML = `<div class="qz-wait">Setting up the quiz…</div>`;
+  try {
+    await cloudRest('quiz_sessions', 'POST', [{ code, owner: cloudMe(), title: qz.quiz.title, state: qzPublicState() }], 'return=minimal');
+  } catch (e) {
+    const raw = String(e.message || e);
+    const msg = /42P01|does not exist|PGRST20/.test(raw) ? 'The quiz tables are missing on the server. Run supabase_quiz.sql in Supabase, then try again.' : raw;
+    qz.phase = 'pick'; qzRender();
+    alert(msg); return;
+  }
+  qzRender();
+  qz.poll = setInterval(qzPoll, 1500);
+}
+
+function qzPublicState() {
+  const q = qz.qs && qz.qs[qz.i];
+  const s = { phase: qz.phase, i: qz.i, total: qz.qs.length, title: qz.quiz.title };
+  if (q && (qz.phase === 'question' || qz.phase === 'reveal')) {
+    s.q = { text: q.q, opts: q.o, multi: q.a.length > 1 };
+    s.startedAt = new Date(qz.t0).toISOString(); s.dur = QZ_DUR;
+  }
+  if (qz.phase === 'reveal' && q) { s.correct = q.a; s.why = q.why; }
+  if (qz.phase === 'reveal' || qz.phase === 'end') s.board = qzBoard().map(p => ({ id:p.id, name:p.name, score:p.score }));
+  return s;
+}
+async function qzPush() {
+  if (!qz.live) return;
+  try { await cloudRest('quiz_sessions?code=eq.' + qz.code, 'PATCH', { state: qzPublicState() }, 'return=minimal'); } catch (e) { console.warn('quiz push', e); }
+}
+async function qzPoll() {
+  if (!qz.live || !navigator.onLine) return;
+  try {
+    const rows = await cloudRest('quiz_answers?select=player_id,name,qi,choice,created_at&code=eq.' + qz.code + '&order=created_at') || [];
+    rows.forEach(a => { if (!qz.players[a.player_id]) qz.players[a.player_id] = a.name; });
+    qz.answers = rows.filter(a => a.qi >= 0);
+    if (qz.phase === 'lobby') qzRenderLobby(qzRoot());
+    if (qz.phase === 'question') {
+      qzUpdateCount();
+      const n = Object.keys(qz.players).length;
+      if (n && qzAnswersFor(qz.i).length >= n) qzReveal();
+    }
+  } catch (e) { console.warn('quiz poll', e); }
+}
+function qzAnswersFor(i) {
+  const seen = {}; return qz.answers.filter(a => a.qi === i && !seen[a.player_id] && (seen[a.player_id] = 1));
+}
+function qzSame(a, b) { a = (a || []).slice().sort(); b = (b || []).slice().sort(); return a.length === b.length && a.every((x, k) => x === b[k]); }
+
+function qzRenderLobby(r) {
+  const names = Object.values(qz.players);
+  const url = qzJoinUrl(qz.code);
+  if (!document.getElementById('qzLobbyQr')) {
+    r.innerHTML = `<div class="qz-lobby">
+      <div class="qz-lobby-l">
+        <div class="hub-eyebrow">${qzEsc(qz.quiz.title)}</div>
+        <div class="qz-big">Scan to join</div>
+        <div id="qzLobbyQr" class="qz-qr"></div>
+        <div class="qz-code">Code <b>${qz.code}</b></div>
+        <div class="qz-url">${qzEsc(url)}</div>
+      </div>
+      <div class="qz-lobby-r">
+        <div class="qz-count" id="qzLobbyN"></div>
+        <div class="qz-names" id="qzLobbyNames"></div>
+        <div class="qz-row">
+          <button class="qz-btn qz-primary" id="qzGo" onclick="qzNext()">Start quiz</button>
+          <button class="qz-btn" onclick="qzEnd(true)">Cancel</button>
+        </div>
+      </div></div>`;
+    fbDrawQr(document.getElementById('qzLobbyQr'), url, 240);
+  }
+  document.getElementById('qzLobbyN').textContent = names.length + (names.length === 1 ? ' learner joined' : ' learners joined');
+  document.getElementById('qzLobbyNames').innerHTML = names.length ? names.map(n => `<span class="qz-chip">${qzEsc(n)}</span>`).join('') : '<span class="qz-muted">Waiting for learners…</span>';
+}
+
+function qzNext() {
+  if (qz.i + 1 >= qz.qs.length) return qzFinish();
+  qz.i++; qz.phase = 'question'; qz.t0 = Date.now();
+  qzTick(); qzRender(); qzPush();
+}
+function qzTick() {
+  clearInterval(qz.timer);
+  qz.timer = setInterval(() => {
+    const left = Math.max(0, QZ_DUR - Math.floor((Date.now() - qz.t0) / 1000));
+    const el = document.getElementById('qzTime'); if (el) el.textContent = left;
+    const bar = document.getElementById('qzBar'); if (bar) bar.style.width = (left / QZ_DUR * 100) + '%';
+    if (left <= 0 && qz.phase === 'question') { if (qz.mode === 'live') qzReveal(); else clearInterval(qz.timer); }
+  }, 250);
+}
+function qzUpdateCount() {
+  const el = document.getElementById('qzAnsN'); if (!el) return;
+  el.textContent = qzAnswersFor(qz.i).length + ' / ' + Object.keys(qz.players).length + ' answered';
+}
+function qzReveal() {
+  if (qz.phase !== 'question') return;
+  clearInterval(qz.timer);
+  const q = qz.qs[qz.i];
+  if (qz.mode === 'live') {
+    const start = qz.t0;
+    qzAnswersFor(qz.i).forEach(a => {
+      if (!qzSame(a.choice, q.a)) return;
+      const t = Math.max(0, Math.min(QZ_DUR, (new Date(a.created_at).getTime() - start) / 1000));
+      qz.scores[a.player_id] = (qz.scores[a.player_id] || 0) + Math.round(500 + 500 * (1 - t / QZ_DUR));
+    });
+  }
+  qz.phase = 'reveal'; qzRender(); qzPush();
+}
+function qzBoard() {
+  return Object.keys(qz.players).map(id => ({ id, name: qz.players[id], score: qz.scores[id] || 0,
+    right: qz.qs.filter((q, i) => { const a = qz.answers.find(x => x.player_id === id && x.qi === i); return a && qzSame(a.choice, q.a); }).length }))
+    .sort((a, b) => b.score - a.score);
+}
+
+function qzRenderQuestion(r) {
+  const q = qz.qs[qz.i], rev = qz.phase === 'reveal';
+  const counts = q.o.map(() => 0);
+  if (qz.mode === 'live') qzAnswersFor(qz.i).forEach(a => (a.choice || []).forEach(c => { if (counts[c] != null) counts[c]++; }));
+  const max = Math.max(1, ...counts);
+  r.innerHTML = `<div class="qz-top">
+      <span class="qz-muted">${qzEsc(qz.quiz.title)} · Question ${qz.i + 1} of ${qz.qs.length}</span>
+      ${rev ? '' : `<span class="qz-timer" id="qzTime">${QZ_DUR}</span>`}
+    </div>
+    ${rev ? '' : '<div class="qz-bar"><div id="qzBar"></div></div>'}
+    <div class="qz-q">${qzEsc(q.q)}</div>
+    ${q.a.length > 1 ? '<div class="qz-hint">Pick two answers</div>' : ''}
+    <div class="qz-opts">${q.o.map((o, k) => {
+      const ok = q.a.includes(k);
+      return `<div class="qz-opt ${rev ? (ok ? 'qz-ok' : 'qz-dim') : ''}" style="--c:${QZ_COLS[k]}">
+        <span class="qz-shape">${QZ_SHAPES[k]}</span><span class="qz-otext">${qzEsc(o)}</span>
+        ${rev && qz.mode === 'live' ? `<span class="qz-n">${counts[k]}</span>` : ''}
+        ${rev && qz.mode === 'live' ? `<span class="qz-fill" style="width:${counts[k] / max * 100}%"></span>` : ''}
+        ${rev && ok ? '<span class="qz-tick">✓</span>' : ''}
+      </div>`; }).join('')}</div>
+    ${rev ? `<div class="qz-why">${qzEsc(q.why)}</div>` : ''}
+    ${rev && qz.mode === 'live' ? qzMiniBoard() : ''}
+    <div class="qz-row">
+      ${qz.mode === 'live' && !rev ? '<span class="qz-muted" id="qzAnsN"></span>' : ''}
+      ${rev ? `<button class="qz-btn qz-primary" onclick="${qz.mode === 'live' ? 'qzNext()' : 'qzSoloNext()'}">${qz.i + 1 >= qz.qs.length ? 'Finish' : 'Next question'}</button>`
+            : `<button class="qz-btn qz-primary" onclick="qzReveal()">Show answer</button>`}
+      <button class="qz-btn" onclick="qzEnd()">End quiz</button>
+    </div>`;
+  if (!rev) qzUpdateCount();
+}
+function qzSoloNext() { if (qz.i + 1 >= qz.qs.length) { qz.phase = 'end'; qzStop(); return qzRender(); } qz.i++; qz.phase = 'question'; qz.t0 = Date.now(); qzTick(); qzRender(); }
+function qzMiniBoard() {
+  const b = qzBoard().slice(0, 5); if (!b.length) return '';
+  return `<div class="qz-mini">${b.map((p, k) => `<div><span>${k + 1}. ${qzEsc(p.name)}</span><b>${p.score}</b></div>`).join('')}</div>`;
+}
+function qzFinish() { qz.phase = 'end'; qzStop(); qzRender(); qzPush(); }
+function qzRenderEnd(r) {
+  if (qz.mode !== 'live') {
+    r.innerHTML = `<div class="qz-big" style="margin-top:20px;">Quiz complete</div><p class="hub-p">${qz.qs.length} questions covered.</p>
+      <div class="qz-row"><button class="qz-btn qz-primary" onclick="qz.phase='pick';qzRender()">Back to quizzes</button></div>`;
+    return;
+  }
+  const b = qzBoard(), n = qz.qs.length;
+  const avg = b.length ? Math.round(b.reduce((s, p) => s + p.right, 0) / b.length / n * 100) : 0;
+  const hard = qz.qs.map((q, i) => ({ q, i, pct: b.length ? qzAnswersFor(i).filter(a => qzSame(a.choice, q.a)).length / b.length : 0 })).sort((a, c) => a.pct - c.pct).slice(0, 3);
+  r.innerHTML = `<div class="hub-eyebrow">${qzEsc(qz.quiz.title)}</div><div class="qz-big">Final results</div>
+    <div class="qz-podium">${b.slice(0, 3).map((p, k) => `<div class="qz-pod qz-pod${k + 1}"><div class="qz-medal">${['🥇','🥈','🥉'][k]}</div><div class="qz-pname">${qzEsc(p.name)}</div><div>${p.score} pts</div></div>`).join('')}</div>
+    <table class="qz-table"><tr><th>#</th><th>Learner</th><th>Correct</th><th>Points</th></tr>
+      ${b.map((p, k) => `<tr><td>${k + 1}</td><td>${qzEsc(p.name)}</td><td>${p.right} / ${n}</td><td>${p.score}</td></tr>`).join('')}</table>
+    <p class="hub-p">Class average ${avg}%.${hard.length && b.length ? ' Worth going over: ' + hard.map(h => 'Q' + (h.i + 1) + ' (' + Math.round(h.pct * 100) + '% right)').join(', ') + '.' : ''}</p>
+    <div class="qz-row"><button class="qz-btn qz-primary" onclick="qzEnd(true)">Done</button><button class="qz-btn" onclick="qzCopy()">Copy results</button></div>`;
+}
+function qzCopy() {
+  const b = qzBoard(), n = qz.qs.length;
+  const t = qz.quiz.title + ' — ' + fmtD(new Date()) + '\n' + b.map((p, k) => (k + 1) + '. ' + p.name + ' — ' + p.right + '/' + n + ' (' + p.score + ' pts)').join('\n');
+  try { navigator.clipboard.writeText(t); alert('Results copied'); } catch (e) { prompt('Copy results', t); }
+}
+async function qzEnd(skipAsk) {
+  if (!skipAsk && !confirm('End this quiz now?')) return;
+  if (qz.live && qz.phase !== 'end') { qz.phase = 'end'; await qzPush(); }
+  qzStop(); qz.live = false; qz.phase = 'pick'; qzRender();
 }
 </script>
 </body>

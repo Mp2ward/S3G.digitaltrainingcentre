@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sector 3 Group — Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:'Public Sans',system-ui,sans-serif;background:#0D1B4C;color:#fff;padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
+.wrap{max-width:560px;margin:0 auto;padding:22px 18px;min-height:100%;display:flex;flex-direction:column}
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:22px}
+.brand img{height:28px}.brand span{font-weight:800;letter-spacing:.06em}
+.card{background:#fff;color:#0D1B4C;border-radius:16px;padding:22px}
+h1{font-size:1.5rem;margin-bottom:8px}p{color:#6B7A94;line-height:1.45}
+input{width:100%;font-size:18px;padding:14px;border:2px solid #D8DEE8;border-radius:12px;margin:16px 0 12px;font-family:inherit}
+button.go{width:100%;background:#6B4FA8;color:#fff;border:0;border-radius:12px;padding:15px;font-size:1.05rem;font-weight:700;font-family:inherit}
+button.go:disabled{opacity:.4}
+.centre{text-align:center;margin:auto 0}
+.big{font-size:1.6rem;font-weight:800;margin:10px 0}
+.muted{color:#B8CBEC}
+.qhead{display:flex;justify-content:space-between;color:#B8CBEC;font-size:.85rem;margin-bottom:10px}
+.q{font-size:1.25rem;font-weight:700;line-height:1.35;margin-bottom:6px}
+.hint{color:#C9B6F2;font-weight:700;font-size:.85rem;margin-bottom:8px}
+.opts{display:grid;gap:10px;margin-top:10px}
+.opt{border:0;border-radius:14px;padding:16px;color:#fff;font-size:1.02rem;font-weight:700;text-align:left;display:flex;gap:12px;align-items:center;min-height:62px;font-family:inherit;transition:transform .1s,opacity .2s}
+.opt:active{transform:scale(.97)}.opt.sel{outline:4px solid #fff}.opt.off{opacity:.35}
+.res{font-size:3rem}.ok{color:#8FF5C0}.bad{color:#FF9A93}
+.why{background:rgba(255,255,255,.1);border-radius:12px;padding:14px;margin-top:16px;line-height:1.45}
+.err{color:#C74444;margin-top:8px}
+@media (prefers-color-scheme:dark){.card{background:#16244F;color:#fff}input{background:#0D1B4C;color:#fff;border-color:#34457A}p{color:#B8CBEC}}
+</style></head><body>
+<div class="wrap">
+  <div class="brand"><img src="sector3-logo.png" alt="" onerror="this.remove()"><span>SECTOR 3 GROUP</span></div>
+  <div id="app"></div>
+</div>
+<script>
+const SB = { url:'https://nnzvzehywrzapinrdfrq.supabase.co', key:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5uenZ6ZWh5d3J6YXBpbnJkZnJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAwMDY5MTcsImV4cCI6MjEwNTU4MjkxN30.zHJm6LEMbji781FCsDW1EKoEspQesjAfgXsI4a_aBxE' };
+const COLS=['#E0473E','#2B5BD7','#E3A21A','#1F8A5B','#7A4FB8'], SH=['▲','◆','●','■','★'];
+const code=(new URLSearchParams(location.search).get('s')||'').toUpperCase().replace(/[^A-Z0-9]/g,'');
+const pidKey='s3quiz_'+code;
+let me=JSON.parse(localStorage.getItem(pidKey)||'null');
+let st=null, picked=[], sentFor=-2, lastKey='';
+const app=document.getElementById('app');
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+async function api(path,opt){opt=opt||{};const r=await fetch(SB.url+'/rest/v1/'+path,{method:opt.method||'GET',headers:{apikey:SB.key,Authorization:'Bearer '+SB.key,'Content-Type':'application/json',Prefer:'return=minimal'},body:opt.body?JSON.stringify(opt.body):undefined});if(!r.ok)throw new Error(await r.text());const t=await r.text();return t?JSON.parse(t):null;}
+
+function joinScreen(msg){
+  app.innerHTML='<div class="card"><h1>Join the quiz</h1><p>Enter your name so your trainer can see your score.</p>'+
+  (code?'':'<input id="c" placeholder="Quiz code" maxlength="6" autocapitalize="characters">')+
+  '<input id="n" placeholder="Your name" maxlength="30" autocomplete="name"><button class="go" id="j">Join</button>'+(msg?'<div class="err">'+esc(msg)+'</div>':'')+'</div>';
+  document.getElementById('j').onclick=join;
+}
+async function join(){
+  const n=document.getElementById('n').value.trim(); const c=document.getElementById('c');
+  if(c&&c.value.trim()){location.search='?s='+c.value.trim().toUpperCase();return;}
+  if(!n)return;
+  const b=document.getElementById('j');b.disabled=true;
+  me={id:crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random(),name:n};
+  try{await api('quiz_answers',{method:'POST',body:[{code,player_id:me.id,name:n,qi:-1,choice:[]}]});localStorage.setItem(pidKey,JSON.stringify(me));loop();}
+  catch(e){me=null;joinScreen('Could not join. Check the code, or the quiz may have finished.');}
+}
+async function send(){
+  if(sentFor===st.i)return; sentFor=st.i;
+  try{await api('quiz_answers',{method:'POST',body:[{code,player_id:me.id,name:me.name,qi:st.i,choice:picked}]});}catch(e){}
+  draw(true);
+}
+function pick(k){
+  if(sentFor===st.i||st.phase!=='question')return;
+  if(!st.q.multi){picked=[k];return send();}
+  picked=picked.includes(k)?picked.filter(x=>x!==k):picked.concat(k).slice(-2);
+  draw(true); if(picked.length===2) send();
+}
+function myScore(){const b=st.board||[];const k=b.findIndex(p=>p.id===me.id);return k<0?null:{rank:k+1,score:b[k].score,of:b.length};}
+function draw(force){
+  const key=JSON.stringify([st&&st.phase,st&&st.i,sentFor,picked]);
+  if(!force&&key===lastKey)return; lastKey=key;
+  if(!st){app.innerHTML='<div class="centre"><div class="big">Quiz not found</div><p class="muted">Check the code with your trainer.</p></div>';return;}
+  if(st.phase==='lobby'){app.innerHTML='<div class="centre"><div class="res">👋</div><div class="big">You\'re in, '+esc(me.name)+'!</div><p class="muted">'+esc(st.title)+'<br>Watch the screen, the quiz will start soon.</p></div>';return;}
+  if(st.phase==='end'){const m=myScore();app.innerHTML='<div class="centre"><div class="res">🏁</div><div class="big">Quiz finished</div>'+(m?'<p class="muted" style="font-size:1.1rem">You came <b>'+m.rank+'</b> of '+m.of+' with <b>'+m.score+'</b> points.</p>':'')+'<p class="muted" style="margin-top:14px">Thanks for taking part.</p></div>';localStorage.removeItem(pidKey);return;}
+  const q=st.q, rev=st.phase==='reveal', done=sentFor===st.i;
+  if(!rev&&done){app.innerHTML='<div class="centre"><div class="res">✅</div><div class="big">Answer locked in</div><p class="muted">Waiting for everyone else…</p></div>';return;}
+  let top='<div class="qhead"><span>Question '+(st.i+1)+' of '+st.total+'</span><span>'+esc(me.name)+'</span></div>';
+  if(rev){
+    const right=picked.length&&picked.slice().sort().join()===st.correct.slice().sort().join();
+    const m=myScore();
+    app.innerHTML=top+'<div class="centre" style="margin:10px 0"><div class="res '+(right?'ok':'bad')+'">'+(right?'✓':'✗')+'</div><div class="big">'+(right?'Correct!':(picked.length?'Not this time':'No answer'))+'</div>'+(m?'<p class="muted">'+m.score+' points · '+m.rank+' of '+m.of+'</p>':'')+'</div>'+
+    '<div class="q">'+esc(q.text)+'</div><div class="opts">'+q.opts.map((o,k)=>'<div class="opt '+(st.correct.includes(k)?'':'off')+'" style="background:'+COLS[k]+'">'+SH[k]+' '+esc(o)+(st.correct.includes(k)?' ✓':'')+'</div>').join('')+'</div><div class="why">'+esc(st.why)+'</div>';
+    return;
+  }
+  app.innerHTML=top+'<div class="q">'+esc(q.text)+'</div>'+(q.multi?'<div class="hint">Pick two answers</div>':'')+
+   '<div class="opts">'+q.opts.map((o,k)=>'<button class="opt '+(picked.includes(k)?'sel':'')+'" style="background:'+COLS[k]+'" onclick="pick('+k+')">'+SH[k]+' <span>'+esc(o)+'</span></button>').join('')+'</div>';
+}
+let prevI=-9;
+async function loop(){
+  try{const rows=await api('quiz_sessions?select=state&code=eq.'+code);st=rows&&rows[0]?rows[0].state:null;}catch(e){}
+  if(st&&st.i!==prevI){prevI=st.i;picked=[];}
+  draw();
+  if(!st||st.phase!=='end')setTimeout(loop,1200);
+}
+if(!code) joinScreen(); else if(me) loop(); else joinScreen();
+</script></body></html>
