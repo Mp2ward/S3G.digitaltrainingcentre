@@ -12463,6 +12463,7 @@ function qzBuf(k) {
     .then(ab => new Promise((res, rej) => qzCtx.decodeAudioData(ab, res, rej))).catch(() => null);
   return qzBufs[k];
 }
+function qzPreload() { if (qzCtxGet()) Object.keys(QZ_SOUNDS).forEach(qzBuf); }
 async function qzSfx(k) {
   if (qzSnd.muted || !qzCtxGet()) return;
   const buf = await qzBuf(k); if (!buf) return;
@@ -12664,11 +12665,11 @@ function qzReset(k, mode) {
 }
 
 // ---------------- Solo (no phones) ----------------
-function qzStartSolo(k) { qzCtxGet(); qzReset(k, 'solo'); qz.live = false; qzNext(); }
+function qzStartSolo(k) { qzCtxGet(); qzPreload(); qzReset(k, 'solo'); qz.live = false; qzNext(); }
 
 // ---------------- Live ----------------
 async function qzStartLive(k) {
-  qzCtxGet();
+  qzCtxGet(); qzPreload();
   qzReset(k, 'live');
   const ch = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   qz.code = Array.from(crypto.getRandomValues(new Uint8Array(6))).map(b => ch[b % ch.length]).join('');
@@ -12770,7 +12771,7 @@ function qzTick() {
     const el = document.getElementById('qzTime'); if (el) { el.textContent = left; el.classList.toggle('qz-hurry', left <= 5); }
     const bar = document.getElementById('qzBar'); if (bar) bar.style.width = (left / QZ_DUR * 100) + '%';
     if (left <= 5 && left > 0 && left < qz.ticked) { qz.ticked = left; qzSfx('tick'); }
-    if (left <= 0 && qz.phase === 'question') { if (qz.mode === 'live') qzReveal(); else { clearInterval(qz.timer); } }
+    if (left <= 0 && qz.phase === 'question') qzReveal();
   }, 200);
 }
 function qzUpdateCount() {
@@ -12796,7 +12797,11 @@ function qzReveal() {
       } else { qz.streak[id] = 0; qz.last[id] = { ok:0, pts:0, streak:0, none: !a }; }
     });
   }
-  qz.phase = 'reveal'; qzSfx('reveal'); qzMusic('lobby'); qzRender(); qzPush();
+  qz.phase = 'reveal';
+  // Stop the question music so the reveal sound is heard clearly, then bring the lobby music back in
+  qzMusic(''); qzSfx('reveal');
+  const at = qz.i; setTimeout(() => { if (qz.phase === 'reveal' && qz.i === at) qzMusic('lobby'); }, 1800);
+  qzRender(); qzPush();
 }
 function qzBoard() {
   return Object.keys(qz.players).map(id => ({ id, name: qz.players[id].name, nick: qz.players[id].nick, av: qz.players[id].av,
