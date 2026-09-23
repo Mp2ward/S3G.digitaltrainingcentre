@@ -1137,6 +1137,13 @@ function fmtD(v) {
   .qz-table { width:100%; border-collapse:collapse; margin-bottom:10px; } .qz-table th, .qz-table td { text-align:left; padding:8px; border-bottom:1px solid #EEF1F6; font-size:0.9rem; }
   .qz-nk { font-weight:800; } .qz-rn { font-weight:500; opacity:.8; }
   .qz-player .qz-rn { display:block; }
+  .qz-time { margin:4px 0 18px; }
+  .qz-time-h { font-size:0.78rem; font-weight:700; color:#6B7A94; margin-bottom:6px; }
+  .qz-seg { display:flex; gap:8px; flex-wrap:wrap; }
+  .qz-seg button { flex:1; min-width:120px; border:2px solid #D8DEE8; background:#fff; border-radius:12px; padding:10px 12px; text-align:left; cursor:pointer; font-family:'Public Sans',sans-serif; color:#0D1B4C; }
+  .qz-seg button b { display:block; font-size:0.92rem; } .qz-seg button span { font-size:0.75rem; color:#6B7A94; }
+  .qz-seg button.on { border-color:#6B4FA8; background:#F0EAFB; }
+  .qz-lobby-r .qz-time { margin-top:18px; }
   .qz-mute { position:fixed; right:16px; bottom:16px; z-index:300; width:48px; height:48px; border-radius:50%; border:1px solid #D8DEE8; background:#fff; font-size:1.3rem; box-shadow:0 4px 14px rgba(13,27,76,.15); cursor:pointer; }
   .qz-av { display:inline-flex; width:60px; height:76px; flex-shrink:0; vertical-align:middle; }
   .qz-av svg { width:100%; height:100%; overflow:visible; }
@@ -12402,7 +12409,7 @@ const QZ_BANK = [
  ]},
 ];
 
-// Pub quiz bonus round — 3 picked at random for the end of every quiz
+// Trivia round — 3 picked at random for the end of every quiz
 const QZ_PUB = [
  { q:'Which is taller?', o:['The Great Pyramid of Giza','The Eiffel Tower'], a:[1], why:'The Eiffel Tower is about 330 m. The Great Pyramid is about 139 m today.' },
  { q:'Which is taller?', o:['The Shard, London','The Eiffel Tower'], a:[1], why:'Eiffel Tower about 330 m, the Shard about 310 m.' },
@@ -12433,7 +12440,19 @@ const QZ_PUB = [
 
 const QZ_COLS = ['#E0473E','#2B5BD7','#E3A21A','#1F8A5B','#7A4FB8'];
 const QZ_SHAPES = ['▲','◆','●','■','★'];
-const QZ_DUR = 25; // seconds per question
+// Question timer. Extra time and no-limit options support learners with additional learning needs (ALN).
+const QZ_TIMES = {
+  std:   { label:'Standard',      sub:'25 seconds',            s:25 },
+  extra: { label:'Extra time',    sub:'38 seconds (+50%)',     s:38 },
+  none:  { label:'No time limit', sub:'You reveal each answer', s:0 }
+};
+let qzTimeMode = QZ_TIMES[localStorage.getItem('qz_time')] ? localStorage.getItem('qz_time') : 'std';
+function qzDurFor() { return QZ_TIMES[qzTimeMode].s; }
+function qzSetTime(k) { qzTimeMode = k; try { localStorage.setItem('qz_time', k); } catch (e) {} const el = document.getElementById('qzTimeOpts'); if (el) el.outerHTML = qzTimeOpts(); }
+function qzTimeOpts() {
+  return `<div class="qz-time" id="qzTimeOpts"><div class="qz-time-h">Question time</div><div class="qz-seg">${Object.keys(QZ_TIMES).map(k =>
+    `<button class="${k === qzTimeMode ? 'on' : ''}" onclick="qzSetTime('${k}')"><b>${QZ_TIMES[k].label}</b><span>${QZ_TIMES[k].sub}</span></button>`).join('')}</div></div>`;
+}
 // Sound files — upload these to the top level of the repo. Any missing file is simply skipped.
 const QZ_SOUNDS = {
   lobby:    'quiz-lobby.mp3',     // looping music in the lobby and between questions
@@ -12441,7 +12460,6 @@ const QZ_SOUNDS = {
   join:     'quiz-join.mp3',      // pop when a learner joins
   tick:     'quiz-tick.mp3',      // each of the last 5 seconds
   reveal:   'quiz-reveal.mp3',    // answer revealed
-  bonus:    'quiz-bonus.mp3',     // start of the pub quiz bonus round
   winner:   'quiz-winner.mp3'     // podium fanfare
 };
 let qz = { mode:'', quiz:null, qs:[], i:-1, phase:'pick', code:'', live:false, answers:[], players:{}, scores:{}, streak:{}, last:{}, timer:null, poll:null, t0:0, shown:{} };
@@ -12642,12 +12660,13 @@ function qzRenderPick(r) {
   const signedIn = typeof CLOUD_ON !== 'undefined' && CLOUD_ON && cloud.session;
   r.innerHTML = `<div class="hub-eyebrow">Knowledge Centre</div>
     <div class="hub-h">QR pop quizzes</div>
-    <div class="hub-p">Learners scan the code and pick their own sporty creature — each one can only be used once per quiz. Points for right answers, speed and streaks, and every quiz ends with a 3-question pub quiz bonus round.</div>
+    <div class="hub-p">Learners scan the code and pick their own sporty creature — each one can only be used once per quiz. Points for right answers, speed and streaks, and every quiz ends with a 3-question trivia round.</div>
     ${signedIn ? '' : `<div class="sc-note" style="margin-bottom:16px;">Sign in to run a live quiz with phones. You can still run any quiz on this screen with a show of hands.</div>`}
+    ${qzTimeOpts()}
     <div class="qz-grid">${QZ_BANK.map((b, k) => `
       <div class="qz-card">
         <div class="qz-card-t">${qzEsc(b.title)}</div>
-        <div class="qz-card-s">${qzEsc(b.sub)} · ${b.qs.length} questions + 3 bonus</div>
+        <div class="qz-card-s">${qzEsc(b.sub)} · ${b.qs.length} questions + 3 trivia</div>
         <div class="qz-card-b">
           <button class="qz-btn qz-primary" ${signedIn ? '' : 'disabled'} onclick="qzStartLive(${k})">Start live quiz</button>
           <button class="qz-btn" onclick="qzStartSolo(${k})">Run on screen</button>
@@ -12695,7 +12714,7 @@ function qzPublicState() {
   const s = { phase: qz.phase, i: qz.i, total: qz.qs.length, title: qz.quiz.title };
   if (q && (qz.phase === 'question' || qz.phase === 'reveal')) {
     s.q = { text: q.q, opts: q.o, multi: q.a.length > 1, bonus: !!q.bonus };
-    s.startedAt = new Date(qz.t0).toISOString(); s.dur = QZ_DUR;
+    s.startedAt = new Date(qz.t0).toISOString(); s.dur = qz.dur;
   }
   if (qz.phase === 'reveal' && q) { s.correct = q.a; s.why = q.why; s.last = qz.last; }
   if (qz.phase === 'reveal' || qz.phase === 'end') s.board = qzBoard().map(p => ({ id:p.id, nick:p.nick, av:p.av, score:p.score, streak:p.streak }));
@@ -12740,6 +12759,7 @@ function qzRenderLobby(r) {
       <div class="qz-lobby-r">
         <div class="qz-count" id="qzLobbyN"></div>
         <div class="qz-crowd" id="qzLobbyNames"><span class="qz-muted" id="qzLobbyWait">Waiting for players…</span></div>
+        ${qzTimeOpts()}
         <div class="qz-row">
           <button class="qz-btn qz-primary" onclick="qzNext()">Start quiz</button>
           <button class="qz-btn" onclick="qzEnd(true)">Cancel</button>
@@ -12761,18 +12781,18 @@ function qzRenderLobby(r) {
 
 function qzNext() {
   if (qz.i + 1 >= qz.qs.length) return qzFinish();
-  qz.i++; qz.phase = 'question'; qz.t0 = Date.now(); qz.ticked = 99;
+  qz.i++; qz.phase = 'question'; qz.t0 = Date.now(); qz.ticked = 99; qz.dur = qzDurFor();
   const q = qz.qs[qz.i];
-  if (q.bonus && !(qz.qs[qz.i - 1] || {}).bonus) qzSfx('bonus');
   qzMusic('question');
   qzTick(); qzRender(); qzPush();
 }
 function qzTick() {
   clearInterval(qz.timer);
+  if (!qz.dur) return; // no time limit
   qz.timer = setInterval(() => {
-    const left = Math.max(0, QZ_DUR - Math.floor((Date.now() - qz.t0) / 1000));
+    const left = Math.max(0, qz.dur - Math.floor((Date.now() - qz.t0) / 1000));
     const el = document.getElementById('qzTime'); if (el) { el.textContent = left; el.classList.toggle('qz-hurry', left <= 5); }
-    const bar = document.getElementById('qzBar'); if (bar) bar.style.width = (left / QZ_DUR * 100) + '%';
+    const bar = document.getElementById('qzBar'); if (bar) bar.style.width = (left / qz.dur * 100) + '%';
     if (left <= 5 && left > 0 && left < qz.ticked) { qz.ticked = left; qzSfx('tick'); }
     if (left <= 0 && qz.phase === 'question') qzReveal();
   }, 200);
@@ -12791,10 +12811,11 @@ function qzReveal() {
     Object.keys(qz.players).forEach(id => {
       const a = got[id];
       if (a && qzSame(a.choice, q.a)) {
-        const t = Math.max(0, Math.min(QZ_DUR, (new Date(a.created_at).getTime() - qz.t0) / 1000));
+        const t = qz.dur ? Math.max(0, Math.min(qz.dur, (new Date(a.created_at).getTime() - qz.t0) / 1000)) : 0;
         const streak = qz.streak[id] = (qz.streak[id] || 0) + 1;
         const bonus = Math.min(streak - 1, 5) * 100;
-        const pts = Math.round(500 + 500 * (1 - t / QZ_DUR)) + bonus;
+        // no time limit: flat 750 so nobody is rushed
+        const pts = (qz.dur ? Math.round(500 + 500 * (1 - t / qz.dur)) : 750) + bonus;
         qz.scores[id] = (qz.scores[id] || 0) + pts;
         qz.last[id] = { ok:1, pts, bonus, streak };
       } else { qz.streak[id] = 0; qz.last[id] = { ok:0, pts:0, streak:0, none: !a }; }
@@ -12819,13 +12840,13 @@ function qzRenderQuestion(r) {
   if (qz.mode === 'live') qzAnswersFor(qz.i).forEach(a => (a.choice || []).forEach(c => { if (counts[c] != null) counts[c]++; }));
   const max = Math.max(1, ...counts);
   const nMain = qz.qs.filter(x => !x.bonus).length;
-  const label = q.bonus ? `🍻 Pub quiz bonus ${qz.i - nMain + 1} of 3` : `Question ${qz.i + 1} of ${nMain}`;
+  const label = q.bonus ? `Trivia round ${qz.i - nMain + 1} of 3` : `Question ${qz.i + 1} of ${nMain}`;
   r.innerHTML = `${qzMuteBtn()}<div class="qz-top">
       <span class="qz-muted">${qzEsc(qz.quiz.title)} · ${label}</span>
-      ${rev ? '' : `<span class="qz-timer" id="qzTime">${QZ_DUR}</span>`}
+      ${rev || !qz.dur ? '' : `<span class="qz-timer" id="qzTime">${qz.dur}</span>`}
     </div>
-    ${q.bonus && !rev ? '<div class="qz-bonus">🍻 BONUS ROUND</div>' : ''}
-    ${rev ? '' : '<div class="qz-bar"><div id="qzBar"></div></div>'}
+    ${q.bonus && !rev ? '<div class="qz-bonus">🧠 TRIVIA ROUND</div>' : ''}
+    ${rev || !qz.dur ? '' : '<div class="qz-bar"><div id="qzBar"></div></div>'}
     <div class="qz-q qz-in">${qzEsc(q.q)}</div>
     ${q.a.length > 1 ? '<div class="qz-hint">Pick two answers</div>' : ''}
     <div class="qz-opts">${q.o.map((o, k) => {
@@ -12865,7 +12886,7 @@ function qzConfetti(el) {
 }
 function qzRenderEnd(r) {
   if (qz.mode !== 'live') {
-    r.innerHTML = `${qzMuteBtn()}<div class="qz-endwrap"><div class="qz-big" style="margin-top:20px;">🎉 Quiz complete</div><p class="hub-p">${qz.qs.length} questions covered, including the pub quiz bonus round.</p>
+    r.innerHTML = `${qzMuteBtn()}<div class="qz-endwrap"><div class="qz-big" style="margin-top:20px;">🎉 Quiz complete</div><p class="hub-p">${qz.qs.length} questions covered, including the trivia round.</p>
       <div class="qz-row"><button class="qz-btn qz-primary" onclick="qzEnd(true)">Back to quizzes</button></div></div>`;
     qzConfetti(r.querySelector('.qz-endwrap')); return;
   }
