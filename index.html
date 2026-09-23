@@ -12446,29 +12446,66 @@ let qz = { mode:'', quiz:null, qs:[], i:-1, phase:'pick', code:'', live:false, a
 
 // ---------------- Sound ----------------
 const qzSnd = { muted: localStorage.getItem('qz_muted') === '1', a:{}, music:null, musicKey:'' };
-function qzAudio(k) {
-  if (!qzSnd.a[k]) { const a = new Audio(QZ_SOUNDS[k]); a.preload = 'auto'; if (k === 'lobby' || k === 'question') a.loop = true; qzSnd.a[k] = a; }
-  return qzSnd.a[k];
+// Web Audio: sample-accurate, works on iPad (where <audio> volume can't be changed)
+const QZ_XF = 3; // seconds of overlap when a music track loops back to the start
+let qzCtx = null, qzMaster = null; const qzBufs = {};
+function qzCtxGet() {
+  if (!qzCtx) {
+    const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null;
+    qzCtx = new AC(); qzMaster = qzCtx.createGain(); qzMaster.gain.value = qzSnd.muted ? 0 : 1; qzMaster.connect(qzCtx.destination);
+  }
+  if (qzCtx.state === 'suspended') qzCtx.resume().catch(() => {});
+  return qzCtx;
 }
-function qzSfx(k) {
-  if (qzSnd.muted) return;
-  try { const a = qzAudio(k).cloneNode(); a.volume = 0.9; a.play().catch(() => {}); } catch (e) {}
+document.addEventListener('pointerdown', () => { if (qzCtx) qzCtxGet(); }, true);
+function qzBuf(k) {
+  if (!qzBufs[k]) qzBufs[k] = fetch(QZ_SOUNDS[k]).then(r => { if (!r.ok) throw 0; return r.arrayBuffer(); })
+    .then(ab => new Promise((res, rej) => qzCtx.decodeAudioData(ab, res, rej))).catch(() => null);
+  return qzBufs[k];
 }
-function qzFade(a, to, ms, done) {
-  const from = a.volume, t0 = performance.now();
-  (function step(t) { const p = Math.min(1, (t - t0) / ms); a.volume = from + (to - from) * p; if (p < 1) requestAnimationFrame(step); else if (done) done(); })(t0);
+async function qzSfx(k) {
+  if (qzSnd.muted || !qzCtxGet()) return;
+  const buf = await qzBuf(k); if (!buf) return;
+  const src = qzCtx.createBufferSource(), g = qzCtx.createGain();
+  g.gain.value = 0.9; src.buffer = buf; src.connect(g); g.connect(qzMaster); src.start();
 }
+// Music loops by starting the next copy a few seconds before the current one ends and crossfading
 function qzMusic(k) {
-  if (qzSnd.musicKey === k) return;
-  const old = qzSnd.music; qzSnd.musicKey = k; qzSnd.music = null;
-  if (old) qzFade(old, 0, 600, () => old.pause());
-  if (!k || qzSnd.muted) return;
-  try { const a = qzAudio(k); a.currentTime = 0; a.volume = 0; a.play().then(() => qzFade(a, 0.55, 900)).catch(() => {}); qzSnd.music = a; } catch (e) {}
+  if (qzSnd.musicKey === k && qzSnd.music) return;
+  qzSnd.musicKey = k;
+  const old = qzSnd.music; qzSnd.music = null;
+  if (old) qzMusicStop(old, 0.8);
+  if (!k || qzSnd.muted || !qzCtxGet()) return;
+  const m = { key:k, voices:[], timer:null, dead:false }; qzSnd.music = m;
+  qzBuf(k).then(buf => {
+    if (!buf || m.dead) return;
+    const vol = 0.55, dur = buf.duration, xf = Math.min(QZ_XF, dur / 4);
+    const cycle = (at, fadeIn) => {
+      if (m.dead) return;
+      const src = qzCtx.createBufferSource(), g = qzCtx.createGain();
+      src.buffer = buf; src.connect(g); g.connect(qzMaster);
+      g.gain.setValueAtTime(0, at); g.gain.linearRampToValueAtTime(vol, at + fadeIn);
+      g.gain.setValueAtTime(vol, at + dur - xf); g.gain.linearRampToValueAtTime(0, at + dur);
+      src.start(at); src.stop(at + dur + 0.05);
+      const v = { src, g }; m.voices.push(v);
+      src.onended = () => { m.voices = m.voices.filter(x => x !== v); };
+      const next = at + dur - xf;
+      m.timer = setTimeout(() => cycle(next, xf), Math.max(0, (next - qzCtx.currentTime - 0.5) * 1000));
+    };
+    cycle(qzCtx.currentTime + 0.05, 1.2);
+  });
+}
+function qzMusicStop(m, fade) {
+  m.dead = true; clearTimeout(m.timer);
+  const t = qzCtx ? qzCtx.currentTime : 0;
+  m.voices.forEach(v => { try { v.g.gain.cancelScheduledValues(t); v.g.gain.setValueAtTime(v.g.gain.value, t); v.g.gain.linearRampToValueAtTime(0, t + fade); v.src.stop(t + fade + 0.05); } catch (e) {} });
 }
 function qzToggleMute() {
   qzSnd.muted = !qzSnd.muted; localStorage.setItem('qz_muted', qzSnd.muted ? '1' : '0');
-  const k = qzSnd.musicKey; qzSnd.musicKey = '';
-  if (qzSnd.muted) { Object.values(qzSnd.a).forEach(a => a.pause()); qzSnd.music = null; } else qzMusic(k);
+  const k = qzSnd.musicKey;
+  if (qzSnd.music) { qzMusicStop(qzSnd.music, 0.3); qzSnd.music = null; }
+  if (qzMaster) qzMaster.gain.value = qzSnd.muted ? 0 : 1;
+  if (!qzSnd.muted) qzMusic(k);
   const b = document.getElementById('qzMute'); if (b) b.textContent = qzSnd.muted ? '🔇' : '🔊';
 }
 function qzMuteBtn() { return `<button class="qz-mute" id="qzMute" onclick="qzToggleMute()" aria-label="Sound on or off">${qzSnd.muted ? '🔇' : '🔊'}</button>`; }
@@ -12627,10 +12664,11 @@ function qzReset(k, mode) {
 }
 
 // ---------------- Solo (no phones) ----------------
-function qzStartSolo(k) { qzReset(k, 'solo'); qz.live = false; qzNext(); }
+function qzStartSolo(k) { qzCtxGet(); qzReset(k, 'solo'); qz.live = false; qzNext(); }
 
 // ---------------- Live ----------------
 async function qzStartLive(k) {
+  qzCtxGet();
   qzReset(k, 'live');
   const ch = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   qz.code = Array.from(crypto.getRandomValues(new Uint8Array(6))).map(b => ch[b % ch.length]).join('');
