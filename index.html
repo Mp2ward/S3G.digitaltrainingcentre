@@ -1505,6 +1505,18 @@ function fmtD(v) {
   .ht-quick b { color:var(--st-ink); margin-bottom:2px; }
   .ht-quick button { display:flex; align-items:center; gap:12px; min-height:48px; border:1px solid var(--st-line); border-radius:12px; background:#FBFAF6; color:var(--st-ink); padding:0 14px; font:inherit; font-size:0.92rem; cursor:pointer; text-align:left; }
   .ht-quick svg { flex-shrink:0; }
+  .au-tabs { display:flex; gap:6px; margin:14px 0 4px; flex-wrap:wrap; }
+  .au-tabs button { border:1px solid #D8DEE8; background:#fff; border-radius:999px; padding:9px 18px; font:inherit; font-size:0.88rem; color:#3A4760; cursor:pointer; min-height:40px; }
+  .au-tabs button.on { background:#16203D; border-color:#16203D; color:#fff; font-weight:600; }
+  .au-row { display:grid; grid-template-columns:minmax(0,1.4fr) 150px minmax(0,1fr) 270px; gap:12px; align-items:center; background:#fff; border:1px solid #E7E3DA; border-radius:16px; padding:14px 16px; margin-bottom:10px; }
+  .au-row b { color:#16203D; } .au-mail { font-size:0.82rem; color:#5E6577; word-break:break-all; }
+  .au-row select { font:inherit; font-size:0.88rem; border:1px solid #D8DEE8; border-radius:10px; padding:8px 10px; background:#fff; color:#16203D; min-height:40px; }
+  .au-st { font-size:0.72rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; border-radius:999px; padding:4px 10px; display:inline-block; }
+  .au-st.ok { background:#DDF1E8; color:#0F6E56; } .au-st.wait { background:#FFF1D6; color:#8A5200; } .au-st.off { background:#EEF1F5; color:#5E6577; }
+  .au-when { font-size:0.78rem; color:#5E6577; margin-top:4px; }
+  .au-link { background:#F6F3EC; border:1px solid #E7E3DA; border-radius:16px; padding:16px; margin:12px 0 20px; }
+  .au-link code { display:block; font-size:0.72rem; word-break:break-all; background:#fff; border:1px solid #E7E3DA; border-radius:10px; padding:10px; margin:10px 0; color:#3A4760; }
+  @media (max-width:760px) { .au-row { grid-template-columns:1fr; } }
   .pf-card { display:flex; gap:20px; align-items:center; flex-wrap:wrap; background:#16203D; color:#fff; border-radius:24px; padding:26px; margin:14px 0 22px; }
   .pf-av { width:78px; height:78px; border-radius:50%; background:#E4572E; color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Fraunces',Georgia,serif; font-size:2rem; font-weight:600; flex-shrink:0; }
   .pf-name { font-family:'Fraunces',Georgia,serif; font-size:1.8rem; font-weight:600; line-height:1.15; }
@@ -12148,12 +12160,14 @@ function admOpenInstructors() {
 function admRenderInstructors() {
   const root = document.getElementById('admInstrRoot');
   if (admState.sel) { admRenderInstructor(admState.sel); return; }
+  if (au.tab === 'logins') { auRender(); return; }
   const list = admInstructors();
   const roleName = { instructor:'Instructor', iqa:'IQA', admin:'Admin' };
   root.innerHTML = `<button class="rn-nav-btn rn-no-print" onclick="showView('hub')">← Home</button>
     <div class="hub-eyebrow" style="margin-top:14px;">Management Panel</div>
     <div class="hub-h" style="margin-bottom:4px;">Instructor Admin</div>
     <p class="sc-p">Each instructor's courses and CPD. Tap an instructor to see their record.</p>
+    ${auTabs()}
     <div class="adm-grid">${list.length ? list.map(i => {
       const cs = admInstructorCourses(i);
       const y3 = cpdWindow(admCpdEntries(i), 3);
@@ -12166,7 +12180,7 @@ function admRenderInstructors() {
         <div class="adm-card-role">${roleName[i.role] || 'Instructor'}</div>
         <div class="adm-card-stats"><div><b>${cs.length}</b><span>Courses</span></div><div><b>${hrs}</b><span>Teaching hrs (3 yr)</span></div></div>
         <div class="adm-card-foot"><span>${last}</span><span class="${ref ? 'ok' : 'warn'}">${ref ? 'Refresher ✓' : 'No refresher'}</span></div>
-      </button>`; }).join('') : `<div class="rn-empty">No instructors yet. Invite them from Supabase → Authentication → Users.</div>`}</div>`;
+      </button>`; }).join('') : `<div class="rn-empty">No instructors yet. Add them under Logins &amp; access.</div>`}</div>`;
 }
 function admRenderInstructor(id) {
   const root = document.getElementById('admInstrRoot');
@@ -14032,6 +14046,115 @@ async function pfCvRemove() {
     pfRender();
   } catch (e) { alert('Could not remove the CV: ' + (e.message || e)); }
 }
+</script>
+
+<script>
+// ===== Logins & access (admins add people through the admin-users Edge Function) =====
+let au = { tab:'people', users:null, err:'', busy:false, link:null };
+function auTabs() {
+  return `<div class="au-tabs"><button class="${au.tab === 'people' ? 'on' : ''}" onclick="au.tab='people';admRenderInstructors()">Instructors</button><button class="${au.tab === 'logins' ? 'on' : ''}" onclick="au.tab='logins';auLoad()">Logins &amp; access</button></div>`;
+}
+async function auCall(body) {
+  body.redirectTo = location.origin + location.pathname;
+  let res;
+  try { res = await cloudFetch('/functions/v1/admin-users', { method:'POST', body: JSON.stringify(body) }); }
+  catch (e) {
+    let msg = e.message || String(e);
+    try { const j = JSON.parse(msg); msg = j.error || j.message || msg; } catch (x) {}
+    if (e.status === 404 || /not.?found|Function not found/i.test(msg)) msg = 'The admin-users helper isn\u2019t set up in Supabase yet. See the set-up steps.';
+    throw new Error(msg);
+  }
+  return res.json();
+}
+async function auLoad() {
+  au.tab = 'logins'; au.err = ''; auRender();
+  try { const r = await auCall({ action:'list' }); au.users = r.users || []; }
+  catch (e) { au.err = e.message; au.users = au.users || []; }
+  auRender();
+}
+function auRender() {
+  const root = document.getElementById('admInstrRoot'); if (!root) return;
+  const roleName = { instructor:'Instructor', iqa:'IQA', admin:'Admin' };
+  const when = d => d ? fmtD(d) : '';
+  let html = `<button class="rn-nav-btn rn-no-print" onclick="showView('hub')">← Home</button>
+    <div class="hub-eyebrow" style="margin-top:14px;">Management Panel</div>
+    <div class="hub-h" style="margin-bottom:4px;">Instructor Admin</div>
+    <p class="sc-p">Add people, set what they can do, and switch logins off when someone leaves.</p>
+    ${auTabs()}
+    <div class="sc-h2">Add a person</div>
+    <div class="jb-form">
+      <label>Full name<input id="auName" autocomplete="off"></label>
+      <label>Email<input id="auEmail" type="email" autocomplete="off" autocapitalize="off"></label>
+      <label>Role<select id="auRole"><option value="instructor">Instructor</option><option value="iqa">IQA</option><option value="admin">Admin</option></select></label>
+      <div class="wide jb-actions" style="margin-top:0;"><button class="jb-btn pri" onclick="auInvite()" ${au.busy ? 'disabled' : ''}>${au.busy ? 'Adding…' : 'Add and create invite'}</button><span id="auMsg" class="jb-msg"></span></div>
+    </div>`;
+  if (au.link) {
+    const subject = encodeURIComponent('Your Digital Training Centre login');
+    const bodyTxt = encodeURIComponent(`Hi ${au.link.name.split(' ')[0]},\n\nHere is your link to set up your Digital Training Centre login. Tap it and choose your password:\n\n${au.link.url}\n\nThe link can only be used once.`);
+    html += `<div class="au-link"><b>${au.link.fresh ? 'Invite ready for ' : 'New sign-in link for '}${lpmEsc(au.link.name)}</b>
+      <div class="au-when">Send this to them. They tap it, choose a password and they're in. It can only be used once.</div>
+      <code>${lpmEsc(au.link.url)}</code>
+      <div class="jb-actions" style="margin-top:0;">
+        <a class="jb-btn pri" style="text-decoration:none;" href="mailto:${encodeURIComponent(au.link.email)}?subject=${subject}&body=${bodyTxt}">Email it</a>
+        <button class="jb-btn" onclick="auCopy()">Copy link</button>
+        ${navigator.share ? '<button class="jb-btn" onclick="auShare()">Share…</button>' : ''}
+        <button class="jb-btn" onclick="au.link=null;auRender()">Done</button>
+      </div></div>`;
+  }
+  html += `<div class="sc-h2">Everyone with a login</div>`;
+  if (au.err) html += `<p class="jb-msg" style="color:#C74444;">${lpmEsc(au.err)}</p>`;
+  if (au.users === null) html += '<p class="jb-empty">Loading…</p>';
+  else if (!au.users.length && !au.err) html += '<p class="jb-empty">No logins yet.</p>';
+  else {
+    const list = au.users.slice().sort((a, b) => (a.full_name || a.email).localeCompare(b.full_name || b.email));
+    html += list.map(u => {
+      const st = !u.active ? ['off', 'Switched off'] : u.last_sign_in_at ? ['ok', 'Active'] : ['wait', 'Invited'];
+      const sub = !u.active ? 'Cannot sign in' : u.last_sign_in_at ? 'Last signed in ' + when(u.last_sign_in_at) : 'Not signed in yet' + (u.invited_at ? ' · invited ' + when(u.invited_at) : '');
+      return `<div class="au-row">
+        <div><b>${lpmEsc(u.full_name || '(no name)')}</b>${u.me ? ' <span class="au-when">(you)</span>' : ''}<div class="au-mail">${lpmEsc(u.email || '')}</div></div>
+        <select aria-label="Role for ${lpmEsc(u.full_name || u.email)}" ${u.me || !u.active ? 'disabled' : ''} onchange="auRole('${u.id}', this.value, this)">
+          ${['instructor', 'iqa', 'admin'].map(r => `<option value="${r}" ${u.role === r ? 'selected' : ''}>${roleName[r]}</option>`).join('')}</select>
+        <div><span class="au-st ${st[0]}">${st[1]}</span><div class="au-when">${sub}</div></div>
+        <div class="jb-actions" style="margin-top:0;justify-content:flex-end;">
+          ${u.active ? `<button class="jb-btn" onclick="auNewLink('${u.id}')">New sign-in link</button>` : ''}
+          ${u.me ? '' : u.active ? `<button class="jb-btn no" onclick="auActive('${u.id}', false)">Switch off</button>` : `<button class="jb-btn go" onclick="auActive('${u.id}', true)">Switch on</button>`}
+        </div></div>`;
+    }).join('');
+  }
+  root.innerHTML = html;
+}
+async function auInvite() {
+  const name = document.getElementById('auName').value.trim(), email = document.getElementById('auEmail').value.trim(), role = document.getElementById('auRole').value;
+  const m = document.getElementById('auMsg'); m.style.color = '#C74444';
+  if (!name || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { m.textContent = 'Enter their full name and a valid email.'; return; }
+  au.busy = true; auRender();
+  try {
+    const r = await auCall({ action:'invite', full_name: name, email, role });
+    au.link = { url: r.link, name, email, fresh: true };
+    const l = await auCall({ action:'list' }); au.users = l.users || []; au.err = '';
+    try { admState.profiles = await cloudRest('profiles?select=id,full_name,role&order=full_name') || admState.profiles; } catch (e) {}
+  } catch (e) { au.busy = false; auRender(); const mm = document.getElementById('auMsg'); mm.style.color = '#C74444'; mm.textContent = e.message;
+    document.getElementById('auName').value = name; document.getElementById('auEmail').value = email; document.getElementById('auRole').value = role; return; }
+  au.busy = false; auRender();
+}
+async function auNewLink(id) {
+  const u = (au.users || []).find(x => x.id === id); if (!u) return;
+  try { const r = await auCall({ action:'link', id }); au.link = { url: r.link, name: u.full_name || u.email, email: u.email, fresh: false }; auRender(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  catch (e) { alert(e.message); }
+}
+async function auRole(id, role, sel) {
+  const u = (au.users || []).find(x => x.id === id); const was = u ? u.role : '';
+  if (role === 'admin' && !confirm('Make ' + ((u && u.full_name) || 'this person') + ' an admin? Admins can see every course, payment details and manage logins.')) { sel.value = was; return; }
+  try { await auCall({ action:'set_role', id, role }); if (u) u.role = role; try { admState.profiles = await cloudRest('profiles?select=id,full_name,role&order=full_name') || admState.profiles; } catch (e) {} }
+  catch (e) { sel.value = was; alert(e.message); }
+}
+async function auActive(id, on) {
+  const u = (au.users || []).find(x => x.id === id);
+  if (!on && !confirm('Switch off ' + ((u && u.full_name) || 'this login') + '? They won\u2019t be able to sign in. Their courses and records are kept, and you can switch them back on.')) return;
+  try { await auCall({ action:'set_active', id, active: on }); if (u) u.active = on; auRender(); } catch (e) { alert(e.message); }
+}
+function auCopy() { try { navigator.clipboard.writeText(au.link.url); alert('Link copied'); } catch (e) { prompt('Copy this link', au.link.url); } }
+function auShare() { navigator.share({ title: 'Digital Training Centre login', text: 'Your link to set up your Digital Training Centre login:', url: au.link.url }).catch(() => {}); }
 </script>
 </body>
 </html>
