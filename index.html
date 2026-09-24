@@ -8773,7 +8773,7 @@ function lpmShowStep(key) {
 
 // ---- Course details ----
 const LPM_COURSE_NAMES = ['FREC 3 - RPL - 3 Day', 'FREC 3 - 5 Day', 'BLS - 1 Day', 'ILS - 1 Day'];
-const LPM_LOCATIONS = ['Beckton', 'Park Royal', 'Croydon', 'Harrow'];
+const LPM_LOCATIONS = ['Beckton', 'Park Royal', 'Croydon', 'Harrow', 'Whipps Cross', 'Bury St Edmunds'];
 // Course "family" — governs which tabs, skills grid and pack contents a course gets
 function lpmCourseKind(course) {
   const n = ((course || lpmCourse || {}).courseName || '').trim().toUpperCase();
@@ -8788,7 +8788,7 @@ function lpmHiddenSteps(course) {
   if (kind === 'ils') return ['sessions', 'theory'];
   return [];
 }
-const LPM_INSTRUCTOR_NAMES = ['Miles Ward', 'Neil Fossett', 'Tom Hales'];
+const LPM_INSTRUCTOR_NAMES = ['Miles Ward', 'Neil Fossett'];
 // The example course uses fictional trainers; they appear only on that course, never in anyone else's list
 function lpmInstructorOptions(c) {
   const extra = [c.instructor1, c.instructor2, ...(c.extraInstructors || [])]
