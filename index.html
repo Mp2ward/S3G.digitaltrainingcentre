@@ -434,7 +434,8 @@ function fmtD(v) {
   body { background:#FFFFFF; }
   header { background:#0D1B4C !important; border-bottom:none !important; }
   header, header * { color:#FFFFFF; }
-  .brand-logo { height:30px; width:auto; display:block; }
+  .brand-logo { height:26px; width:auto; display:block; }
+  .brand-logo-badge { display:flex; align-items:center; background:#FFFFFF; border-radius:8px; padding:6px 10px; flex-shrink:0; }
   .brand-divider { width:1px; height:26px; background:rgba(255,255,255,0.28); }
   .brand-title { font-family:'Public Sans',sans-serif; font-weight:700; font-size:1.15rem;
                  letter-spacing:0.08em; color:#FFFFFF; line-height:1; white-space:nowrap;
@@ -546,6 +547,47 @@ function fmtD(v) {
   .iqa-notes { margin-top:6px; white-space:pre-wrap; color:#1F2533; }
   .adm-status.sub { background:#EAF1FD; color:#2B5BD7; }
   .adm-wrap { max-width:1100px; }
+  /* ---- Job scheduling ---- */
+  .jb-tabs { display:flex; gap:6px; margin:14px 0 16px; flex-wrap:wrap; }
+  .jb-tabs button { border:1px solid #D8DEE8; background:#fff; border-radius:999px; padding:8px 16px; font:inherit; font-size:0.85rem; color:#3A4760; cursor:pointer; }
+  .jb-tabs button.on { background:#0D1B4C; border-color:#0D1B4C; color:#fff; font-weight:600; }
+  .jb-form { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; background:#fff; border:1px solid #D8DEE8; border-radius:14px; padding:16px; margin-bottom:18px; }
+  .jb-form label { display:flex; flex-direction:column; gap:5px; font-size:0.75rem; color:#6B7A94; text-transform:uppercase; letter-spacing:0.06em; }
+  .jb-form input, .jb-form select, .jb-form textarea, .jb-note { font:inherit; font-size:0.92rem; text-transform:none; letter-spacing:0; color:#0D1B4C; border:1px solid #D8DEE8; border-radius:10px; padding:9px 11px; background:#fff; }
+  .jb-form .wide { grid-column:1/-1; }
+  .jb-monthbar { display:flex; align-items:center; justify-content:space-between; gap:10px; margin:6px 0 12px; }
+  .jb-monthbar b { font-family:'Public Sans',sans-serif; font-size:1.15rem; color:#0D1B4C; }
+  .jb-monthbar button { border:1px solid #D8DEE8; background:#fff; border-radius:10px; padding:7px 14px; font:inherit; cursor:pointer; color:#0D1B4C; }
+  .jb-cal { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; margin-bottom:18px; }
+  .jb-dow { font-size:0.7rem; text-transform:uppercase; letter-spacing:0.08em; color:#6B7A94; text-align:center; padding:4px 0; }
+  .jb-day { min-height:74px; border:1px solid #E4E8F0; border-radius:10px; background:#fff; padding:5px; display:flex; flex-direction:column; gap:3px; overflow:hidden; }
+  .jb-day.out { background:#F7F9FC; border-color:#F0F2F6; }
+  .jb-day.today { border-color:#2B5BD7; box-shadow:inset 0 0 0 1px #2B5BD7; }
+  .jb-day-n { font-size:0.72rem; color:#6B7A94; font-weight:600; }
+  .jb-pill { font-size:0.66rem; line-height:1.25; border-radius:6px; padding:3px 5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; cursor:pointer; border:none; text-align:left; font-family:inherit; }
+  .jb-pill.offered { background:#FFF1D6; color:#8A5200; }
+  .jb-pill.confirmed { background:#DDF1E8; color:#0F6E56; }
+  .jb-pill.rejected { background:#FBE3E3; color:#A33030; text-decoration:line-through; }
+  .jb-card { border:1px solid #D8DEE8; border-radius:14px; background:#fff; padding:14px 16px; margin-bottom:10px; }
+  .jb-card-top { display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+  .jb-card h4 { margin:0 0 4px; font-family:'Public Sans',sans-serif; font-size:1.02rem; color:#0D1B4C; }
+  .jb-meta { font-size:0.85rem; color:#4B5A76; line-height:1.55; }
+  .jb-status { font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; border-radius:999px; padding:4px 10px; height:fit-content; }
+  .jb-status.offered { background:#FFF1D6; color:#8A5200; } .jb-status.confirmed { background:#DDF1E8; color:#0F6E56; } .jb-status.rejected { background:#FBE3E3; color:#A33030; }
+  .jb-status.paid { background:#E3E9FB; color:#2446B8; }
+  .jb-actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+  .jb-btn { border:1px solid #D8DEE8; background:#fff; border-radius:10px; padding:8px 14px; font:inherit; font-size:0.85rem; cursor:pointer; color:#0D1B4C; }
+  .jb-btn.go { background:#1F8A5B; border-color:#1F8A5B; color:#fff; font-weight:600; }
+  .jb-btn.no { background:#fff; border-color:#E2A0A0; color:#A33030; }
+  .jb-btn.pri { background:#0D1B4C; border-color:#0D1B4C; color:#fff; font-weight:600; }
+  .jb-note { width:100%; margin-top:8px; min-height:52px; resize:vertical; box-sizing:border-box; }
+  .jb-table { width:100%; border-collapse:collapse; background:#fff; border:1px solid #D8DEE8; border-radius:12px; overflow:hidden; font-size:0.86rem; }
+  .jb-table th { text-align:left; background:#F4F6FA; color:#6B7A94; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.06em; padding:9px 10px; }
+  .jb-table td { padding:9px 10px; border-top:1px solid #EEF1F5; color:#0D1B4C; }
+  .jb-table tfoot td { font-weight:700; background:#F7F9FC; }
+  .jb-empty { color:#6B7A94; font-size:0.9rem; padding:14px 0; }
+  .jb-msg { font-size:0.85rem; margin:8px 0; }
+  @media (max-width:640px) { .jb-day { min-height:54px; } .jb-pill { font-size:0.6rem; } }
   .lpm-head-row { position:relative; }
   .lpm-iqa-jump { position:absolute; top:0; right:0; border-radius:10px; box-shadow:0 10px 20px -14px rgba(43,91,215,0.9); }
   @media (max-width:820px) { .lpm-iqa-jump { position:static; display:inline-flex !important; margin-bottom:10px; } .lpm-head-row .lpm-iqa-jump[style*="none"] { display:none !important; } }
@@ -886,7 +928,8 @@ function fmtD(v) {
     .brand-title { font-size:0.88rem; letter-spacing:0.03em; }
   }
   @media (max-width:480px) {
-    .brand-logo { height:20px; }
+    .brand-logo { height:18px; }
+    .brand-logo-badge { padding:5px 8px; border-radius:7px; }
     .brand-title { font-size:0.72rem; letter-spacing:0.01em; }
     .brand-divider { height:18px; }
     .back-hub { padding:5px 9px; font-size:0.62rem; }
@@ -1450,8 +1493,10 @@ window.addEventListener('load', function () {
 
 <header>
   <a href="#" onclick="showView('hub');return false;" style="display:flex;align-items:center;gap:12px;text-decoration:none;min-width:0;">
-    <img src="/sector3-logo.png" alt="Sector 3 Group" class="brand-logo"
-         onerror="this.outerHTML='<span class=&quot;brand-title&quot; style=&quot;font-size:1.3rem&quot;>Sector 3 Group</span>'">
+    <span class="brand-logo-badge">
+      <img src="/sector3-logo.png" alt="Sector 3 Group" class="brand-logo"
+           onerror="this.parentElement.outerHTML='<span class=&quot;brand-title&quot; style=&quot;font-size:1.3rem&quot;>Sector 3 Group</span>'">
+    </span>
     <div class="brand-divider"></div>
     <span class="brand-mark"><svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true"><path d="M12 6h28l14 14v38H12z" fill="#FFFFFF"/><path d="M40 6v14h14z" fill="#3FBF84"/><rect x="19" y="28" width="7" height="7" rx="1.5" fill="#0D1B4C"/><rect x="29" y="28" width="7" height="7" rx="1.5" fill="#0D1B4C"/><rect x="39" y="28" width="7" height="7" rx="1.5" fill="#3FBF84"/><rect x="19" y="38" width="7" height="7" rx="1.5" fill="#0D1B4C"/><rect x="29" y="38" width="7" height="7" rx="1.5" fill="#3FBF84"/><rect x="39" y="38" width="7" height="7" rx="1.5" fill="#0D1B4C" opacity="0.45"/><rect x="19" y="48" width="7" height="4" rx="1.5" fill="#0D1B4C" opacity="0.45"/></svg></span>
     <div style="min-width:0;">
@@ -1490,11 +1535,21 @@ window.addEventListener('load', function () {
       <span class="hub-text"><span class="hub-title">Instructor Admin</span><span class="hub-sub" id="hubAdmInstrSub">Each instructor's courses and CPD logs</span></span>
       <span class="hub-chev">&rsaquo;</span>
     </button>
+    <button class="hub-tile" id="hubJobsTile" style="--accent:#B06A00;--soft:#FDF3E3;display:none;" onclick="jbOpenAdmin()">
+      <span class="hub-ic"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/><path d="M8 14h3M8 17.5h6"/></svg></span>
+      <span class="hub-text"><span class="hub-title">Job Scheduling</span><span class="hub-sub" id="hubJobsSub">Create jobs, assign instructors, timesheets and payments</span></span>
+      <span class="hub-chev">&rsaquo;</span>
+    </button>
       </div>
     </div>
 
     <div class="hub-group">Training</div>
     <div class="hub-tiles">
+    <button class="hub-tile" id="hubMyJobsTile" style="--accent:#C2410C;--soft:#FFF1E8;display:none;" onclick="jbOpenMine()">
+      <span class="hub-ic"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/><path d="M8 14h3M8 17.5h6"/></svg></span>
+      <span class="hub-text"><span class="hub-title">My Schedule</span><span class="hub-sub" id="hubMyJobsSub">Your jobs and courses by month</span></span>
+      <span class="hub-chev">&rsaquo;</span>
+    </button>
     <button class="hub-tile" style="--accent:#1F8A5B;--soft:#E6F5EE;" onclick="showView('lpm');lpmShowPick();">
       <span class="hub-ic"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M8.5 9.5l1.8 1.8 3.7-4M8.5 16h7"/></svg></span>
       <span class="hub-text"><span class="hub-title">Course Matrix</span><span class="hub-sub" id="hubLpmSub">Record competencies, upload exams and submit course paperwork</span></span>
@@ -1857,6 +1912,12 @@ window.addEventListener('load', function () {
 </div>
 <div class="app-view" id="view-adminstr">
   <div class="rn-wrap adm-wrap" id="admInstrRoot"></div>
+</div>
+<div class="app-view" id="view-jobs">
+  <div class="rn-wrap adm-wrap" id="jbAdminRoot"></div>
+</div>
+<div class="app-view" id="view-myjobs">
+  <div class="rn-wrap adm-wrap" id="jbMineRoot"></div>
 </div>
 
 <div class="app-view" id="view-cpd">
@@ -2293,8 +2354,16 @@ function makeRealAudio(sound, vol) {
   audio.volume = v;
   audio.muted = (v === 0);
 
-  // If file fails to load, fall back to oscillator
+  // If the hosted file fails, try a copy next to this app (same repo), then fall back to a tone
+  const localCopy = String(sound.url || '').split('/').pop();
   audio.onerror = () => {
+    if (localCopy && !audio._triedLocal) {
+      audio._triedLocal = true;
+      console.warn('[SS] Hosted file failed, trying local copy:', localCopy);
+      audio.src = localCopy;
+      audio.play().catch(() => {});
+      return;
+    }
     console.warn('[SS] File not found, using oscillator:', sound.url);
     if (activeNodes[sound.id] && activeNodes[sound.id].isReal) {
       activeNodes[sound.id].stop();
@@ -3219,6 +3288,7 @@ function hubRender() {
     stat('wait', awaiting, reviewer ? 'Awaiting IQA' : 'Awaiting IQA', reviewer ? "admOpenCourses();admState.status='sub';admRenderCourses()" : "showView('lpm');lpmShowPick()") +
     stat('ok', thisYear, 'Courses this year', "showView('lpm');lpmShowPick()") +
     stat('', hours, 'CPD hours logged', "showView('cpd');cpdOpen()");
+  try { jbRenderHub(); } catch (e) {}
 }
 function menuFabSync() {
   const fab = document.getElementById('menuFab');
@@ -5509,7 +5579,7 @@ const SC_DETAIL_05 = {
     "title": "Scene safety / water-edge control",
     "points": [
      "The casualty is already out of the water before learners approach.",
-     "Local training safety rule: learners and treatment equipment remain at least 3 metres from the real water's edge unless the site has a formally controlled alternative. This is a Sector 3 local control, not a universal clinical guideline.",
+     "Local training safety rule: learners and treatment equipment remain at least 3 metres from the real water's edge unless the site has a formally controlled alternative. This is a local centre control, not a universal clinical guideline.",
      "No learner enters the water. Any rescue/recovery has already occurred.",
      "Consider wet/slippery ground, cold/wind, crowd encroachment, oxygen/AED equipment on wet ground and access for incoming ambulance crews.",
      "Use a marked dry treatment area where possible."
@@ -5886,7 +5956,7 @@ const SC_DETAIL_05 = {
   ],
   "instructorRole": [
    "The instructor remains physically present throughout as assessor/facilitator and safety officer.",
-   "The 3 m water-edge rule is a local Sector 3 training control, not a universal RCUK requirement."
+   "The 3 m water-edge rule is a local centre training control, not a universal RCUK requirement."
   ],
   "reset": [
    "Dry/reset manikin and treatment surface.",
@@ -8354,7 +8424,7 @@ function lpmOnTeam(c) {
 }
 function lpmReadOnlyNow() {
   if (typeof CLOUD_ON === 'undefined' || !CLOUD_ON) return false;
-  if (typeof cloudIsReviewer === 'function' && cloudIsReviewer()) return false;   // IQA and admin can edit anything
+  if (typeof cloudActingReviewer === 'function' && cloudActingReviewer()) return false;   // IQA, and admin while in the Admin panel, can edit anything
   if (typeof lpmLocked === 'function' && lpmLocked(lpmCourse)) {
     const v0 = document.getElementById('view-lpm');
     if (v0 && v0.classList.contains('active')) return true;
@@ -8385,7 +8455,7 @@ function lpmBackFromCourse() {
 function lpmSyncIqaJump() {
   const b = document.getElementById('lpmIqaJump');
   if (!b) return;
-  const rev = typeof cloudIsReviewer === 'function' && cloudIsReviewer();
+  const rev = typeof cloudActingReviewer === 'function' && cloudActingReviewer();
   b.style.display = (rev && lpmCourse && !lpmCourse.isExample) ? '' : 'none';
   const r = lpmCourse ? iqaFor(lpmCourse.id) : null;
   b.textContent = r ? 'IQA review · ' + r.outcome : 'IQA review';
@@ -8533,7 +8603,7 @@ function lpmOpenCourse(id) {
   if (!found) return;
   lpmCourse = found;
   lpmCurrentId = id;
-  const reviewer = typeof cloudIsReviewer === 'function' && cloudIsReviewer();
+  const reviewer = typeof cloudActingReviewer === 'function' && cloudActingReviewer();
   const locked = !reviewer && typeof lpmLocked === 'function' && lpmLocked(found);
   const ro = !reviewer && (locked || (CLOUD_ON && found.owner && found.owner !== cloudMe() && !lpmOnTeam(found)));
   document.getElementById('view-lpm').classList.toggle('lpm-ro', !!ro);
@@ -8675,9 +8745,14 @@ function lpmShowInfo(html) {
   start();
 })();
 function lpmShowStep(key) {
-  const isRev = typeof cloudIsReviewer === 'function' && cloudIsReviewer();
-  document.querySelectorAll('#lpmSteps .rn-step').forEach((t, i) => { if (LPM_STEPS[i] === 'iqa') { t.classList.add('lpm-iqa-tab'); t.style.display = isRev ? '' : 'none'; } });
+  const isRev = typeof cloudActingReviewer === 'function' && cloudActingReviewer();
+  const hidden = lpmHiddenSteps(lpmCourse);
+  document.querySelectorAll('#lpmSteps .rn-step').forEach((t, i) => {
+    if (LPM_STEPS[i] === 'iqa') { t.classList.add('lpm-iqa-tab'); t.style.display = isRev ? '' : 'none'; return; }
+    t.style.display = hidden.includes(LPM_STEPS[i]) ? 'none' : '';
+  });
   if (key === 'iqa' && !isRev) key = 'pack';
+  if (hidden.includes(key)) key = 'details';
   lpmStepIdx = LPM_STEPS.indexOf(key);
   document.querySelectorAll('#lpmSteps .rn-step').forEach((b,i) => {
     b.classList.toggle('active', LPM_STEPS[i] === key);
@@ -8685,7 +8760,7 @@ function lpmShowStep(key) {
   });
   document.querySelectorAll('.lpm-view#lpm-course .rn-panel').forEach(p => p.classList.remove('active'));
   document.getElementById('lpmPanel-' + key).classList.add('active');
-  if (key === 'skills') { skCourseId = lpmCourse.id; skRender(); }
+  if (key === 'skills') { if (lpmCourseKind(lpmCourse) === 'ils') { ilsRender(); } else { skCourseId = lpmCourse.id; skRender(); } }
   if (key === 'theory') lpmRenderTheory();
   if (key === 'feedback') lpmRenderFeedback();
   if (key === 'overview') lpmRenderOverview();
@@ -8697,8 +8772,22 @@ function lpmShowStep(key) {
 }
 
 // ---- Course details ----
-const LPM_COURSE_NAMES = ['FREC 3 - RPL - 3 Day', 'FREC 3 - 5 Day'];
+const LPM_COURSE_NAMES = ['FREC 3 - RPL - 3 Day', 'FREC 3 - 5 Day', 'BLS - 1 Day', 'ILS - 1 Day'];
 const LPM_LOCATIONS = ['Beckton', 'Park Royal', 'Croydon', 'Harrow'];
+// Course "family" — governs which tabs, skills grid and pack contents a course gets
+function lpmCourseKind(course) {
+  const n = ((course || lpmCourse || {}).courseName || '').trim().toUpperCase();
+  if (n.startsWith('BLS')) return 'bls';
+  if (n.startsWith('ILS')) return 'ils';
+  return 'frec';
+}
+// Steps hidden from the tab bar for this course's kind
+function lpmHiddenSteps(course) {
+  const kind = lpmCourseKind(course);
+  if (kind === 'bls') return ['skills', 'sessions', 'theory', 'overview'];
+  if (kind === 'ils') return ['sessions', 'theory'];
+  return [];
+}
 const LPM_INSTRUCTOR_NAMES = ['Miles Ward', 'Neil Fossett', 'Tom Hales'];
 // The example course uses fictional trainers; they appear only on that course, never in anyone else's list
 function lpmInstructorOptions(c) {
@@ -8706,7 +8795,7 @@ function lpmInstructorOptions(c) {
     .filter(n => n && !LPM_INSTRUCTOR_NAMES.includes(n));
   return LPM_INSTRUCTOR_NAMES.concat([...new Set(extra)]);
 }
-const LPM_COURSE_LENGTH_DAYS = { 'FREC 3 - RPL - 3 Day': 3, 'FREC 3 - 5 Day': 5 };
+const LPM_COURSE_LENGTH_DAYS = { 'FREC 3 - RPL - 3 Day': 3, 'FREC 3 - 5 Day': 5, 'BLS - 1 Day': 1, 'ILS - 1 Day': 1 };
 const LPM_HOURS_PER_DAY = 8;
 
 function lpmOpt(list, current) {
@@ -8990,6 +9079,8 @@ function lpmRenderLearners() {
   const c = lpmCourse;
   let html = `<div class="sc-h2" style="margin-top:0;">Learners on this course</div>
     <div class="sc-note">Add every learner once here. They'll appear automatically in the competency record. Use <b>+ Learning needs</b> to record anything disclosed and the adjustments agreed.</div>
+    <div class="fb-qr-card" id="rgQrCard"></div>
+    <div id="rgSyncWrap" class="rn-no-print"></div>
     <input type="file" id="lpmScanInput" accept="image/*" style="display:none;" onchange="lpmHandleScan(this)">
     <input type="file" id="lpmExamInput" accept="image/*" multiple style="display:none;" onchange="lpmExamCapture(this)">
     <button class="rn-nav-btn rn-no-print" style="margin-bottom:18px;" onclick="document.getElementById('lpmScanInput').click()">📷 Scan register (photo or screenshot)</button>
@@ -9011,6 +9102,10 @@ function lpmRenderLearners() {
   html += `<button class="lpm-add-learner" onclick="lpmAddLearner()">+ Add learner</button>`;
   document.getElementById('lpmPanel-learners').innerHTML = html;
   lpmRenderRegisterPhotos();
+  rgRenderQrCard();
+  const syncWrap = document.getElementById('rgSyncWrap');
+  if (syncWrap) syncWrap.innerHTML = rgList().length
+    ? `<button class="rn-nav-btn" style="margin:-8px 0 18px;" onclick="rgAddAllToLearners()">Add signed-in names to learner list (${rgList().length})</button>` : '';
 }
 
 function lpmAddLearner() {
@@ -9721,6 +9816,63 @@ function skStatus(a, lid, d) {
   const refer = refs.filter((r, i) => vals[i] === 'R');
   const auto = done === refs.length ? 'P' : (refer.length ? 'R' : '');
   return { final: o || auto, auto, override: o || '', done, total: refs.length, refer, missing: refs.filter((r, i) => vals[i] !== 'C') };
+}
+
+// ============ ILS ASSESSMENT (simplified 5-station grid, replaces skills matrix for ILS courses) ============
+const ILS_STATIONS = [
+  ['patient', 'Patient assessment skill station'],
+  ['cpr', 'High quality CPR & AED skill station'],
+  ['airway', 'Airway Management skill station'],
+  ['oxygen', 'Oxygen & Ventilation skill station'],
+  ['team', 'Team response to cardiac arrest assessment']
+];
+const ILS_MARKS = ['', 'P', 'R', 'N/A'];
+function ilsData() {
+  if (!lpmCourse.ilsAssessment) lpmCourse.ilsAssessment = {};
+  return lpmCourse.ilsAssessment;
+}
+function ilsCell(lid, stationKey, attempt) {
+  const d = ilsData();
+  return ((d[lid] || {})[stationKey] || {})['a' + attempt] || '';
+}
+function ilsCycle(lid, stationKey, attempt) {
+  const d = ilsData();
+  if (!d[lid]) d[lid] = {};
+  if (!d[lid][stationKey]) d[lid][stationKey] = {};
+  const cur = d[lid][stationKey]['a' + attempt] || '';
+  const next = ILS_MARKS[(ILS_MARKS.indexOf(cur) + 1) % ILS_MARKS.length];
+  if (next) d[lid][stationKey]['a' + attempt] = next; else delete d[lid][stationKey]['a' + attempt];
+  lpmPersist(); ilsRender();
+}
+function ilsStationPassed(lid, stationKey) {
+  const d = ilsData();
+  const st = (d[lid] || {})[stationKey] || {};
+  return [st.a1, st.a2, st.a3].some(v => v === 'P');
+}
+function ilsOverall(lid) {
+  const attempted = ILS_STATIONS.some(([k]) => { const st = (ilsData()[lid] || {})[k] || {}; return st.a1 || st.a2 || st.a3; });
+  if (!attempted) return '';
+  return ILS_STATIONS.every(([k]) => ilsStationPassed(lid, k)) ? 'P' : 'R';
+}
+function ilsRender() {
+  const root = document.getElementById('lpmPanel-skills');
+  if (!root) return;
+  const learners = (lpmCourse.learners || []).filter(l => (l.name || '').trim());
+  let html = `<div class="sc-h2" style="margin-top:0;">Immediate Life Support — practical assessment</div>
+    <div class="sc-note">Tap a cell to cycle: blank → P (pass) → R (referred) → N/A. A learner passes a station once any attempt shows P. Feeds the course pack's practical assessment record.</div>`;
+  if (!learners.length) { root.innerHTML = html + `<p class="sc-p">Add learner names on the Learners step first.</p>`; return; }
+  learners.forEach(l => {
+    const overall = ilsOverall(l.id);
+    html += `<div class="sk-sec-title">${skEsc(l.name)}
+      ${overall ? `<span style="float:right;font-size:0.8rem;font-weight:700;color:${overall==='P'?'#0F6E56':'#C74444'};">${overall==='P'?'PASS':'REFERRAL'}</span>` : ''}</div>
+      <div class="sk-wrap"><table class="sk-table">
+        <tr><th class="sk-corner">Station</th><th>Attempt 1</th><th>Attempt 2</th><th>Attempt 3</th></tr>
+        ${ILS_STATIONS.map(([key, label]) => `<tr><td class="sk-crit">${label}</td>
+          ${[1,2,3].map(a => { const v = ilsCell(l.id, key, a); return `<td class="sk-cell"><button class="sk-tick ${v==='P'?'c':v==='R'?'r':''}" onclick="ilsCycle('${l.id}','${key}',${a})">${v||''}</button></td>`; }).join('')}
+        </tr>`).join('')}
+      </table></div>`;
+  });
+  root.innerHTML = html;
 }
 
 function skRender() {
@@ -10559,13 +10711,20 @@ async function lpmBuildPack(action) {
     line('Contents', bold, 13);
     const files = await packList(lpmCourse.id);
     const counts = k => files.filter(f => f.kind === k).length;
-    ['Delegate register (' + counts('register') + ')',
-     'Qualsafe practical assessment record sheet',
-     'Applied anatomy and physiology papers (' + counts('anat') + ')',
-     'Multiple choice exam papers (' + counts('mc') + ')',
-     'Other paperwork (' + counts('other') + ')',
-     'Reasonable adjustment records (' + alnCount(lpmCourse) + ')',
-     'Learner feedback forms (' + ((lpmCourse.feedback || []).length + counts('feedback')) + ')'].forEach(t => line('• ' + t, font, 11));
+    const kind = lpmCourseKind(lpmCourse);
+    const rgCount = (lpmCourse.registerEntries || []).length;
+    const contentLines = ['Delegate register (' + counts('register') + (rgCount ? ' photographed + ' + rgCount + ' signed on phone' : '') + ')'];
+    if (kind === 'frec') {
+      contentLines.push('Qualsafe practical assessment record sheet',
+        'Applied anatomy and physiology papers (' + counts('anat') + ')',
+        'Multiple choice exam papers (' + counts('mc') + ')',
+        'Other paperwork (' + counts('other') + ')',
+        'Reasonable adjustment records (' + alnCount(lpmCourse) + ')');
+    } else if (kind === 'ils') {
+      contentLines.push('Practical assessment record (from the practical matrix)');
+    }
+    contentLines.push('Learner feedback forms (' + ((lpmCourse.feedback || []).length + counts('feedback')) + ')');
+    contentLines.forEach(t => line('• ' + t, font, 11));
 
     // 2. Delegate register photos
     const drawPhoto = async (f, label) => {
@@ -10579,9 +10738,58 @@ async function lpmBuildPack(action) {
     const reg = files.filter(f => f.kind === 'register');
     for (let i = 0; i < reg.length; i++) await drawPhoto(reg[i], 'Delegate register  ·  page ' + (i + 1) + ' of ' + reg.length);
 
-    // 3. Qualsafe practical assessment record sheet
+    // 2b. Live register — recreated in the same layout as the seminar sign-in sheet
+    //     (Seminar / session details header, then Course Name | Name | Position | Organisation | Signature)
+    const rgEntries = lpmCourse.registerEntries || [];
+    if (rgEntries.length) {
+      const rowH = 46, perPage = 9;
+      const sessionStart = fmtD(lpmCourse.startDate) + (lpmCourse.startTime ? ', ' + lpmCourse.startTime : '');
+      const sessionEnd = fmtD(lpmCourse.endDate || lpmCourse.startDate) + (lpmCourse.endTime ? ', ' + lpmCourse.endTime : '');
+      for (let start = 0; start < rgEntries.length; start += perPage) {
+        const chunk = rgEntries.slice(start, start + perPage);
+        const page = pdf.addPage(A4);
+        let hy = A4[1] - 40;
+        page.drawText('Seminar Sign-in Sheet', { x: 34, y: hy, size: 15, font: bold, color: ink }); hy -= 20;
+        page.drawText('Seminar ' + (lpmCourse.courseName || ''), { x: 34, y: hy, size: 10, font, color: ink }); hy -= 16;
+        page.drawText('Session start ' + sessionStart, { x: 34, y: hy, size: 9, font, color: grey }); hy -= 13;
+        page.drawText('Session end ' + sessionEnd, { x: 34, y: hy, size: 9, font, color: grey }); hy -= 13;
+        page.drawText('Room ' + (lpmCourse.location || ''), { x: 34, y: hy, size: 9, font, color: grey }); hy -= 13;
+        page.drawText('Number of attendees ' + rgEntries.length + (rgEntries.length > perPage ? '  ·  page ' + (start / perPage + 1) + ' of ' + Math.ceil(rgEntries.length / perPage) : ''), { x: 34, y: hy, size: 9, font, color: grey }); hy -= 18;
+        const colX = { course: 34, name: 180, position: 300, org: 400, sig: 490 };
+        page.drawText('Course Name', { x: colX.course, y: hy, size: 8.5, font: bold, color: grey });
+        page.drawText('Name', { x: colX.name, y: hy, size: 8.5, font: bold, color: grey });
+        page.drawText("User's Position", { x: colX.position, y: hy, size: 8.5, font: bold, color: grey });
+        page.drawText("User's Organisation", { x: colX.org, y: hy, size: 8.5, font: bold, color: grey });
+        page.drawText('Signature', { x: colX.sig, y: hy, size: 8.5, font: bold, color: grey });
+        hy -= 6;
+        page.drawLine({ start: { x: 34, y: hy }, end: { x: 561, y: hy }, thickness: 0.6, color: grey });
+        hy -= rowH * 0.55;
+        const wrap = (t, max) => { t = t || ''; const out = []; while (t.length > max) { out.push(t.slice(0, max)); t = t.slice(max); } out.push(t); return out.slice(0, 3); };
+        for (const entry of chunk) {
+          const courseLines = wrap(lpmCourse.courseName || '', 20);
+          courseLines.forEach((l, i) => page.drawText(l, { x: colX.course, y: hy + (courseLines.length - 1 - i) * 10, size: 8, font, color: ink }));
+          page.drawText((entry.name || '').slice(0, 22), { x: colX.name, y: hy, size: 9, font, color: ink });
+          const posLines = wrap(entry.position || '', 16);
+          posLines.forEach((l, i) => page.drawText(l, { x: colX.position, y: hy + (posLines.length - 1 - i) * 10, size: 8, font, color: ink }));
+          const orgLines = wrap(entry.organisation || '', 14);
+          orgLines.forEach((l, i) => page.drawText(l, { x: colX.org, y: hy + (orgLines.length - 1 - i) * 10, size: 8, font, color: ink }));
+          if (entry.signature) {
+            try {
+              const png = await pdf.embedPng(entry.signature);
+              const maxW = 68, maxH = 24;
+              const sc = Math.min(maxW / png.width, maxH / png.height);
+              page.drawImage(png, { x: colX.sig, y: hy - 4, width: png.width * sc, height: png.height * sc });
+            } catch (e) {}
+          }
+          hy -= rowH;
+          page.drawLine({ start: { x: 34, y: hy + rowH * 0.45 }, end: { x: 561, y: hy + rowH * 0.45 }, thickness: 0.3, color: grey });
+        }
+      }
+    }
+
+    // 3. Qualsafe practical assessment record sheet (FREC only)
     let recordSheetPage = -1;
-    try {
+    if (kind === 'frec') try {
       const rows = qsCollect();
       if (rows.length) {
         const rsBytes = await qsRecordSheetBytes(rows);
@@ -10592,27 +10800,70 @@ async function lpmBuildPack(action) {
       }
     } catch (e) {}
 
-    // 4. Theory papers, learner by learner: Applied A&P then multiple choice
-    const learners = (lpmCourse.learners || []).filter(l => (l.name || '').trim());
-    for (const l of learners) {
-      for (const kind of ['anat','anat_ref','mc','mc_ref','prac_ref']) {
-        const list = files.filter(f => f.kind === kind && f.learnerId === l.id).sort((a, b) => (a.page || 9) - (b.page || 9));
-        for (let i = 0; i < list.length; i++) {
-          await drawPhoto(list[i], l.name.trim() + '  ·  ' + EXAM_KINDS[kind] + '  ·  page ' + (i + 1) + ' of ' + list.length);
+    // 3b. ILS practical assessment record — one page per learner, built from the practical matrix
+    if (kind === 'ils') {
+      const ilsLearners = (lpmCourse.learners || []).filter(l => (l.name || '').trim());
+      for (const l of ilsLearners) {
+        const page = pdf.addPage(A4);
+        let py = A4[1] - 56;
+        const pline = (t, f, size, col) => { page.drawText(t, { x: 50, y: py, size, font: f, color: col || ink }); py -= size + 8; };
+        pline('IMMEDIATE LIFE SUPPORT — PRACTICAL ASSESSMENT RECORD', bold, 13);
+        pline('Staff name: ' + l.name.trim(), font, 11);
+        pline('Date: ' + fmtD(lpmCourse.startDate), font, 11);
+        pline('Venue: ' + (lpmCourse.location || ''), font, 11);
+        py -= 6;
+        const colX = [50, 300, 370, 440];
+        page.drawText('Skill station', { x: colX[0], y: py, size: 10, font: bold, color: grey });
+        page.drawText('Attempt 1', { x: colX[1], y: py, size: 10, font: bold, color: grey });
+        page.drawText('Attempt 2', { x: colX[2], y: py, size: 10, font: bold, color: grey });
+        page.drawText('Attempt 3', { x: colX[3], y: py, size: 10, font: bold, color: grey });
+        py -= 6;
+        page.drawLine({ start: { x: 50, y: py }, end: { x: 545, y: py }, thickness: 0.7, color: grey });
+        py -= 16;
+        ILS_STATIONS.forEach(([sk, label]) => {
+          page.drawText(label, { x: colX[0], y: py, size: 10, font, color: ink });
+          [1,2,3].forEach((a, ai) => { const v = ilsCell(l.id, sk, a); if (v) page.drawText(v, { x: colX[ai+1], y: py, size: 10, font, color: ink }); });
+          py -= 18;
+        });
+        py -= 10;
+        const overall = ilsOverall(l.id);
+        pline('Overall outcome: ' + (overall === 'P' ? 'Pass' : overall === 'R' ? 'Referral' : 'Not assessed'), bold, 11);
+        pline('Tutor name: ' + (lpmCourse.instructor1 || ''), font, 11);
+        if (lpmCourse.signature) {
+          try {
+            const png = await pdf.embedPng(lpmCourse.signature);
+            const maxW = 140, maxH = 30;
+            const sc = Math.min(maxW / png.width, maxH / png.height);
+            page.drawText('Signature:', { x: 50, y: py, size: 11, font, color: ink });
+            page.drawImage(png, { x: 130, y: py - 6, width: png.width * sc, height: png.height * sc });
+          } catch (e) {}
         }
       }
     }
-    // Any exam pages that were never matched to a learner
-    const orphan = files.filter(f => EXAM_KINDS[f.kind] && !learners.some(l => l.id === f.learnerId));
-    for (let i = 0; i < orphan.length; i++) await drawPhoto(orphan[i], 'Unassigned  ·  ' + EXAM_KINDS[orphan[i].kind] + '  ·  page ' + (i + 1) + ' of ' + orphan.length);
 
-    // 5. Other paperwork
-    const other = files.filter(f => f.kind === 'other');
-    for (let i = 0; i < other.length; i++) await drawPhoto(other[i], 'Other paperwork  ·  page ' + (i + 1) + ' of ' + other.length);
+    // 4. Theory papers, learner by learner: Applied A&P then multiple choice (FREC only)
+    if (kind === 'frec') {
+      const learners = (lpmCourse.learners || []).filter(l => (l.name || '').trim());
+      for (const l of learners) {
+        for (const kd of ['anat','anat_ref','mc','mc_ref','prac_ref']) {
+          const list = files.filter(f => f.kind === kd && f.learnerId === l.id).sort((a, b) => (a.page || 9) - (b.page || 9));
+          for (let i = 0; i < list.length; i++) {
+            await drawPhoto(list[i], l.name.trim() + '  ·  ' + EXAM_KINDS[kd] + '  ·  page ' + (i + 1) + ' of ' + list.length);
+          }
+        }
+      }
+      // Any exam pages that were never matched to a learner
+      const orphan = files.filter(f => EXAM_KINDS[f.kind] && !learners.some(l => l.id === f.learnerId));
+      for (let i = 0; i < orphan.length; i++) await drawPhoto(orphan[i], 'Unassigned  ·  ' + EXAM_KINDS[orphan[i].kind] + '  ·  page ' + (i + 1) + ' of ' + orphan.length);
 
-    // 6. Reasonable adjustment records
+      // 5. Other paperwork
+      const other = files.filter(f => f.kind === 'other');
+      for (let i = 0; i < other.length; i++) await drawPhoto(other[i], 'Other paperwork  ·  page ' + (i + 1) + ' of ' + other.length);
+    }
+
+    // 6. Reasonable adjustment records (FREC only)
     let alnPages = [];
-    try { alnPages = await alnPackPages(pdf, font, bold, ink, grey, A4); } catch (e) {}
+    if (kind === 'frec') try { alnPages = await alnPackPages(pdf, font, bold, ink, grey, A4); } catch (e) {}
 
     // 7. Learner feedback forms
     let feedbackPages = [];
@@ -10677,16 +10928,22 @@ async function lpmRenderPack() {
   const files = await packList(lpmCourse.id);
   const c = k => files.filter(f => f.kind === k).length;
   const named = (lpmCourse.learners || []).filter(l => (l.name || '').trim()).length;
+  const kind = lpmCourseKind(lpmCourse);
+  const rows = [`<tr><td>Cover sheet — course, instructors and ${named} learner${named===1?'':'s'}</td><td>1</td></tr>`,
+    `<tr><td>Delegate register (photographed + ${(lpmCourse.registerEntries||[]).length} signed on phone)</td><td>${c('register') + ((lpmCourse.registerEntries||[]).length ? 1 : 0)}</td></tr>`];
+  if (kind === 'frec') {
+    rows.push(`<tr><td>Qualsafe practical assessment record sheet</td><td>1</td></tr>`,
+      `<tr><td>Applied anatomy and physiology papers (learner order)</td><td>${c('anat')}</td></tr>`,
+      `<tr><td>Multiple choice exam papers (learner order)</td><td>${c('mc')}</td></tr>`,
+      `<tr><td>Other paperwork</td><td>${c('other')}</td></tr>`,
+      `<tr><td>Reasonable adjustment records</td><td>${alnCount(lpmCourse)}</td></tr>`);
+  } else if (kind === 'ils') {
+    rows.push(`<tr><td>Practical assessment record (from the practical matrix)</td><td>${named}</td></tr>`);
+  }
+  rows.push(`<tr><td>Learner feedback forms</td><td>${(lpmCourse.feedback || []).length + c('feedback')}</td></tr>`);
   el.innerHTML = `<div class="sc-note">One PDF containing everything an IQA or Qualsafe needs. Tap <b>Complete course</b> to build it, check it, then <b>Submit course pack</b> to send it to the IQA team for review.</div>
     <table class="sc-table"><tr><th>Included</th><th>Pages</th></tr>
-      <tr><td>Cover sheet — course, instructors and ${named} learner${named===1?'':'s'}</td><td>1</td></tr>
-      <tr><td>Delegate register</td><td>${c('register')}</td></tr>
-      <tr><td>Qualsafe practical assessment record sheet</td><td>1</td></tr>
-      <tr><td>Applied anatomy and physiology papers (learner order)</td><td>${c('anat')}</td></tr>
-      <tr><td>Multiple choice exam papers (learner order)</td><td>${c('mc')}</td></tr>
-      <tr><td>Other paperwork</td><td>${c('other')}</td></tr>
-      <tr><td>Reasonable adjustment records</td><td>${alnCount(lpmCourse)}</td></tr>
-      <tr><td>Learner feedback forms</td><td>${(lpmCourse.feedback || []).length + c('feedback')}</td></tr>
+      ${rows.join('')}
     </table>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;" class="rn-no-print">
       ${lpmLocked(lpmCourse)
@@ -11017,7 +11274,7 @@ function cpdRender() {
     <p class="sc-p">A rolling record of teaching, assessment and updates, built from the courses delivered in this app. Qualsafe expects a CPD portfolio kept for at least three years and available for external quality assurance.</p>
     <div class="rn-learner-field" style="max-width:320px;"><label>Instructor</label>
       <select class="rn-name-select" onchange="cpdWho=this.value;cpdRender()">
-        ${(CLOUD_ON && cloud.profile && !cloudIsReviewer() ? [cloud.profile.full_name] : LPM_INSTRUCTOR_NAMES).map(n => `<option ${n===cpdWho?'selected':''}>${lpmEsc(n)}</option>`).join('')}
+        ${(CLOUD_ON && cloud.profile && !cloudActingReviewer() ? [cloud.profile.full_name] : LPM_INSTRUCTOR_NAMES).map(n => `<option ${n===cpdWho?'selected':''}>${lpmEsc(n)}</option>`).join('')}
       </select></div>
     <div class="cpd-cards">
       ${card(teachHours + ' hrs', 'Teaching in the last 3 years', teachHours >= 36, 'Qualsafe log of experience: 36 hours')}
@@ -11122,8 +11379,8 @@ async function cpdExport() {
 // Until they are filled in, the app runs on this device only, as before.
 // =====================================================================
 const CLOUD = {
-  url: 'https://nnzvzehywrzapinrdfrq.supabase.co',
-  key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5uenZ6ZWh5d3J6YXBpbnJkZnJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAwMDY5MTcsImV4cCI6MjEwNTU4MjkxN30.zHJm6LEMbji781FCsDW1EKoEspQesjAfgXsI4a_aBxE'
+  url: 'https://kkknlzaamuiyfgmbkvqm.supabase.co',
+  key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtra25semFhbXVpeWZnbWJrdnFtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAyNjk5MjgsImV4cCI6MjEwNTg0NTkyOH0.r-GocK5mjvjGyxmRDrU2X5DviGXdHhKmM2DNZP87LFA'
 };
 const CLOUD_ON = !/YOUR-PROJECT|YOUR-ANON-KEY/.test(CLOUD.url + CLOUD.key);
 const CLOUD_SESSION_KEY = 'dtc_cloud_session';
@@ -11131,7 +11388,18 @@ const CLOUD_SYNCED_KEY = 'dtc_cloud_synced'; // fingerprints of what the server 
 let cloud = { session:null, profile:null, status:'', timer:null, busy:false };
 
 function cloudMe() { return cloud.session && cloud.session.user ? cloud.session.user.id : ''; }
-function cloudIsReviewer() { return !!(cloud.profile && (cloud.profile.role === 'iqa' || cloud.profile.role === 'admin')); }
+// Licence admin accounts: these accounts always get full admin rights
+const LICENCE_ADMIN_EMAILS = [];   // admins are set in Supabase → profiles → role
+function cloudIsLicenceAdmin() { const e = cloud.session && cloud.session.user && cloud.session.user.email; return !!e && LICENCE_ADMIN_EMAILS.includes(String(e).toLowerCase()); }
+function cloudIsReviewer() { return cloudIsLicenceAdmin() || !!(cloud.profile && (cloud.profile.role === 'iqa' || cloud.profile.role === 'admin')); }
+// Admins get a clean instructor experience in Training/Tools; full IQA/admin abilities only apply
+// while working inside the Admin panel (Course Admin / Instructor Admin). IQA-role accounts are
+// unaffected — they keep reviewer abilities everywhere, same as before.
+function cloudActingReviewer() {
+  if (!cloudIsReviewer()) return false;
+  if (cloud.profile && cloud.profile.role === 'admin') return !!window.lpmFromAdmin;
+  return true;
+}
 function cloudHash(o) { const s = JSON.stringify(o || null); let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return String(h); }
 function cloudSynced() { try { return JSON.parse(localStorage.getItem(CLOUD_SYNCED_KEY) || '{}'); } catch (e) { return {}; } }
 function cloudSetSynced(m) { try { localStorage.setItem(CLOUD_SYNCED_KEY, JSON.stringify(m)); } catch (e) {} }
@@ -11178,6 +11446,7 @@ async function cloudSignIn(email, password) {
 async function cloudLoadProfile() {
   const rows = await cloudRest('profiles?select=*&id=eq.' + cloudMe());
   cloud.profile = rows && rows[0] ? rows[0] : { role:'instructor', full_name: (cloud.session.user.email || '').split('@')[0] };
+  if (cloudIsLicenceAdmin()) cloud.profile = Object.assign({}, cloud.profile, { role:'admin', full_name: cloud.profile.full_name || 'Admin' });
 }
 async function cloudSignOut() {
   const pending = cloudPendingCount();
@@ -11384,6 +11653,7 @@ async function cloudPull() {
     cloudSetSynced(synced);
     await iqaPull();
     await erPull();
+    try { await jbLoad(); } catch (e) {}
   try { hubRender(); } catch (e) {}
     cloudSetStatus('Saved');
   } catch (e) { cloudSetStatus('Sync error — retrying'); }
@@ -12149,6 +12419,542 @@ function fbStartPolling() {
   }, 10000);
 }
 
+// =====================================================================
+// LIVE DELEGATE REGISTER BY QR CODE (mock model — reuses feedback's QR + polling pattern)
+// Instructors project the QR on a board/screen; learners sign in on their own phone
+// (name, position, organisation, signature). Entries feed the course pack automatically.
+// =====================================================================
+const RG_EXAMPLE_URL = 'https://sector3.digitaltrainingcentre.app/register.html?t=example-not-live';
+let rgPollTimer = null;
+function rgList() { return lpmCourse.registerEntries || (lpmCourse.registerEntries = []); }
+function rgLinkUrl(token) {
+  const base = location.origin + location.pathname.replace(/[^/]*$/, '');
+  return base + 'register.html?t=' + token;
+}
+function rgCanQr() { return CLOUD_ON && cloud.session && lpmCourse && !lpmCourse.isExample && (!lpmCourse.owner || lpmCourse.owner === cloudMe()); }
+
+async function rgEnsureLink() {
+  const l = lpmCourse.registerLink;
+  if (l && l.token && new Date(l.expires) > new Date(Date.now() + 3600e3)) return l;
+  const ch = 'abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  const token = Array.from(crypto.getRandomValues(new Uint8Array(22))).map(b => ch[b % ch.length]).join('');
+  await cloudPush(); // the course must exist on the server before a link can point to it
+  try {
+    const rows = await cloudRest('courses?select=id&id=eq.' + encodeURIComponent(lpmCourse.id));
+    if (!rows || !rows.length) throw new Error('This course hasn\'t synced to the server yet. Check the sync indicator by your name, then try again.');
+  } catch (e) { if (/hasn\'t synced/.test(e.message)) throw e; }
+  const expires = new Date(Date.now() + 14 * 864e5).toISOString();
+  await cloudRest('register_links', 'POST', [{ token, course_id: lpmCourse.id, owner: cloudMe(), expires_at: expires }], 'return=minimal');
+  lpmCourse.registerLink = { token, expires };
+  lpmPersist();
+  return lpmCourse.registerLink;
+}
+
+async function rgRenderQrCard() {
+  const box = document.getElementById('rgQrCard');
+  if (!box) return;
+  if (lpmCourse && lpmCourse.isExample) {
+    box.innerHTML = `<button class="fb-enlarge" title="Show full screen" aria-label="Show full screen" onclick="rgFullScreen()">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
+      <div class="fb-qr-title">Scan to sign the register</div>
+      <div id="rgQrImg" class="fb-qr-img"></div>
+      <div class="fb-qr-sub"><b>Example only</b> — this code isn't live. On your own courses the code opens the register and sign-ins appear here automatically.</div>`;
+    fbDrawQr(document.getElementById('rgQrImg'), RG_EXAMPLE_URL, 190);
+    return;
+  }
+  if (!CLOUD_ON || !cloud.session) { box.innerHTML = `<div class="fb-qr-title">Scan to sign the register</div><p class="sc-p">Sign in to show the register QR code.</p>`; return; }
+  if (!rgCanQr()) { box.innerHTML = `<div class="fb-qr-title">Live register by QR</div><p class="sc-p">Only the course's instructor can show the QR code. Sign-ins appear here automatically.</p>`; return; }
+  if (!navigator.onLine) { box.innerHTML = `<div class="fb-qr-title">Scan to sign the register</div><p class="sc-p">Connect to the internet to show the QR code.</p>`; return; }
+  box.innerHTML = `<div class="fb-qr-title">Scan to sign the register</div><div class="fb-qr-wait">Preparing QR code…</div>`;
+  try {
+    const link = await rgEnsureLink();
+    const url = rgLinkUrl(link.token);
+    box.innerHTML = `<button class="fb-enlarge" title="Show full screen" aria-label="Show full screen" onclick="rgFullScreen()">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
+      <div class="fb-qr-title">Scan to sign the register</div>
+      <div id="rgQrImg" class="fb-qr-img"></div>
+      <div class="fb-qr-sub">${rgList().length} signed in so far — display full screen for the room</div>`;
+    await fbDrawQr(document.getElementById('rgQrImg'), url, 190);
+  } catch (e) {
+    const raw = String(e.message || e);
+    const friendly = /row-level security|42501/.test(raw)
+      ? 'The register tables haven\'t been set up on the server yet, or this course hasn\'t finished syncing. Run supabase_register.sql, check the sync indicator is green, then try again.'
+      : /relation .* does not exist|PGRST20|42P01/.test(raw) ? 'The register tables are missing on the server. Run supabase_register.sql in Supabase, then try again.'
+      : raw;
+    box.innerHTML = `<div class="fb-qr-title">Scan to sign the register</div><p class="sc-p" style="color:#C74444;">${lpmEsc(friendly)}</p><button class="rn-nav-btn" onclick="rgRenderQrCard()">Try again</button>`;
+  }
+  if (!rgRenderQrCard._pulling) { rgRenderQrCard._pulling = true; rgPullResponses().then(n => { rgRenderQrCard._pulling = false; if (n) rgRenderQrCard(); }); }
+  rgStartPolling();
+}
+
+async function rgFullScreen() {
+  const link = lpmCourse.registerLink;
+  const example = !!(lpmCourse && lpmCourse.isExample);
+  if (!link && !example) return;
+  const ov = document.createElement('div');
+  ov.id = 'rgFull'; ov.className = 'fb-full';
+  ov.innerHTML = `<button class="fb-full-close" onclick="rgCloseFull()" aria-label="Close">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="4 14 10 14 10 20"/><polyline points="20 10 14 10 14 4"/><line x1="14" y1="10" x2="21" y2="3"/><line x1="3" y1="21" x2="10" y2="14"/></svg></button>
+    <div class="fb-full-title">Scan to sign the register</div>
+    <div class="fb-full-course">${lpmEsc(lpmCourse.courseName || '')} · ${fmtD(lpmCourse.startDate)}${example ? ' · example only, not live' : ''}</div>
+    <div id="rgFullImg" class="fb-full-img"></div>
+    <div class="fb-full-count" id="rgFullCount"></div>`;
+  document.body.appendChild(ov);
+  const size = Math.floor(Math.min(window.innerWidth, window.innerHeight - 190) * 0.86);
+  await fbDrawQr(document.getElementById('rgFullImg'), example ? RG_EXAMPLE_URL : rgLinkUrl(link.token), Math.max(220, size));
+  rgUpdateCounts();
+  try { if (ov.requestFullscreen) ov.requestFullscreen().catch(() => {}); } catch (e) {}
+}
+function rgCloseFull() {
+  const ov = document.getElementById('rgFull');
+  if (ov) ov.remove();
+  try { if (document.fullscreenElement) document.exitFullscreen(); } catch (e) {}
+  lpmRenderLearners();
+}
+function rgUpdateCounts() {
+  const el = document.getElementById('rgFullCount');
+  if (el) el.textContent = rgList().length + ' signed in so far';
+}
+
+// Bring phone sign-ins into the course, so they appear in the counter and the course pack
+async function rgPullResponses() {
+  if (!CLOUD_ON || !cloud.session || !navigator.onLine || !lpmCourse) return 0;
+  try {
+    const rows = await cloudRest('register_responses?select=id,name,position,organisation,signature,created_at&course_id=eq.' + encodeURIComponent(lpmCourse.id) + '&order=created_at') || [];
+    const have = new Set(rgList().map(r => r.id));
+    let added = 0;
+    rows.forEach(r => {
+      const id = 'QR-' + r.id;
+      if (have.has(id)) return;
+      rgList().push({ id, name: r.name || '', position: r.position || '', organisation: r.organisation || '', signature: r.signature || '', signedAt: r.created_at });
+      added++;
+    });
+    if (added && (!lpmCourse.owner || lpmCourse.owner === cloudMe())) lpmPersist();
+    return added;
+  } catch (e) { return 0; }
+}
+function rgStartPolling() {
+  clearInterval(rgPollTimer);
+  rgPollTimer = setInterval(async () => {
+    const onTab = document.getElementById('lpmPanel-learners') && document.getElementById('lpmPanel-learners').classList.contains('active');
+    const full = !!document.getElementById('rgFull');
+    if (!onTab && !full) { clearInterval(rgPollTimer); return; }
+    const n = await rgPullResponses();
+    if (n) { if (full) rgUpdateCounts(); else rgRenderQrCard(); }
+  }, 10000);
+}
+// Turn signed-in entries into named learners on the course, one click
+function rgAddAllToLearners() {
+  const existing = new Set((lpmCourse.learners || []).map(l => (l.name || '').trim().toLowerCase()));
+  let added = 0;
+  rgList().forEach(r => {
+    const key = (r.name || '').trim().toLowerCase();
+    if (!key || existing.has(key)) return;
+    lpmCourse.learners.push({ id: 'L' + Date.now() + Math.random().toString(36).slice(2, 6), name: r.name.trim() });
+    existing.add(key);
+    added++;
+  });
+  if (added) { lpmPersist(); lpmRenderLearners(); }
+}
+
+// =====================================================================
+// JOB SCHEDULING — centre manager (admin) creates jobs and assigns them to
+// instructors with a day rate. Instructors confirm/reject on a month calendar;
+// confirmed jobs appear on their Course Matrix automatically and disappear
+// again if the admin removes the job. Admin runs timesheets, PDFs and marks paid.
+// =====================================================================
+let jb = { jobs: [], loaded: false, err: '', month: isoLocal().slice(0, 7), tab: 'schedule', formOpen: false, editing: '', tsInstr: '', pay: {}, myPay: null, msg: '' };
+
+function jbSignedIn() { return typeof CLOUD_ON !== 'undefined' && CLOUD_ON && !!cloud.session; }
+function jbIsAdmin() { return jbSignedIn() && ((typeof cloudIsLicenceAdmin === 'function' && cloudIsLicenceAdmin()) || !!(cloud.profile && cloud.profile.role === 'admin')); }
+function jbErr(e) {
+  const raw = String(e && e.message || e);
+  return /relation .* does not exist|PGRST20|42P01|42883|Could not find the function/.test(raw) ? 'The job tables are missing on the server. Run supabase_jobs.sql in Supabase, then try again.' : raw;
+}
+function jbAddDays(iso, n) { const d = new Date(iso + 'T00:00:00'); d.setDate(d.getDate() + n); return isoLocal(d); }
+function jbEnd(j) { return jbAddDays(j.job_date, (Number(j.days) || 1) - 1); }
+function jbTotal(j) { return (Number(j.day_rate) || 0) * (Number(j.days) || 1); }
+function jbMoney(n) { return '£' + (Number(n) || 0).toFixed(2); }
+function jbMonthLabel(ym) { const [y, m] = ym.split('-').map(Number); return new Date(y, m - 1, 1).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' }); }
+function jbMonthBounds(ym) { const [y, m] = ym.split('-').map(Number); return [ym + '-01', isoLocal(new Date(y, m, 0))]; }
+function jbInMonth(j, ym) { const [a, b] = jbMonthBounds(ym); return j.job_date <= b && jbEnd(j) >= a; }
+function jbShift(delta, rerender) { const [y, m] = jb.month.split('-').map(Number); const d = new Date(y, m - 1 + delta, 1); jb.month = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0'); rerender(); }
+function jbDates(j) { return j.days > 1 ? fmtShort(j.job_date) + ' → ' + fmtShort(jbEnd(j)) + ' (' + j.days + ' days)' : fmtShort(j.job_date); }
+function jbTimes(j) { return (j.start_time || j.end_time) ? (j.start_time || '') + '–' + (j.end_time || '') : ''; }
+function jbCourseId(j) { return 'CJ' + j.id; }
+function jbStatusLabel(j) { return j.status === 'offered' ? 'Awaiting reply' : j.status === 'confirmed' ? 'Confirmed' : 'Rejected'; }
+
+async function jbLoad() {
+  if (!jbSignedIn() || !navigator.onLine) return false;
+  try {
+    jb.jobs = await cloudRest('jobs?select=*&order=job_date,start_time') || [];
+    jb.loaded = true; jb.err = '';
+    jbReconcileCourses();
+    jbRenderHub();
+    return true;
+  } catch (e) { jb.err = jbErr(e); return false; }
+}
+
+// Keep the instructor's Course Matrix in step with their confirmed jobs
+function jbReconcileCourses() {
+  if (!jb.loaded) return;
+  const me = cloudMe(); if (!me) return;
+  const pname = (cloud.profile && cloud.profile.full_name) || '';
+  const mine = jb.jobs.filter(j => j.instructor === me && j.status === 'confirmed');
+  const want = new Set(mine.map(jbCourseId));
+  let changed = false;
+  let list = lpmLoadCourses().filter(c => {
+    if (!c.jobId || (c.owner && c.owner !== me)) return true;
+    if (want.has(c.id)) return true;
+    if (c.submission) { if (!c.jobRemoved) { c.jobRemoved = true; changed = true; } return true; }  // never lose submitted paperwork
+    changed = true; return false;                                                                   // job removed → course removed
+  });
+  mine.forEach(j => {
+    const id = jbCourseId(j);
+    const ex = list.find(c => c.id === id);
+    const upd = { courseName: j.course_name || j.title, startDate: j.job_date, endDate: jbEnd(j), location: j.location || '' };
+    if (ex) {
+      if (!ex.submission) for (const k in upd) if (ex[k] !== upd[k]) { ex[k] = upd[k]; changed = true; }
+      return;
+    }
+    list.push(Object.assign({ id, jobId: j.id, courseRef: j.title, instructor1: j.instructor_name || pname, instructor2: '',
+      learners: [], records: [], linkedSessionIds: [], createdAt: new Date().toISOString(), owner: me, ownerName: pname }, upd));
+    changed = true;
+  });
+  if (changed) {
+    lpmSaveCoursesRaw(list);
+    if (typeof cloudQueue === 'function') cloudQueue();
+    try { if (document.getElementById('view-lpm').classList.contains('active')) lpmRenderCourseList(); } catch (e) {}
+  }
+}
+
+function jbRenderHub() {
+  const t = document.getElementById('hubMyJobsTile'), a = document.getElementById('hubJobsTile');
+  if (t) t.style.display = jbSignedIn() ? '' : 'none';
+  if (a) a.style.display = jbIsAdmin() ? '' : 'none';
+  if (!jb.loaded) return;
+  const me = cloudMe(), ym = isoLocal().slice(0, 7);
+  const mine = jb.jobs.filter(j => j.instructor === me);
+  const offered = mine.filter(j => j.status === 'offered').length;
+  const month = mine.filter(j => j.status === 'confirmed' && jbInMonth(j, ym)).length;
+  const s = document.getElementById('hubMyJobsSub');
+  if (s) s.textContent = (offered ? offered + ' new job' + (offered === 1 ? '' : 's') + ' to confirm · ' : '') + month + ' confirmed this month';
+  const as = document.getElementById('hubJobsSub');
+  if (as && jbIsAdmin()) {
+    const all = jb.jobs.filter(j => jbInMonth(j, ym));
+    const waiting = jb.jobs.filter(j => j.status === 'offered').length;
+    const unpaid = jb.jobs.filter(j => j.status === 'confirmed' && !j.paid && jbEnd(j) < isoLocal()).reduce((t, j) => t + jbTotal(j), 0);
+    as.textContent = all.length + ' job' + (all.length === 1 ? '' : 's') + ' this month' + (waiting ? ' · ' + waiting + ' awaiting reply' : '') + (unpaid ? ' · ' + jbMoney(unpaid) + ' unpaid' : '');
+  }
+}
+
+// ---------- Shared month calendar ----------
+function jbCalendar(jobs, onPill, labelFn) {
+  const [y, m] = jb.month.split('-').map(Number);
+  const first = new Date(y, m - 1, 1);
+  const startDow = (first.getDay() + 6) % 7;           // Monday first
+  const gridStart = new Date(y, m - 1, 1 - startDow);
+  const today = isoLocal();
+  let html = '<div class="jb-cal">' + ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(d => `<div class="jb-dow">${d}</div>`).join('');
+  for (let i = 0; i < 42; i++) {
+    const d = new Date(gridStart); d.setDate(gridStart.getDate() + i);
+    const iso = isoLocal(d);
+    if (i >= 35 && d.getMonth() !== m - 1) break;
+    const on = jobs.filter(j => j.job_date <= iso && jbEnd(j) >= iso);
+    html += `<div class="jb-day ${d.getMonth() !== m - 1 ? 'out' : ''} ${iso === today ? 'today' : ''}"><span class="jb-day-n">${d.getDate()}</span>
+      ${on.map(j => `<button class="jb-pill ${j.status}" onclick="${onPill}('${j.id}')" title="${lpmEsc(j.title)}">${lpmEsc(labelFn(j))}</button>`).join('')}</div>`;
+  }
+  return html + '</div>';
+}
+function jbMonthBar(rerender) {
+  return `<div class="jb-monthbar"><button onclick="jbShift(-1, ${rerender})">‹ Prev</button><b>${jbMonthLabel(jb.month)}</b><button onclick="jbShift(1, ${rerender})">Next ›</button></div>`;
+}
+function jbInitials(n) { return String(n || '?').split(/[\s._-]+/).filter(Boolean).map(p => p[0].toUpperCase()).slice(0, 2).join(''); }
+
+// =====================================================================
+// ADMIN — Job Scheduling
+// =====================================================================
+async function jbOpenAdmin() {
+  showView('jobs');
+  jb.msg = ''; jb.formOpen = false; jb.editing = '';
+  jbRenderAdmin();
+  await Promise.all([jbLoad(), (typeof admLoad === 'function' ? admLoad() : null)]);
+  jbRenderAdmin();
+}
+function jbInstructors() {
+  return (admState.profiles || []).filter(p => p.role === 'instructor' || p.role === 'admin');
+}
+function jbRenderAdmin() {
+  const root = document.getElementById('jbAdminRoot'); if (!root) return;
+  let html = `<button class="rn-nav-btn rn-no-print" onclick="showView('hub')">← Home</button>
+    <div class="hub-eyebrow" style="margin-top:14px;">Admin</div>
+    <div class="hub-h" style="margin-bottom:4px;">Job Scheduling</div>
+    <p class="sc-p">Create jobs, assign them to instructors with a day rate, then run timesheets and mark payments.</p>
+    <div class="jb-tabs"><button class="${jb.tab === 'schedule' ? 'on' : ''}" onclick="jb.tab='schedule';jbRenderAdmin()">Schedule</button><button class="${jb.tab === 'timesheets' ? 'on' : ''}" onclick="jb.tab='timesheets';jbRenderAdmin()">Timesheets &amp; payments</button></div>`;
+  if (!jbIsAdmin()) { root.innerHTML = html + '<p class="jb-empty">Only centre admins can schedule jobs.</p>'; return; }
+  if (jb.err) html += `<p class="jb-msg" style="color:#C74444;">${lpmEsc(jb.err)}</p>`;
+  if (jb.msg) html += `<p class="jb-msg" style="color:#0F6E56;">${lpmEsc(jb.msg)}</p>`;
+  html += jb.tab === 'schedule' ? jbAdminSchedule() : jbAdminTimesheets();
+  root.innerHTML = html;
+  if (jb.tab === 'timesheets') jbLoadPayFor(jb.tsInstr);
+}
+
+function jbAdminSchedule() {
+  const month = jb.jobs.filter(j => jbInMonth(j, jb.month));
+  const ed = jb.editing ? jb.jobs.find(j => j.id === jb.editing) : null;
+  let html = `<button class="jb-btn pri" onclick="jb.formOpen=!jb.formOpen;jb.editing='';jbRenderAdmin()">${jb.formOpen && !ed ? 'Close' : '+ New job'}</button><div style="height:12px"></div>`;
+  if (jb.formOpen) html += jbForm(ed);
+  html += jbMonthBar('jbRenderAdmin');
+  html += jbCalendar(month, 'jbAdminFocus', j => jbInitials(j.instructor_name) + ' · ' + j.title);
+  html += `<div class="sc-h2">Jobs in ${jbMonthLabel(jb.month)}</div>`;
+  if (!month.length) html += '<p class="jb-empty">No jobs this month yet.</p>';
+  month.forEach(j => {
+    html += `<div class="jb-card" id="jbc-${j.id}"><div class="jb-card-top"><div><h4>${lpmEsc(j.title)}</h4>
+      <div class="jb-meta">${lpmEsc(j.course_name || 'Not a Course Matrix course')}<br>${jbDates(j)}${jbTimes(j) ? ' · ' + jbTimes(j) : ''}<br>${lpmEsc(j.location || 'No location')}<br>
+      <b>${lpmEsc(j.instructor_name || 'Unassigned')}</b> · ${jbMoney(j.day_rate)}/day · total ${jbMoney(jbTotal(j))}</div></div>
+      <div style="display:flex;gap:6px;flex-direction:column;align-items:flex-end;"><span class="jb-status ${j.status}">${jbStatusLabel(j)}</span>${j.paid ? '<span class="jb-status paid">Paid</span>' : ''}</div></div>
+      ${j.notes ? `<div class="jb-meta" style="margin-top:8px;"><b>Notes:</b> ${lpmEsc(j.notes)}</div>` : ''}
+      ${j.instructor_note ? `<div class="jb-meta" style="margin-top:4px;"><b>Instructor's note:</b> ${lpmEsc(j.instructor_note)}</div>` : ''}
+      <div class="jb-actions"><button class="jb-btn" onclick="jb.editing='${j.id}';jb.formOpen=true;jbRenderAdmin();window.scrollTo(0,0)">Edit</button><button class="jb-btn no" onclick="jbRemove('${j.id}')">Remove shift</button></div></div>`;
+  });
+  return html;
+}
+function jbAdminFocus(id) { const el = document.getElementById('jbc-' + id); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+
+function jbForm(j) {
+  j = j || {};
+  const courses = (typeof LPM_COURSE_NAMES !== 'undefined' ? LPM_COURSE_NAMES : []);
+  const locs = (typeof LPM_LOCATIONS !== 'undefined' ? LPM_LOCATIONS : []);
+  const ins = jbInstructors();
+  return `<div class="jb-form">
+    <label class="wide">Job title<input id="jbfTitle" value="${lpmEsc(j.title || '')}" placeholder="e.g. FREC 3 — cohort 4"></label>
+    <label>Course type<select id="jbfCourse" onchange="jbFormCourse(this.value)"><option value="">Not a Course Matrix course</option>${courses.map(c => `<option ${c === j.course_name ? 'selected' : ''}>${lpmEsc(c)}</option>`).join('')}</select></label>
+    <label>Start date<input type="date" id="jbfDate" value="${j.job_date || isoLocal()}"></label>
+    <label>Days<input type="number" min="1" max="31" id="jbfDays" value="${j.days || 1}"></label>
+    <label>Start time<input type="time" id="jbfStart" value="${j.start_time || '09:00'}"></label>
+    <label>Finish time<input type="time" id="jbfEnd" value="${j.end_time || '17:00'}"></label>
+    <label>Location<input id="jbfLoc" list="jbfLocs" value="${lpmEsc(j.location || '')}"><datalist id="jbfLocs">${locs.map(l => `<option value="${lpmEsc(l)}">`).join('')}</datalist></label>
+    <label>Instructor<select id="jbfInstr"><option value="">Choose…</option>${ins.map(p => `<option value="${p.id}" ${p.id === j.instructor ? 'selected' : ''}>${lpmEsc(p.full_name || p.id)}</option>`).join('')}</select></label>
+    <label>Day rate (£)<input type="number" min="0" step="0.01" id="jbfRate" value="${j.day_rate != null ? j.day_rate : ''}" placeholder="e.g. 180"></label>
+    <label class="wide">Notes for the instructor<textarea id="jbfNotes" rows="2">${lpmEsc(j.notes || '')}</textarea></label>
+    <div class="wide jb-actions" style="margin-top:0;"><button class="jb-btn pri" onclick="jbSave()">${j.id ? 'Save changes' : 'Create and send to instructor'}</button><button class="jb-btn" onclick="jb.formOpen=false;jb.editing='';jbRenderAdmin()">Cancel</button><span id="jbfMsg" class="jb-msg" style="color:#C74444;"></span></div>
+  </div>`;
+}
+function jbFormCourse(v) {
+  const days = (typeof LPM_COURSE_LENGTH_DAYS !== 'undefined' && LPM_COURSE_LENGTH_DAYS[v]) || null;
+  if (days) document.getElementById('jbfDays').value = days;
+  const t = document.getElementById('jbfTitle'); if (v && !t.value.trim()) t.value = v;
+}
+async function jbSave() {
+  const g = id => document.getElementById(id).value;
+  const msg = document.getElementById('jbfMsg');
+  const instrId = g('jbfInstr');
+  const prof = jbInstructors().find(p => p.id === instrId);
+  const row = { title: g('jbfTitle').trim(), course_name: g('jbfCourse') || null, job_date: g('jbfDate'), days: Math.max(1, parseInt(g('jbfDays'), 10) || 1),
+    start_time: g('jbfStart'), end_time: g('jbfEnd'), location: g('jbfLoc').trim(), instructor: instrId || null, instructor_name: prof ? prof.full_name : '',
+    day_rate: Number(g('jbfRate')) || 0, notes: g('jbfNotes').trim(), updated_at: new Date().toISOString() };
+  if (!row.title) { msg.textContent = 'Give the job a title.'; return; }
+  if (!row.job_date) { msg.textContent = 'Choose a date.'; return; }
+  if (!row.instructor) { msg.textContent = 'Choose an instructor.'; return; }
+  msg.textContent = 'Saving…';
+  try {
+    if (jb.editing) {
+      const old = jb.jobs.find(j => j.id === jb.editing);
+      if (old && old.instructor !== row.instructor) { row.status = 'offered'; row.responded_at = null; row.instructor_note = null; }   // new instructor must accept
+      await cloudRest('jobs?id=eq.' + jb.editing, 'PATCH', row, 'return=minimal');
+      jb.msg = 'Job updated.';
+    } else {
+      await cloudRest('jobs', 'POST', [row], 'return=minimal');
+      jb.msg = 'Job created and sent to ' + (row.instructor_name || 'the instructor') + '.';
+    }
+    jb.formOpen = false; jb.editing = '';
+    jb.month = row.job_date.slice(0, 7);
+    await jbLoad(); jbRenderAdmin();
+  } catch (e) { msg.textContent = jbErr(e); }
+}
+async function jbRemove(id) {
+  const j = jb.jobs.find(x => x.id === id); if (!j) return;
+  const cid = jbCourseId(j);
+  const course = lpmLoadCourses().find(c => c.id === cid);
+  const submitted = !!(course && course.submission);
+  if (!confirm('Remove "' + j.title + '" (' + jbDates(j) + ') from ' + (j.instructor_name || 'the instructor') + '\'s schedule?' +
+    (submitted ? '\n\nIts course pack has already been submitted, so the course record will be kept for IQA.' : '\n\nIts course will also come off their Course Matrix.'))) return;
+  try {
+    await cloudRest('jobs?id=eq.' + id, 'DELETE', null, 'return=minimal');
+    if (!submitted) {
+      try { await cloudRest('courses?id=eq.' + encodeURIComponent(cid), 'DELETE', null, 'return=minimal'); } catch (e) {}
+      lpmSaveCoursesRaw(lpmLoadCourses().filter(c => c.id !== cid));
+    }
+    jb.msg = 'Shift removed.';
+    await jbLoad(); jbRenderAdmin();
+  } catch (e) { jb.msg = ''; alert(jbErr(e)); }
+}
+
+// ---------- Timesheets & payments ----------
+function jbAdminTimesheets() {
+  const month = jb.jobs.filter(j => j.status === 'confirmed' && jbInMonth(j, jb.month));
+  const people = [...new Map(month.filter(j => j.instructor).map(j => [j.instructor, j.instructor_name || 'Instructor'])).entries()];
+  if (!people.some(([id]) => id === jb.tsInstr)) jb.tsInstr = people.length ? people[0][0] : '';
+  let html = jbMonthBar('jbRenderAdmin');
+  if (!people.length) return html + '<p class="jb-empty">No confirmed jobs in this month.</p>';
+  html += `<div class="jb-tabs" style="margin-top:0;">${people.map(([id, n]) => `<button class="${id === jb.tsInstr ? 'on' : ''}" onclick="jb.tsInstr='${id}';jbRenderAdmin()">${lpmEsc(n)}</button>`).join('')}</div>`;
+  const rows = month.filter(j => j.instructor === jb.tsInstr);
+  const total = rows.reduce((t, j) => t + jbTotal(j), 0), paid = rows.filter(j => j.paid).reduce((t, j) => t + jbTotal(j), 0);
+  html += `<div style="overflow-x:auto;"><table class="jb-table"><thead><tr><th>Date(s)</th><th>Job</th><th>Location</th><th>Days</th><th>Day rate</th><th>Total</th><th>Paid</th></tr></thead><tbody>
+    ${rows.map(j => `<tr><td>${jbDates(j)}</td><td>${lpmEsc(j.title)}</td><td>${lpmEsc(j.location || '')}</td><td>${j.days}</td><td>${jbMoney(j.day_rate)}</td><td>${jbMoney(jbTotal(j))}</td>
+      <td><button class="jb-btn ${j.paid ? 'go' : ''}" onclick="jbTogglePaid('${j.id}', ${!j.paid})">${j.paid ? 'Paid ' + (j.paid_at ? fmtShort(j.paid_at) : '') : 'Mark paid'}</button></td></tr>`).join('')}
+    </tbody><tfoot><tr><td colspan="5">Total for ${jbMonthLabel(jb.month)}</td><td>${jbMoney(total)}</td><td>${paid >= total ? 'All paid' : jbMoney(total - paid) + ' outstanding'}</td></tr></tfoot></table></div>
+    <div id="jbPayBox" class="jb-card" style="margin-top:14px;"><div class="jb-meta">Loading payment details…</div></div>
+    <div class="jb-actions"><button class="jb-btn pri" onclick="jbTimesheetPdf()">Download timesheet PDF</button>${paid < total ? `<button class="jb-btn go" onclick="jbMarkAllPaid()">Mark all paid</button>` : ''}</div>`;
+  return html;
+}
+async function jbLoadPayFor(id) {
+  const box = document.getElementById('jbPayBox'); if (!box || !id) return;
+  if (!(id in jb.pay)) {
+    try { const r = await cloudRest('pay_details?select=data&owner=eq.' + id) || []; jb.pay[id] = r[0] ? r[0].data : null; }
+    catch (e) { jb.pay[id] = null; }
+  }
+  const p = jb.pay[id];
+  box.innerHTML = `<h4 style="margin:0 0 6px;font-family:'Public Sans',sans-serif;color:#0D1B4C;">Payment details</h4>` + (p && (p.accountName || p.accountNumber)
+    ? `<div class="jb-meta">${lpmEsc(p.accountName || '')}<br>${lpmEsc(p.bank || '')}<br>Sort code ${lpmEsc(p.sortCode || '—')} · Account ${lpmEsc(p.accountNumber || '—')}${p.reference ? '<br>Reference / UTR ' + lpmEsc(p.reference) : ''}</div>`
+    : `<div class="jb-meta">This instructor hasn't added payment details yet. They can add them under <b>My Schedule</b>.</div>`);
+}
+async function jbTogglePaid(id, paid) {
+  try { await cloudRest('jobs?id=eq.' + id, 'PATCH', { paid, paid_at: paid ? new Date().toISOString() : null }, 'return=minimal'); await jbLoad(); jbRenderAdmin(); }
+  catch (e) { alert(jbErr(e)); }
+}
+async function jbMarkAllPaid() {
+  const rows = jb.jobs.filter(j => j.status === 'confirmed' && jbInMonth(j, jb.month) && j.instructor === jb.tsInstr && !j.paid);
+  if (!rows.length || !confirm('Mark ' + rows.length + ' job' + (rows.length === 1 ? '' : 's') + ' as paid?')) return;
+  try {
+    await cloudRest('jobs?id=in.(' + rows.map(j => j.id).join(',') + ')', 'PATCH', { paid: true, paid_at: new Date().toISOString() }, 'return=minimal');
+    await jbLoad(); jbRenderAdmin();
+  } catch (e) { alert(jbErr(e)); }
+}
+function jbPdfSafe(s) { return String(s == null ? '' : s).replace(/[→]/g, '-').replace(/[^\x20-\x7E\xA0-\xFF£–—·]/g, ''); }
+async function jbTimesheetPdf() {
+  const rows = jb.jobs.filter(j => j.status === 'confirmed' && jbInMonth(j, jb.month) && j.instructor === jb.tsInstr);
+  if (!rows.length) return;
+  const who = rows[0].instructor_name || 'Instructor';
+  const p = jb.pay[jb.tsInstr] || {};
+  const { PDFDocument, StandardFonts, rgb } = await qsLoadPdfLib();
+  const pdf = await PDFDocument.create();
+  const font = await pdf.embedFont(StandardFonts.Helvetica), bold = await pdf.embedFont(StandardFonts.HelveticaBold);
+  const ink = rgb(0.05, 0.1, 0.3), grey = rgb(0.42, 0.48, 0.58);
+  const A4 = [595.28, 841.89];
+  let page = pdf.addPage(A4), y = A4[1] - 50;
+  const T = (t, x, size, f, c) => page.drawText(jbPdfSafe(t), { x, y, size, font: f || font, color: c || ink });
+  T('TIMESHEET', 40, 18, bold); y -= 22;
+  T((typeof CENTRE_NAME !== 'undefined' ? CENTRE_NAME : '') + '  ·  ' + jbMonthLabel(jb.month), 40, 11, font, grey); y -= 30;
+  T('Instructor: ' + who, 40, 11, bold); y -= 16;
+  T('Generated: ' + fmtD(isoLocal()), 40, 10, font, grey); y -= 26;
+  const cols = [40, 150, 300, 400, 440, 500];
+  ['Date(s)', 'Job', 'Location', 'Days', 'Rate', 'Total'].forEach((h, i) => page.drawText(h, { x: cols[i], y, size: 9, font: bold, color: grey }));
+  y -= 6; page.drawLine({ start: { x: 40, y }, end: { x: 555, y }, thickness: 0.7, color: grey }); y -= 16;
+  let total = 0, paidT = 0;
+  for (const j of rows) {
+    if (y < 180) { page = pdf.addPage(A4); y = A4[1] - 60; }
+    const cells = [jbDates(j), j.title, j.location || '', String(j.days), jbMoney(j.day_rate), jbMoney(jbTotal(j)) + (j.paid ? ' (paid)' : '')];
+    cells.forEach((c, i) => page.drawText(jbPdfSafe(c).slice(0, i === 1 ? 26 : i === 2 ? 18 : 30), { x: cols[i], y, size: 8.5, font, color: ink }));
+    total += jbTotal(j); if (j.paid) paidT += jbTotal(j);
+    y -= 16;
+  }
+  y -= 4; page.drawLine({ start: { x: 40, y }, end: { x: 555, y }, thickness: 0.7, color: grey }); y -= 18;
+  T('Total due: ' + jbMoney(total), 40, 12, bold); y -= 16;
+  T(paidT >= total ? 'Status: PAID IN FULL' : 'Paid: ' + jbMoney(paidT) + '   Outstanding: ' + jbMoney(total - paidT), 40, 10, font, grey); y -= 34;
+  T('Payment details', 40, 12, bold); y -= 18;
+  [['Account name', p.accountName], ['Bank', p.bank], ['Sort code', p.sortCode], ['Account number', p.accountNumber], ['Reference / UTR', p.reference]]
+    .forEach(([k, v]) => { T(k + ': ' + (v || '—'), 40, 10); y -= 15; });
+  y -= 30;
+  T('Instructor signature: ____________________________    Date: ____________', 40, 10); y -= 30;
+  T('Authorised by (centre manager): ____________________    Date: ____________', 40, 10);
+  const bytes = await pdf.save();
+  const url = URL.createObjectURL(new Blob([bytes], { type: 'application/pdf' }));
+  const a = document.createElement('a');
+  a.href = url; a.download = ('Timesheet ' + who + ' ' + jb.month).replace(/[^\w .-]/g, '') + '.pdf';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 30000);
+}
+
+// =====================================================================
+// INSTRUCTOR — My Schedule
+// =====================================================================
+async function jbOpenMine() {
+  showView('myjobs');
+  jbRenderMine();
+  await jbLoad();
+  if (jb.myPay === null) {
+    try { const r = await cloudRest('pay_details?select=data&owner=eq.' + cloudMe()) || []; jb.myPay = r[0] ? r[0].data : {}; } catch (e) { jb.myPay = {}; }
+  }
+  jbRenderMine();
+}
+function jbRenderMine() {
+  const root = document.getElementById('jbMineRoot'); if (!root) return;
+  const me = cloudMe();
+  const mine = jb.jobs.filter(j => j.instructor === me);
+  const offered = mine.filter(j => j.status === 'offered');
+  const month = mine.filter(j => jbInMonth(j, jb.month) && j.status !== 'offered');
+  let html = `<button class="rn-nav-btn rn-no-print" onclick="showView('hub')">← Home</button>
+    <div class="hub-eyebrow" style="margin-top:14px;">Training</div>
+    <div class="hub-h" style="margin-bottom:4px;">My Schedule</div>
+    <p class="sc-p">Jobs your centre has offered you. Confirmed courses appear on your Course Matrix automatically, ready to run and submit.</p>`;
+  if (!jbSignedIn()) { root.innerHTML = html + '<p class="jb-empty">Sign in to see your schedule.</p>'; return; }
+  if (jb.err) html += `<p class="jb-msg" style="color:#C74444;">${lpmEsc(jb.err)}</p>`;
+  if (offered.length) {
+    html += `<div class="sc-h2">Needs your reply (${offered.length})</div>` + offered.map(jbMineCard).join('');
+  }
+  html += jbMonthBar('jbRenderMine');
+  html += jbCalendar(mine.filter(j => jbInMonth(j, jb.month)), 'jbMineFocus', j => (j.start_time ? j.start_time + ' ' : '') + j.title);
+  html += `<div class="sc-h2">${jbMonthLabel(jb.month)}</div>`;
+  html += month.length ? month.map(jbMineCard).join('') : '<p class="jb-empty">No confirmed jobs this month.</p>';
+  const p = jb.myPay || {};
+  html += `<div class="sc-h2">My payment details</div>
+    <p class="sc-p">Used on your timesheets. Only you and your centre admin can see these.</p>
+    <div class="jb-form">
+      <label>Account name<input id="jbpName" value="${lpmEsc(p.accountName || '')}"></label>
+      <label>Bank<input id="jbpBank" value="${lpmEsc(p.bank || '')}"></label>
+      <label>Sort code<input id="jbpSort" value="${lpmEsc(p.sortCode || '')}" placeholder="00-00-00"></label>
+      <label>Account number<input id="jbpAcc" value="${lpmEsc(p.accountNumber || '')}" inputmode="numeric"></label>
+      <label class="wide">Reference / UTR (optional)<input id="jbpRef" value="${lpmEsc(p.reference || '')}"></label>
+      <div class="wide jb-actions" style="margin-top:0;"><button class="jb-btn pri" onclick="jbSavePay()">Save payment details</button><span id="jbpMsg" class="jb-msg"></span></div>
+    </div>`;
+  root.innerHTML = html;
+}
+function jbMineCard(j) {
+  const course = lpmLoadCourses().find(c => c.id === jbCourseId(j));
+  return `<div class="jb-card" id="jbm-${j.id}"><div class="jb-card-top"><div><h4>${lpmEsc(j.title)}</h4>
+    <div class="jb-meta">${lpmEsc(j.course_name || '')}${j.course_name ? '<br>' : ''}${jbDates(j)}${jbTimes(j) ? ' · ' + jbTimes(j) : ''}<br>${lpmEsc(j.location || '')}<br>${jbMoney(j.day_rate)}/day · ${jbMoney(jbTotal(j))} total</div></div>
+    <div style="display:flex;gap:6px;flex-direction:column;align-items:flex-end;"><span class="jb-status ${j.status}">${jbStatusLabel(j)}</span>${j.paid ? '<span class="jb-status paid">Paid</span>' : ''}</div></div>
+    ${j.notes ? `<div class="jb-meta" style="margin-top:8px;"><b>From your centre:</b> ${lpmEsc(j.notes)}</div>` : ''}
+    <textarea class="jb-note" id="jbn-${j.id}" placeholder="My notes for this job…">${lpmEsc(j.instructor_note || '')}</textarea>
+    <div class="jb-actions">
+      ${j.status === 'offered' ? `<button class="jb-btn go" onclick="jbRespond('${j.id}','confirmed')">✓ Confirm</button><button class="jb-btn no" onclick="jbRespond('${j.id}','rejected')">✕ Reject</button>` : ''}
+      ${j.status === 'confirmed' && course ? `<button class="jb-btn pri" onclick="jbOpenCourse('${course.id}')">Open in Course Matrix</button>` : ''}
+      <button class="jb-btn" onclick="jbRespond('${j.id}', null)">Save note</button>
+    </div></div>`;
+}
+function jbMineFocus(id) { const el = document.getElementById('jbm-' + id); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+async function jbRespond(id, status) {
+  const noteEl = document.getElementById('jbn-' + id);
+  const note = noteEl ? noteEl.value : null;
+  if (status === 'rejected' && !confirm('Reject this job? Your centre will be told you can\'t do it.')) return;
+  try {
+    await cloudRest('rpc/respond_job', 'POST', { p_id: id, p_status: status, p_note: note });
+    await jbLoad();
+    jbRenderMine();
+  } catch (e) { alert(jbErr(e)); }
+}
+function jbOpenCourse(id) { window.lpmFromAdmin = false; showView('lpm'); lpmOpenCourse(id); try { lpmShowStep('details'); } catch (e) {} }
+async function jbSavePay() {
+  const g = id => document.getElementById(id).value.trim();
+  const data = { accountName: g('jbpName'), bank: g('jbpBank'), sortCode: g('jbpSort'), accountNumber: g('jbpAcc'), reference: g('jbpRef') };
+  const msg = document.getElementById('jbpMsg');
+  try {
+    await cloudRest('pay_details?on_conflict=owner', 'POST', [{ owner: cloudMe(), data, updated_at: new Date().toISOString() }], 'resolution=merge-duplicates,return=minimal');
+    jb.myPay = data; msg.style.color = '#0F6E56'; msg.textContent = 'Saved.';
+  } catch (e) { msg.style.color = '#C74444'; msg.textContent = jbErr(e); }
+}
+
 // ============ ADDITIONAL LEARNING NEEDS AND REASONABLE ADJUSTMENTS ============
 const ALN_NEEDS = ['Dyslexia','Dyspraxia','Dyscalculia','ADHD','Autism spectrum','Hearing impairment','Visual impairment',
   'Physical or mobility need','Long-term medical condition','Mental health need','English as an additional language','Literacy or numeracy support','Temporary injury','Other (see notes)'];
@@ -12249,7 +13055,7 @@ async function alnPackPages(pdf, font, bold, ink, grey, A4) {
 <script>
 // ====== Built-in example course: every instructor sees the same locked template ======
 (function () {
-  const EXAMPLE = {"course": {"id": "EXAMPLE-FREC", "courseName": "FREC 3 - 5 Day", "courseRef": "EXAMPLE / BAB-FREC-014", "location": "Park Royal", "startDate": "2026-10-05", "endDate": "2026-10-09", "instructor1": "John Smith", "instructor2": "Jane Smith", "extraInstructors": [], "taught": [1, 2, 3, 4, 5], "learners": [{"id": "L1", "name": "Daniel Price"}, {"id": "L2", "name": "Sophie Nolan"}, {"id": "L3", "name": "Marcus Webb"}, {"id": "L4", "name": "Alice Kerr", "aln": {"needs": ["Dyslexia"], "adjustments": ["Extra time (25%)", "Coloured overlay or paper"], "notes": "Coloured overlay used for the theory papers; extra time agreed and given.", "agreedBy": "John Smith", "date": "2026-10-05"}}], "records": [], "linkedSessionIds": [], "qa": {}, "feedback": [{"id": "FBD1", "learnerId": "", "source": "form", "savedAt": "2026-10-09T15:10:00Z", "ratings": {"venue": "Excellent", "classroom": "Excellent", "handouts": "Very Good", "equipment": "Excellent", "content": "Excellent", "knowledge": "Excellent", "interest": "Excellent", "methods": "Excellent", "support": "Excellent", "appearance": "Excellent", "confidence": "Excellent", "pace": "Excellent", "howconfident": "Extremely"}, "rateTrainer": "10", "rateCentre": "9", "leaflet": "Yes", "comments": "Best first aid course I have been on. The scenarios felt real and the feedback afterwards was clear and useful.", "name": "Daniel Price", "email": "daniel.price@example.com", "title": "", "phone": ""}], "examScores": {"L1": {"anat": {"result": "P"}, "mc": {"score": 38, "total": 40}}, "L2": {"anat": {"result": "P"}, "mc": {"score": 38, "total": 40}}, "L3": {"anat": {"result": "P"}, "mc": {"score": 38, "total": 40}}, "L4": {"anat": {"result": "P"}, "mc": {"score": 38, "total": 40}}}, "mcPassMark": 28, "paperNumbers": {"L1": "ASY8201", "L2": "ASY8202", "L3": "ASY8203", "L4": "ASY8204"}, "signature": "data:image/png;base64,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", "isExample": true}, "files": [{"kind": "register", "title": "Delegate register", "url": "register.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "other", "title": "Practical assessment record sheet", "url": "practical.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "anat", "title": "Applied anatomy and physiology", "learnerName": "Daniel Price", "learnerId": "L1", "page": 1, "paperNo": "ASX7101", "url": "anat-1.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "anat", "title": "Applied anatomy and physiology", "learnerName": "Daniel Price", "learnerId": "L1", "page": 2, "paperNo": "ASX7101", "url": "anat-2.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "mc", "title": "Multiple choice", "learnerName": "Daniel Price", "learnerId": "L1", "page": 1, "paperNo": "ASY8201", "url": "mcq-1.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "mc", "title": "Multiple choice", "learnerName": "Daniel Price", "learnerId": "L1", "page": 2, "paperNo": "ASY8201", "url": "mcq-2.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "anat", "title": "Applied anatomy and physiology", "learnerName": "Sophie Nolan", "learnerId": "L2", "page": 1, "paperNo": "ASX7102", "url": "anat-3.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "anat", "title": "Applied anatomy and physiology", "learnerName": "Sophie Nolan", "learnerId": "L2", "page": 2, "paperNo": "ASX7102", "url": "anat-4.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "mc", "title": "Multiple choice", "learnerName": "Sophie Nolan", "learnerId": "L2", "page": 1, "paperNo": "ASY8202", "url": "mcq-3.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "mc", "title": "Multiple choice", "learnerName": "Sophie Nolan", "learnerId": "L2", "page": 2, "paperNo": "ASY8202", "url": "mcq-4.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "anat", "title": "Applied anatomy and physiology", "learnerName": "Marcus Webb", "learnerId": "L3", "page": 1, "paperNo": "ASX7103", "url": "anat-5.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "anat", "title": "Applied anatomy and physiology", "learnerName": "Marcus Webb", "learnerId": "L3", "page": 2, "paperNo": "ASX7103", "url": "anat-6.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "mc", "title": "Multiple choice", "learnerName": "Marcus Webb", "learnerId": "L3", "page": 1, "paperNo": "ASY8203", "url": "mcq-5.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "mc", "title": "Multiple choice", "learnerName": "Marcus Webb", "learnerId": "L3", "page": 2, "paperNo": "ASY8203", "url": "mcq-6.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "anat", "title": "Applied anatomy and physiology", "learnerName": "Alice Kerr", "learnerId": "L4", "page": 1, "paperNo": "ASX7104", "url": "anat-7.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "anat", "title": "Applied anatomy and physiology", "learnerName": "Alice Kerr", "learnerId": "L4", "page": 2, "paperNo": "ASX7104", "url": "anat-8.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "mc", "title": "Multiple choice", "learnerName": "Alice Kerr", "learnerId": "L4", "page": 1, "paperNo": "ASY8204", "url": "mcq-7.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "mc", "title": "Multiple choice", "learnerName": "Alice Kerr", "learnerId": "L4", "page": 2, "paperNo": "ASY8204", "url": "mcq-8.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "feedback", "title": "Learner feedback form", "url": "fb-1.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "feedback", "title": "Learner feedback form", "url": "fb-2.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "feedback", "title": "Learner feedback form", "url": "fb-3.jpg", "courseId": "EXAMPLE-FREC"}]};
+  const EXAMPLE = {"course": {"id": "EXAMPLE-FREC", "courseName": "FREC 3 - 5 Day", "courseRef": "EXAMPLE / S3G-FREC-014", "location": "Park Royal", "startDate": "2026-10-05", "endDate": "2026-10-09", "instructor1": "John Smith", "instructor2": "Jane Smith", "extraInstructors": [], "taught": [1, 2, 3, 4, 5], "learners": [{"id": "L1", "name": "Daniel Price"}, {"id": "L2", "name": "Sophie Nolan"}, {"id": "L3", "name": "Marcus Webb"}, {"id": "L4", "name": "Alice Kerr", "aln": {"needs": ["Dyslexia"], "adjustments": ["Extra time (25%)", "Coloured overlay or paper"], "notes": "Coloured overlay used for the theory papers; extra time agreed and given.", "agreedBy": "John Smith", "date": "2026-10-05"}}], "records": [], "linkedSessionIds": [], "qa": {}, "feedback": [{"id": "FBD1", "learnerId": "", "source": "form", "savedAt": "2026-10-09T15:10:00Z", "ratings": {"venue": "Excellent", "classroom": "Excellent", "handouts": "Very Good", "equipment": "Excellent", "content": "Excellent", "knowledge": "Excellent", "interest": "Excellent", "methods": "Excellent", "support": "Excellent", "appearance": "Excellent", "confidence": "Excellent", "pace": "Excellent", "howconfident": "Extremely"}, "rateTrainer": "10", "rateCentre": "9", "leaflet": "Yes", "comments": "Best first aid course I have been on. The scenarios felt real and the feedback afterwards was clear and useful.", "name": "Daniel Price", "email": "daniel.price@example.com", "title": "", "phone": ""}], "examScores": {"L1": {"anat": {"result": "P"}, "mc": {"score": 38, "total": 40}}, "L2": {"anat": {"result": "P"}, "mc": {"score": 38, "total": 40}}, "L3": {"anat": {"result": "P"}, "mc": {"score": 38, "total": 40}}, "L4": {"anat": {"result": "P"}, "mc": {"score": 38, "total": 40}}}, "mcPassMark": 28, "paperNumbers": {"L1": "ASY8201", "L2": "ASY8202", "L3": "ASY8203", "L4": "ASY8204"}, "signature": "data:image/png;base64,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", "isExample": true}, "files": [{"kind": "register", "title": "Delegate register", "url": "register.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "other", "title": "Practical assessment record sheet", "url": "practical.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "anat", "title": "Applied anatomy and physiology", "learnerName": "Daniel Price", "learnerId": "L1", "page": 1, "paperNo": "ASX7101", "url": "anat-1.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "anat", "title": "Applied anatomy and physiology", "learnerName": "Daniel Price", "learnerId": "L1", "page": 2, "paperNo": "ASX7101", "url": "anat-2.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "mc", "title": "Multiple choice", "learnerName": "Daniel Price", "learnerId": "L1", "page": 1, "paperNo": "ASY8201", "url": "mcq-1.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "mc", "title": "Multiple choice", "learnerName": "Daniel Price", "learnerId": "L1", "page": 2, "paperNo": "ASY8201", "url": "mcq-2.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "anat", "title": "Applied anatomy and physiology", "learnerName": "Sophie Nolan", "learnerId": "L2", "page": 1, "paperNo": "ASX7102", "url": "anat-3.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "anat", "title": "Applied anatomy and physiology", "learnerName": "Sophie Nolan", "learnerId": "L2", "page": 2, "paperNo": "ASX7102", "url": "anat-4.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "mc", "title": "Multiple choice", "learnerName": "Sophie Nolan", "learnerId": "L2", "page": 1, "paperNo": "ASY8202", "url": "mcq-3.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "mc", "title": "Multiple choice", "learnerName": "Sophie Nolan", "learnerId": "L2", "page": 2, "paperNo": "ASY8202", "url": "mcq-4.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "anat", "title": "Applied anatomy and physiology", "learnerName": "Marcus Webb", "learnerId": "L3", "page": 1, "paperNo": "ASX7103", "url": "anat-5.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "anat", "title": "Applied anatomy and physiology", "learnerName": "Marcus Webb", "learnerId": "L3", "page": 2, "paperNo": "ASX7103", "url": "anat-6.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "mc", "title": "Multiple choice", "learnerName": "Marcus Webb", "learnerId": "L3", "page": 1, "paperNo": "ASY8203", "url": "mcq-5.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "mc", "title": "Multiple choice", "learnerName": "Marcus Webb", "learnerId": "L3", "page": 2, "paperNo": "ASY8203", "url": "mcq-6.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "anat", "title": "Applied anatomy and physiology", "learnerName": "Alice Kerr", "learnerId": "L4", "page": 1, "paperNo": "ASX7104", "url": "anat-7.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "anat", "title": "Applied anatomy and physiology", "learnerName": "Alice Kerr", "learnerId": "L4", "page": 2, "paperNo": "ASX7104", "url": "anat-8.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "mc", "title": "Multiple choice", "learnerName": "Alice Kerr", "learnerId": "L4", "page": 1, "paperNo": "ASY8204", "url": "mcq-7.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "mc", "title": "Multiple choice", "learnerName": "Alice Kerr", "learnerId": "L4", "page": 2, "paperNo": "ASY8204", "url": "mcq-8.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "feedback", "title": "Learner feedback form", "url": "fb-1.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "feedback", "title": "Learner feedback form", "url": "fb-2.jpg", "courseId": "EXAMPLE-FREC"}, {"kind": "feedback", "title": "Learner feedback form", "url": "fb-3.jpg", "courseId": "EXAMPLE-FREC"}]};
   const KEY = 'dtc_example_v1';
   function put(db, rec) { return new Promise((ok, no) => { const t = db.transaction('files','readwrite'); t.objectStore('files').put(rec); t.oncomplete = ok; t.onerror = no; }); }
   async function plant() {
@@ -12295,7 +13101,7 @@ function lpmLocked(c) {
   if (!c || c.isExample) return false;
   const r = iqaFor(c.id);
   if (!r || r.outcome !== 'Accepted') return false;
-  if (typeof cloudIsReviewer === 'function' && cloudIsReviewer()) return false;
+  if (typeof cloudActingReviewer === 'function' && cloudActingReviewer()) return false;
   const req = erLatest(c.id);
   if (req && req.status === 'approved' && (!r.updated_at || req.decided_at > r.updated_at)) return false;   // unlocked again
   return true;
@@ -12345,7 +13151,7 @@ function erPanel(courseId) {
       <div><b>${lpmEsc(r.requester_name || 'Instructor')}</b> · ${fmtShort(r.created_at)} · <span class="er-tag ${r.status}">${r.status}</span>
         <div class="er-reason">${lpmEsc(r.reason)}</div>
         ${r.decided_by ? `<div class="er-note">${lpmEsc(r.status === 'approved' ? 'Approved' : 'Declined')} by ${lpmEsc(r.decided_by)}${r.note ? ' — ' + lpmEsc(r.note) : ''}</div>` : ''}</div>
-      ${r.status === 'pending' && cloudIsReviewer() ? `<div class="er-btns">
+      ${r.status === 'pending' && cloudActingReviewer() ? `<div class="er-btns">
           <button class="rn-nav-btn primary" onclick="erDecide('${r.id}','approved')">Approve</button>
           <button class="rn-nav-btn" onclick="erDecide('${r.id}','declined')">Decline</button></div>` : ''}
     </div>`).join('');
@@ -12453,14 +13259,15 @@ function qzTimeOpts() {
   return `<div class="qz-time" id="qzTimeOpts"><div class="qz-time-h">Question time</div><div class="qz-seg">${Object.keys(QZ_TIMES).map(k =>
     `<button class="${k === qzTimeMode ? 'on' : ''}" onclick="qzSetTime('${k}')"><b>${QZ_TIMES[k].label}</b><span>${QZ_TIMES[k].sub}</span></button>`).join('')}</div></div>`;
 }
-// Sound files — upload these to the top level of the repo. Any missing file is simply skipped.
+// Sound files — hosted centrally at s3g.digitaltrainingcentre.app, shared across every customer's build.
+const QZ_SOUND_BASE = 'https://s3g.digitaltrainingcentre.app/';
 const QZ_SOUNDS = {
-  lobby:    'quiz-lobby.mp3',     // looping music in the lobby and between questions
-  question: 'quiz-question.mp3',  // looping, more intense music while a question is open
-  join:     'quiz-join.mp3',      // pop when a learner joins
-  tick:     'quiz-tick.mp3',      // each of the last 5 seconds
-  reveal:   'quiz-reveal.mp3',    // answer revealed
-  winner:   'quiz-winner.mp3'     // podium fanfare
+  lobby:    QZ_SOUND_BASE + 'quiz-lobby.mp3',     // looping music in the lobby and between questions
+  question: QZ_SOUND_BASE + 'quiz-question.mp3',  // looping, more intense music while a question is open
+  join:     QZ_SOUND_BASE + 'quiz-join.mp3',      // pop when a learner joins
+  tick:     QZ_SOUND_BASE + 'quiz-tick.mp3',      // each of the last 5 seconds
+  reveal:   QZ_SOUND_BASE + 'quiz-reveal.mp3',    // answer revealed
+  winner:   QZ_SOUND_BASE + 'quiz-winner.mp3'     // podium fanfare
 };
 let qz = { mode:'', quiz:null, qs:[], i:-1, phase:'pick', code:'', live:false, answers:[], players:{}, scores:{}, streak:{}, last:{}, timer:null, poll:null, t0:0, shown:{} };
 
