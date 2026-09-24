@@ -1594,6 +1594,21 @@ function fmtD(v) {
   .au-link { background:#F6F3EC; border:1px solid #E7E3DA; border-radius:16px; padding:16px; margin:12px 0 20px; }
   .au-link code { display:block; font-size:0.72rem; word-break:break-all; background:#fff; border:1px solid #E7E3DA; border-radius:10px; padding:10px; margin:10px 0; color:#3A4760; }
   @media (max-width:760px) { .au-row { grid-template-columns:1fr; } }
+  .pf-req { color:#C74444; }
+  .mp-month { background:#fff; border:1px solid #E7E3DA; border-radius:20px; padding:18px 20px; margin-bottom:16px; }
+  .mp-head { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; }
+  .mp-head h3 { margin:0; font-family:'Fraunces',Georgia,serif; font-size:1.4rem; color:#16203D; }
+  .mp-total { font-family:'Fraunces',Georgia,serif; font-size:1.6rem; font-weight:600; color:#16203D; text-align:right; }
+  .mp-total span { display:block; font-family:'Public Sans',sans-serif; font-size:0.75rem; color:#5E6577; font-weight:500; }
+  .mp-chip { display:inline-block; font-size:0.7rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; border-radius:999px; padding:4px 10px; margin-top:6px; }
+  .mp-chip.acc { background:#E3E9FB; color:#2446B8; } .mp-chip.sub { background:#FFF1D6; color:#8A5200; } .mp-chip.paid { background:#DDF1E8; color:#0F6E56; } .mp-chip.open { background:#EEF1F5; color:#5E6577; }
+  .mp-table { width:100%; border-collapse:collapse; margin:12px 0 6px; font-size:0.88rem; }
+  .mp-table th { text-align:left; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.06em; color:#6B7A94; padding:6px 8px; border-bottom:1px solid #EEF1F5; }
+  .mp-table td { padding:8px; border-bottom:1px solid #F2F4F8; color:#0D1B4C; }
+  .mp-table td.r, .mp-table th.r { text-align:right; }
+  .mp-st { font-size:0.72rem; font-weight:700; border-radius:999px; padding:3px 8px; } .mp-st.w { background:#DDF1E8; color:#0F6E56; } .mp-st.s { background:#E3E9FB; color:#2446B8; } .mp-st.p { background:#0F6E56; color:#fff; }
+  .mp-sums { display:flex; gap:18px; flex-wrap:wrap; font-size:0.85rem; color:#5E6577; margin-bottom:6px; } .mp-sums b { color:#16203D; }
+  .mp-note { font-size:0.82rem; color:#5E6577; margin-top:8px; }
   .pf-card { display:flex; gap:20px; align-items:center; flex-wrap:wrap; background:#16203D; color:#fff; border-radius:24px; padding:26px; margin:14px 0 22px; }
   .pf-av { width:78px; height:78px; border-radius:50%; background:#E4572E; color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Fraunces',Georgia,serif; font-size:2rem; font-weight:600; flex-shrink:0; }
   .pf-name { font-family:'Fraunces',Georgia,serif; font-size:1.8rem; font-weight:600; line-height:1.15; }
@@ -1741,11 +1756,16 @@ window.addEventListener('load', function () {
     </button>
     </div>
 
-    <div class="hub-group grp-instr" id="hubInstrGroup">Instructor Panel</div>
+    <div class="hub-group grp-instr" id="hubInstrGroup">My Account</div>
     <div class="hub-tiles grp-instr">
     <button class="hub-tile" id="hubMyJobsTile" style="--accent:#8A5A00;--soft:#FFF0C9;display:none;" onclick="jbOpenMine()">
       <span class="hub-ic"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/><path d="M8 14h3M8 17.5h6"/></svg></span>
       <span class="hub-text"><span class="hub-title">My Schedule</span><span class="hub-sub" id="hubMyJobsSub">Your jobs and courses by month</span></span>
+      <span class="hub-chev">&rsaquo;</span>
+    </button>
+    <button class="hub-tile" id="hubPayTile" style="--accent:#1F8A5B;--soft:#DDEFE6;display:none;" onclick="mpOpen()">
+      <span class="hub-ic"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6" width="19" height="13" rx="2"/><path d="M2.5 10h19M6.5 15h4"/></svg></span>
+      <span class="hub-text"><span class="hub-title">My Pay</span><span class="hub-sub">Monthly totals, timesheets and invoices</span></span>
       <span class="hub-chev">&rsaquo;</span>
     </button>
     <button class="hub-tile" style="--accent:#1F8A5B;--soft:#E6F5EE;" onclick="showView('cpd');cpdOpen();">
@@ -2100,6 +2120,9 @@ window.addEventListener('load', function () {
 </div>
 <div class="app-view" id="view-jobs">
   <div class="rn-wrap adm-wrap" id="jbAdminRoot"></div>
+</div>
+<div class="app-view" id="view-mypay">
+  <div class="rn-wrap adm-wrap" id="mpRoot"></div>
 </div>
 <div class="app-view" id="view-profile">
   <div class="rn-wrap adm-wrap" id="pfRoot"></div>
@@ -3400,8 +3423,9 @@ const MENU_ITEMS = [
     { label:'Run a Scenario', sub:'Deliver and assess in one flow', go:"showView('run');rnRenderPick()" },
     { label:'Soundboard', sub:'Live scene sound mixer', go:"showView('sounds')" },
     { label:'Knowledge Centre', sub:'QR pop quizzes', go:"showView('knowledge')" } ] },
-  { g:'Instructor Panel', iqaHide:true, items:[
+  { g:'My Account', iqaHide:true, items:[
     { label:'My Schedule', sub:'Your jobs by month', go:"jbOpenMine()" },
+    { label:'My Pay', sub:'Monthly totals, timesheets and invoices', go:"mpOpen()" },
     { label:'My CPD', sub:'Your teaching and learning record', go:"showView('cpd');cpdOpen()" },
     { label:'My Profile', sub:'Your details, payment details and password', go:"pfOpen()" } ] },
   { g:'My Account', iqaOnly:true, items:[
@@ -8620,7 +8644,7 @@ function lpmOnTeam(c) {
 function lpmReadOnlyNow() {
   if (typeof CLOUD_ON === 'undefined' || !CLOUD_ON) return false;
   if (typeof cloudActingReviewer === 'function' && cloudActingReviewer()) return false;   // IQA, and admin while in the Admin panel, can edit anything
-  if (typeof lpmLocked === 'function' && lpmLocked(lpmCourse)) {
+  if (typeof lpmLockReason === 'function' && lpmLockReason(lpmCourse)) {
     const v0 = document.getElementById('view-lpm');
     if (v0 && v0.classList.contains('active')) return true;
   }
@@ -8628,6 +8652,13 @@ function lpmReadOnlyNow() {
   if (lpmCourse.owner === cloudMe() || lpmOnTeam(lpmCourse)) return false;
   const v = document.getElementById('view-lpm');
   return !!(v && v.classList.contains('active'));
+}
+// Saves sign-off changes (complete, edit, submit) even though they lock the course
+function lpmPersistForce() {
+  const list = lpmLoadCourses();
+  const idx = list.findIndex(c => c.id === lpmCourse.id);
+  if (idx >= 0) list[idx] = lpmCourse; else list.push(lpmCourse);
+  lpmSaveCoursesRaw(list); if (typeof cloudQueue === 'function') cloudQueue();
 }
 function lpmPersist() {
   const list = lpmLoadCourses();
@@ -8800,11 +8831,14 @@ function lpmOpenCourse(id) {
   lpmCourse = found;
   lpmCurrentId = id;
   const reviewer = typeof cloudActingReviewer === 'function' && cloudActingReviewer();
-  const locked = !reviewer && typeof lpmLocked === 'function' && lpmLocked(found);
+  const lockWhy = reviewer ? '' : lpmLockReason(found);
+  const locked = !!lockWhy;
   const ro = !reviewer && (locked || (CLOUD_ON && found.owner && found.owner !== cloudMe() && !lpmOnTeam(found)));
   document.getElementById('view-lpm').classList.toggle('lpm-ro', !!ro);
   const rob = document.getElementById('lpmRoBanner');
-  if (rob) rob.innerHTML = locked ? `<div class="sc-note" style="margin:8px 0 0;border-left-color:#0F6E56;">🔒 Accepted by the IQA — this course is locked. Use <b>Request to edit</b> on the Course pack tab if something needs changing.</div>`
+  if (rob) rob.innerHTML = lockWhy === 'completed' ? `<div class="sc-note" style="margin:8px 0 0;border-left-color:#2446B8;">🔒 Course completed — it's locked. To change anything, open the <b>Course pack</b> tab and tap <b>Edit course</b>.</div>`
+    : lockWhy === 'submitted' ? `<div class="sc-note" style="margin:8px 0 0;border-left-color:#8A5200;">🔒 Submitted for IQA review — the course is locked until an admin or IQA reviews it or reopens it.</div>`
+    : locked ? `<div class="sc-note" style="margin:8px 0 0;border-left-color:#0F6E56;">🔒 Accepted by the IQA — this course is locked. Use <b>Request to edit</b> on the Course pack tab if something needs changing.</div>`
     : ro ? `<div class="sc-note" style="margin:8px 0 0;">Read-only — ${lpmEsc(found.ownerName || 'another instructor')}'s course. You can view everything, build the course pack and record the IQA review, but not change the course.</div>` : '';
   if (CLOUD_ON && typeof cloudPullFiles === 'function') cloudPullFiles(id).then(n => { if (n && lpmCourse && lpmCourse.id === id) { try { lpmShowStep(LPM_STEPS[lpmStepIdx]); } catch (e) {} } });
   if (LPM_COURSE_LENGTH_DAYS[lpmCourse.courseName] && lpmCourse.startDate) {
@@ -11113,8 +11147,6 @@ async function lpmBuildPack(action) {
     const url = URL.createObjectURL(blob);
     const a = document.getElementById('lpmPackLink');
     a.href = url; a.download = fname; a.style.display = 'inline-flex';
-    const sendBtn = document.getElementById('lpmPackSubmit');
-    if (sendBtn) sendBtn.style.display = 'inline-flex';
     const buildBtn = document.getElementById('lpmPackBuild');
     if (buildBtn) buildBtn.textContent = 'Rebuild course pack';
     say('Course pack complete — ' + pages.length + ' pages. Open it to check, then submit it.');
@@ -11141,19 +11173,21 @@ async function lpmRenderPack() {
     rows.push(`<tr><td>Practical assessment record (from the practical matrix)</td><td>${named}</td></tr>`);
   }
   rows.push(`<tr><td>Learner feedback forms</td><td>${(lpmCourse.feedback || []).length + c('feedback')}</td></tr>`);
-  el.innerHTML = `<div class="sc-note">One PDF containing everything an IQA or Qualsafe needs. Tap <b>Complete course</b> to build it, check it, then <b>Submit course pack</b> to send it to the IQA team for review.</div>
+  el.innerHTML = `<div class="sc-note">One PDF containing everything an IQA or Qualsafe needs. Tap <b>Complete course</b> when you've finished — the course locks and the pack is built. Check it with <b>Open course pack</b>, then <b>Submit course</b> to send it to the IQA team. Need to change something first? Tap <b>Edit course</b>.</div>
     <table class="sc-table"><tr><th>Included</th><th>Pages</th></tr>
       ${rows.join('')}
     </table>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;" class="rn-no-print">
-      ${lpmLocked(lpmCourse)
-        ? (erLatest(lpmCourse.id) && erLatest(lpmCourse.id).status === 'pending'
+      ${(() => { const st = lpmPackState(lpmCourse);
+        if (st === 'accepted') return (erLatest(lpmCourse.id) && erLatest(lpmCourse.id).status === 'pending'
             ? `<span class="er-waiting">Edit request sent — waiting for the IQA</span>`
-            : `<button class="rn-nav-btn primary" onclick="erRequest('${lpmCourse.id}')">Request to edit</button>`)
-        : (lpmCourse.submission && !lpmCourse.editing) ? `<button class="rn-nav-btn primary" onclick="lpmEditCourse()">Edit course</button>`
-        : `<button class="rn-nav-btn primary" id="lpmPackBuild" onclick="lpmBuildPack('save')">Complete course</button>`}
+            : `<button class="rn-nav-btn primary" onclick="erRequest('${lpmCourse.id}')">Request to edit</button>`) + `<button class="rn-nav-btn" onclick="lpmOpenPack(this)">Open course pack</button>`;
+        if (st === 'submitted') return `<span class="er-waiting">🔒 Submitted — locked until reviewed</span><button class="rn-nav-btn" onclick="lpmOpenPack(this)">Open course pack</button>`;
+        if (st === 'completed') return `<button class="rn-nav-btn" onclick="lpmEditCourse()">Edit course</button><button class="rn-nav-btn" onclick="lpmOpenPack(this)">Open course pack</button><button class="rn-nav-btn primary" id="lpmPackSubmit" onclick="lpmSubmitPack()">Submit course</button>`;
+        if (st === 'reviewer') return `<button class="rn-nav-btn primary" id="lpmPackBuild" onclick="lpmBuildPack('save')">Build course pack</button>${lpmCourse.submission ? `<button class="rn-nav-btn" onclick="lpmShowStep('iqa')">IQA review / reopen</button>` : ''}`;
+        return `<button class="rn-nav-btn primary" id="lpmPackBuild" onclick="lpmCompleteCourse()">Complete course</button>`;
+      })()}
       <a id="lpmPackLink" class="rn-nav-btn" style="display:none;text-decoration:none;" target="_blank">Open course pack</a>
-      <button class="rn-nav-btn" id="lpmPackSubmit" style="display:none;" onclick="lpmSubmitPack()">Submit course pack</button>
     </div>
     <p id="lpmPackMsg" style="font-size:0.85rem;margin-top:10px;min-height:20px;"></p>`
     + lpmSubmissionHTML(lpmCourse) + erPanel(lpmCourse.id) + lpmHistoryHTML(lpmCourse);
@@ -12389,15 +12423,47 @@ function lpmHistoryHTML(c) {
         ${e.note ? `<span class="lpm-log-note">${lpmEsc(e.note)}</span>` : ''}</span>
       </li>`).join('')}</ol>`;
 }
+function lpmReapplyLock(step) {
+  lpmOpenCourse(lpmCourse.id);
+  try { lpmShowStep(step || 'pack'); } catch (e) {}
+}
+async function lpmCompleteCourse() {
+  if (!confirm('Complete this course?\n\nThe course will be locked and the course pack built. You can still tap Edit course if something needs changing before you submit.')) return;
+  await lpmBuildPack('save');
+  if (!lpmPackFile) return;                          // build failed — stay open
+  const file = lpmPackFile;
+  lpmCourse.completed = { at: new Date().toISOString(), by: (typeof cloud !== 'undefined' && cloud.profile && cloud.profile.full_name) || '' };
+  delete lpmCourse.editing;
+  try { lpmLogEvent(lpmCourse, 'Course completed', file.pages + ' page pack'); } catch (e) {}
+  lpmPersistForce();
+  lpmReapplyLock('pack');
+  lpmPackFile = file;
+  setTimeout(() => { const m = document.getElementById('lpmPackMsg'); if (m) { m.style.color = '#0F6E56'; m.textContent = 'Course completed and locked. Open the course pack to check it, then submit.'; } }, 400);
+}
 function lpmEditCourse() {
   lpmCourse.editing = true;
-  lpmPersist();
-  lpmShowStep('details');
+  delete lpmCourse.completed;
+  try { lpmLogEvent(lpmCourse, 'Reopened for editing', ''); } catch (e) {}
+  lpmPersistForce();
+  lpmReapplyLock('details');
+}
+// Opens the pack, building it first if this visit hasn't built one yet
+async function lpmOpenPack(btn) {
+  if (!lpmPackFile) {
+    const old = btn.textContent; btn.textContent = 'Preparing…'; btn.disabled = true;
+    await lpmBuildPack('save');
+    btn.disabled = false;
+    if (!lpmPackFile) { btn.textContent = old; return; }
+    btn.textContent = 'Tap to open course pack';
+    btn.onclick = () => window.open(URL.createObjectURL(lpmPackFile.blob), '_blank');
+    return;
+  }
+  window.open(URL.createObjectURL(lpmPackFile.blob), '_blank');
 }
 async function lpmSubmitPack() {
   const msg = document.getElementById('lpmPackMsg');
   const say = (t, err) => { msg.style.color = err ? '#C74444' : '#0F6E56'; msg.textContent = t; };
-  if (!lpmPackFile) { say('Tap "Complete course" first to build the pack.', true); return; }
+  if (!lpmPackFile) { say('Preparing the course pack…'); await lpmBuildPack('save'); if (!lpmPackFile) return; }
   const sub = lpmCourse.submission;
   if (sub && !confirm('This course was already submitted on ' + fmtD(sub.at) + '. Submit the updated pack in its place?')) return;
   if (!CLOUD_ON || !cloud.session) { say('Sign in to submit course packs for IQA review.', true); return; }
@@ -12411,13 +12477,13 @@ async function lpmSubmitPack() {
     lpmCourse.submission = { at: new Date().toISOString(), by: (cloud.profile && cloud.profile.full_name) || '', pages: lpmPackFile.pages, path };
     delete lpmCourse.editing;
     lpmLogEvent(lpmCourse, again ? 'Resubmitted for IQA review' : 'Submitted for IQA review', lpmPackFile.pages + ' pages');
-    lpmPersist();
+    lpmPersistForce();
     await cloudPush();
-    lpmRenderPack();
+    lpmReapplyLock('pack');
     setTimeout(() => { const m2 = document.getElementById('lpmPackMsg'); if (m2) { m2.style.color = '#0F6E56'; m2.textContent = 'Submitted — the course pack is now with the IQA team for review.'; } }, 50);
   } catch (e) {
     say('Could not submit: ' + (e.message || e) + '. Check the connection and try again.', true);
-    if (btn) { btn.disabled = false; btn.textContent = 'Submit course pack'; }
+    if (btn) { btn.disabled = false; btn.textContent = 'Submit course'; }
   }
 }
 function lpmSubmissionHTML(c) {
@@ -12751,7 +12817,19 @@ async function rgPullResponses() {
       rgList().push({ id, name: r.name || '', position: r.position || '', organisation: r.organisation || '', signature: r.signature || '', signedAt: r.created_at });
       added++;
     });
-    if (added && (!lpmCourse.owner || lpmCourse.owner === cloudMe())) lpmPersist();
+    // anyone who signs the register goes straight onto the learner list
+    let learnersAdded = 0;
+    if (added) {
+      const existing = new Set((lpmCourse.learners || []).map(l => (l.name || '').trim().toLowerCase()));
+      rgList().forEach(r => {
+        const key = (r.name || '').trim().toLowerCase();
+        if (!key || existing.has(key)) return;
+        (lpmCourse.learners = lpmCourse.learners || []).push({ id: 'L' + Date.now() + Math.random().toString(36).slice(2, 6), name: r.name.trim() });
+        existing.add(key); learnersAdded++;
+      });
+    }
+    if (added && (!lpmCourse.owner || lpmCourse.owner === cloudMe() || lpmOnTeam(lpmCourse))) lpmPersist();
+    if (learnersAdded && !document.getElementById('rgFull')) { try { lpmRenderLearners(); } catch (e) {} }
     return added;
   } catch (e) { return 0; }
 }
@@ -12866,6 +12944,7 @@ function jbRenderHub() {
   const t = document.getElementById('hubMyJobsTile'), a = document.getElementById('hubJobsTile');
   if (t) t.style.display = jbSignedIn() ? '' : 'none';
   const pt = document.getElementById('hubProfileTile'); if (pt) pt.style.display = jbSignedIn() ? '' : 'none';
+  const pyt = document.getElementById('hubPayTile'); if (pyt) pyt.style.display = jbSignedIn() ? '' : 'none';
   if (a) a.style.display = jbIsAdmin() ? '' : 'none';
   if (!jb.loaded) return;
   const me = cloudMe(), ym = isoLocal().slice(0, 7);
@@ -12934,7 +13013,7 @@ function jbRenderAdmin() {
   if (jb.msg) html += `<p class="jb-msg" style="color:#0F6E56;">${lpmEsc(jb.msg)}</p>`;
   html += jb.tab === 'schedule' ? jbAdminSchedule() : jbAdminTimesheets();
   root.innerHTML = html;
-  if (jb.tab === 'timesheets') jbLoadPayFor(jb.tsInstr);
+  if (jb.tab === 'timesheets') { jbLoadPayFor(jb.tsInstr); mpAdminInvoice(jb.tsInstr, jb.month); }
 }
 
 function jbAdminSchedule() {
@@ -13162,6 +13241,7 @@ function jbAdminTimesheets() {
     ${rows.map(j => `<tr><td>${jbDates(j)}</td><td>${lpmEsc(j.title)}</td><td>${lpmEsc(j.location || '')}</td><td>${j.days}</td><td>${jbMoney(j.day_rate)}</td><td>${jbMoney(jbTotal(j))}</td>
       <td><button class="jb-btn ${j.paid ? 'go' : ''}" onclick="jbTogglePaid('${j.id}', ${!j.paid})">${j.paid ? 'Paid ' + (j.paid_at ? fmtShort(j.paid_at) : '') : 'Mark paid'}</button></td></tr>`).join('')}
     </tbody><tfoot><tr><td colspan="5">Total for ${jbMonthLabel(jb.month)}</td><td>${jbMoney(total)}</td><td>${paid >= total ? 'All paid' : jbMoney(total - paid) + ' outstanding'}</td></tr></tfoot></table></div>
+    <div id="jbInvBox" class="jb-card" style="margin-top:14px;"><div class="jb-meta">Checking for a timesheet sign-off and invoice…</div></div>
     <div id="jbPayBox" class="jb-card" style="margin-top:14px;"><div class="jb-meta">Loading payment details…</div></div>
     <div class="jb-actions"><button class="jb-btn pri" onclick="jbTimesheetPdf()">Download timesheet PDF</button>${paid < total ? `<button class="jb-btn go" onclick="jbMarkAllPaid()">Mark all paid</button>` : ''}</div>`;
   return html;
@@ -13253,7 +13333,7 @@ function jbRenderMine() {
   const offered = mine.filter(j => j.status === 'offered');
   const month = mine.filter(j => jbInMonth(j, jb.month) && j.status !== 'offered');
   let html = `<button class="rn-nav-btn rn-no-print" onclick="showView('hub')">← Home</button>
-    <div class="hub-eyebrow" style="margin-top:14px;">Instructor Panel</div>
+    <div class="hub-eyebrow" style="margin-top:14px;">My Account</div>
     <div class="hub-h" style="margin-bottom:4px;">My Schedule</div>
     <p class="sc-p">Jobs your centre has offered you. Confirmed courses appear on your Course Matrix automatically, ready to run and submit.</p>`;
   if (!jbSignedIn()) { root.innerHTML = html + '<p class="jb-empty">Sign in to see your schedule.</p>'; return; }
@@ -13265,8 +13345,7 @@ function jbRenderMine() {
   html += jbCalendar(mine.filter(j => jbInMonth(j, jb.month)), 'jbMineFocus', j => (j.start_time ? j.start_time + ' ' : '') + j.title);
   html += `<div class="sc-h2">${jbMonthLabel(jb.month)}</div>`;
   html += month.length ? month.map(jbMineCard).join('') : '<p class="jb-empty">No confirmed jobs this month.</p>';
-  html += `<div class="sc-h2">My payment details</div>
-    <p class="sc-p">Your bank details for timesheets are now kept in <a href="#" onclick="pfOpen();return false;">My Profile</a>.</p>`;
+  html += `<p class="sc-p" style="margin-top:22px;">Totals, timesheets and invoices are in <a href="#" onclick="mpOpen();return false;">My Pay</a>.</p>`;
   root.innerHTML = html;
 }
 function jbMineCard(j) {
@@ -13446,6 +13525,24 @@ function erLatest(courseId) { return erFor(courseId)[0] || null; }
 function erPendingCount() { return erAll().filter(r => r.status === 'pending').length; }
 
 // A course accepted by the IQA is locked, unless an edit request has been approved since
+// Where a course is in its sign-off: open → completed (locked) → submitted (locked) → returned by IQA (open) / accepted (locked)
+function lpmPackState(c) {
+  if (!c || c.isExample) return 'open';
+  if (typeof cloudActingReviewer === 'function' && cloudActingReviewer()) return 'reviewer';
+  if (lpmLocked(c)) return 'accepted';
+  if (c.submission) {
+    const subAt = c.submission.at || '';
+    const r = iqaFor(c.id), req = erLatest(c.id);
+    const times = [];
+    if (r && r.outcome !== 'Accepted') { const t = r.updated_at || r.created_at || r.review_date || ''; if (t && t >= subAt.slice(0, t.length)) times.push(t); }
+    if (req && req.status === 'approved' && (req.decided_at || '') > subAt) times.push(req.decided_at);
+    if (!times.length) return 'submitted';
+    const unlockAt = times.sort().pop();
+    return (c.completed && c.completed.at > unlockAt && !c.editing) ? 'completed' : 'open';
+  }
+  return (c.completed && !c.editing) ? 'completed' : 'open';
+}
+function lpmLockReason(c) { const st = lpmPackState(c); return ['accepted', 'submitted', 'completed'].includes(st) ? st : ''; }
 function lpmLocked(c) {
   if (!c || c.isExample) return false;
   const r = iqaFor(c.id);
@@ -14174,7 +14271,7 @@ async function qzEnd(skipAsk) {
 // ===== Studio dashboard: left icon rail and "Today" panel =====
 const S3_LOGO = "data:image/jpeg;base64,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";
 const ST_HOME_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9h-6v-6H9v6H3z"/></svg>';
-function stViewOf(onclick) { const m = /showView\('([a-z]+)'\)/.exec(onclick || ''); return m ? m[1] : (/jbOpenMine/.test(onclick) ? 'myjobs' : /jbOpenAdmin/.test(onclick) ? 'jobs' : /pfOpen/.test(onclick) ? 'profile' : ''); }
+function stViewOf(onclick) { const m = /showView\('([a-z]+)'\)/.exec(onclick || ''); return m ? m[1] : (/jbOpenMine/.test(onclick) ? 'myjobs' : /jbOpenAdmin/.test(onclick) ? 'jobs' : /pfOpen/.test(onclick) ? 'profile' : /mpOpen/.test(onclick) ? 'mypay' : ''); }
 function stBuildRail() {
   if (document.getElementById('stRail')) return;
   const nav = document.createElement('nav'); nav.id = 'stRail'; nav.className = 'st-rail'; nav.setAttribute('aria-label', 'Main');
@@ -14266,7 +14363,7 @@ async function pfOpen() {
 function pfRender() {
   const root = document.getElementById('pfRoot'); if (!root) return;
   let html = `<button class="rn-nav-btn rn-no-print" onclick="showView('hub')">← Home</button>
-    <div class="hub-eyebrow" style="margin-top:14px;">${(cloud.profile || {}).role === 'iqa' ? 'My Account' : 'Instructor Panel'}</div>
+    <div class="hub-eyebrow" style="margin-top:14px;">My Account</div>
     <div class="hub-h" style="margin-bottom:4px;">My Profile</div>`;
   if (!jbSignedIn()) { root.innerHTML = html + '<p class="jb-empty">Sign in to see your profile.</p>'; return; }
   const P = cloud.profile || {}, email = (cloud.session.user && cloud.session.user.email) || '';
@@ -14298,13 +14395,14 @@ function pfRender() {
         <input type="file" id="pfCvIn" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style="display:none" onchange="pfCvUpload(this)">
         <span id="pfCvMsg" class="jb-msg"></span></div></div>
 
-    ${P.role === 'iqa' ? '' : `<div class="pf-sec"><h3>Payment details</h3><p class="sc-p" style="margin:0;">Used on your timesheets. Only you and your centre admin can see these.</p>
+    ${P.role === 'iqa' ? '' : `<div class="pf-sec"><h3>Payment details</h3><p class="sc-p" style="margin:0;">Used on your timesheets and invoices. Only you and your centre admin can see these. <span style="color:#C74444;">*</span> = required</p>
       <div class="jb-form">
-        <label>Account name<input id="pfAccName" value="${v('accountName')}"></label>
-        <label>Bank<input id="pfBank" value="${v('bank')}"></label>
-        <label>Sort code<input id="pfSort" value="${v('sortCode')}" placeholder="00-00-00"></label>
-        <label>Account number<input id="pfAcc" value="${v('accountNumber')}" inputmode="numeric"></label>
-        <label class="wide">Reference / UTR (optional)<input id="pfRef" value="${v('reference')}"></label>
+        <label>Account name <span class="pf-req">*</span><input id="pfAccName" value="${v('accountName')}" autocomplete="cc-name"></label>
+        <label>Bank <span class="pf-req">*</span><input id="pfBank" value="${v('bank')}"></label>
+        <label>Sort code <span class="pf-req">*</span><input id="pfSort" value="${v('sortCode')}" placeholder="00-00-00" inputmode="numeric"></label>
+        <label>Account number <span class="pf-req">*</span><input id="pfAcc" value="${v('accountNumber')}" inputmode="numeric" maxlength="8"></label>
+        <label class="wide">Home address <span class="pf-req">*</span><textarea id="pfAddr" rows="3" autocomplete="street-address" placeholder="House number and street&#10;Town&#10;Postcode">${v('address')}</textarea></label>
+        <label>UTR (optional)<input id="pfRef" value="${v('reference')}" inputmode="numeric" placeholder="10-digit tax reference"></label>
       </div></div>`}
 
     <div class="jb-actions" style="margin:-4px 0 26px;"><button class="jb-btn pri" ${loading ? 'disabled' : ''} onclick="pfSave()">${loading ? 'Loading…' : 'Save my profile'}</button><span id="pfMsg" class="jb-msg"></span></div>
@@ -14324,7 +14422,13 @@ async function pfSave() {
   const msg = document.getElementById('pfMsg'); msg.style.color = '#6B7A94'; msg.textContent = 'Saving…';
   const has = id => !!document.getElementById(id);
   const data = Object.assign({}, pf.extra || {}, { phone: g('pfPhone') },
-    has('pfAccName') ? { accountName: g('pfAccName'), bank: g('pfBank'), sortCode: g('pfSort'), accountNumber: g('pfAcc'), reference: g('pfRef') } : {});
+    has('pfAccName') ? { accountName: g('pfAccName'), bank: g('pfBank'), sortCode: g('pfSort'), accountNumber: g('pfAcc'), address: g('pfAddr'), reference: g('pfRef') } : {});
+  if (has('pfAccName')) {
+    const missing = [['accountName', 'account name'], ['bank', 'bank'], ['sortCode', 'sort code'], ['accountNumber', 'account number'], ['address', 'home address']].filter(([k]) => !data[k]).map(([, n]) => n);
+    if (missing.length) { msg.style.color = '#C74444'; msg.textContent = 'Please add your ' + missing.join(', ') + '.'; return; }
+    if (!/^\d{2}-?\d{2}-?\d{2}$/.test(data.sortCode.replace(/\s/g, ''))) { msg.style.color = '#C74444'; msg.textContent = 'Sort code should be 6 digits, like 12-34-56.'; return; }
+    if (!/^\d{8}$/.test(data.accountNumber.replace(/\s/g, ''))) { msg.style.color = '#C74444'; msg.textContent = 'Account number should be 8 digits.'; return; }
+  }
   const newName = g('pfName'); let nameNote = '';
   try {
     await cloudRest('pay_details?on_conflict=owner', 'POST', [{ owner: cloudMe(), data, updated_at: new Date().toISOString() }], 'resolution=merge-duplicates,return=minimal');
@@ -14591,6 +14695,165 @@ async function admDeleteCourse(id) {
   }
   lpmSaveCourses(lpmLoadCourses().filter(x => x.id !== id));
   admRenderCourses();
+}
+</script>
+
+<script>
+// ===== My Pay: monthly totals, timesheet sign-off and invoices =====
+let mp = { inv:{}, loaded:false, err:'' };
+async function mpOpen() {
+  showView('mypay'); mpRender();
+  if (!jbSignedIn()) return;
+  if (pf.extra === null) { try { const r = await cloudRest('pay_details?select=data&owner=eq.' + cloudMe()) || []; pf.extra = r[0] ? (r[0].data || {}) : {}; } catch (e) { pf.extra = {}; } }
+  try { await jbLoad(); } catch (e) {}
+  await mpLoad(); mpRender();
+}
+async function mpLoad() {
+  try {
+    const rows = await cloudRest('pay_invoices?select=*&owner=eq.' + cloudMe()) || [];
+    mp.inv = {}; rows.forEach(r => mp.inv[r.month] = r); mp.loaded = true; mp.err = '';
+  } catch (e) { mp.err = /pay_invoices|PGRST20|42P01/.test(String(e.message)) ? 'Timesheet sign-off needs one more set-up step: run supabase_pay.sql in Supabase.' : String(e.message || e); }
+}
+function mpJobs() { return (jb.jobs || []).filter(j => j.instructor === cloudMe() && j.status === 'confirmed'); }
+function mpMonths() {
+  const by = {};
+  mpJobs().forEach(j => { const m = (j.job_date || '').slice(0, 7); (by[m] = by[m] || []).push(j); });
+  return Object.keys(by).sort().reverse().map(m => ({ m, rows: by[m].sort((a, b) => a.job_date < b.job_date ? -1 : 1) }));
+}
+function mpPayDetailsOk() { const x = pf.extra || {}; return !!(x.accountName && x.bank && x.sortCode && x.accountNumber && x.address); }
+function mpRender() {
+  const root = document.getElementById('mpRoot'); if (!root) return;
+  let html = `<button class="rn-nav-btn rn-no-print" onclick="showView('hub')">← Home</button>
+    <div class="hub-eyebrow" style="margin-top:14px;">My Account</div>
+    <div class="hub-h" style="margin-bottom:4px;">My Pay</div>
+    <p class="sc-p">Your confirmed work month by month. When a month is finished, accept the timesheet, then turn it into an invoice or upload your own.</p>`;
+  if (!jbSignedIn()) { root.innerHTML = html + '<p class="jb-empty">Sign in to see your pay.</p>'; return; }
+  const x = pf.extra || {};
+  html += `<div class="pf-sec"><h3>My payment details</h3>${pf.extra === null ? '<p class="jb-empty">Loading…</p>' : mpPayDetailsOk()
+      ? `<div class="jb-meta">${lpmEsc(x.accountName)} · ${lpmEsc(x.bank)} · ${lpmEsc(x.sortCode)} · ••••${lpmEsc(String(x.accountNumber).slice(-4))}${x.reference ? ' · UTR ' + lpmEsc(x.reference) : ''}<br>${lpmEsc(x.address).replace(/\n/g, ', ')}</div>`
+      : `<p class="sc-p" style="margin:6px 0 0;color:#8A5200;">Your bank details and home address are needed before you can invoice.</p>`}
+      <div class="jb-actions"><button class="jb-btn" onclick="pfOpen()">${mpPayDetailsOk() ? 'Edit in My Profile' : 'Add them in My Profile'}</button></div></div>`;
+  if (mp.err) html += `<p class="jb-msg" style="color:#C74444;">${lpmEsc(mp.err)}</p>`;
+  if (jb.err) html += `<p class="jb-msg" style="color:#C74444;">${lpmEsc(jb.err)}</p>`;
+  const months = mpMonths(), today = isoLocal();
+  if (!jb.loaded) html += '<p class="jb-empty">Loading your work…</p>';
+  else if (!months.length) html += '<p class="jb-empty">No confirmed work yet. Jobs you confirm in My Schedule will appear here.</p>';
+  months.forEach(({ m, rows }) => {
+    const inv = mp.inv[m];
+    const worked = rows.filter(j => jbEnd(j) < today), sched = rows.filter(j => jbEnd(j) >= today);
+    const sum = l => l.reduce((t, j) => t + jbTotal(j), 0);
+    const allPaid = rows.every(j => j.paid);
+    const ended = !sched.length;
+    const chip = allPaid ? '<span class="mp-chip paid">Paid</span>' : inv && inv.status === 'submitted' ? `<span class="mp-chip sub">Invoice ${lpmEsc(inv.invoice_no || '')} submitted</span>`
+      : inv && inv.status === 'accepted' ? '<span class="mp-chip acc">Timesheet accepted</span>' : ended ? '<span class="mp-chip open">Ready to accept</span>' : '<span class="mp-chip open">In progress</span>';
+    html += `<div class="mp-month"><div class="mp-head"><div><h3>${jbMonthLabel(m)}</h3>${chip}</div><div class="mp-total">${jbMoney(sum(rows))}<span>month total</span></div></div>
+      <div style="overflow-x:auto;"><table class="mp-table"><tr><th>Date</th><th>Course</th><th>Location</th><th class="r">Days</th><th class="r">Rate</th><th class="r">Total</th><th></th></tr>
+      ${rows.map(j => { const st = j.paid ? ['p', 'Paid'] : jbEnd(j) < today ? ['w', 'Worked'] : ['s', 'Scheduled'];
+        return `<tr><td>${j.days > 1 ? jbDates(j) : jbDayLabel(j.job_date)}</td><td>${lpmEsc(j.title)}</td><td>${lpmEsc(j.location || '')}</td><td class="r">${j.days}</td><td class="r">${jbMoney(j.day_rate)}</td><td class="r">${jbMoney(jbTotal(j))}</td><td><span class="mp-st ${st[0]}">${st[1]}</span></td></tr>`; }).join('')}
+      </table></div>
+      <div class="mp-sums"><span>Worked <b>${jbMoney(sum(worked))}</b></span><span>Scheduled <b>${jbMoney(sum(sched))}</b></span></div>`;
+    if (allPaid) html += '<div class="mp-note">All paid — thank you.</div>';
+    else if (inv && inv.status === 'submitted') html += `<div class="jb-actions"><button class="jb-btn" onclick="mpViewInvoice('${m}')">View invoice</button></div><div class="mp-note">Submitted ${fmtD(inv.submitted_at)}. Your centre will mark it paid.</div>`;
+    else if (inv && inv.status === 'accepted') html += `<div class="jb-actions">
+        <button class="jb-btn pri" onclick="mpGenerate('${m}')">Convert to invoice &amp; submit</button>
+        <button class="jb-btn" onclick="document.getElementById('mpUp-${m}').click()">Upload my own invoice</button>
+        <input type="file" id="mpUp-${m}" accept="application/pdf,.pdf" style="display:none" onchange="mpUpload('${m}', this)"></div>
+        <div class="mp-note">Timesheet accepted ${fmtD(inv.accepted_at)}.</div>`;
+    else if (ended) html += `<div class="jb-actions"><button class="jb-btn pri" onclick="mpAccept('${m}')">Accept timesheet</button></div>`;
+    else html += '<div class="mp-note">You can accept the timesheet once the month\u2019s work is done.</div>';
+    html += '</div>';
+  });
+  root.innerHTML = html;
+}
+function mpMonthTotal(m) { return mpMonths().filter(x => x.m === m).reduce((t, x) => t + x.rows.reduce((a, j) => a + jbTotal(j), 0), 0); }
+async function mpSave(m, changes) {
+  const row = Object.assign({ owner: cloudMe(), owner_name: (cloud.profile && cloud.profile.full_name) || '', month: m, total: mpMonthTotal(m), updated_at: new Date().toISOString() }, mp.inv[m] ? { status: mp.inv[m].status, invoice_no: mp.inv[m].invoice_no, file_path: mp.inv[m].file_path, accepted_at: mp.inv[m].accepted_at } : {}, changes);
+  delete row.id;
+  await cloudRest('pay_invoices?on_conflict=owner,month', 'POST', [row], 'resolution=merge-duplicates,return=minimal');
+  await mpLoad(); mpRender();
+}
+async function mpAccept(m) {
+  if (!confirm('Accept your ' + jbMonthLabel(m) + ' timesheet for ' + jbMoney(mpMonthTotal(m)) + '?\n\nCheck the dates and amounts first. If anything is wrong, speak to your centre before accepting.')) return;
+  try { await mpSave(m, { status:'accepted', accepted_at: new Date().toISOString() }); } catch (e) { alert(mp.err || ('Could not save: ' + (e.message || e))); }
+}
+function mpDefaultNo(m) { const n = (cloud.profile && cloud.profile.full_name) || 'INV'; return 'INV-' + jbInitials(n) + '-' + m.replace('-', ''); }
+async function mpGenerate(m) {
+  if (!mpPayDetailsOk()) { alert('Add your bank details and home address in My Profile first.'); pfOpen(); return; }
+  const no = prompt('Invoice number', (mp.inv[m] && mp.inv[m].invoice_no) || mpDefaultNo(m)); if (no === null) return;
+  if (!no.trim()) { alert('Enter an invoice number.'); return; }
+  try {
+    const blob = await mpInvoicePdf(m, no.trim());
+    const path = cloudMe() + '/invoices/' + m + '.pdf';
+    await cloudFetch('/storage/v1/object/course-files/' + path, { method:'POST', body: blob, json:false, headers:{ 'Content-Type':'application/pdf', 'x-upsert':'true' } });
+    await mpSave(m, { status:'submitted', invoice_no: no.trim(), file_path: path, generated: true, submitted_at: new Date().toISOString() });
+    window.open(URL.createObjectURL(blob), '_blank');
+  } catch (e) { alert('Could not create the invoice: ' + (e.message || e)); }
+}
+async function mpUpload(m, input) {
+  const f = input.files && input.files[0]; input.value = ''; if (!f) return;
+  if (!/pdf$/i.test(f.name) && f.type !== 'application/pdf') { alert('Please choose a PDF.'); return; }
+  if (f.size > 10 * 1024 * 1024) { alert('That file is over 10 MB.'); return; }
+  const no = prompt('Invoice number on your invoice', (mp.inv[m] && mp.inv[m].invoice_no) || ''); if (no === null) return;
+  if (!no.trim()) { alert('Enter the invoice number.'); return; }
+  try {
+    const path = cloudMe() + '/invoices/' + m + '.pdf';
+    await cloudFetch('/storage/v1/object/course-files/' + path, { method:'POST', body: f, json:false, headers:{ 'Content-Type':'application/pdf', 'x-upsert':'true' } });
+    await mpSave(m, { status:'submitted', invoice_no: no.trim(), file_path: path, generated: false, submitted_at: new Date().toISOString() });
+  } catch (e) { alert('Could not upload the invoice: ' + (e.message || e)); }
+}
+async function mpOpenFile(path) {
+  const win = window.open('', '_blank');
+  try {
+    const res = await cloudFetch('/storage/v1/object/authenticated/course-files/' + path, { json:false });
+    const url = URL.createObjectURL(new Blob([await res.blob()], { type:'application/pdf' }));
+    if (win) win.location = url; else location.href = url;
+  } catch (e) { if (win) win.close(); alert('Could not open the invoice: ' + (e.message || e)); }
+}
+function mpViewInvoice(m) { const r = mp.inv[m]; if (r && r.file_path) mpOpenFile(r.file_path); }
+async function mpInvoicePdf(m, no) {
+  const rows = (mpMonths().find(x => x.m === m) || { rows: [] }).rows;
+  const x = pf.extra || {}, me = (cloud.profile && cloud.profile.full_name) || '', email = (cloud.session.user && cloud.session.user.email) || '';
+  const { PDFDocument, StandardFonts, rgb } = await qsLoadPdfLib();
+  const pdf = await PDFDocument.create();
+  const font = await pdf.embedFont(StandardFonts.Helvetica), bold = await pdf.embedFont(StandardFonts.HelveticaBold);
+  const ink = rgb(0.05, 0.1, 0.3), grey = rgb(0.42, 0.48, 0.58), line = rgb(0.86, 0.88, 0.92);
+  const A4 = [595.28, 841.89]; let page = pdf.addPage(A4), y = A4[1] - 56;
+  const T = (t, xx, size, f, c) => page.drawText(jbPdfSafe(t), { x: xx, y, size, font: f || font, color: c || ink });
+  const R = (t, xr, size, f) => { const w = (f || font).widthOfTextAtSize(jbPdfSafe(t), size); page.drawText(jbPdfSafe(t), { x: xr - w, y, size, font: f || font, color: ink }); };
+  T('INVOICE', 40, 24, bold); R(no, 555, 12, bold); y -= 18; R('Date: ' + fmtD(isoLocal()), 555, 10); y -= 14; R('Period: ' + jbMonthLabel(m), 555, 10); y -= 30;
+  T('From', 40, 9, bold, grey); T('To', 320, 9, bold, grey); y -= 14;
+  const from = [me, ...String(x.address || '').split(/\n/).filter(Boolean), email, x.phone || ''].filter(Boolean);
+  const to = [CENTRE_NAME];
+  for (let i = 0; i < Math.max(from.length, to.length); i++) { if (from[i]) T(from[i], 40, 10); if (to[i]) T(to[i], 320, 10); y -= 13; }
+  y -= 18;
+  const cols = [40, 118, 300, 390, 430, 495];
+  T('Date', cols[0], 9, bold, grey); T('Course', cols[1], 9, bold, grey); T('Location', cols[2], 9, bold, grey); R('Days', 418, 9, bold); R('Rate', 480, 9, bold); R('Amount', 555, 9, bold); y -= 8;
+  page.drawLine({ start:{ x:40, y }, end:{ x:555, y }, thickness:0.8, color: line }); y -= 14;
+  let total = 0;
+  rows.forEach(j => {
+    if (y < 120) { page = pdf.addPage(A4); y = A4[1] - 56; }
+    const amt = jbTotal(j); total += amt;
+    T(j.days > 1 ? jbDates(j) : fmtD(j.job_date), cols[0], 9); T(String(j.title || '').slice(0, 34), cols[1], 9); T(String(j.location || '').slice(0, 16), cols[2], 9);
+    R(String(j.days), 418, 9); R(jbMoney(j.day_rate), 480, 9); R(jbMoney(amt), 555, 9); y -= 16;
+  });
+  page.drawLine({ start:{ x:300, y: y + 6 }, end:{ x:555, y: y + 6 }, thickness:0.8, color: line }); y -= 8;
+  T('Total due', 390, 12, bold); R(jbMoney(total), 555, 12, bold); y -= 40;
+  T('Payment details', 40, 11, bold); y -= 16;
+  [['Account name', x.accountName], ['Bank', x.bank], ['Sort code', x.sortCode], ['Account number', x.accountNumber], ['UTR', x.reference]].filter(p => p[1]).forEach(([k, val]) => { T(k, 40, 10, font, grey); T(val, 150, 10); y -= 14; });
+  y -= 16; T('Please quote ' + no + ' with your payment.', 40, 9, font, grey);
+  return new Blob([await pdf.save()], { type:'application/pdf' });
+}
+// Admin: timesheet sign-off and invoice for the instructor/month on the Timesheets tab
+async function mpAdminInvoice(owner, m) {
+  const box = document.getElementById('jbInvBox'); if (!box || !owner) return;
+  try {
+    const r = (await cloudRest('pay_invoices?select=*&owner=eq.' + owner + '&month=eq.' + m) || [])[0];
+    if (!document.getElementById('jbInvBox')) return;
+    box.innerHTML = `<h4 style="margin:0 0 6px;font-family:'Public Sans',sans-serif;color:#0D1B4C;">Timesheet &amp; invoice</h4>` + (!r
+      ? '<div class="jb-meta">Not accepted by the instructor yet.</div>'
+      : `<div class="jb-meta">Timesheet accepted ${fmtD(r.accepted_at)} · ${jbMoney(r.total)}${r.status === 'submitted' ? `<br>Invoice <b>${lpmEsc(r.invoice_no || '')}</b> ${r.generated ? 'created in the app' : 'uploaded'} ${fmtD(r.submitted_at)}` : '<br>No invoice yet.'}</div>
+         ${r.file_path ? `<div class="jb-actions"><button class="jb-btn pri" onclick="mpOpenFile('${r.file_path}')">View invoice</button></div>` : ''}`);
+  } catch (e) { box.innerHTML = '<div class="jb-meta">Invoices aren\u2019t set up yet — run supabase_pay.sql in Supabase.</div>'; }
 }
 </script>
 </body>
