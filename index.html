@@ -1508,16 +1508,22 @@ function fmtD(v) {
   /* Left icon rail (tablets and computers) */
   .st-rail { display:none; }
   @media (min-width:900px) {
-    body.has-rail { padding-left:84px; }
-    .st-rail { display:flex; position:fixed; left:0; top:0; bottom:0; width:84px; z-index:160; flex-direction:column; align-items:center; gap:6px; padding:16px 0; box-sizing:border-box;
+    body.has-rail { padding-left:104px; }
+    .st-rail { display:flex; position:fixed; left:0; top:0; bottom:0; width:104px; z-index:160; flex-direction:column; align-items:center; gap:4px; padding:16px 0; box-sizing:border-box;
       background:#fff; border-right:1px solid var(--st-line); overflow-y:auto; }
-    .st-logo { width:52px; height:52px; border-radius:14px; background:var(--st-acc); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; margin-bottom:14px; flex-shrink:0; overflow:hidden; border:0; cursor:pointer; font-family:'Public Sans',sans-serif; }
-    .st-logo img { width:100%; height:100%; object-fit:contain; background:#fff; padding:6px; box-sizing:border-box; }
-    .st-item { width:52px; height:52px; border-radius:14px; border:0; background:transparent; color:#6B7489; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; position:relative; }
+    .st-logo { width:60px; height:60px; border-radius:14px; background:#fff; color:var(--st-ink); border:1px solid var(--st-line) !important; box-shadow:0 2px 8px rgba(22,32,61,0.06); display:flex; align-items:center; justify-content:center; font-weight:800; margin-bottom:14px; flex-shrink:0; overflow:hidden; border:0; cursor:pointer; font-family:'Public Sans',sans-serif; }
+    .st-logo img { width:100%; height:100%; object-fit:contain; padding:7px; box-sizing:border-box; }
+    .st-item { width:88px; min-height:62px; padding:8px 4px 7px; box-sizing:border-box; border-radius:14px; border:0; background:transparent; color:#4F586C; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:5px; cursor:pointer; flex-shrink:0; font-family:'Public Sans',sans-serif; }
+    .st-item span { font-size:10.5px; font-weight:600; line-height:1.15; text-align:center; }
     .st-item:hover { background:#F1EEE6; color:var(--st-ink); }
     .st-item.on { background:var(--st-ink); color:#fff; }
     .st-item svg { width:23px; height:23px; }
-    .st-sep { width:32px; height:1px; background:var(--st-line); margin:6px 0; flex-shrink:0; }
+    .st-sep { width:72px; height:1px; background:var(--st-line); margin:6px 0 2px; flex-shrink:0; }
+    .st-grp { font-size:9px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#8A8F9C; text-align:center; line-height:1.2; padding:4px 6px 2px; }
+  }
+  /* The logo lives in the left menu on tablets and computers, so the header drops its copy */
+  @media (min-width:900px) {
+    body.has-rail header .brand-logo-badge, body.has-rail header .brand-divider, body.has-rail header > a > .brand-title { display:none !important; }
   }
   @media (max-width:980px) { .hub { flex-direction:column; } .hub-today { width:100%; position:static; } }
   @media (max-width:600px) {
@@ -1575,14 +1581,13 @@ window.addEventListener('load', function () {
 <div class="app-view active" id="view-hub">
   <div class="hub">
    <div class="hub-main">
-    <div class="hub-eyebrow">Sector 3 Group</div>
     <div class="hub-h" id="hubGreeting">Digital Training Centre</div>
     <div class="hub-p">Everything for delivering, assessing and evidencing a course — in one place.</div>
 
     <div class="hub-status" id="hubStatus"></div>
 
     <div id="hubAdmin" style="display:none;">
-      <div class="hub-group">Admin</div>
+      <div class="hub-group">Management Panel</div>
       <div class="hub-tiles">
     <button class="hub-tile" style="--accent:#B06A00;--soft:#FDF3E3;" onclick="admOpenCourses()">
       <span class="hub-ic"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg></span>
@@ -1602,13 +1607,9 @@ window.addEventListener('load', function () {
       </div>
     </div>
 
-    <div class="hub-group">Training</div>
+    <div class="hub-group">Course Delivery</div>
     <div class="hub-tiles">
-    <button class="hub-tile" id="hubMyJobsTile" style="--accent:#8A5A00;--soft:#FFF0C9;display:none;" onclick="jbOpenMine()">
-      <span class="hub-ic"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/><path d="M8 14h3M8 17.5h6"/></svg></span>
-      <span class="hub-text"><span class="hub-title">My Schedule</span><span class="hub-sub" id="hubMyJobsSub">Your jobs and courses by month</span></span>
-      <span class="hub-chev">&rsaquo;</span>
-    </button>
+    
     <button class="hub-tile" style="--accent:#1F8A5B;--soft:#DDEFE6;" onclick="showView('lpm');lpmShowPick();">
       <span class="hub-ic"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M8.5 9.5l1.8 1.8 3.7-4M8.5 16h7"/></svg></span>
       <span class="hub-text"><span class="hub-title">Course Matrix</span><span class="hub-sub" id="hubLpmSub">Record competencies, upload exams and submit course paperwork</span></span>
@@ -1624,23 +1625,28 @@ window.addEventListener('load', function () {
       <span class="hub-text"><span class="hub-title">Run a Scenario</span><span class="hub-sub">Brief, safety, roles, sound and assessment in one flow</span></span>
       <span class="hub-chev">&rsaquo;</span>
     </button>
-    </div>
-
-    <div class="hub-group">Tools</div>
-    <div class="hub-tiles">
     <button class="hub-tile" style="--accent:#5B3FA0;--soft:#E8E3F6;" onclick="showView('sounds')">
       <span class="hub-ic"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 10v4M8 7v10M12 4v16M16 8v8M20 11v2"/></svg></span>
       <span class="hub-text"><span class="hub-title">Soundboard</span><span class="hub-sub" id="hubSoundsSub">Live scene sound mixer for scenarios</span></span>
       <span class="hub-chev">&rsaquo;</span>
     </button>
-    <button class="hub-tile" style="--accent:#1F8A5B;--soft:#E6F5EE;" onclick="showView('cpd');cpdOpen();">
-      <span class="hub-ic"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V9M5 20v-6M19 20V4"/><circle cx="12" cy="5.5" r="2.2"/></svg></span>
-      <span class="hub-text"><span class="hub-title">CPD Log</span><span class="hub-sub" id="hubCpdSub">Teaching and assessing hours, built from your courses</span></span>
+    <button class="hub-tile" style="--accent:#6B4FA8;--soft:#FDE4EE;" onclick="showView('knowledge')">
+      <span class="hub-ic"><svg style="color:#D6336C" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path fill="#F7A8C4" d="M2 9.5L12 5l10 4.5L12 14z"/><path d="M6 11.3V16c0 1.5 2.7 3 6 3s6-1.5 6-3v-4.7"/><path d="M22 9.5v5.5"/><circle cx="22" cy="16.3" r="1" fill="currentColor" stroke="none"/></svg></span>
+      <span class="hub-text"><span class="hub-title">Knowledge Centre</span><span class="hub-sub">QR pop quizzes learners answer on their phones</span></span>
       <span class="hub-chev">&rsaquo;</span>
     </button>
-    <button class="hub-tile" style="--accent:#6B4FA8;--soft:#DDEFF4;" onclick="showView('knowledge')">
-      <span class="hub-ic"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 9a2.5 2.5 0 1 1 3.4 2.3c-.8.3-1.4 1-1.4 1.9v.3"/><circle cx="12" cy="12" r="9"/><circle cx="11.5" cy="17" r="1" fill="currentColor" stroke="none"/></svg></span>
-      <span class="hub-text"><span class="hub-title">Knowledge Centre</span><span class="hub-sub">QR pop quizzes learners answer on their phones</span></span>
+    </div>
+
+    <div class="hub-group" id="hubInstrGroup">Instructor Panel</div>
+    <div class="hub-tiles">
+    <button class="hub-tile" id="hubMyJobsTile" style="--accent:#8A5A00;--soft:#FFF0C9;display:none;" onclick="jbOpenMine()">
+      <span class="hub-ic"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/><path d="M8 14h3M8 17.5h6"/></svg></span>
+      <span class="hub-text"><span class="hub-title">My Schedule</span><span class="hub-sub" id="hubMyJobsSub">Your jobs and courses by month</span></span>
+      <span class="hub-chev">&rsaquo;</span>
+    </button>
+    <button class="hub-tile" style="--accent:#1F8A5B;--soft:#E6F5EE;" onclick="showView('cpd');cpdOpen();">
+      <span class="hub-ic"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V9M5 20v-6M19 20V4"/><circle cx="12" cy="5.5" r="2.2"/></svg></span>
+      <span class="hub-text"><span class="hub-title">My CPD</span><span class="hub-sub" id="hubCpdSub">Teaching and assessing hours, built from your courses</span></span>
       <span class="hub-chev">&rsaquo;</span>
     </button>
     </div>
@@ -3263,17 +3269,19 @@ function pauseAll() {
 
 <script>
 const MENU_ITEMS = [
-  { g:'Admin', reviewer:true, items:[
+  { g:'Management Panel', reviewer:true, items:[
     { label:'Course Admin', sub:'Search every course and course pack', go:"admOpenCourses()" },
-    { label:'Instructor Admin', sub:"Instructors' courses and CPD", go:"admOpenInstructors()" } ] },
-  { g:'Training', items:[
+    { label:'Instructor Admin', sub:"Instructors' courses and CPD", go:"admOpenInstructors()" },
+    { label:'Job Scheduling', sub:'Jobs, timesheets and payments', go:"jbOpenAdmin()" } ] },
+  { g:'Course Delivery', items:[
     { label:'Course Matrix', sub:'Record competencies, upload exams, submit paperwork', go:"showView('lpm');lpmShowPick()" },
     { label:'Scenario Cards', sub:'Briefs, roles, assessment criteria', go:"showView('cards');scRenderGrid()" },
-    { label:'Run a Scenario', sub:'Deliver and assess in one flow', go:"showView('run');rnRenderPick()" } ] },
-  { g:'Tools', items:[
+    { label:'Run a Scenario', sub:'Deliver and assess in one flow', go:"showView('run');rnRenderPick()" },
     { label:'Soundboard', sub:'Live scene sound mixer', go:"showView('sounds')" },
-    { label:'CPD Log', sub:'Your teaching and learning record', go:"showView('cpd');cpdOpen()" },
     { label:'Knowledge Centre', sub:'QR pop quizzes', go:"showView('knowledge')" } ] },
+  { g:'Instructor Panel', items:[
+    { label:'My Schedule', sub:'Your jobs by month', go:"jbOpenMine()" },
+    { label:'My CPD', sub:'Your teaching and learning record', go:"showView('cpd');cpdOpen()" } ] },
 ];
 function openMenu() {
   if (document.getElementById('menuOv')) return closeMenu();
@@ -11262,7 +11270,7 @@ function cpdHome() {
   const all = cpdEntries(cpdWho), y3 = cpdWindow(all, 3);
   const hrs = y3.reduce((t, e) => t + (Number(e.hours) || 0), 0);
   root.innerHTML = `<div class="hub-eyebrow">Digital Training Centre</div>
-    <div class="hub-h" style="margin-bottom:6px;">CPD</div>
+    <div class="hub-h" style="margin-bottom:6px;">My CPD</div>
     <p class="sc-p">Your record of teaching, assessing and learning — ready for external quality assurance.</p>
     <div class="cpd-tiles">
       <button class="cpd-tile" onclick="cpdRender()">
@@ -11858,7 +11866,7 @@ function ticketRef() {
 function ticketContext() {
   const active = document.querySelector('.app-view.active');
   const view = active ? active.id.replace('view-', '') : 'hub';
-  const names = { hub:'Home', lpm:'Course Matrix', cards:'Scenario Cards', run:'Run a Scenario', sounds:'Soundboard', cpd:'CPD Log', knowledge:'Knowledge Centre' };
+  const names = { hub:'Home', lpm:'Course Matrix', cards:'Scenario Cards', run:'Run a Scenario', sounds:'Soundboard', cpd:'My CPD', knowledge:'Knowledge Centre' };
   let screen = names[view] || view;
   try { if (view === 'lpm' && lpmCourse && document.getElementById('lpm-course').classList.contains('active')) screen += ' → ' + (LPM_STEPS[lpmStepIdx] || ''); } catch (e) {}
   const ctx = { screen, device: navigator.userAgent.replace(/\s*\(KHTML.*$/, '').slice(0, 140), version: APP_VERSION };
@@ -12023,7 +12031,7 @@ function admRenderCourses() {
   const learnerHit = c => q ? admLearnerNames(c).filter(n => n.toLowerCase().includes(q)) : [];
 
   root.innerHTML = `<button class="rn-nav-btn rn-no-print" onclick="showView('hub')">← Home</button>
-    <div class="hub-eyebrow" style="margin-top:14px;">Admin</div>
+    <div class="hub-eyebrow" style="margin-top:14px;">Management Panel</div>
     <div class="hub-h" style="margin-bottom:4px;">Course Admin</div>
     <p class="sc-p">Every course recorded in the Digital Training Centre, across all instructors.</p>
     <div class="adm-stats">
@@ -12120,7 +12128,7 @@ function admRenderInstructors() {
   const list = admInstructors();
   const roleName = { instructor:'Instructor', iqa:'IQA', admin:'Admin' };
   root.innerHTML = `<button class="rn-nav-btn rn-no-print" onclick="showView('hub')">← Home</button>
-    <div class="hub-eyebrow" style="margin-top:14px;">Admin</div>
+    <div class="hub-eyebrow" style="margin-top:14px;">Management Panel</div>
     <div class="hub-h" style="margin-bottom:4px;">Instructor Admin</div>
     <p class="sc-p">Each instructor's courses and CPD. Tap an instructor to see their record.</p>
     <div class="adm-grid">${list.length ? list.map(i => {
@@ -12750,7 +12758,7 @@ function jbInstructors() {
 function jbRenderAdmin() {
   const root = document.getElementById('jbAdminRoot'); if (!root) return;
   let html = `<button class="rn-nav-btn rn-no-print" onclick="showView('hub')">← Home</button>
-    <div class="hub-eyebrow" style="margin-top:14px;">Admin</div>
+    <div class="hub-eyebrow" style="margin-top:14px;">Management Panel</div>
     <div class="hub-h" style="margin-bottom:4px;">Job Scheduling</div>
     <p class="sc-p">Create jobs, assign them to instructors with a day rate, then run timesheets and mark payments.</p>
     <div class="jb-tabs"><button class="${jb.tab === 'schedule' ? 'on' : ''}" onclick="jb.tab='schedule';jbRenderAdmin()">Schedule</button><button class="${jb.tab === 'timesheets' ? 'on' : ''}" onclick="jb.tab='timesheets';jbRenderAdmin()">Timesheets &amp; payments</button></div>`;
@@ -12958,7 +12966,7 @@ function jbRenderMine() {
   const offered = mine.filter(j => j.status === 'offered');
   const month = mine.filter(j => jbInMonth(j, jb.month) && j.status !== 'offered');
   let html = `<button class="rn-nav-btn rn-no-print" onclick="showView('hub')">← Home</button>
-    <div class="hub-eyebrow" style="margin-top:14px;">Training</div>
+    <div class="hub-eyebrow" style="margin-top:14px;">Instructor Panel</div>
     <div class="hub-h" style="margin-bottom:4px;">My Schedule</div>
     <p class="sc-p">Jobs your centre has offered you. Confirmed courses appear on your Course Matrix automatically, ready to run and submit.</p>`;
   if (!jbSignedIn()) { root.innerHTML = html + '<p class="jb-empty">Sign in to see your schedule.</p>'; return; }
@@ -13799,12 +13807,19 @@ function stBuildRail() {
   if (document.getElementById('stRail')) return;
   const nav = document.createElement('nav'); nav.id = 'stRail'; nav.className = 'st-rail'; nav.setAttribute('aria-label', 'Main');
   let html = `<button class="st-logo" onclick="showView('hub')" aria-label="Home"><img src="/sector3-logo.png" alt="" onerror="this.replaceWith(document.createTextNode('S3'))"></button>
-    <button class="st-item" data-view="hub" onclick="showView('hub')" aria-label="Home" title="Home">${ST_HOME_ICON}</button><div class="st-sep"></div>`;
-  document.querySelectorAll('#view-hub .hub-tile').forEach((t, i) => {
-    const title = (t.querySelector('.hub-title') || {}).textContent || '';
-    const ic = t.querySelector('.hub-ic'); const oc = t.getAttribute('onclick') || '';
-    t.dataset.st = i;
-    html += `<button class="st-item" data-tile="${i}" data-view="${stViewOf(oc)}" onclick="${oc.replace(/"/g, '&quot;')}" aria-label="${title}" title="${title}">${ic ? ic.innerHTML : ''}</button>`;
+    <button class="st-item" data-view="hub" onclick="showView('hub')">${ST_HOME_ICON}<span>Home</span></button>`;
+  const SHORT = { 'Instructor Admin':'Instructors', 'Job Scheduling':'Jobs', 'Scenario Cards':'Scenarios', 'Run a Scenario':'Run Scenario', 'Knowledge Centre':'Quizzes' };
+  let i = 0;
+  document.querySelectorAll('#view-hub .hub-group').forEach(g => {
+    const tiles = g.nextElementSibling; if (!tiles) return;
+    html += `<div class="st-sep"></div><div class="st-grp" data-grp="${i}">${g.textContent.replace(' Panel', '')}</div>`;
+    tiles.querySelectorAll('.hub-tile').forEach(t => {
+      const title = ((t.querySelector('.hub-title') || {}).textContent || '').trim();
+      const ic = t.querySelector('.hub-ic'); const oc = t.getAttribute('onclick') || '';
+      t.dataset.st = i;
+      html += `<button class="st-item" data-tile="${i}" data-view="${stViewOf(oc)}" onclick="${oc.replace(/"/g, '&quot;')}" aria-label="${title}">${ic ? ic.innerHTML : ''}<span>${SHORT[title] || title}</span></button>`;
+      i++;
+    });
   });
   nav.innerHTML = html; document.body.prepend(nav); document.body.classList.add('has-rail');
   stSyncRail();
@@ -13820,6 +13835,11 @@ function stSyncRail() {
       b.style.display = t && t.style.display !== 'none' && (!inAdmin || adminBox.style.display !== 'none') ? '' : 'none';
     }
     b.classList.toggle('on', !!b.dataset.view && active === 'view-' + b.dataset.view);
+  });
+  nav.querySelectorAll('.st-grp').forEach(g => {
+    let n = g.nextElementSibling, any = false;
+    while (n && n.classList.contains('st-item')) { if (n.style.display !== 'none') any = true; n = n.nextElementSibling; }
+    g.style.display = any ? '' : 'none'; if (g.previousElementSibling) g.previousElementSibling.style.display = any ? '' : 'none';
   });
 }
 function stTodayRender() {
