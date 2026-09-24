@@ -13732,7 +13732,9 @@ function qzCtxGet() {
 }
 document.addEventListener('pointerdown', () => { if (qzCtx) qzCtxGet(); }, true);
 function qzBuf(k) {
-  if (!qzBufs[k]) qzBufs[k] = fetch(QZ_SOUNDS[k]).then(r => { if (!r.ok) throw 0; return r.arrayBuffer(); })
+  // this site's own copy first, then the shared copy
+  const local = QZ_SOUNDS[k].split('/').pop();
+  if (!qzBufs[k]) qzBufs[k] = fetch(local).then(r => { if (!r.ok) throw 0; return r; }).catch(() => fetch(QZ_SOUNDS[k])).then(r => { if (!r.ok) throw 0; return r.arrayBuffer(); })
     .then(ab => new Promise((res, rej) => qzCtx.decodeAudioData(ab, res, rej))).catch(() => null);
   return qzBufs[k];
 }
