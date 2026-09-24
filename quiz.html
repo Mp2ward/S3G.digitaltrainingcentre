@@ -162,7 +162,9 @@ function qzHat(a) {
 }
 const QZ_ADJ = ['Turbo','Rocket','Mighty','Speedy','Cosmic','Nitro','Blazing','Sneaky','Funky','Thunder','Slam-Dunk','Flying','Super','Captain','Ninja','Dazzling','Bouncy','Hyper','Zippy','Golden','Galactic','Lightning'];
 
-const SB = { url:'https://nnzvzehywrzapinrdfrq.supabase.co', key:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5uenZ6ZWh5d3J6YXBpbnJkZnJxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAwMDY5MTcsImV4cCI6MjEwNTU4MjkxN30.zHJm6LEMbji781FCsDW1EKoEspQesjAfgXsI4a_aBxE' };
+const SB = { url:'https://kkknlzaamuiyfgmbkvqm.supabase.co', key:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtra25semFhbXVpeWZnbWJrdnFtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAyNjk5MjgsImV4cCI6MjEwNTg0NTkyOH0.r-GocK5mjvjGyxmRDrU2X5DviGXdHhKmM2DNZP87LFA' };
+// Sound files: this site first, then the shared copy
+const SOUND_BASES=['', 'https://s3g.digitaltrainingcentre.app/'];
 const COLS=['#E0473E','#2B5BD7','#E3A21A','#1F8A5B','#7A4FB8'], SH=['▲','◆','●','■','★'];
 // Sound files — top level of the repo. Missing files are skipped.
 const SOUNDS={pop:'quiz-pop.mp3',ping:'quiz-ping.mp3',correct:'quiz-correct.mp3',wrong:'quiz-wrong.mp3',streak:'quiz-streak.mp3',finish:'quiz-finish.mp3'};
@@ -176,7 +178,7 @@ const rnd=a=>a[Math.floor(Math.random()*a.length)];
 
 // sound
 const snd={};let unlocked=false;
-function unlock(){if(unlocked)return;unlocked=true;Object.keys(SOUNDS).forEach(k=>{const a=new Audio(SOUNDS[k]);a.preload='auto';a.muted=true;a.play().then(()=>{a.pause();a.currentTime=0;a.muted=false;}).catch(()=>{a.muted=false;});snd[k]=a;});}
+function unlock(){if(unlocked)return;unlocked=true;Object.keys(SOUNDS).forEach(k=>{const a=new Audio(SOUNDS[k]);a.onerror=()=>{if(!a._alt){a._alt=1;a.src=SOUND_BASES[1]+SOUNDS[k];}};a.preload='auto';a.muted=true;a.play().then(()=>{a.pause();a.currentTime=0;a.muted=false;}).catch(()=>{a.muted=false;});snd[k]=a;});}
 function sfx(k){const a=snd[k];if(!a)return;try{a.currentTime=0;a.play().catch(()=>{});}catch(e){}}
 function buzz(ms){try{navigator.vibrate&&navigator.vibrate(ms)}catch(e){}}
 
