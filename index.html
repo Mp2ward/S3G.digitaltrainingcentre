@@ -1577,7 +1577,7 @@ function fmtD(v) {
   .kc-stage { position:relative; width:260px; height:200px; margin:0 auto; }
   .kc-box { position:absolute; left:50%; bottom:0; width:170px; height:62px; transform:translateX(-50%); background:#16203D; border-radius:12px 12px 18px 18px; box-shadow:0 12px 24px rgba(22,32,61,0.18); }
   .kc-box::before { content:''; position:absolute; left:10px; right:10px; top:-10px; height:14px; background:#23305A; border-radius:8px; }
-  .kc-sheet { position:absolute; bottom:40px; width:66px; height:84px; background:#fff; border:1px solid #E7E3DA; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#16203D; box-shadow:0 6px 16px rgba(22,32,61,0.1); animation:kcFloat 3.2s ease-in-out infinite; }
+  .kc-sheet { position:absolute; bottom:30px; width:66px; height:84px; background:#fff; border:1px solid #E7E3DA; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#16203D; box-shadow:0 6px 16px rgba(22,32,61,0.1); animation:kcFloat 3.2s ease-in-out infinite; }
   .kc-sheet.s1 { left:40px; animation-delay:0s; color:#2446B8; } .kc-sheet.s2 { left:97px; animation-delay:.5s; color:#E4572E; } .kc-sheet.s3 { left:154px; animation-delay:1s; color:#1F8A5B; }
   @keyframes kcFloat { 0%,100% { transform:translateY(24px) rotate(-4deg); } 50% { transform:translateY(-34px) rotate(5deg); } }
   .kc-coming-t { font-family:'Fraunces',Georgia,serif; font-size:2rem; font-weight:600; color:#16203D; margin-top:24px; }
@@ -13940,7 +13940,7 @@ function qzRenderPick(r) {
     <div class="hub-p">Quizzes, hand-outs and learning resources for your courses.</div>
     <div class="hub-tiles" style="margin-top:22px;">
       ${tile("kc.sec='quiz';qzRender()", KC_IC.quiz, '#FDE4EE', 'QR Game Board Quiz', 'Live quizzes learners play on their phones')}
-      ${tile("kc.sec='handouts';qzRender()", KC_IC.doc, '#E3E8FA', 'Hand Outs', 'Course documents and links, with QR codes to download')}
+      ${tile("kc.sec='handouts';kcH.list=null;qzRender()", KC_IC.doc, '#E3E8FA', 'Hand Outs', 'Course documents and links, with QR codes to download')}
       ${tile("kc.sec='resources';qzRender()", KC_IC.shelf, '#DDEFE6', 'Resource Centre', 'Manufacturer hand-outs', 'Coming soon')}
     </div>`;
 }
@@ -13978,30 +13978,78 @@ function kcRenderQuiz(r) {
     <p class="qz-foot">Practice questions written for Sector 3 Group against the syllabus. They are not the awarding body's assessment papers.</p>`;
 }
 function kcFileUrl(f) { return location.origin + location.pathname.replace(/[^/]*$/, '') + encodeURI(f); }
+// Hand-outs live in a public Supabase folder so learners can download them by QR without signing in.
+// Admins add and remove them here. The list itself is a small file (handouts.json) in the same folder.
+let kcH = { list:null, err:'', busy:false };
+function kcPubUrl(path) { return CLOUD.url + '/storage/v1/object/public/handouts/' + path.split('/').map(encodeURIComponent).join('/'); }
+async function kcLoadHandouts() {
+  try {
+    const r = await fetch(kcPubUrl('handouts.json') + '?t=' + Date.now(), { cache:'no-store' });
+    kcH.list = r.ok ? (await r.json()) : [];
+    kcH.err = '';
+  } catch (e) { kcH.list = []; kcH.err = ''; }
+  if (!Array.isArray(kcH.list)) kcH.list = [];
+}
+async function kcSaveList() {
+  const blob = new Blob([JSON.stringify(kcH.list)], { type:'application/json' });
+  await cloudFetch('/storage/v1/object/handouts/handouts.json', { method:'POST', body: blob, json:false, headers:{ 'Content-Type':'application/json', 'x-upsert':'true', 'cache-control':'no-cache' } });
+}
 function kcRenderHandouts(r) {
+  const admin = typeof jbIsAdmin === 'function' && jbIsAdmin();
+  if (kcH.list === null) { kcLoadHandouts().then(() => { if (kc.sec === 'handouts') qzRender(); }); }
+  const list = kcH.list || [];
   r.innerHTML = `${kcBack("kc.sec='';qzRender()")}
     <div class="hub-eyebrow" style="margin-top:14px;">Knowledge Centre</div>
     <div class="hub-h">Hand Outs</div>
-    <div class="hub-p">Course documents and links. Show the QR code and learners can download a copy straight to their phone.</div>
+    <div class="hub-p">Course documents. Show the QR code and learners can download a copy straight to their phone — no sign-in needed.</div>
+    ${admin ? `<div class="pf-sec" style="margin-top:18px;"><h3>Add a hand-out</h3>
+      <div class="jb-form">
+        <label>Title<input id="kcTitle" placeholder="e.g. Immediate Emergency Care Action Cards"></label>
+        <label>Short description (optional)<input id="kcSub" placeholder="e.g. Quick-reference cards to keep"></label>
+        <div class="wide jb-actions" style="margin-top:0;"><button class="jb-btn pri" ${kcH.busy ? 'disabled' : ''} onclick="document.getElementById('kcFile').click()">${kcH.busy ? 'Uploading…' : 'Choose PDF and upload'}</button>
+        <input type="file" id="kcFile" accept="application/pdf,.pdf" style="display:none" onchange="kcUpload(this)"><span id="kcMsg" class="jb-msg" style="color:#C74444;">${lpmEsc(kcH.err)}</span></div>
+      </div></div>` : ''}
     <div class="hub-group">Course documents</div>
-    <div class="kc-list">${KC_HANDOUTS.map((h, i) => `<div class="kc-doc">
+    ${kcH.list === null ? '<p class="jb-empty">Loading…</p>' : !list.length ? `<p class="jb-empty">No hand-outs yet.${admin ? ' Add one above.' : ' Your centre admin can add them.'}</p>` : ''}
+    <div class="kc-list">${list.map((h, i) => `<div class="kc-doc">
         <span class="kc-doc-ic">${kcIcon(KC_IC.doc, 26)}</span>
-        <div class="kc-doc-t"><b>${qzEsc(h.title)}</b><span>${qzEsc(h.sub)} · PDF</span></div>
-        <div class="kc-doc-b"><button class="qz-btn qz-primary" onclick="kcShowQr(${i})">Show QR code</button><a class="qz-btn" href="${qzEsc(h.file)}" target="_blank" rel="noopener" style="text-decoration:none;">Open</a></div>
+        <div class="kc-doc-t"><b>${qzEsc(h.title)}</b><span>${qzEsc(h.sub || 'Course document')} · PDF</span></div>
+        <div class="kc-doc-b"><button class="qz-btn qz-primary" onclick="kcShowQr(${i})">Show QR code</button><a class="qz-btn" href="${qzEsc(kcPubUrl(h.path))}" target="_blank" rel="noopener" style="text-decoration:none;">Open</a>
+          ${admin ? `<button class="qz-btn" style="color:#A33030;" onclick="kcRemove(${i})">Remove</button>` : ''}</div>
       </div>`).join('')}</div>`;
 }
-async function kcFileThere(f) {
-  try { const r = await fetch(f, { method:'HEAD', cache:'no-store' }); return r.ok && /pdf|octet/i.test(r.headers.get('content-type') || 'pdf'); } catch (e) { return false; }
-}
-async function kcShowQr(i) {
-  const h = KC_HANDOUTS[i], url = kcFileUrl(h.file);
-  if (location.protocol.startsWith('http') && !(await kcFileThere(h.file))) {
-    alert('The PDF isn\u2019t on the website yet.\n\nUpload it to the top level of your GitHub repo named exactly:\n' + h.file + '\n\nThen try again. (Names are case-sensitive.)');
-    return;
+async function kcUpload(input) {
+  const f = input.files && input.files[0]; input.value = ''; if (!f) return;
+  const title = (document.getElementById('kcTitle').value || '').trim() || f.name.replace(/\.pdf$/i, '');
+  const sub = (document.getElementById('kcSub').value || '').trim();
+  if (!/pdf$/i.test(f.name) && f.type !== 'application/pdf') { kcH.err = 'Please choose a PDF.'; qzRender(); return; }
+  if (f.size > 25 * 1024 * 1024) { kcH.err = 'That PDF is over 25 MB.'; qzRender(); return; }
+  kcH.busy = true; kcH.err = ''; qzRender();
+  try {
+    await kcLoadHandouts();
+    const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60) || 'handout';
+    const path = slug + '-' + Date.now().toString(36) + '.pdf';
+    await cloudFetch('/storage/v1/object/handouts/' + path, { method:'POST', body: f, json:false, headers:{ 'Content-Type':'application/pdf', 'x-upsert':'true' } });
+    kcH.list.push({ title, sub, path, added: isoLocal() });
+    await kcSaveList();
+  } catch (e) {
+    const raw = String(e.message || e);
+    kcH.err = /bucket|not found|404|row-level|403|Unauthorized/i.test(raw) ? 'Hand-outs aren\u2019t set up yet, or your login isn\u2019t an admin. Run supabase_handouts.sql in Supabase, then try again.' : 'Could not upload: ' + raw;
   }
+  kcH.busy = false; qzRender();
+}
+async function kcRemove(i) {
+  const h = kcH.list[i]; if (!h || !confirm('Remove "' + h.title + '"? Learners will no longer be able to download it.')) return;
+  try {
+    try { await cloudFetch('/storage/v1/object/handouts/' + h.path, { method:'DELETE' }); } catch (e) {}
+    kcH.list.splice(i, 1); await kcSaveList(); qzRender();
+  } catch (e) { alert('Could not remove it: ' + (e.message || e)); }
+}
+function kcShowQr(i) {
+  const h = kcH.list[i], url = kcPubUrl(h.path);
   const ov = document.createElement('div'); ov.className = 'kc-qr-ov'; ov.onclick = e => { if (e.target === ov) ov.remove(); };
   ov.innerHTML = `<div class="kc-qr-box"><div class="hub-eyebrow">Scan to download</div><div class="kc-qr-t">${qzEsc(h.title)}</div>
-    <div class="kc-qr" id="kcQr"></div><div class="qz-url">${qzEsc(url)}</div>
+    <div class="kc-qr" id="kcQr"></div>
     <button class="qz-btn qz-primary" style="margin-top:16px;" onclick="this.closest('.kc-qr-ov').remove()">Close</button></div>`;
   document.body.appendChild(ov);
   fbDrawQr(document.getElementById('kcQr'), url, 300);
@@ -14015,7 +14063,6 @@ function kcRenderResources(r) {
         <div class="kc-sheet s1">${kcIcon(KC_IC.doc, 40)}</div>
         <div class="kc-sheet s2">${kcIcon('<rect x="4" y="5" width="16" height="13" rx="2"/><path d="M10 9l5 2.5-5 2.5z"/>', 40)}</div>
         <div class="kc-sheet s3">${kcIcon('<path d="M4 19V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2zM4 17a2 2 0 0 1 2-2h12"/>', 40)}</div>
-        <div class="kc-box"></div>
       </div>
       <div class="kc-coming-t">Coming soon</div>
       <p class="hub-p" style="max-width:460px;margin:8px auto 0;">Manufacturer hand-outs, user guides and product information for the equipment you teach with — all in one place.</p>
