@@ -1476,7 +1476,7 @@ function fmtD(v) {
   /* ===== Studio dashboard ===== */
   :root { --st-ink:#16203D; --st-bg:#F6F3EC; --st-line:#E7E3DA; --st-acc:#E4572E; --st-muted:#5E6577; }
   #view-hub { background:var(--st-bg); }
-  .hub { max-width:1320px !important; padding:36px 32px 56px !important; display:flex; gap:28px; align-items:flex-start; }
+  #view-hub > .hub { max-width:1320px !important; padding:36px 32px 56px !important; display:flex; gap:28px; align-items:flex-start; }
   .hub-main { flex:1; min-width:0; }
   .hub-eyebrow { color:var(--st-muted) !important; letter-spacing:0.02em !important; text-transform:none !important; font-size:0.9rem !important; }
   .hub-h { font-family:'Fraunces', Georgia, serif !important; font-weight:600 !important; font-size:clamp(2rem, 3.4vw, 2.9rem) !important; letter-spacing:-0.01em !important; color:var(--st-ink) !important; margin:4px 0 6px !important; }
@@ -1534,7 +1534,31 @@ function fmtD(v) {
   .ct-tile::after { content:''; position:absolute; right:-30px; top:-30px; width:110px; height:110px; border-radius:50%; background:rgba(255,255,255,0.12); }
   .ct-back { margin-top:18px; border:1px solid rgba(255,255,255,0.3); background:transparent; color:#fff; border-radius:12px; padding:12px 18px; font:inherit; cursor:pointer; min-height:46px; }
   @media (prefers-reduced-motion:reduce) { .ct-tile, .ct-ov { animation:none; } }
+  .jb-builder { gap:14px; }
+  .jb-bh { font-family:'Fraunces',Georgia,serif; font-size:1.3rem; font-weight:600; color:#16203D; text-transform:none; letter-spacing:0; }
+  .jb-hint { font-family:'Public Sans',sans-serif; font-size:0.78rem; color:#6B7A94; font-weight:400; text-transform:none; letter-spacing:0; }
+  .jb-bday { border:1px solid #E4E8F0; border-radius:14px; padding:14px; margin-bottom:10px; background:#FBFAF6; }
+  .jb-bday-top { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:10px; text-transform:none; letter-spacing:0; }
+  .jb-bday-top b { color:#16203D; font-size:0.95rem; min-width:48px; }
+  .jb-bday-top input { max-width:200px; }
+  .jb-slots { display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end; }
+  .jb-slot { display:flex; flex-direction:column; gap:4px; min-width:190px; position:relative; }
+  .jb-slot span { font-size:0.7rem; color:#6B7A94; text-transform:uppercase; letter-spacing:0.06em; }
+  .jb-slot select { font:inherit; font-size:0.92rem; border:1px solid #D8DEE8; border-radius:10px; padding:9px 10px; background:#fff; color:#0D1B4C; min-height:42px; }
+  .jb-x { position:absolute; right:-8px; top:-8px; width:26px; height:26px; border-radius:50%; border:1px solid #E2A0A0; background:#fff; color:#A33030; cursor:pointer; font-size:0.75rem; }
+  .jb-days { margin-top:10px; border-top:1px solid #EEF1F5; }
+  .jb-dayrow { display:flex; gap:12px; padding:8px 0; border-bottom:1px solid #EEF1F5; flex-wrap:wrap; align-items:center; }
+  .jb-daylbl { font-weight:700; color:#16203D; font-size:0.86rem; min-width:112px; }
+  .jb-people { display:flex; gap:12px; flex-wrap:wrap; }
+  .jb-person { font-size:0.86rem; color:#0D1B4C; display:inline-flex; align-items:center; gap:6px; }
+  .jb-person i { font-style:normal; font-size:0.66rem; font-weight:700; background:#16203D; color:#fff; border-radius:999px; padding:2px 7px; }
+  .jb-course-box { background:#F6F3EC; border:1px solid #E7E3DA; border-radius:14px; padding:14px 16px; margin:4px 0 16px; display:flex; flex-direction:column; gap:12px; color:#16203D; font-size:0.92rem; }
+  .jb-daychips { display:flex; gap:6px; flex-wrap:wrap; margin-top:6px; } .jb-daychips span { background:#fff; border:1px solid #E7E3DA; border-radius:999px; padding:4px 10px; font-size:0.82rem; }
   .kc-soon-badge { font-family:'Public Sans',sans-serif; font-size:0.62rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; background:#FFF1D6; color:#8A5200; border-radius:999px; padding:3px 8px; vertical-align:middle; white-space:nowrap; }
+  .kc-tile-soon { cursor:default !important; }
+  .kc-tile-soon:hover { transform:none !important; box-shadow:none !important; }
+  .kc-soon-big { display:inline-flex !important; align-items:center; gap:8px; font-size:0.72rem !important; padding:6px 12px !important; margin-top:10px; align-self:flex-start; }
+  .kc-soon-big .kc-dots i { width:6px; height:6px; }
   .kc-soon-card { display:flex; align-items:center; gap:14px; flex-wrap:wrap; border:1px dashed #D8D2C4; border-radius:18px; padding:20px; background:#FBFAF6; color:#16203D; }
   .kc-soon-card span:last-child { color:#5E6577; font-size:0.9rem; }
   .kc-dots { display:inline-flex; gap:6px; } .kc-dots i { width:9px; height:9px; border-radius:50%; background:#E4572E; animation:kcDot 1.2s ease-in-out infinite; }
@@ -1605,9 +1629,9 @@ function fmtD(v) {
     body.has-rail #menuFab { display:none !important; }
     body.has-rail header .brand-logo-badge, body.has-rail header .brand-divider, body.has-rail header > a > .brand-title { display:none !important; }
   }
-  @media (max-width:980px) { .hub { flex-direction:column; } .hub-today { width:100%; position:static; } }
+  @media (max-width:980px) { #view-hub > .hub { flex-direction:column; } .hub-today { width:100%; position:static; } }
   @media (max-width:600px) {
-    .hub { padding:22px 14px 40px !important; }
+    #view-hub > .hub { padding:22px 14px 40px !important; }
     .hub-tiles { grid-template-columns:repeat(2, minmax(0, 1fr)); gap:12px !important; }
     .hub-tile { min-height:150px; padding:16px !important; gap:14px !important; border-radius:18px !important; }
     .hub-tile .hub-ic { width:46px !important; height:46px !important; border-radius:14px !important; }
@@ -3483,7 +3507,7 @@ function showView(name) {
   if (name !== 'run' && name !== 'lpm') { window.rnFromCourseId = ''; }
   if (typeof rnCourseBackSync === 'function') rnCourseBackSync();
   if (name === 'hub') { try { hubRender(); } catch (e) {} }
-  if (name === 'knowledge') { try { if (!qz.live) { qz.phase = 'pick'; kc.sec = ''; } qzRender(); } catch (e) {} }
+  if (name === 'knowledge') { try { if (!qz.live) { qz.phase = 'pick'; kc.sec = ''; kc.cat = ''; } qzRender(); } catch (e) {} }
 }
 window.addEventListener('load', function () {
   var go = new URLSearchParams(location.search).get('go');
@@ -8944,7 +8968,7 @@ function lpmShowStep(key) {
 }
 
 // ---- Course details ----
-const LPM_COURSE_NAMES = ['FREC 3 - RPL - 3 Day', 'FREC 3 - 5 Day', 'FREC 4', 'BLS - 1 Day', 'ILS - 1 Day', 'Dental', 'GP', 'Health and Safety Level 2', 'Health and Safety Level 3'];
+const LPM_COURSE_NAMES = ['FREC 3 - RPL - 3 Day', 'FREC 3 - 5 Day', 'FREC 3 - Custom Dates', 'FREC 4', 'BLS - 1 Day', 'ILS - 1 Day', 'Dental', 'GP', 'Health and Safety Level 2', 'Health and Safety Level 3'];
 const LPM_LOCATIONS = ['Beckton', 'Park Royal', 'Croydon', 'Harrow', 'Whipps Cross', 'Bury St Edmunds'];
 // Course "family" — governs which tabs, skills grid and pack contents a course gets
 function lpmCourseKind(course) {
@@ -8978,8 +9002,11 @@ function lpmOpt(list, current) {
 
 function lpmRenderDetails() {
   const c = lpmCourse;
+  const jobBox = (c.courseDates && c.courseDates.length > 1) || c.adminNotes ? `<div class="jb-course-box">
+      ${c.courseDates && c.courseDates.length > 1 ? `<div><b>Course days</b><div class="jb-daychips">${c.courseDates.map(d => `<span>${new Date(d + 'T00:00:00').toLocaleDateString('en-GB', { weekday:'short', day:'numeric', month:'short' })}</span>`).join('')}</div></div>` : ''}
+      ${c.adminNotes ? `<div><b>Notes from the office</b><div style="white-space:pre-line;margin-top:4px;">${lpmEsc(c.adminNotes)}</div></div>` : ''}</div>` : '';
   document.getElementById('lpmPanel-details').innerHTML = `
-    <div class="sc-h2" style="margin-top:0;">Course details</div>
+    <div class="sc-h2" style="margin-top:0;">Course details</div>${jobBox}
     <div class="lpm-field">
       <label>Course name</label>
       <select onchange="lpmSetDetail('courseName', this.value); lpmApplyCourseLength();">${lpmOpt(LPM_COURSE_NAMES, c.courseName)}</select>
@@ -11888,7 +11915,26 @@ async function cloudAfterLogin() {
 // ---------- Invite and password-reset links ----------
 // Supabase emails link back to the app with the session in the address, e.g.
 //   #access_token=…&refresh_token=…&expires_in=3600&type=invite   (or type=recovery)
+function cloudJoinLink() {
+  const p = new URLSearchParams(location.search), j = p.get('join');
+  if (!j) return false;
+  let link = '';
+  try { link = atob(j.replace(/-/g, '+').replace(/_/g, '/')); } catch (e) {}
+  history.replaceState(null, '', location.pathname);
+  if (!link.startsWith(CLOUD.url + '/auth/v1/verify')) { cloudShowLogin('That invite link isn\u2019t valid. Ask your administrator for a new one.'); return true; }
+  let ov = document.getElementById('cloudLogin');
+  if (!ov) { ov = document.createElement('div'); ov.id = 'cloudLogin'; document.body.appendChild(ov); }
+  ov.innerHTML = `<div class="cl-box">
+      <div class="cl-brand">Digital Training Centre</div>
+      <div class="cl-sub">You've been invited to ${lpmEsc(CENTRE_NAME)}. Tap below to choose your password.</div>
+      <a class="rn-nav-btn primary" style="display:block;width:100%;margin-top:16px;text-align:center;text-decoration:none;box-sizing:border-box;" href="${lpmEsc(link)}">Set up my login</a>
+      <p class="cl-msg" style="margin-top:12px;color:#5E6577;">The button works once. If it says the link has expired, ask for a new one.</p>
+    </div>`;
+  ov.style.display = '';
+  return true;
+}
 async function cloudHandleEmailLink() {
+  if (cloudJoinLink()) return true;
   const h = new URLSearchParams((location.hash || '').replace(/^#/, ''));
   if (h.get('error')) {
     history.replaceState(null, '', location.pathname + location.search);
@@ -12757,7 +12803,10 @@ function jbInMonth(j, ym) { const [a, b] = jbMonthBounds(ym); return j.job_date 
 function jbShift(delta, rerender) { const [y, m] = jb.month.split('-').map(Number); const d = new Date(y, m - 1 + delta, 1); jb.month = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0'); rerender(); }
 function jbDates(j) { return j.days > 1 ? fmtShort(j.job_date) + ' → ' + fmtShort(jbEnd(j)) + ' (' + j.days + ' days)' : fmtShort(j.job_date); }
 function jbTimes(j) { return (j.start_time || j.end_time) ? (j.start_time || '') + '–' + (j.end_time || '') : ''; }
-function jbCourseId(j) { return 'CJ' + j.id; }
+function jbCourseId(j) { return j.group_id ? 'CG' + j.group_id : 'CJ' + j.id; }
+function jbGroupDates(j) { return j.course_dates ? String(j.course_dates).split(',').filter(Boolean).sort() : [j.job_date]; }
+function jbDayLabel(d) { return new Date(d + 'T00:00:00').toLocaleDateString('en-GB', { weekday:'short', day:'numeric', month:'short' }); }
+function jbCourseDaysLine(j) { const d = jbGroupDates(j); return d.length > 1 ? 'Course days: ' + d.map(jbDayLabel).join(', ') + '.' : ''; }
 function jbStatusLabel(j) { return j.status === 'offered' ? 'Awaiting reply' : j.status === 'confirmed' ? 'Confirmed' : 'Rejected'; }
 
 async function jbLoad() {
@@ -12776,7 +12825,13 @@ function jbReconcileCourses() {
   if (!jb.loaded) return;
   const me = cloudMe(); if (!me) return;
   const pname = (cloud.profile && cloud.profile.full_name) || '';
-  const mine = jb.jobs.filter(j => j.instructor === me && j.status === 'confirmed');
+  const confirmed = jb.jobs.filter(j => j.instructor === me && j.status === 'confirmed');
+  const seenGroup = new Set();
+  const mine = confirmed.filter(j => {
+    if (!j.group_id) return true;
+    if (!j.is_lead || seenGroup.has(j.group_id)) return false;       // only the lead holds the course record
+    seenGroup.add(j.group_id); return true;
+  });
   const want = new Set(mine.map(jbCourseId));
   let changed = false;
   let list = lpmLoadCourses().filter(c => {
@@ -12788,12 +12843,15 @@ function jbReconcileCourses() {
   mine.forEach(j => {
     const id = jbCourseId(j);
     const ex = list.find(c => c.id === id);
-    const upd = { courseName: j.course_name || j.title, startDate: j.job_date, endDate: jbEnd(j), location: j.location || '' };
+    const dates = jbGroupDates(j);
+    const team = j.team ? String(j.team).split('|').filter(Boolean) : [];
+    const upd = { courseName: j.course_name || j.title, startDate: dates[0] || j.job_date, endDate: dates[dates.length - 1] || jbEnd(j), location: j.location || '' };
+    if (j.group_id) Object.assign(upd, { courseDates: dates, adminNotes: j.notes || '' });
     if (ex) {
       if (!ex.submission) for (const k in upd) if (ex[k] !== upd[k]) { ex[k] = upd[k]; changed = true; }
       return;
     }
-    list.push(Object.assign({ id, jobId: j.id, courseRef: j.title, instructor1: j.instructor_name || pname, instructor2: '',
+    list.push(Object.assign({ id, jobId: j.id, courseRef: j.title, instructor1: team[0] || j.instructor_name || pname, instructor2: team[1] || '', extraInstructors: team.slice(2),
       learners: [], records: [], linkedSessionIds: [], createdAt: new Date().toISOString(), owner: me, ownerName: pname }, upd));
     changed = true;
   });
@@ -12856,18 +12914,20 @@ async function jbOpenAdmin() {
   showView('jobs');
   jb.msg = ''; jb.formOpen = false; jb.editing = '';
   jbRenderAdmin();
-  await Promise.all([jbLoad(), (typeof admLoad === 'function' ? admLoad() : null)]);
+  await Promise.all([jbLoad(), (typeof admLoad === 'function' ? admLoad() : null),
+    (typeof auCall === 'function' ? auCall({ action:'list' }).then(r => { au.users = r.users || []; }).catch(() => {}) : null)]);
   jbRenderAdmin();
 }
 function jbInstructors() {
-  return (admState.profiles || []).filter(p => p.role === 'instructor' || p.role === 'admin');
+  const gone = new Set(((typeof au !== 'undefined' && au.users) || []).filter(u => u.deleted || !u.active).map(u => u.id));
+  return (admState.profiles || []).filter(p => (p.role === 'instructor' || p.role === 'admin') && !gone.has(p.id));
 }
 function jbRenderAdmin() {
   const root = document.getElementById('jbAdminRoot'); if (!root) return;
   let html = `<button class="rn-nav-btn rn-no-print" onclick="showView('hub')">← Home</button>
     <div class="hub-eyebrow" style="margin-top:14px;">Management Panel</div>
     <div class="hub-h" style="margin-bottom:4px;">Job Scheduling</div>
-    <p class="sc-p">Create jobs, assign them to instructors with a day rate, then run timesheets and mark payments.</p>
+    <p class="sc-p">Create a course, pick its days, put instructors on each day, then run timesheets and mark payments.</p>
     <div class="jb-tabs"><button class="${jb.tab === 'schedule' ? 'on' : ''}" onclick="jb.tab='schedule';jbRenderAdmin()">Schedule</button><button class="${jb.tab === 'timesheets' ? 'on' : ''}" onclick="jb.tab='timesheets';jbRenderAdmin()">Timesheets &amp; payments</button></div>`;
   if (!jbIsAdmin()) { root.innerHTML = html + '<p class="jb-empty">Only centre admins can schedule jobs.</p>'; return; }
   if (jb.err) html += `<p class="jb-msg" style="color:#C74444;">${lpmEsc(jb.err)}</p>`;
@@ -12880,22 +12940,142 @@ function jbRenderAdmin() {
 function jbAdminSchedule() {
   const month = jb.jobs.filter(j => jbInMonth(j, jb.month));
   const ed = jb.editing ? jb.jobs.find(j => j.id === jb.editing) : null;
-  let html = `<button class="jb-btn pri" onclick="jb.formOpen=!jb.formOpen;jb.editing='';jbRenderAdmin()">${jb.formOpen && !ed ? 'Close' : '+ New job'}</button><div style="height:12px"></div>`;
-  if (jb.formOpen) html += jbForm(ed);
+  let html = `<button class="jb-btn pri" onclick="${jb.formOpen ? "jb.formOpen=false;jb.editing='';jb.draft=null;jbRenderAdmin()" : 'jbNewDraft()'}">${jb.formOpen ? 'Close' : '+ New course'}</button><div style="height:12px"></div>`;
+  if (jb.formOpen) html += (ed && !ed.group_id) ? jbForm(ed) : jbBuilder();
   html += jbMonthBar('jbRenderAdmin');
   html += jbCalendar(month, 'jbAdminFocus', j => jbInitials(j.instructor_name) + ' · ' + j.title);
-  html += `<div class="sc-h2">Jobs in ${jbMonthLabel(jb.month)}</div>`;
-  if (!month.length) html += '<p class="jb-empty">No jobs this month yet.</p>';
-  month.forEach(j => {
+  html += `<div class="sc-h2">Courses and jobs in ${jbMonthLabel(jb.month)}</div>`;
+  // one card per course (grouped days), older single jobs keep their own card
+  const groups = [], byKey = {};
+  month.forEach(j => { const k = j.group_id || ('J' + j.id); if (!byKey[k]) { byKey[k] = []; groups.push(k); } byKey[k].push(j); });
+  if (!groups.length) html += '<p class="jb-empty">Nothing booked this month yet.</p>';
+  groups.forEach(k => {
+    const rows = k.startsWith('J') ? byKey[k] : jb.jobs.filter(j => j.group_id === k);
+    const j = rows[0];
+    const dates = [...new Set(rows.map(r => r.job_date))].sort();
     html += `<div class="jb-card" id="jbc-${j.id}"><div class="jb-card-top"><div><h4>${lpmEsc(j.title)}</h4>
-      <div class="jb-meta">${lpmEsc(j.course_name || 'Not a Course Matrix course')}<br>${jbDates(j)}${jbTimes(j) ? ' · ' + jbTimes(j) : ''}<br>${lpmEsc(j.location || 'No location')}<br>
-      <b>${lpmEsc(j.instructor_name || 'Unassigned')}</b> · ${jbMoney(j.day_rate)}/day · total ${jbMoney(jbTotal(j))}</div></div>
-      <div style="display:flex;gap:6px;flex-direction:column;align-items:flex-end;"><span class="jb-status ${j.status}">${jbStatusLabel(j)}</span>${j.paid ? '<span class="jb-status paid">Paid</span>' : ''}</div></div>
-      ${j.notes ? `<div class="jb-meta" style="margin-top:8px;"><b>Notes:</b> ${lpmEsc(j.notes)}</div>` : ''}
-      ${j.instructor_note ? `<div class="jb-meta" style="margin-top:4px;"><b>Instructor's note:</b> ${lpmEsc(j.instructor_note)}</div>` : ''}
-      <div class="jb-actions"><button class="jb-btn" onclick="jb.editing='${j.id}';jb.formOpen=true;jbRenderAdmin();window.scrollTo(0,0)">Edit</button><button class="jb-btn no" onclick="jbRemove('${j.id}')">Remove shift</button></div></div>`;
+      <div class="jb-meta">${lpmEsc(j.course_name || 'Not a Course Matrix course')}<br>${lpmEsc(j.location || 'No location')}${jbTimes(j) ? ' · ' + jbTimes(j) : ''} · ${jbMoney(j.day_rate)}/day</div></div></div>
+      <div class="jb-days">${dates.map(d => `<div class="jb-dayrow"><span class="jb-daylbl">${j.group_id ? jbDayLabel(d) : jbDates(j)}</span><span class="jb-people">${rows.filter(r => r.job_date === d).map(r =>
+        `<span class="jb-person"><b>${lpmEsc(r.instructor_name || 'Unassigned')}</b>${r.is_lead ? ' <i>Lead</i>' : ''} <span class="jb-status ${r.status}">${jbStatusLabel(r)}</span>${r.paid ? ' <span class="jb-status paid">Paid</span>' : ''}</span>`).join('')}</span></div>`).join('')}</div>
+      ${j.notes ? `<div class="jb-meta" style="margin-top:8px;"><b>Notes (on the course):</b> ${lpmEsc(j.notes)}</div>` : ''}
+      ${rows.filter(r => r.instructor_note).map(r => `<div class="jb-meta" style="margin-top:4px;"><b>${lpmEsc(r.instructor_name)}:</b> ${lpmEsc(r.instructor_note)}</div>`).join('')}
+      <div class="jb-actions">${j.group_id
+        ? `<button class="jb-btn" onclick="jbEditGroup('${j.group_id}')">Edit</button><button class="jb-btn no" onclick="jbRemoveGroup('${j.group_id}')">Remove course</button>`
+        : `<button class="jb-btn" onclick="jb.editing='${j.id}';jb.formOpen=true;jbRenderAdmin();window.scrollTo(0,0)">Edit</button><button class="jb-btn no" onclick="jbRemove('${j.id}')">Remove shift</button>`}</div></div>`;
   });
   return html;
+}
+
+// ---------- Course builder: days first, then instructors on each day ----------
+function jbNewDraft() {
+  jb.editing = ''; jb.formOpen = true;
+  jb.draft = { group:'', course_name:'', title:'', location:'', start:'09:00', end:'17:00', rate:'', notes:'', days:[{ date: isoLocal(), instr:['', ''] }] };
+  jbRenderAdmin();
+}
+function jbDraftSet(k, v) { jb.draft[k] = v; }
+function jbDraftCourse(v) {
+  const d = jb.draft; d.course_name = v;
+  if (v && !d.title.trim()) d.title = v;
+  const first = (d.days[0] && d.days[0].date) || isoLocal();
+  const keep = i => (d.days[i] && d.days[i].instr) || ['', ''];
+  if (v === 'FREC 3 - Custom Dates') d.days = [0, 1, 2, 3, 4].map(i => ({ date: i === 0 ? first : '', instr: keep(i) }));
+  else {
+    const n = (typeof LPM_COURSE_LENGTH_DAYS !== 'undefined' && LPM_COURSE_LENGTH_DAYS[v]) || 0;
+    if (n) d.days = Array.from({ length: n }, (_, i) => ({ date: jbAddDays(first, i), instr: keep(i) }));
+  }
+  jbRenderAdmin();
+}
+function jbDraftDay(i, v) {
+  const d = jb.draft; d.days[i].date = v;
+  // standard courses run on consecutive days: moving day 1 moves the rest
+  if (i === 0 && v && d.course_name && d.course_name !== 'FREC 3 - Custom Dates' && (typeof LPM_COURSE_LENGTH_DAYS !== 'undefined' && LPM_COURSE_LENGTH_DAYS[d.course_name])) {
+    d.days.forEach((x, k) => { if (k) x.date = jbAddDays(v, k); }); jbRenderAdmin();
+  }
+}
+function jbBuilder() {
+  const d = jb.draft; if (!d) return '';
+  const courses = (typeof LPM_COURSE_NAMES !== 'undefined' ? LPM_COURSE_NAMES : []);
+  const locs = (typeof LPM_LOCATIONS !== 'undefined' ? LPM_LOCATIONS : []);
+  const ins = jbInstructors();
+  const custom = d.course_name === 'FREC 3 - Custom Dates';
+  const opt = cur => '<option value="">Choose instructor…</option>' + ins.map(p => `<option value="${p.id}" ${p.id === cur ? 'selected' : ''}>${lpmEsc(p.full_name || p.id)}</option>`).join('');
+  return `<div class="jb-form jb-builder">
+    <div class="wide jb-bh">${d.group ? 'Edit course' : 'New course'}</div>
+    <label>Course type<select onchange="jbDraftCourse(this.value)"><option value="">Not a Course Matrix course</option>${courses.map(c => `<option ${c === d.course_name ? 'selected' : ''}>${lpmEsc(c)}</option>`).join('')}</select></label>
+    <label>Title<input value="${lpmEsc(d.title)}" placeholder="e.g. FREC 3 — cohort 4" oninput="jbDraftSet('title', this.value)"></label>
+    <label>Location<input list="jbfLocs" value="${lpmEsc(d.location)}" oninput="jbDraftSet('location', this.value)"><datalist id="jbfLocs">${locs.map(l => `<option value="${lpmEsc(l)}">`).join('')}</datalist></label>
+    <label>Day rate (£)<input type="number" min="0" step="0.01" value="${lpmEsc(d.rate)}" placeholder="e.g. 180" oninput="jbDraftSet('rate', this.value)"></label>
+    <label>Start time<input type="time" value="${d.start}" oninput="jbDraftSet('start', this.value)"></label>
+    <label>Finish time<input type="time" value="${d.end}" oninput="jbDraftSet('end', this.value)"></label>
+    <div class="wide jb-bh" style="margin-top:6px;">Course days${custom ? ' <span class="jb-hint">— pick each date, e.g. a 5-day course over 3 weekends</span>' : ''}</div>
+    <div class="wide">${d.days.map((day, i) => `<div class="jb-bday">
+      <div class="jb-bday-top"><b>Day ${i + 1}</b><input type="date" value="${day.date || ''}" oninput="jbDraftDay(${i}, this.value)" aria-label="Date for day ${i + 1}">
+        ${d.days.length > 1 ? `<button class="jb-btn no" onclick="jb.draft.days.splice(${i},1);jbRenderAdmin()" aria-label="Remove day ${i + 1}">Remove day</button>` : ''}</div>
+      <div class="jb-slots">${day.instr.map((id, k) => `<div class="jb-slot"><span>${i === 0 && k === 0 ? 'Lead instructor' : 'Instructor ' + (k + 1)}</span>
+        <select onchange="jb.draft.days[${i}].instr[${k}]=this.value">${opt(id)}</select>
+        ${k > 1 ? `<button class="jb-x" onclick="jb.draft.days[${i}].instr.splice(${k},1);jbRenderAdmin()" aria-label="Remove instructor">✕</button>` : ''}</div>`).join('')}
+        <button class="jb-btn" onclick="jb.draft.days[${i}].instr.push('');jbRenderAdmin()">+ Add instructor</button>
+        ${i > 0 ? `<button class="jb-btn" onclick="jb.draft.days[${i}].instr=jb.draft.days[${i - 1}].instr.slice();jbRenderAdmin()">Same as day ${i}</button>` : ''}</div>
+    </div>`).join('')}
+      <button class="jb-btn" onclick="jb.draft.days.push({ date:'', instr:['', ''] });jbRenderAdmin()">+ Add day</button></div>
+    <label class="wide">Notes <span class="jb-hint">— shown on the course in Course Matrix</span><textarea rows="2" oninput="jbDraftSet('notes', this.value)">${lpmEsc(d.notes)}</textarea></label>
+    <div class="wide jb-actions" style="margin-top:0;"><button class="jb-btn pri" onclick="jbSaveGroup()">${d.group ? 'Save course' : 'Create course'}</button><button class="jb-btn" onclick="jb.formOpen=false;jb.draft=null;jbRenderAdmin()">Cancel</button><span id="jbfMsg" class="jb-msg" style="color:#C74444;"></span></div>
+  </div>`;
+}
+async function jbSaveGroup() {
+  const d = jb.draft, msg = document.getElementById('jbfMsg');
+  const ins = jbInstructors(), nameOf = id => ((ins.find(p => p.id === id) || {}).full_name || '');
+  if (!d.title.trim()) { msg.textContent = 'Give the course a title.'; return; }
+  const days = d.days.filter(x => x.date).map(x => ({ date: x.date, instr: [...new Set(x.instr.filter(Boolean))] })).sort((a, b) => a.date < b.date ? -1 : 1);
+  if (!days.length) { msg.textContent = 'Choose at least one date.'; return; }
+  if (new Set(days.map(x => x.date)).size !== days.length) { msg.textContent = 'Two days have the same date.'; return; }
+  const lead = (d.days[0] && d.days[0].instr[0]) || (days[0].instr[0]) || '';
+  if (!lead) { msg.textContent = 'Choose a lead instructor for day 1.'; return; }
+  const team = [lead, ...days.flatMap(x => x.instr)].filter((v, i, a) => v && a.indexOf(v) === i).map(nameOf);
+  const group = d.group || ('G' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6));
+  const shared = { group_id: group, title: d.title.trim(), course_name: d.course_name || null, start_time: d.start, end_time: d.end, location: (d.location || '').trim(),
+    day_rate: Number(d.rate) || 0, notes: (d.notes || '').trim(), team: team.join('|'), course_dates: days.map(x => x.date).join(','), days: 1, updated_at: new Date().toISOString() };
+  const want = days.flatMap(x => x.instr.map(id => ({ date: x.date, id })));
+  msg.style.color = '#6B7A94'; msg.textContent = 'Saving…';
+  try {
+    const existing = jb.jobs.filter(j => j.group_id === group);
+    const keyOf = (date, id) => date + '|' + id;
+    const wantKeys = new Set(want.map(w => keyOf(w.date, w.id)));
+    for (const j of existing) if (!wantKeys.has(keyOf(j.job_date, j.instructor))) await cloudRest('jobs?id=eq.' + j.id, 'DELETE', null, 'return=minimal');
+    for (const j of existing) if (wantKeys.has(keyOf(j.job_date, j.instructor)))
+      await cloudRest('jobs?id=eq.' + j.id, 'PATCH', Object.assign({}, shared, { is_lead: j.instructor === lead, instructor_name: nameOf(j.instructor) || j.instructor_name }), 'return=minimal');
+    const have = new Set(existing.map(j => keyOf(j.job_date, j.instructor)));
+    const add = want.filter(w => !have.has(keyOf(w.date, w.id))).map(w => Object.assign({}, shared, { job_date: w.date, instructor: w.id, instructor_name: nameOf(w.id), is_lead: w.id === lead, status: 'offered' }));
+    if (add.length) await cloudRest('jobs', 'POST', add, 'return=minimal');
+    jb.msg = (d.group ? 'Course updated.' : 'Course created.') + (add.length ? ' ' + add.length + ' day' + (add.length === 1 ? '' : 's') + ' sent to instructors to confirm.' : '');
+    jb.formOpen = false; jb.draft = null; jb.month = days[0].date.slice(0, 7);
+    await jbLoad(); jbRenderAdmin(); window.scrollTo(0, 0);
+  } catch (e) {
+    const raw = String(e.message || e);
+    msg.style.color = '#C74444';
+    msg.textContent = /group_id|is_lead|course_dates|team|PGRST204|column/i.test(raw) ? 'The job table needs updating for multi-day courses. Run supabase_jobs_courses.sql in Supabase, then try again.' : jbErr(e);
+  }
+}
+function jbEditGroup(g) {
+  const rows = jb.jobs.filter(j => j.group_id === g); if (!rows.length) return;
+  const j = rows[0], dates = [...new Set(rows.map(r => r.job_date))].sort();
+  const lead = (rows.find(r => r.is_lead) || {}).instructor || '';
+  jb.draft = { group: g, course_name: j.course_name || '', title: j.title || '', location: j.location || '', start: j.start_time || '09:00', end: j.end_time || '17:00',
+    rate: j.day_rate != null ? String(j.day_rate) : '', notes: j.notes || '',
+    days: dates.map((d, i) => { let ids = rows.filter(r => r.job_date === d).map(r => r.instructor);
+      if (i === 0 && lead && ids.includes(lead)) ids = [lead, ...ids.filter(x => x !== lead)];
+      while (ids.length < 2) ids.push(''); return { date: d, instr: ids }; }) };
+  jb.formOpen = true; jb.editing = ''; jbRenderAdmin(); window.scrollTo(0, 0);
+}
+async function jbRemoveGroup(g) {
+  const rows = jb.jobs.filter(j => j.group_id === g); if (!rows.length) return;
+  const cid = 'CG' + g, course = lpmLoadCourses().find(c => c.id === cid), submitted = !!(course && course.submission);
+  if (!confirm('Remove "' + rows[0].title + '" and all its days from everyone\u2019s schedule?' + (submitted ? '\n\nIts course pack has been submitted, so the course record is kept for IQA.' : '\n\nIts course will also come off the Course Matrix.'))) return;
+  try {
+    for (const j of rows) await cloudRest('jobs?id=eq.' + j.id, 'DELETE', null, 'return=minimal');
+    if (!submitted) { try { await cloudRest('courses?id=eq.' + encodeURIComponent(cid), 'DELETE', null, 'return=minimal'); } catch (e) {} lpmSaveCoursesRaw(lpmLoadCourses().filter(c => c.id !== cid)); }
+    jb.msg = 'Course removed.'; await jbLoad(); jbRenderAdmin();
+  } catch (e) { alert(jbErr(e)); }
 }
 function jbAdminFocus(id) { const el = document.getElementById('jbc-' + id); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
 
@@ -12914,8 +13094,8 @@ function jbForm(j) {
     <label>Location<input id="jbfLoc" list="jbfLocs" value="${lpmEsc(j.location || '')}"><datalist id="jbfLocs">${locs.map(l => `<option value="${lpmEsc(l)}">`).join('')}</datalist></label>
     <label>Instructor<select id="jbfInstr"><option value="">Choose…</option>${ins.map(p => `<option value="${p.id}" ${p.id === j.instructor ? 'selected' : ''}>${lpmEsc(p.full_name || p.id)}</option>`).join('')}</select></label>
     <label>Day rate (£)<input type="number" min="0" step="0.01" id="jbfRate" value="${j.day_rate != null ? j.day_rate : ''}" placeholder="e.g. 180"></label>
-    <label class="wide">Notes for the instructor<textarea id="jbfNotes" rows="2">${lpmEsc(j.notes || '')}</textarea></label>
-    <div class="wide jb-actions" style="margin-top:0;"><button class="jb-btn pri" onclick="jbSave()">${j.id ? 'Save changes' : 'Create and send to instructor'}</button><button class="jb-btn" onclick="jb.formOpen=false;jb.editing='';jbRenderAdmin()">Cancel</button><span id="jbfMsg" class="jb-msg" style="color:#C74444;"></span></div>
+    <label class="wide">Notes <span class="jb-hint">— shown on the course in Course Matrix</span><textarea id="jbfNotes" rows="2">${lpmEsc(j.notes || '')}</textarea></label>
+    <div class="wide jb-actions" style="margin-top:0;"><button class="jb-btn pri" onclick="jbSave()">${j.id ? 'Save changes' : 'Create course'}</button><button class="jb-btn" onclick="jb.formOpen=false;jb.editing='';jbRenderAdmin()">Cancel</button><span id="jbfMsg" class="jb-msg" style="color:#C74444;"></span></div>
   </div>`;
 }
 function jbFormCourse(v) {
@@ -13094,7 +13274,7 @@ function jbMineCard(j) {
   return `<div class="jb-card" id="jbm-${j.id}"><div class="jb-card-top"><div><h4>${lpmEsc(j.title)}</h4>
     <div class="jb-meta">${lpmEsc(j.course_name || '')}${j.course_name ? '<br>' : ''}${jbDates(j)}${jbTimes(j) ? ' · ' + jbTimes(j) : ''}<br>${lpmEsc(j.location || '')}<br>${jbMoney(j.day_rate)}/day · ${jbMoney(jbTotal(j))} total</div></div>
     <div style="display:flex;gap:6px;flex-direction:column;align-items:flex-end;"><span class="jb-status ${j.status}">${jbStatusLabel(j)}</span>${j.paid ? '<span class="jb-status paid">Paid</span>' : ''}</div></div>
-    ${j.notes ? `<div class="jb-meta" style="margin-top:8px;"><b>From your centre:</b> ${lpmEsc(j.notes)}</div>` : ''}
+    ${j.group_id ? `<div class="jb-meta" style="margin-top:8px;">${j.is_lead ? '<b>You are the lead instructor.</b> ' : ''}${jbCourseDaysLine(j)}</div>` : ''}
     <textarea class="jb-note" id="jbn-${j.id}" placeholder="My notes for this job…">${lpmEsc(j.instructor_note || '')}</textarea>
     <div class="jb-actions">
       ${j.status === 'offered' ? `<button class="jb-btn go" onclick="jbRespond('${j.id}','confirmed')">✓ Confirm</button><button class="jb-btn no" onclick="jbRespond('${j.id}','rejected')">✕ Reject</button>` : ''}
@@ -13633,15 +13813,15 @@ function qzRender() {
 }
 
 // ---------------- Knowledge Centre landing, quiz board, hand-outs, resources ----------------
-let kc = { sec:'' };
+let kc = { sec:'', cat:'' };
 // Hand-outs: upload each PDF to the top level of the GitHub repo with exactly this file name
 const KC_HANDOUTS = [
   { title:'Immediate Emergency Care Action Cards', sub:'Quick-reference action cards for learners to keep', file:'Immediate-Emergency-Care-Action-Cards.pdf' },
 ];
 const KC_QUIZ_GROUPS = [
-  { cat:'efaw', title:'Emergency First Aid at Work', soon:true },
-  { cat:'faw', title:'First Aid at Work' },
-  { cat:'gas', title:'Medical Gases' },
+  { cat:'efaw', title:'Emergency First Aid at Work', sub:'One-day workplace first aid', soon:true, soft:'#FFE1D6', ic:'<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/>' },
+  { cat:'faw', title:'First Aid at Work', sub:'Injuries, medical conditions and practical scenarios', soft:'#DDEFE6', ic:'<path d="M4 7h16v13H4z"/><path d="M9 7V4h6v3M12 10.5v6M9 13.5h6"/>' },
+  { cat:'gas', title:'Medical Gases', sub:'Oxygen therapy', soft:'#E3E8FA', ic:'<path d="M9 7h6v13a2 2 0 0 1-2 2h-2a2 2 0 0 1-2-2z"/><path d="M10 7V4h4v3M12 2v2"/>' },
 ];
 function kcIcon(d, size) { return `<svg viewBox="0 0 24 24" width="${size || 24}" height="${size || 24}" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`; }
 const KC_IC = {
@@ -13669,6 +13849,20 @@ function qzRenderPick(r) {
 }
 function kcRenderQuiz(r) {
   const signedIn = typeof CLOUD_ON !== 'undefined' && CLOUD_ON && cloud.session;
+  const g = KC_QUIZ_GROUPS.find(x => x.cat === kc.cat);
+  if (!g) {
+    r.innerHTML = `${kcBack("kc.sec='';qzRender()")}
+      <div class="hub-eyebrow" style="margin-top:14px;">Knowledge Centre</div>
+      <div class="hub-h">QR Game Board Quiz</div>
+      <div class="hub-p">Choose a course to see its quizzes. Learners scan a QR code and play on their phones.</div>
+      <div class="hub-tiles" style="margin-top:22px;">${KC_QUIZ_GROUPS.map(x => {
+        const n = QZ_BANK.filter(b => b.cat === x.cat).length;
+        return `<button class="hub-tile ${x.soon ? 'kc-tile-soon' : ''}" style="--soft:${x.soft};" onclick="${x.soon ? '' : `kc.cat='${x.cat}';qzRender()`}" ${x.soon ? 'aria-disabled="true"' : ''}>
+          <span class="hub-ic">${kcIcon(x.ic)}</span>
+          <span class="hub-text"><span class="hub-title">${x.title}</span>
+          ${x.soon ? '<span class="kc-soon-badge kc-soon-big">Coming soon <span class="kc-dots"><i></i><i></i><i></i></span></span>' : `<span class="hub-sub">${x.sub} · ${n} quiz${n === 1 ? '' : 'zes'}</span>`}</span></button>`; }).join('')}</div>`;
+    return;
+  }
   const card = (b, k) => `<div class="qz-card">
         <div class="qz-card-t">${qzEsc(b.title)}</div>
         <div class="qz-card-s">${qzEsc(b.sub)} · ${b.qs.length} questions + 3 trivia</div>
@@ -13676,19 +13870,15 @@ function kcRenderQuiz(r) {
           <button class="qz-btn qz-primary" ${signedIn ? '' : 'disabled'} onclick="qzStartLive(${k})">Start live quiz</button>
           <button class="qz-btn" onclick="qzStartSolo(${k})">Run on screen</button>
         </div></div>`;
-  r.innerHTML = `${kcBack("kc.sec='';qzRender()")}
-    <div class="hub-eyebrow" style="margin-top:14px;">Knowledge Centre</div>
-    <div class="hub-h">QR Game Board Quiz</div>
-    <div class="hub-p">Learners scan the code and pick their own sporty creature — each one can only be used once per quiz. Points for right answers, speed and streaks, and every quiz ends with a 3-question trivia round.</div>
+  const list = QZ_BANK.map((b, k) => [b, k]).filter(([b]) => b.cat === g.cat);
+  r.innerHTML = `<button class="rn-nav-btn" onclick="kc.cat='';qzRender()">← QR Game Board Quiz</button>
+    <div class="hub-eyebrow" style="margin-top:14px;">QR Game Board Quiz</div>
+    <div class="hub-h">${g.title}</div>
+    <div class="hub-p">Points for right answers, speed and streaks, and every quiz ends with a 3-question trivia round.</div>
     ${signedIn ? '' : `<div class="sc-note" style="margin-bottom:16px;">Sign in to run a live quiz with phones. You can still run any quiz on this screen with a show of hands.</div>`}
     ${qzTimeOpts()}
-    ${KC_QUIZ_GROUPS.map(g => {
-      const list = QZ_BANK.map((b, k) => [b, k]).filter(([b]) => b.cat === g.cat);
-      return `<div class="hub-group">${g.title}</div>` + (g.soon || !list.length
-        ? `<div class="kc-soon-card"><span class="kc-dots"><i></i><i></i><i></i></span><b>Coming soon</b><span>${g.title} quizzes are being written.</span></div>`
-        : `<div class="qz-grid">${list.map(([b, k]) => card(b, k)).join('')}</div>`);
-    }).join('')}
-    <p class="qz-foot">Practice questions written for Sector 3 Group against each syllabus. They are not the awarding body's assessment papers.</p>`;
+    <div class="qz-grid">${list.map(([b, k]) => card(b, k)).join('')}</div>
+    <p class="qz-foot">Practice questions written for Sector 3 Group against the syllabus. They are not the awarding body's assessment papers.</p>`;
 }
 function kcFileUrl(f) { return location.origin + location.pathname.replace(/[^/]*$/, '') + encodeURI(f); }
 function kcRenderHandouts(r) {
@@ -13703,8 +13893,15 @@ function kcRenderHandouts(r) {
         <div class="kc-doc-b"><button class="qz-btn qz-primary" onclick="kcShowQr(${i})">Show QR code</button><a class="qz-btn" href="${qzEsc(h.file)}" target="_blank" rel="noopener" style="text-decoration:none;">Open</a></div>
       </div>`).join('')}</div>`;
 }
-function kcShowQr(i) {
+async function kcFileThere(f) {
+  try { const r = await fetch(f, { method:'HEAD', cache:'no-store' }); return r.ok && /pdf|octet/i.test(r.headers.get('content-type') || 'pdf'); } catch (e) { return false; }
+}
+async function kcShowQr(i) {
   const h = KC_HANDOUTS[i], url = kcFileUrl(h.file);
+  if (location.protocol.startsWith('http') && !(await kcFileThere(h.file))) {
+    alert('The PDF isn\u2019t on the website yet.\n\nUpload it to the top level of your GitHub repo named exactly:\n' + h.file + '\n\nThen try again. (Names are case-sensitive.)');
+    return;
+  }
   const ov = document.createElement('div'); ov.className = 'kc-qr-ov'; ov.onclick = e => { if (e.target === ov) ov.remove(); };
   ov.innerHTML = `<div class="kc-qr-box"><div class="hub-eyebrow">Scan to download</div><div class="kc-qr-t">${qzEsc(h.title)}</div>
     <div class="kc-qr" id="kcQr"></div><div class="qz-url">${qzEsc(url)}</div>
@@ -14232,7 +14429,7 @@ function auRender() {
   let html = `<button class="rn-nav-btn rn-no-print" onclick="showView('hub')">← Home</button>
     <div class="hub-eyebrow" style="margin-top:14px;">Management Panel</div>
     <div class="hub-h" style="margin-bottom:4px;">Instructor Admin</div>
-    <p class="sc-p">Add people, set what they can do, and switch logins off when someone leaves.</p>
+    <p class="sc-p">Add people, set what they can do, and delete logins when someone leaves.</p>
     ${auTabs()}
     <div class="sc-h2">Add a person</div>
     <div class="jb-form">
@@ -14259,7 +14456,7 @@ function auRender() {
   if (au.users === null) html += '<p class="jb-empty">Loading…</p>';
   else if (!au.users.length && !au.err) html += '<p class="jb-empty">No logins yet.</p>';
   else {
-    const list = au.users.slice().sort((a, b) => (a.full_name || a.email).localeCompare(b.full_name || b.email));
+    const list = au.users.filter(u => !u.deleted).slice().sort((a, b) => (a.full_name || a.email).localeCompare(b.full_name || b.email));
     html += list.map(u => {
       const st = !u.active ? ['off', 'Switched off'] : u.last_sign_in_at ? ['ok', 'Active'] : ['wait', 'Invited'];
       const sub = !u.active ? 'Cannot sign in' : u.last_sign_in_at ? 'Last signed in ' + when(u.last_sign_in_at) : 'Not signed in yet' + (u.invited_at ? ' · invited ' + when(u.invited_at) : '');
@@ -14270,7 +14467,7 @@ function auRender() {
         <div><span class="au-st ${st[0]}">${st[1]}</span><div class="au-when">${sub}</div></div>
         <div class="jb-actions" style="margin-top:0;justify-content:flex-end;">
           ${u.active ? `<button class="jb-btn" onclick="auNewLink('${u.id}')">New sign-in link</button>` : ''}
-          ${u.me ? '' : u.active ? `<button class="jb-btn no" onclick="auActive('${u.id}', false)">Switch off</button>` : `<button class="jb-btn go" onclick="auActive('${u.id}', true)">Switch on</button>`}
+          ${u.me ? '' : `<button class="jb-btn no" onclick="auDelete('${u.id}')">Delete</button>`}
         </div></div>`;
     }).join('');
   }
@@ -14283,7 +14480,7 @@ async function auInvite() {
   au.busy = true; auRender();
   try {
     const r = await auCall({ action:'invite', full_name: name, email, role });
-    au.link = { url: r.link, name, email, fresh: true };
+    au.link = { url: auWrap(r.link), name, email, fresh: true };
     const l = await auCall({ action:'list' }); au.users = l.users || []; au.err = '';
     try { admState.profiles = await cloudRest('profiles?select=id,full_name,role&order=full_name') || admState.profiles; } catch (e) {}
   } catch (e) { au.busy = false; auRender(); const mm = document.getElementById('auMsg'); mm.style.color = '#C74444'; mm.textContent = e.message;
@@ -14292,7 +14489,7 @@ async function auInvite() {
 }
 async function auNewLink(id) {
   const u = (au.users || []).find(x => x.id === id); if (!u) return;
-  try { const r = await auCall({ action:'link', id }); au.link = { url: r.link, name: u.full_name || u.email, email: u.email, fresh: false }; auRender(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  try { const r = await auCall({ action:'link', id }); au.link = { url: auWrap(r.link), name: u.full_name || u.email, email: u.email, fresh: false }; auRender(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
   catch (e) { alert(e.message); }
 }
 async function auRole(id, role, sel) {
@@ -14305,6 +14502,17 @@ async function auActive(id, on) {
   const u = (au.users || []).find(x => x.id === id);
   if (!on && !confirm('Switch off ' + ((u && u.full_name) || 'this login') + '? They won\u2019t be able to sign in. Their courses and records are kept, and you can switch them back on.')) return;
   try { await auCall({ action:'set_active', id, active: on }); if (u) u.active = on; auRender(); } catch (e) { alert(e.message); }
+}
+async function auDelete(id) {
+  const u = (au.users || []).find(x => x.id === id); const n = (u && (u.full_name || u.email)) || 'this person';
+  if (!confirm('Delete ' + n + '?\n\nTheir login is removed and they disappear from your lists and job scheduling. Courses and records they already completed are kept for your centre\u2019s records.')) return;
+  try { await auCall({ action:'delete', id }); if (u) u.deleted = true; auRender(); } catch (e) { alert(e.message); }
+}
+// WhatsApp, iMessage and email scanners open links to build previews. A one-time Supabase link opened by a
+// preview is used up before the person taps it, so we share a link to this app instead; the person taps a button to continue.
+function auWrap(link) {
+  const b64 = btoa(link).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  return location.origin + location.pathname + '?join=' + b64;
 }
 function auCopy() { try { navigator.clipboard.writeText(au.link.url); alert('Link copied'); } catch (e) { prompt('Copy this link', au.link.url); } }
 function auShare() { navigator.share({ title: 'Digital Training Centre login', text: 'Your link to set up your Digital Training Centre login:', url: au.link.url }).catch(() => {}); }
@@ -14343,7 +14551,7 @@ function ctPick(step) {
   let body;
   if (step === 'frec3') {
     body = `<div class="ct-k">Qualsafe · FREC 3</div><div class="ct-h">Which FREC 3 course?</div>
-      <div class="ct-grid">${tile({ name:'FREC 3 - 5 Day', label:'5 Day', sub:'Full course', c:'#E36A12', ic:'amb' })}${tile({ name:'FREC 3 - RPL - 3 Day', label:'RPL · 3 Day', sub:'Recognition of prior learning', c:'#C4570C', ic:'amb' })}</div>
+      <div class="ct-grid">${tile({ name:'FREC 3 - 5 Day', label:'5 Day', sub:'Full course', c:'#E36A12', ic:'amb' })}${tile({ name:'FREC 3 - RPL - 3 Day', label:'RPL · 3 Day', sub:'Recognition of prior learning', c:'#C4570C', ic:'amb' })}${tile({ name:'FREC 3 - Custom Dates', label:'Custom dates', sub:'5 days spread over weekends', c:'#A34A0A', ic:'amb' })}</div>
       <button class="ct-back" onclick="ctPick()">← All courses</button>`;
   } else {
     body = `<div class="ct-k">New course record</div><div class="ct-h">What course are<br>you running?</div>` +
