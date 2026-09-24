@@ -1505,6 +1505,59 @@ function fmtD(v) {
   .ht-quick b { color:var(--st-ink); margin-bottom:2px; }
   .ht-quick button { display:flex; align-items:center; gap:12px; min-height:48px; border:1px solid var(--st-line); border-radius:12px; background:#FBFAF6; color:var(--st-ink); padding:0 14px; font:inherit; font-size:0.92rem; cursor:pointer; text-align:left; }
   .ht-quick svg { flex-shrink:0; }
+  /* Knowledge Centre */
+  .grp-account { display:none !important; }
+  body.role-iqa .hub-group.grp-account { display:flex !important; }
+  body.role-iqa .hub-tiles.grp-account { display:grid !important; }
+  body.role-iqa .grp-delivery, body.role-iqa .grp-instr, body.role-iqa .hub-today { display:none !important; }
+  .adm-del { color:#A33030 !important; border-color:#E2A0A0 !important; background:#fff !important; }
+  /* New course type picker */
+  .ct-ov { position:fixed; inset:0; z-index:500; background:#0D1B4C; overflow-y:auto; padding:calc(env(safe-area-inset-top,0px) + 28px) 22px 40px; box-sizing:border-box; animation:ctFade .25s ease-out; }
+  @keyframes ctFade { from { opacity:0; } }
+  .ct-in { max-width:980px; margin:0 auto; }
+  .ct-top { display:flex; justify-content:space-between; align-items:center; gap:12px; }
+  .ct-x { width:48px; height:48px; border-radius:50%; border:0; background:rgba(255,255,255,0.12); color:#fff; font-size:1.4rem; cursor:pointer; }
+  .ct-k { color:#9FB0DA; font-size:0.8rem; letter-spacing:0.16em; text-transform:uppercase; font-weight:700; }
+  .ct-h { font-family:'Fraunces',Georgia,serif; font-weight:600; color:#fff; font-size:clamp(2rem,5vw,3.2rem); line-height:1.05; margin:10px 0 26px; }
+  .ct-prov { display:flex; align-items:center; gap:12px; color:#fff; font-weight:800; font-size:1rem; letter-spacing:0.04em; margin:22px 0 12px; }
+  .ct-prov img { width:40px; height:40px; border-radius:10px; background:#fff; object-fit:contain; padding:2px; }
+  .ct-prov .ct-q { width:40px; height:40px; border-radius:10px; background:#fff; color:#0D1B4C; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:1.1rem; }
+  .ct-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:14px; }
+  .ct-tile { position:relative; overflow:hidden; border:0; border-radius:22px; min-height:150px; padding:20px; text-align:left; color:#fff; background:var(--c); cursor:pointer; display:flex; flex-direction:column; justify-content:space-between;
+    font-family:'Public Sans',sans-serif; box-shadow:0 10px 24px rgba(0,0,0,0.25); animation:ctPop .45s cubic-bezier(.3,1.5,.5,1) both; transition:transform .15s ease; }
+  .ct-tile:hover, .ct-tile:focus-visible { transform:translateY(-3px) scale(1.02); }
+  .ct-tile:active { transform:scale(0.97); }
+  @keyframes ctPop { from { transform:scale(0.6) translateY(20px); opacity:0; } }
+  .ct-tile svg { width:38px; height:38px; }
+  .ct-tile b { font-size:1.9rem; font-weight:900; letter-spacing:-0.01em; line-height:1; display:block; }
+  .ct-tile span { font-size:0.85rem; opacity:0.9; margin-top:6px; display:block; }
+  .ct-tile::after { content:''; position:absolute; right:-30px; top:-30px; width:110px; height:110px; border-radius:50%; background:rgba(255,255,255,0.12); }
+  .ct-back { margin-top:18px; border:1px solid rgba(255,255,255,0.3); background:transparent; color:#fff; border-radius:12px; padding:12px 18px; font:inherit; cursor:pointer; min-height:46px; }
+  @media (prefers-reduced-motion:reduce) { .ct-tile, .ct-ov { animation:none; } }
+  .kc-soon-badge { font-family:'Public Sans',sans-serif; font-size:0.62rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; background:#FFF1D6; color:#8A5200; border-radius:999px; padding:3px 8px; vertical-align:middle; white-space:nowrap; }
+  .kc-soon-card { display:flex; align-items:center; gap:14px; flex-wrap:wrap; border:1px dashed #D8D2C4; border-radius:18px; padding:20px; background:#FBFAF6; color:#16203D; }
+  .kc-soon-card span:last-child { color:#5E6577; font-size:0.9rem; }
+  .kc-dots { display:inline-flex; gap:6px; } .kc-dots i { width:9px; height:9px; border-radius:50%; background:#E4572E; animation:kcDot 1.2s ease-in-out infinite; }
+  .kc-dots i:nth-child(2) { animation-delay:.15s; background:#6B4FA8; } .kc-dots i:nth-child(3) { animation-delay:.3s; background:#1F8A5B; }
+  @keyframes kcDot { 0%,80%,100% { transform:translateY(0); opacity:.5; } 40% { transform:translateY(-7px); opacity:1; } }
+  .kc-list { display:flex; flex-direction:column; gap:12px; }
+  .kc-doc { display:flex; align-items:center; gap:16px; flex-wrap:wrap; background:#fff; border:1px solid #E7E3DA; border-radius:18px; padding:16px 18px; }
+  .kc-doc-ic { width:52px; height:52px; border-radius:14px; background:#E3E8FA; color:#16203D; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .kc-doc-t { flex:1; min-width:200px; } .kc-doc-t b { display:block; color:#16203D; font-size:1.02rem; } .kc-doc-t span { font-size:0.85rem; color:#5E6577; }
+  .kc-doc-b { display:flex; gap:8px; }
+  .kc-qr-ov { position:fixed; inset:0; background:rgba(13,27,76,0.55); z-index:400; display:flex; align-items:center; justify-content:center; padding:20px; }
+  .kc-qr-box { background:#fff; border-radius:24px; padding:28px; text-align:center; max-width:420px; width:100%; }
+  .kc-qr-t { font-family:'Fraunces',Georgia,serif; font-size:1.5rem; font-weight:600; color:#16203D; margin:4px 0 16px; }
+  .kc-qr { display:flex; justify-content:center; }
+  .kc-coming { text-align:center; padding:30px 10px 50px; }
+  .kc-stage { position:relative; width:260px; height:200px; margin:0 auto; }
+  .kc-box { position:absolute; left:50%; bottom:0; width:170px; height:62px; transform:translateX(-50%); background:#16203D; border-radius:12px 12px 18px 18px; box-shadow:0 12px 24px rgba(22,32,61,0.18); }
+  .kc-box::before { content:''; position:absolute; left:10px; right:10px; top:-10px; height:14px; background:#23305A; border-radius:8px; }
+  .kc-sheet { position:absolute; bottom:40px; width:66px; height:84px; background:#fff; border:1px solid #E7E3DA; border-radius:10px; display:flex; align-items:center; justify-content:center; color:#16203D; box-shadow:0 6px 16px rgba(22,32,61,0.1); animation:kcFloat 3.2s ease-in-out infinite; }
+  .kc-sheet.s1 { left:40px; animation-delay:0s; color:#2446B8; } .kc-sheet.s2 { left:97px; animation-delay:.5s; color:#E4572E; } .kc-sheet.s3 { left:154px; animation-delay:1s; color:#1F8A5B; }
+  @keyframes kcFloat { 0%,100% { transform:translateY(24px) rotate(-4deg); } 50% { transform:translateY(-34px) rotate(5deg); } }
+  .kc-coming-t { font-family:'Fraunces',Georgia,serif; font-size:2rem; font-weight:600; color:#16203D; margin-top:24px; }
+  @media (prefers-reduced-motion:reduce) { .kc-sheet, .kc-dots i { animation:none; } }
   .au-tabs { display:flex; gap:6px; margin:14px 0 4px; flex-wrap:wrap; }
   .au-tabs button { border:1px solid #D8DEE8; background:#fff; border-radius:999px; padding:9px 18px; font:inherit; font-size:0.88rem; color:#3A4760; cursor:pointer; min-height:40px; }
   .au-tabs button.on { background:#16203D; border-color:#16203D; color:#fff; font-weight:600; }
@@ -1549,6 +1602,7 @@ function fmtD(v) {
   }
   /* The logo lives in the left menu on tablets and computers, so the header drops its copy */
   @media (min-width:900px) {
+    body.has-rail #menuFab { display:none !important; }
     body.has-rail header .brand-logo-badge, body.has-rail header .brand-divider, body.has-rail header > a > .brand-title { display:none !important; }
   }
   @media (max-width:980px) { .hub { flex-direction:column; } .hub-today { width:100%; position:static; } }
@@ -1633,8 +1687,8 @@ window.addEventListener('load', function () {
       </div>
     </div>
 
-    <div class="hub-group">Course Delivery</div>
-    <div class="hub-tiles">
+    <div class="hub-group grp-delivery">Course Delivery</div>
+    <div class="hub-tiles grp-delivery">
     
     <button class="hub-tile" style="--accent:#1F8A5B;--soft:#DDEFE6;" onclick="showView('lpm');lpmShowPick();">
       <span class="hub-ic"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2.5"/><path d="M8.5 9.5l1.8 1.8 3.7-4M8.5 16h7"/></svg></span>
@@ -1663,8 +1717,8 @@ window.addEventListener('load', function () {
     </button>
     </div>
 
-    <div class="hub-group" id="hubInstrGroup">Instructor Panel</div>
-    <div class="hub-tiles">
+    <div class="hub-group grp-instr" id="hubInstrGroup">Instructor Panel</div>
+    <div class="hub-tiles grp-instr">
     <button class="hub-tile" id="hubMyJobsTile" style="--accent:#8A5A00;--soft:#FFF0C9;display:none;" onclick="jbOpenMine()">
       <span class="hub-ic"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/><path d="M8 14h3M8 17.5h6"/></svg></span>
       <span class="hub-text"><span class="hub-title">My Schedule</span><span class="hub-sub" id="hubMyJobsSub">Your jobs and courses by month</span></span>
@@ -1678,6 +1732,15 @@ window.addEventListener('load', function () {
     <button class="hub-tile" id="hubProfileTile" style="--accent:#2446B8;--soft:#E3E8FA;" onclick="pfOpen()">
       <span class="hub-ic"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6.5 18.2a6 6 0 0 1 11 0"/></svg></span>
       <span class="hub-text"><span class="hub-title">My Profile</span><span class="hub-sub">Your details, payment details and password</span></span>
+      <span class="hub-chev">&rsaquo;</span>
+    </button>
+    </div>
+
+    <div class="hub-group grp-account">My Account</div>
+    <div class="hub-tiles grp-account">
+    <button class="hub-tile" style="--accent:#2446B8;--soft:#E3E8FA;" onclick="pfOpen()">
+      <span class="hub-ic"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6.5 18.2a6 6 0 0 1 11 0"/></svg></span>
+      <span class="hub-text"><span class="hub-title">My Profile</span><span class="hub-sub">Your details and password</span></span>
       <span class="hub-chev">&rsaquo;</span>
     </button>
     </div>
@@ -3307,21 +3370,24 @@ const MENU_ITEMS = [
     { label:'Course Admin', sub:'Search every course and course pack', go:"admOpenCourses()" },
     { label:'Instructor Admin', sub:"Instructors' courses and CPD", go:"admOpenInstructors()" },
     { label:'Job Scheduling', sub:'Jobs, timesheets and payments', go:"jbOpenAdmin()" } ] },
-  { g:'Course Delivery', items:[
+  { g:'Course Delivery', iqaHide:true, items:[
     { label:'Course Matrix', sub:'Record competencies, upload exams, submit paperwork', go:"showView('lpm');lpmShowPick()" },
     { label:'Scenario Cards', sub:'Briefs, roles, assessment criteria', go:"showView('cards');scRenderGrid()" },
     { label:'Run a Scenario', sub:'Deliver and assess in one flow', go:"showView('run');rnRenderPick()" },
     { label:'Soundboard', sub:'Live scene sound mixer', go:"showView('sounds')" },
     { label:'Knowledge Centre', sub:'QR pop quizzes', go:"showView('knowledge')" } ] },
-  { g:'Instructor Panel', items:[
+  { g:'Instructor Panel', iqaHide:true, items:[
     { label:'My Schedule', sub:'Your jobs by month', go:"jbOpenMine()" },
     { label:'My CPD', sub:'Your teaching and learning record', go:"showView('cpd');cpdOpen()" },
     { label:'My Profile', sub:'Your details, payment details and password', go:"pfOpen()" } ] },
+  { g:'My Account', iqaOnly:true, items:[
+    { label:'My Profile', sub:'Your details and password', go:"pfOpen()" } ] },
 ];
 function openMenu() {
   if (document.getElementById('menuOv')) return closeMenu();
   const reviewer = typeof cloudIsReviewer === 'function' && cloudIsReviewer();
-  const groups = MENU_ITEMS.filter(g => !g.reviewer || reviewer);
+  const isIqa = !!(cloud && cloud.session && cloud.profile && cloud.profile.role === 'iqa');
+  const groups = MENU_ITEMS.filter(g => (!g.reviewer || reviewer) && !(isIqa && g.iqaHide) && (!g.iqaOnly || isIqa));
   let n = 0;
   const html = groups.map(g => `<div class="mn-group">${g.g}</div>` + g.items.map(it => {
     const d = (n++) * 0.045;
@@ -3417,7 +3483,7 @@ function showView(name) {
   if (name !== 'run' && name !== 'lpm') { window.rnFromCourseId = ''; }
   if (typeof rnCourseBackSync === 'function') rnCourseBackSync();
   if (name === 'hub') { try { hubRender(); } catch (e) {} }
-  if (name === 'knowledge') { try { if (!qz.live) { qz.phase = 'pick'; } qzRender(); } catch (e) {} }
+  if (name === 'knowledge') { try { if (!qz.live) { qz.phase = 'pick'; kc.sec = ''; } qzRender(); } catch (e) {} }
 }
 window.addEventListener('load', function () {
   var go = new URLSearchParams(location.search).get('go');
@@ -8683,10 +8749,11 @@ function lpmRecordCount(c) {
   return (c.records || []).length;
 }
 
-function lpmNewCourse() {
+function lpmNewCourse() { ctPick(); }
+function lpmCreateCourse(courseName) {
   lpmCourse = {
     id: 'C' + Date.now(),
-    courseName: '',
+    courseName: courseName || '',
     courseRef: '',
     startDate: isoLocal(),
     endDate: '',
@@ -8877,19 +8944,20 @@ function lpmShowStep(key) {
 }
 
 // ---- Course details ----
-const LPM_COURSE_NAMES = ['FREC 3 - RPL - 3 Day', 'FREC 3 - 5 Day', 'BLS - 1 Day', 'ILS - 1 Day'];
+const LPM_COURSE_NAMES = ['FREC 3 - RPL - 3 Day', 'FREC 3 - 5 Day', 'FREC 4', 'BLS - 1 Day', 'ILS - 1 Day', 'Dental', 'GP', 'Health and Safety Level 2', 'Health and Safety Level 3'];
 const LPM_LOCATIONS = ['Beckton', 'Park Royal', 'Croydon', 'Harrow', 'Whipps Cross', 'Bury St Edmunds'];
 // Course "family" — governs which tabs, skills grid and pack contents a course gets
 function lpmCourseKind(course) {
   const n = ((course || lpmCourse || {}).courseName || '').trim().toUpperCase();
   if (n.startsWith('BLS')) return 'bls';
   if (n.startsWith('ILS')) return 'ils';
+  if (n.startsWith('DENTAL') || n.startsWith('GP') || n.startsWith('HEALTH AND SAFETY')) return 'basic';   // tabs set once their documents are added
   return 'frec';
 }
 // Steps hidden from the tab bar for this course's kind
 function lpmHiddenSteps(course) {
   const kind = lpmCourseKind(course);
-  if (kind === 'bls') return ['skills', 'sessions', 'theory', 'overview'];
+  if (kind === 'bls' || kind === 'basic') return ['skills', 'sessions', 'theory', 'overview'];
   if (kind === 'ils') return ['sessions', 'theory'];
   return [];
 }
@@ -12089,7 +12157,7 @@ function admRenderCourses() {
       <span>${(admState.q || admState.owner || admState.status || admState.from || admState.to) ? `<button class="cl-link" onclick="admState={...admState,q:'',owner:'',status:'',from:'',to:''};admRenderCourses()">Clear filters</button> · ` : ''}<button class="cl-link" onclick="admExportCsv()">Download list (CSV)</button></span></div>
     <div class="adm-list">${list.length ? list.map(c => { const s = admCourseStatus(c), hits = learnerHit(c); return `
       <div class="adm-row">
-        <div class="adm-main" onclick="admOpen('${c.id}','overview')">
+        <div class="adm-main" onclick="admOpen('${c.id}','details')">
           <div class="adm-title">${lpmEsc(c.courseName || 'Untitled course')}</div>
           <div class="adm-meta">${fmtShort(c.startDate)}${c.endDate && c.endDate !== c.startDate ? ' – ' + fmtShort(c.endDate) : ''}${c.courseRef ? ' · ' + lpmEsc(c.courseRef) : ''} · ${lpmEsc(c.ownerName || lpmInstructorLine(c) || '—')}${c.location ? ' · ' + lpmEsc(c.location) : ''}</div>
           ${hits.length ? `<div class="adm-hit">Learner: ${hits.map(lpmEsc).join(', ')}</div>` : ''}
@@ -12098,7 +12166,8 @@ function admRenderCourses() {
         <div class="adm-side">
           <span class="adm-status ${s.cls}">${s.label}</span>
           <div class="adm-actions">
-            ${c.submission ? `<button class="rn-nav-btn primary" onclick="admOpen('${c.id}','iqa')">IQA review</button>` : `<button class="rn-nav-btn primary" onclick="admOpen('${c.id}','pack')">Open course</button>`}
+            ${c.isExample ? '' : `<button class="rn-nav-btn adm-del" onclick="admDeleteCourse('${c.id}')" aria-label="Delete course">Delete</button>`}
+            ${c.submission ? `<button class="rn-nav-btn primary" onclick="admOpen('${c.id}','iqa')">IQA review</button>` : `<button class="rn-nav-btn primary" onclick="admOpen('${c.id}','details')">Open course</button>`}
           </div>
         </div>
       </div>`; }).join('') : `<div class="rn-empty">No courses match.</div>`}</div>`;
@@ -12116,7 +12185,7 @@ function admOpen(id, step) {
   window.lpmFromAdmin = true;
   showView('lpm');
   lpmOpenCourse(id);
-  lpmShowStep(step || 'overview');
+  lpmShowStep(step || 'details');
 }
 function admExportCsv() {
   const rows = [['Course','Reference','Start','End','Location','Instructor','Learners','Theory complete','Feedback','Signed','Status']];
@@ -12206,12 +12275,12 @@ function admRenderInstructor(id) {
     <div class="sc-h2">Courses</div>
     <div class="adm-list">${cs.length ? cs.map(c => { const s = admCourseStatus(c); return `
       <div class="adm-row">
-        <div class="adm-main" onclick="admOpen('${c.id}','overview')">
+        <div class="adm-main" onclick="admOpen('${c.id}','details')">
           <div class="adm-title">${lpmEsc(c.courseName || 'Untitled course')}</div>
           <div class="adm-meta">${fmtD(c.startDate)}${c.location ? ' · ' + lpmEsc(c.location) : ''} · ${s.n} learners${c.owner !== inst.id ? ' · co-instructor' : ''}</div>
         </div>
         <div class="adm-side"><span class="adm-status ${s.cls}">${s.label}</span>
-          <div class="adm-actions"><button class="rn-nav-btn primary" onclick="admOpen('${c.id}', c.submission ? 'iqa' : 'pack')">Open course</button></div></div>
+          <div class="adm-actions"><button class="rn-nav-btn primary" onclick="admOpen('${c.id}','details')">Open course</button></div></div>
       </div>`; }).join('') : `<div class="rn-empty">No courses yet.</div>`}</div>
     <div class="sc-h2" style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">CPD log
       <span><button class="rn-nav-btn primary" onclick="admCpdPdf('${inst.id}')">Download CPD portfolio (PDF)</button>
@@ -13264,7 +13333,7 @@ function erPanel(courseId) {
 // a = index(es) of correct option(s); two answers = learners pick both.
 // =====================================================================
 const QZ_BANK = [
- { id:'faw-injuries', title:'FAW · Injuries and burns', sub:'Fractures, head and spinal injury, burns, eyes', qs:[
+ { id:'faw-injuries', cat:'faw', title:'Injuries and burns', sub:'Fractures, head and spinal injury, burns, eyes', qs:[
   { q:'A casualty feels dazed and sick, has a headache and is drowsy after hitting their head. What injury do you suspect?', o:['Fractured limb','Head injury','Spinal injury','Shock'], a:[1], why:'Confusion, drowsiness, nausea, headache and feeling stunned point to a head injury.' },
   { q:'Which signs most suggest a spinal injury?', o:['Swelling and bruising over a joint','Pins and needles, numbness or loss of control of the limbs','Headache and nausea','A wound with a bone visible'], a:[1], why:'Loss of movement or sensation, tingling, heavy limbs and loss of bladder or bowel control suggest spinal injury.' },
   { q:'Pain, swelling, bruising and an unnatural shape to the forearm suggest:', o:['Head injury','Spinal injury','Fractured limb','Sprain only'], a:[2], why:'Deformity with pain, swelling and bruising is a suspected fracture.' },
@@ -13277,7 +13346,7 @@ const QZ_BANK = [
   { q:'Dust in the eye is best treated by:', o:['Rubbing it out','Flushing with clean water or sterile eye wash','Covering and waiting','Removing it with tweezers'], a:[1], why:'Irrigate with clean water or sterile eye wash.' },
   { q:'Something is embedded in the eye. You should:', o:['Wash it out','Pull it out gently','Cover the eye without touching the object and get help','Ask what happened first'], a:[2], why:'Do not touch or remove it. Cover without pressure and send to hospital.' },
  ]},
- { id:'faw-illness', title:'FAW · Medical conditions', sub:'Poisons, diabetes, asthma, heart attack, stroke, seizures, anaphylaxis', qs:[
+ { id:'faw-illness', cat:'faw', title:'Medical conditions', sub:'Poisons, diabetes, asthma, heart attack, stroke, seizures, anaphylaxis', qs:[
   { q:'Pick TWO ways a poison can enter the body.', o:['Swallowed','Inhaled (breathed in)','Through the hair','By looking at it'], a:[0,1], why:'Poisons can be swallowed, inhaled, injected, absorbed through the skin or splashed into the eyes.' },
   { q:'A responsive casualty has swallowed a household chemical. After checking airway and breathing and calling 999, you should:', o:['Make them vomit','Try to find out what the poison was','Take them outside for fresh air','Put them in the recovery position'], a:[1], why:'Identify the substance for the emergency services. Never induce vomiting.' },
   { q:'Hunger, shaking, a fast pulse and pale, cold, sweaty skin in a diabetic suggests:', o:['Stroke','Heart attack','Hypoglycaemia','Asthma'], a:[2], why:'These are signs of low blood sugar (hypoglycaemia).' },
@@ -13291,7 +13360,7 @@ const QZ_BANK = [
   { q:'Once a tonic-clonic seizure has stopped, you should:', o:['Give a drink','Place them in the recovery position','Restrain them','Sit them upright'], a:[1], why:'Check breathing and place them in the recovery position.' },
   { q:'Which of these seizures needs a 999 call?', o:['Their usual short seizure','A seizure lasting over 5 minutes','Any seizure where they wake quickly','None'], a:[1], why:'Call for seizures over 5 minutes, repeated seizures, a first seizure, a seizure in water, or if unresponsive for over 5 minutes.' },
  ]},
- { id:'faw-scenarios', title:'FAW · Practical scenarios', sub:'Choking, CPR, shock, minor injuries, assessment', qs:[
+ { id:'faw-scenarios', cat:'faw', title:'Practical scenarios', sub:'Choking, CPR, shock, minor injuries, assessment', qs:[
   { q:'When would you stop choking treatment?', o:['After 3 back blows','When the obstruction clears or the emergency services take over','When they cough once','After 1 minute'], a:[1], why:'Continue until it is cleared or help takes over.' },
   { q:'A choking casualty becomes unresponsive and you ease them to the floor. What now?', o:['Keep giving back blows','Call 999 and start CPR','Recovery position','Finger sweep'], a:[1], why:'Call for help and start CPR straight away.' },
   { q:'Where do you place your fist for abdominal thrusts?', o:['On the breastbone','Between the navel and the bottom of the rib cage','Below the navel','On the back'], a:[1], why:'Place it between the navel and the rib cage, then pull sharply in and up.' },
@@ -13303,7 +13372,7 @@ const QZ_BANK = [
   { q:'After a head injury, which is a 999 trigger?', o:['A small bump that settles','Unequal pupils or worsening response','Mild headache that improves','Feeling embarrassed'], a:[1], why:'Also: blood or fluid from the ears or nose, noisy breathing, or a change in personality.' },
   { q:'Once the ambulance has taken over, pick TWO things the first aider should do.', o:['Complete the accident report','Restock the first aid kit','Go straight home without telling anyone','Throw soiled dressings in a normal bin'], a:[0,1], why:'Also clear the scene, dispose of waste safely, and support bystanders and yourself.' },
  ]},
- { id:'oxygen', title:'Oxygen therapy', sub:'Benefits, hypoxia, cylinders and safety', qs:[
+ { id:'oxygen', cat:'gas', title:'Oxygen therapy', sub:'Benefits, hypoxia, cylinders and safety', qs:[
   { q:'Pick TWO signs of hypoxia.', o:['Confusion','Blue-grey lips or nail beds','Slow breathing and calm','Rosy cheeks'], a:[0,1], why:'Also: restlessness, fast heart rate, rapid breathing and breathlessness.' },
   { q:'What checks the oxygen level in the blood?', o:['Nasal cannula','Pulse oximeter','Non-rebreather mask','Regulator'], a:[1], why:'A pulse oximeter reads oxygen saturation.' },
   { q:'Pick TWO pre-use cylinder checks.', o:['Expiry date and correct gas','Hoses and fittings not worn','The colour of the cylinder bag','Nothing, just open it'], a:[0,1], why:'Also check the regulator works, there is enough gas, and your hands are free of oil.' },
@@ -13563,25 +13632,101 @@ function qzRender() {
   if (qz.phase === 'end') return qzRenderEnd(r);
 }
 
+// ---------------- Knowledge Centre landing, quiz board, hand-outs, resources ----------------
+let kc = { sec:'' };
+// Hand-outs: upload each PDF to the top level of the GitHub repo with exactly this file name
+const KC_HANDOUTS = [
+  { title:'Immediate Emergency Care Action Cards', sub:'Quick-reference action cards for learners to keep', file:'Immediate-Emergency-Care-Action-Cards.pdf' },
+];
+const KC_QUIZ_GROUPS = [
+  { cat:'efaw', title:'Emergency First Aid at Work', soon:true },
+  { cat:'faw', title:'First Aid at Work' },
+  { cat:'gas', title:'Medical Gases' },
+];
+function kcIcon(d, size) { return `<svg viewBox="0 0 24 24" width="${size || 24}" height="${size || 24}" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`; }
+const KC_IC = {
+  quiz: '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M14 14h3v3h-3zM18 18h3v3h-3zM18 14h3M14 18v3"/>',
+  doc: '<path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4M9 12h6M9 16h6"/>',
+  shelf: '<path d="M4 4h4v16H4zM10 4h4v16h-4z"/><path d="M16.5 4.5l3.8-1 3 15.5-3.8 1z" transform="translate(-2 1)"/>',
+};
+function kcBack(to) { return `<button class="rn-nav-btn" onclick="${to}">← ${to.includes("'hub'") ? 'Home' : 'Knowledge Centre'}</button>`; }
 function qzRenderPick(r) {
+  if (kc.sec === 'quiz') return kcRenderQuiz(r);
+  if (kc.sec === 'handouts') return kcRenderHandouts(r);
+  if (kc.sec === 'resources') return kcRenderResources(r);
+  const tile = (go, ic, soft, title, sub, badge) => `<button class="hub-tile" style="--soft:${soft};" onclick="${go}">
+      <span class="hub-ic">${kcIcon(ic)}</span>
+      <span class="hub-text"><span class="hub-title">${title}${badge ? ` <span class="kc-soon-badge">${badge}</span>` : ''}</span><span class="hub-sub">${sub}</span></span></button>`;
+  r.innerHTML = `${kcBack("showView('hub')")}
+    <div class="hub-eyebrow" style="margin-top:14px;">Course Delivery</div>
+    <div class="hub-h" style="margin-bottom:6px;">Knowledge Centre</div>
+    <div class="hub-p">Quizzes, hand-outs and learning resources for your courses.</div>
+    <div class="hub-tiles" style="margin-top:22px;">
+      ${tile("kc.sec='quiz';qzRender()", KC_IC.quiz, '#FDE4EE', 'QR Game Board Quiz', 'Live quizzes learners play on their phones')}
+      ${tile("kc.sec='handouts';qzRender()", KC_IC.doc, '#E3E8FA', 'Hand Outs', 'Course documents and links, with QR codes to download')}
+      ${tile("kc.sec='resources';qzRender()", KC_IC.shelf, '#DDEFE6', 'Resource Centre', 'Manufacturer hand-outs', 'Coming soon')}
+    </div>`;
+}
+function kcRenderQuiz(r) {
   const signedIn = typeof CLOUD_ON !== 'undefined' && CLOUD_ON && cloud.session;
-  r.innerHTML = `<div class="hub-eyebrow">Knowledge Centre</div>
-    <div class="hub-h">QR pop quizzes</div>
-    <div class="hub-p">Learners scan the code and pick their own sporty creature — each one can only be used once per quiz. Points for right answers, speed and streaks, and every quiz ends with a 3-question trivia round.</div>
-    ${signedIn ? '' : `<div class="sc-note" style="margin-bottom:16px;">Sign in to run a live quiz with phones. You can still run any quiz on this screen with a show of hands.</div>`}
-    ${qzTimeOpts()}
-    <div class="qz-grid">${QZ_BANK.map((b, k) => `
-      <div class="qz-card">
+  const card = (b, k) => `<div class="qz-card">
         <div class="qz-card-t">${qzEsc(b.title)}</div>
         <div class="qz-card-s">${qzEsc(b.sub)} · ${b.qs.length} questions + 3 trivia</div>
         <div class="qz-card-b">
           <button class="qz-btn qz-primary" ${signedIn ? '' : 'disabled'} onclick="qzStartLive(${k})">Start live quiz</button>
           <button class="qz-btn" onclick="qzStartSolo(${k})">Run on screen</button>
-        </div>
-      </div>`).join('')}
-    </div>
-    <p class="qz-foot">Practice questions written for Sector 3 Group against the First Aid at Work syllabus. They are not the FAA assessment papers.</p>
-    <button class="rn-nav-btn" style="margin-top:18px;" onclick="showView('hub')">← Menu</button>`;
+        </div></div>`;
+  r.innerHTML = `${kcBack("kc.sec='';qzRender()")}
+    <div class="hub-eyebrow" style="margin-top:14px;">Knowledge Centre</div>
+    <div class="hub-h">QR Game Board Quiz</div>
+    <div class="hub-p">Learners scan the code and pick their own sporty creature — each one can only be used once per quiz. Points for right answers, speed and streaks, and every quiz ends with a 3-question trivia round.</div>
+    ${signedIn ? '' : `<div class="sc-note" style="margin-bottom:16px;">Sign in to run a live quiz with phones. You can still run any quiz on this screen with a show of hands.</div>`}
+    ${qzTimeOpts()}
+    ${KC_QUIZ_GROUPS.map(g => {
+      const list = QZ_BANK.map((b, k) => [b, k]).filter(([b]) => b.cat === g.cat);
+      return `<div class="hub-group">${g.title}</div>` + (g.soon || !list.length
+        ? `<div class="kc-soon-card"><span class="kc-dots"><i></i><i></i><i></i></span><b>Coming soon</b><span>${g.title} quizzes are being written.</span></div>`
+        : `<div class="qz-grid">${list.map(([b, k]) => card(b, k)).join('')}</div>`);
+    }).join('')}
+    <p class="qz-foot">Practice questions written for Sector 3 Group against each syllabus. They are not the awarding body's assessment papers.</p>`;
+}
+function kcFileUrl(f) { return location.origin + location.pathname.replace(/[^/]*$/, '') + encodeURI(f); }
+function kcRenderHandouts(r) {
+  r.innerHTML = `${kcBack("kc.sec='';qzRender()")}
+    <div class="hub-eyebrow" style="margin-top:14px;">Knowledge Centre</div>
+    <div class="hub-h">Hand Outs</div>
+    <div class="hub-p">Course documents and links. Show the QR code and learners can download a copy straight to their phone.</div>
+    <div class="hub-group">Course documents</div>
+    <div class="kc-list">${KC_HANDOUTS.map((h, i) => `<div class="kc-doc">
+        <span class="kc-doc-ic">${kcIcon(KC_IC.doc, 26)}</span>
+        <div class="kc-doc-t"><b>${qzEsc(h.title)}</b><span>${qzEsc(h.sub)} · PDF</span></div>
+        <div class="kc-doc-b"><button class="qz-btn qz-primary" onclick="kcShowQr(${i})">Show QR code</button><a class="qz-btn" href="${qzEsc(h.file)}" target="_blank" rel="noopener" style="text-decoration:none;">Open</a></div>
+      </div>`).join('')}</div>`;
+}
+function kcShowQr(i) {
+  const h = KC_HANDOUTS[i], url = kcFileUrl(h.file);
+  const ov = document.createElement('div'); ov.className = 'kc-qr-ov'; ov.onclick = e => { if (e.target === ov) ov.remove(); };
+  ov.innerHTML = `<div class="kc-qr-box"><div class="hub-eyebrow">Scan to download</div><div class="kc-qr-t">${qzEsc(h.title)}</div>
+    <div class="kc-qr" id="kcQr"></div><div class="qz-url">${qzEsc(url)}</div>
+    <button class="qz-btn qz-primary" style="margin-top:16px;" onclick="this.closest('.kc-qr-ov').remove()">Close</button></div>`;
+  document.body.appendChild(ov);
+  fbDrawQr(document.getElementById('kcQr'), url, 300);
+}
+function kcRenderResources(r) {
+  r.innerHTML = `${kcBack("kc.sec='';qzRender()")}
+    <div class="hub-eyebrow" style="margin-top:14px;">Knowledge Centre</div>
+    <div class="hub-h">Resource Centre</div>
+    <div class="kc-coming">
+      <div class="kc-stage" aria-hidden="true">
+        <div class="kc-sheet s1">${kcIcon(KC_IC.doc, 40)}</div>
+        <div class="kc-sheet s2">${kcIcon('<rect x="4" y="5" width="16" height="13" rx="2"/><path d="M10 9l5 2.5-5 2.5z"/>', 40)}</div>
+        <div class="kc-sheet s3">${kcIcon('<path d="M4 19V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2zM4 17a2 2 0 0 1 2-2h12"/>', 40)}</div>
+        <div class="kc-box"></div>
+      </div>
+      <div class="kc-coming-t">Coming soon</div>
+      <p class="hub-p" style="max-width:460px;margin:8px auto 0;">Manufacturer hand-outs, user guides and product information for the equipment you teach with — all in one place.</p>
+      <span class="kc-dots" style="margin-top:18px;"><i></i><i></i><i></i></span>
+    </div>`;
 }
 
 function qzShuffle(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
@@ -13854,7 +13999,12 @@ function stBuildRail() {
   nav.innerHTML = html; document.body.prepend(nav); document.body.classList.add('has-rail');
   stSyncRail();
 }
+function stRoleApply() {
+  const role = (typeof cloud !== 'undefined' && cloud.session && cloud.profile) ? cloud.profile.role : '';
+  document.body.classList.toggle('role-iqa', role === 'iqa');
+}
 function stSyncRail() {
+  try { stRoleApply(); } catch (e) {}
   const nav = document.getElementById('stRail'); if (!nav) return;
   const adminBox = document.getElementById('hubAdmin');
   const active = (document.querySelector('.app-view.active') || {}).id || '';
@@ -13862,7 +14012,9 @@ function stSyncRail() {
     if (b.dataset.tile != null) {
       const t = document.querySelector('#view-hub .hub-tile[data-st="' + b.dataset.tile + '"]');
       const inAdmin = t && adminBox && adminBox.contains(t);
-      b.style.display = t && t.style.display !== 'none' && (!inAdmin || adminBox.style.display !== 'none') ? '' : 'none';
+      const box = t && t.closest('.hub-tiles');
+      const shown = t && t.style.display !== 'none' && getComputedStyle(t).display !== 'none' && (!box || getComputedStyle(box).display !== 'none');
+      b.style.display = shown && (!inAdmin || adminBox.style.display !== 'none') ? '' : 'none';
     }
     b.classList.toggle('on', !!b.dataset.view && active === 'view-' + b.dataset.view);
   });
@@ -13917,7 +14069,7 @@ async function pfOpen() {
 function pfRender() {
   const root = document.getElementById('pfRoot'); if (!root) return;
   let html = `<button class="rn-nav-btn rn-no-print" onclick="showView('hub')">← Home</button>
-    <div class="hub-eyebrow" style="margin-top:14px;">Instructor Panel</div>
+    <div class="hub-eyebrow" style="margin-top:14px;">${(cloud.profile || {}).role === 'iqa' ? 'My Account' : 'Instructor Panel'}</div>
     <div class="hub-h" style="margin-bottom:4px;">My Profile</div>`;
   if (!jbSignedIn()) { root.innerHTML = html + '<p class="jb-empty">Sign in to see your profile.</p>'; return; }
   const P = cloud.profile || {}, email = (cloud.session.user && cloud.session.user.email) || '';
@@ -13949,14 +14101,14 @@ function pfRender() {
         <input type="file" id="pfCvIn" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style="display:none" onchange="pfCvUpload(this)">
         <span id="pfCvMsg" class="jb-msg"></span></div></div>
 
-    <div class="pf-sec"><h3>Payment details</h3><p class="sc-p" style="margin:0;">Used on your timesheets. Only you and your centre admin can see these.</p>
+    ${P.role === 'iqa' ? '' : `<div class="pf-sec"><h3>Payment details</h3><p class="sc-p" style="margin:0;">Used on your timesheets. Only you and your centre admin can see these.</p>
       <div class="jb-form">
         <label>Account name<input id="pfAccName" value="${v('accountName')}"></label>
         <label>Bank<input id="pfBank" value="${v('bank')}"></label>
         <label>Sort code<input id="pfSort" value="${v('sortCode')}" placeholder="00-00-00"></label>
         <label>Account number<input id="pfAcc" value="${v('accountNumber')}" inputmode="numeric"></label>
         <label class="wide">Reference / UTR (optional)<input id="pfRef" value="${v('reference')}"></label>
-      </div></div>
+      </div></div>`}
 
     <div class="jb-actions" style="margin:-4px 0 26px;"><button class="jb-btn pri" ${loading ? 'disabled' : ''} onclick="pfSave()">${loading ? 'Loading…' : 'Save my profile'}</button><span id="pfMsg" class="jb-msg"></span></div>
 
@@ -13973,8 +14125,9 @@ function pfRender() {
 async function pfSave() {
   const g = id => document.getElementById(id).value.trim();
   const msg = document.getElementById('pfMsg'); msg.style.color = '#6B7A94'; msg.textContent = 'Saving…';
-  const data = Object.assign({}, pf.extra || {}, { phone: g('pfPhone'),
-    accountName: g('pfAccName'), bank: g('pfBank'), sortCode: g('pfSort'), accountNumber: g('pfAcc'), reference: g('pfRef') });
+  const has = id => !!document.getElementById(id);
+  const data = Object.assign({}, pf.extra || {}, { phone: g('pfPhone') },
+    has('pfAccName') ? { accountName: g('pfAccName'), bank: g('pfBank'), sortCode: g('pfSort'), accountNumber: g('pfAcc'), reference: g('pfRef') } : {});
   const newName = g('pfName'); let nameNote = '';
   try {
     await cloudRest('pay_details?on_conflict=owner', 'POST', [{ owner: cloudMe(), data, updated_at: new Date().toISOString() }], 'resolution=merge-duplicates,return=minimal');
@@ -14155,6 +14308,82 @@ async function auActive(id, on) {
 }
 function auCopy() { try { navigator.clipboard.writeText(au.link.url); alert('Link copied'); } catch (e) { prompt('Copy this link', au.link.url); } }
 function auShare() { navigator.share({ title: 'Digital Training Centre login', text: 'Your link to set up your Digital Training Centre login:', url: au.link.url }).catch(() => {}); }
+</script>
+
+<script>
+// ===== New course record: pick the course type first =====
+const CT_IC = {
+  heart:'<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/><path d="M8 11h2l1-2 2 4 1-2h2"/>',
+  pulse:'<path d="M3 12h4l2-6 4 12 2-6h6"/>',
+  tooth:'<path d="M7 3c-2.5 0-4 2-4 4.5 0 3 1.5 4.5 2 7.5s1 6 2.5 6 1.5-4 2.5-5.5c.5-.7 1.5-.7 2 0 1 1.5 1 5.5 2.5 5.5s2-3 2.5-6 2-4.5 2-7.5C21 5 19.5 3 17 3c-2 0-3 1-5 1S9 3 7 3z"/>',
+  steth:'<path d="M6 3v6a4 4 0 0 0 8 0V3"/><path d="M10 13v2a5 5 0 0 0 10 0v-2"/><circle cx="20" cy="11" r="2"/>',
+  amb:'<path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/><path d="M8.5 9v4M6.5 11h4"/>',
+  shield:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
+  hat:'<path d="M4 16h16M6 16a6 6 0 0 1 12 0M12 10V6M9.5 6h5"/><path d="M3 19h18"/>',
+};
+const CT_GROUPS = [
+  { prov:'Sector 3 Group', logo:true, items:[
+    { name:'BLS - 1 Day', label:'BLS', sub:'Basic Life Support', c:'#D93A33', ic:'heart' },
+    { name:'ILS - 1 Day', label:'ILS', sub:'Immediate Life Support', c:'#2F5BD8', ic:'pulse' },
+    { name:'Dental', label:'Dental', sub:'Medical emergencies in dental practice', c:'#0E8C8C', ic:'tooth' },
+    { name:'GP', label:'GP', sub:'Medical emergencies in general practice', c:'#7A4FC0', ic:'steth' } ] },
+  { prov:'Qualsafe', items:[
+    { label:'FREC 3', sub:'First Response Emergency Care L3', c:'#E36A12', ic:'amb', pickLen:true },
+    { name:'FREC 4', label:'FREC 4', sub:'First Response Emergency Care L4', c:'#B8321F', ic:'amb' },
+    { name:'Health and Safety Level 2', label:'H&amp;S Lv 2', sub:'Health and Safety Level 2', c:'#1E8A55', ic:'shield' },
+    { name:'Health and Safety Level 3', label:'H&amp;S Lv 3', sub:'Health and Safety Level 3', c:'#136240', ic:'hat' } ] },
+];
+function ctIcon(k) { return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${CT_IC[k]}</svg>`; }
+function ctClose() { const o = document.getElementById('ctOv'); if (o) o.remove(); }
+function ctPick(step) {
+  let o = document.getElementById('ctOv');
+  if (!o) { o = document.createElement('div'); o.id = 'ctOv'; o.className = 'ct-ov'; o.setAttribute('role', 'dialog'); o.setAttribute('aria-label', 'Choose a course'); document.body.appendChild(o); }
+  let n = 0;
+  const tile = t => `<button class="ct-tile" style="--c:${t.c};animation-delay:${(n++ * 0.05).toFixed(2)}s" onclick="${t.pickLen ? "ctPick('frec3')" : `ctChoose('${t.name}')`}">${ctIcon(t.ic)}<div><b>${t.label}</b><span>${t.sub}</span></div></button>`;
+  let body;
+  if (step === 'frec3') {
+    body = `<div class="ct-k">Qualsafe · FREC 3</div><div class="ct-h">Which FREC 3 course?</div>
+      <div class="ct-grid">${tile({ name:'FREC 3 - 5 Day', label:'5 Day', sub:'Full course', c:'#E36A12', ic:'amb' })}${tile({ name:'FREC 3 - RPL - 3 Day', label:'RPL · 3 Day', sub:'Recognition of prior learning', c:'#C4570C', ic:'amb' })}</div>
+      <button class="ct-back" onclick="ctPick()">← All courses</button>`;
+  } else {
+    body = `<div class="ct-k">New course record</div><div class="ct-h">What course are<br>you running?</div>` +
+      CT_GROUPS.map(g => `<div class="ct-prov">${g.logo ? `<img src="${typeof S3_LOGO !== 'undefined' ? S3_LOGO : ''}" alt="">` : '<span class="ct-q">Q</span>'}${g.prov}</div>
+        <div class="ct-grid">${g.items.map(tile).join('')}</div>`).join('');
+  }
+  o.innerHTML = `<div class="ct-in"><div class="ct-top"><span></span><button class="ct-x" onclick="ctClose()" aria-label="Close">✕</button></div>${body}</div>`;
+  o.scrollTop = 0;
+}
+function ctChoose(name) {
+  ctClose();
+  lpmCreateCourse(name);
+  try { lpmShowStep('details'); } catch (e) {}
+}
+// ===== Course Admin: delete a course (admins and IQAs) =====
+async function admDeleteCourse(id) {
+  const c = lpmLoadCourses().find(x => x.id === id); if (!c) return;
+  const name = c.courseName || 'this course';
+  const when = c.startDate ? ' (' + fmtD(c.startDate) + ')' : '';
+  if (!confirm('Delete "' + name + '"' + when + ' for everyone?\n\nThis permanently removes its learners, records, uploaded files and course pack. It cannot be undone.')) return;
+  if (CLOUD_ON && cloud.session) {
+    if (!navigator.onLine) { alert('You are offline. Connect to the internet to delete a course.'); return; }
+    try {
+      const gone = await cloudRest('courses?id=eq.' + encodeURIComponent(id), 'DELETE', null, 'return=representation');
+      if (Array.isArray(gone) && !gone.length && (c.owner && c.owner !== cloudMe())) {
+        alert('The database did not allow this course to be deleted. It may need a permission adding in Supabase — ask your developer.'); return;
+      }
+      try {
+        const files = await cloudRest('pack_files?select=id,path&course_id=eq.' + encodeURIComponent(id)) || [];
+        for (const f of files) {
+          try { if (f.path) await cloudFetch('/storage/v1/object/course-files/' + f.path, { method:'DELETE' }); } catch (e) {}
+          try { await cloudRest('pack_files?id=eq.' + encodeURIComponent(f.id), 'DELETE', null, 'return=minimal'); } catch (e) {}
+        }
+        if (c.submission && c.submission.path) { try { await cloudFetch('/storage/v1/object/course-files/' + c.submission.path, { method:'DELETE' }); } catch (e) {} }
+      } catch (e) {}
+    } catch (e) { alert('Could not delete the course: ' + (e.message || e)); return; }
+  }
+  lpmSaveCourses(lpmLoadCourses().filter(x => x.id !== id));
+  admRenderCourses();
+}
 </script>
 </body>
 </html>
