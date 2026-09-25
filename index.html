@@ -18,7 +18,7 @@
 <script>
 // Centre details used on sign-off records and Qualsafe PDFs — set CENTRE_NO to Sector 3 Group's Qualsafe centre number
 const CENTRE_NAME = 'Sector 3 Group';
-const CENTRE_NO = '';
+const CENTRE_NO = '908571';
 // DD/MM/YYYY everywhere in the app (accepts ISO dates 'YYYY-MM-DD', full ISO timestamps or Date objects)
 function isoLocal(d) {
   d = d || new Date();
@@ -1556,6 +1556,67 @@ function fmtD(v) {
   .jb-daychips { display:flex; gap:6px; flex-wrap:wrap; margin-top:6px; } .jb-daychips span { background:#fff; border:1px solid #E7E3DA; border-radius:999px; padding:4px 10px; font-size:0.82rem; }
   .lpm-back { margin-bottom:6px; }
   #lpmSteps { flex-wrap:wrap; overflow-x:visible; }
+  .wb-item { width:100%; text-align:left; cursor:pointer; font:inherit; }
+  .wb-q { background:#fff; color:#16203D; border-radius:20px; padding:20px; margin-top:14px; border:1px solid #E7E3DA; }
+  .wb-qh { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:8px; } .wb-qh b { font-family:'Fraunces',Georgia,serif; font-size:1.25rem; }
+  .wb-att { font-size:0.78rem; color:#5E6577; }
+  .wb-qt { line-height:1.5; margin-bottom:12px; }
+  .wb-l { display:block; font-size:0.82rem; font-weight:700; color:#3A4760; margin-top:12px; }
+  .wb-l input, .wb-l textarea, .wb-bib { display:block; width:100%; box-sizing:border-box; margin-top:6px; font:inherit; font-weight:400; font-size:0.95rem; color:#16203D; border:1px solid #D8DEE8; border-radius:12px; padding:10px 12px; background:#FBFAF6; }
+  .wb-l textarea, .wb-bib { resize:vertical; line-height:1.5; }
+  .wb-l input[readonly], .wb-l textarea[readonly] { background:#F1F3F7; color:#3A4760; }
+  .wb-info { display:block; font-weight:400; color:#5E6577; font-size:0.8rem; margin-top:4px; }
+  .wb-crit { font-weight:400; color:#8A93A6; }
+  .wb-fb { margin-top:12px; padding:10px 14px; border-radius:12px; font-size:0.88rem; line-height:1.45; }
+  .wb-fb.pass { background:#E3F4EC; } .wb-fb.refer { background:#FFF1D6; }
+  .wb-mark { margin-top:14px; padding:14px; border-radius:14px; background:#F6F3EC; } .wb-mark textarea { width:100%; box-sizing:border-box; font:inherit; border:1px solid #D8DEE8; border-radius:10px; padding:10px; }
+  .wb-decl { display:flex; gap:10px; align-items:flex-start; margin-top:12px; font-size:0.95rem; line-height:1.4; } .wb-decl input { width:22px; height:22px; margin-top:2px; flex-shrink:0; }
+  /* LMS Overview */
+  .lma-top { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin:4px 0 4px; }
+  .lma-demo-t { display:flex; gap:8px; align-items:center; font-size:0.88rem; color:#3A4760; background:#FFF1D6; border-radius:999px; padding:8px 14px; }
+  .lma-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:10px; margin:14px 0; }
+  .lma-stats > div { background:#fff; border:1px solid #E7E3DA; border-radius:16px; padding:14px 16px; }
+  .lma-stats b { display:block; font-family:'Fraunces',Georgia,serif; font-size:1.7rem; color:#16203D; } .lma-stats span { font-size:0.78rem; color:#5E6577; }
+  .lma-stats .warn b { color:#B26A00; } .lma-stats .ok b { color:#1F8A5B; }
+  .lma-stats.sm { grid-template-columns:repeat(4,1fr); } .lma-stats.sm b { font-size:1.3rem; }
+  .lma-bar-row { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:6px; }
+  .lma-search { flex:1; min-width:220px; display:flex; align-items:center; gap:8px; background:#fff; border:1px solid #D8DEE8; border-radius:12px; padding:0 12px; color:#6B7A94; }
+  .lma-search input { border:0 !important; box-shadow:none !important; padding:0 !important; background:transparent !important; outline:0; font:inherit; font-size:0.95rem; width:100%; min-height:44px; background:transparent; color:#16203D; }
+  .lma-bar-row select { font:inherit; font-size:0.9rem; border:1px solid #D8DEE8; border-radius:12px; padding:0 12px; min-height:46px; background:#fff; color:#16203D; }
+  .lma-scroll { overflow-x:auto; background:#fff; border:1px solid #E7E3DA; border-radius:18px; margin-top:12px; }
+  .lma-tbl { width:100%; border-collapse:collapse; font-size:0.88rem; min-width:900px; }
+  .lma-tbl th { text-align:left; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.06em; color:#6B7A94; padding:12px 12px; border-bottom:1px solid #EEF1F5; white-space:nowrap; }
+  .lma-tbl td { padding:10px 12px; border-bottom:1px solid #F2F4F8; color:#16203D; vertical-align:middle; }
+  .lma-tbl tbody tr { cursor:pointer; } .lma-tbl tbody tr:hover { background:#FBFAF6; }
+  .lma-who { display:flex; align-items:center; gap:10px; } .lma-who b { display:block; }
+  .lma-av { width:34px; height:34px; border-radius:50%; background:#16203D; color:#fff; font-size:0.75rem; font-weight:800; display:inline-flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .lma-av.lg { width:56px; height:56px; font-size:1.1rem; background:#E4572E; }
+  .lma-sub { display:block; font-size:0.74rem; color:#6B7A94; }
+  .lma-ex { display:inline-block; font-size:0.6rem; font-weight:800; letter-spacing:0.08em; text-transform:uppercase; background:#FFF1D6; color:#8A5200; border-radius:999px; padding:2px 7px; margin-left:6px; vertical-align:middle; }
+  .lma-bar { display:inline-block; width:100%; min-width:70px; height:7px; background:#EEF1F5; border-radius:99px; overflow:hidden; vertical-align:middle; } .lma-bar i { display:block; height:100%; background:#2446B8; border-radius:99px; }
+  .lma-cohorts { display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:16px; margin-top:12px; }
+  .lma-cohort { background:#fff; border:1px solid #E7E3DA; border-radius:20px; padding:18px; }
+  .lma-ch { display:flex; justify-content:space-between; gap:8px; } .lma-ch b { display:block; font-family:'Fraunces',Georgia,serif; font-size:1.3rem; color:#16203D; } .lma-ch span { font-size:0.8rem; color:#5E6577; }
+  .lma-cstats { display:flex; gap:18px; margin:12px 0 8px; } .lma-cstats b { display:block; font-size:1.25rem; color:#16203D; } .lma-cstats span { font-size:0.74rem; color:#6B7A94; } .lma-cstats .warn b { color:#B26A00; }
+  .lma-mini { margin-top:12px; display:flex; flex-direction:column; gap:4px; }
+  .lma-mini button { display:grid; grid-template-columns:34px minmax(0,1fr) 90px 42px; gap:10px; align-items:center; border:0; background:transparent; padding:6px 4px; border-radius:10px; cursor:pointer; font:inherit; text-align:left; color:#16203D; }
+  .lma-mini button:hover { background:#F6F3EC; } .lma-n { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:0.9rem; }
+  .lma-legend { display:flex; gap:14px; flex-wrap:wrap; font-size:0.78rem; color:#5E6577; margin-top:6px; } .lma-legend i { display:inline-block; width:12px; height:12px; border-radius:3px; margin-right:5px; vertical-align:-2px; }
+  .lma-mx { border-collapse:separate; border-spacing:0; font-size:0.78rem; }
+  .lma-mx th { color:#6B7A94; font-weight:700; padding:8px 4px; background:#fff; }
+  .lma-mx .lma-ch-h { text-align:left; padding-left:8px; border-left:2px solid #E7E3DA; color:#16203D; }
+  .lma-qh { font-size:0.66rem; min-width:22px; }
+  .lma-mx td { padding:3px 2px; border-bottom:1px solid #F2F4F8; text-align:center; }
+  .lma-sticky { position:sticky; left:0; background:#fff; z-index:1; text-align:left !important; padding:8px 12px !important; min-width:170px; }
+  .lma-sticky span { display:block; font-size:0.7rem; color:#6B7A94; }
+  .lma-link { border:0; background:none; font:inherit; font-weight:700; color:#16203D; cursor:pointer; padding:0; text-align:left; }
+  .lma-cell i { display:inline-block; width:18px; height:18px; border-radius:5px; cursor:pointer; }
+  .lma-sep { border-left:2px solid #E7E3DA; }
+  .lma-detail { max-width:640px; text-align:left; max-height:88vh; overflow-y:auto; }
+  .lma-dh { display:flex; gap:14px; align-items:center; margin-bottom:6px; }
+  .lma-comp { margin-top:14px; } .lma-comp > div:first-child { display:flex; justify-content:space-between; font-size:0.9rem; color:#16203D; margin-bottom:6px; }
+  .lma-strip { display:flex; gap:4px; flex-wrap:wrap; } .lma-strip i { width:26px; height:26px; border-radius:6px; font-style:normal; font-size:0.7rem; font-weight:700; color:#fff; display:flex; align-items:center; justify-content:center; }
+  .lma-wrap { max-width:1280px !important; }
   /* ===== Learner LMS ===== */
   body.role-learner #stRail, body.role-learner #menuFab, body.role-learner .rn-no-learner { display:none !important; }
   body.role-learner.has-rail { padding-left:0 !important; }
@@ -1763,9 +1824,19 @@ window.addEventListener('load', function () {
       <span class="hub-text"><span class="hub-title">Job Scheduling</span><span class="hub-sub" id="hubJobsSub">Create jobs, assign instructors, timesheets and payments</span></span>
       <span class="hub-chev">&rsaquo;</span>
     </button>
+    <button class="hub-tile" style="--accent:#2446B8;--soft:#E3E8FA;" onclick="lmaOpen()">
+      <span class="hub-ic"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>
+      <span class="hub-text"><span class="hub-title">LMS Overview</span><span class="hub-sub">Every learner and cohort at a glance</span></span>
+      <span class="hub-chev">&rsaquo;</span>
+    </button>
     <button class="hub-tile" style="--accent:#6B4FA8;--soft:#F0EAFB;" onclick="lmsOpen(true)">
       <span class="hub-ic"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8l10-4 10 4-10 4z"/><path d="M6 10v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/></svg></span>
       <span class="hub-text"><span class="hub-title">Learner LMS</span><span class="hub-sub">See exactly what learners see</span></span>
+      <span class="hub-chev">&rsaquo;</span>
+    </button>
+    <button class="hub-tile" style="--accent:#8A5A00;--soft:#FFF0C9;" onclick="wbStaffOpen()">
+      <span class="hub-ic"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h11l5 5v11H4z"/><path d="M15 4v5h5M8 14l2.5 2.5L16 11"/></svg></span>
+      <span class="hub-text"><span class="hub-title">Workbook Marking</span><span class="hub-sub">Mark learners' FREC 4 workbook answers</span></span>
       <span class="hub-chev">&rsaquo;</span>
     </button>
       </div>
@@ -2165,6 +2236,12 @@ window.addEventListener('load', function () {
 </div>
 <div class="app-view" id="view-jobs">
   <div class="rn-wrap adm-wrap" id="jbAdminRoot"></div>
+</div>
+<div class="app-view" id="view-lmsadmin">
+  <div class="rn-wrap adm-wrap lma-wrap" id="lmaRoot"></div>
+</div>
+<div class="app-view" id="view-wbmark">
+  <div class="rn-wrap adm-wrap" id="wbMarkRoot"></div>
 </div>
 <div class="app-view" id="view-lms">
   <div id="lmsRoot"></div>
@@ -14395,13 +14472,13 @@ async function qzEnd(skipAsk) {
 // ===== Studio dashboard: left icon rail and "Today" panel =====
 const S3_LOGO = "data:image/jpeg;base64,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";
 const ST_HOME_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9h-6v-6H9v6H3z"/></svg>';
-function stViewOf(onclick) { const m = /showView\('([a-z]+)'\)/.exec(onclick || ''); return m ? m[1] : (/jbOpenMine/.test(onclick) ? 'myjobs' : /jbOpenAdmin/.test(onclick) ? 'jobs' : /pfOpen/.test(onclick) ? 'profile' : /lmsOpen/.test(onclick) ? 'lms' : /mpOpen/.test(onclick) ? 'mypay' : ''); }
+function stViewOf(onclick) { const m = /showView\('([a-z]+)'\)/.exec(onclick || ''); return m ? m[1] : (/jbOpenMine/.test(onclick) ? 'myjobs' : /jbOpenAdmin/.test(onclick) ? 'jobs' : /pfOpen/.test(onclick) ? 'profile' : /lmaOpen/.test(onclick) ? 'lmsadmin' : /lmsOpen/.test(onclick) ? 'lms' : /wbStaffOpen/.test(onclick) ? 'wbmark' : /mpOpen/.test(onclick) ? 'mypay' : ''); }
 function stBuildRail() {
   if (document.getElementById('stRail')) return;
   const nav = document.createElement('nav'); nav.id = 'stRail'; nav.className = 'st-rail'; nav.setAttribute('aria-label', 'Main');
   let html = `<button class="st-logo" onclick="showView('hub')" aria-label="Home"><img src="${S3_LOGO}" alt="Sector 3 Group"></button>
     <button class="st-item" data-view="hub" onclick="showView('hub')">${ST_HOME_ICON}<span>Home</span></button>`;
-  const SHORT = { 'Instructor Admin':'Instructors', 'Job Scheduling':'Jobs', 'Scenario Cards':'Scenarios', 'Run a Scenario':'Run Scenario' };
+  const SHORT = { 'LMS Overview':'LMS Overview', 'Workbook Marking':'Marking', 'Instructor Admin':'Instructors', 'Job Scheduling':'Jobs', 'Scenario Cards':'Scenarios', 'Run a Scenario':'Run Scenario' };
   let i = 0;
   document.querySelectorAll('#view-hub .hub-group').forEach(g => {
     const tiles = g.nextElementSibling; if (!tiles) return;
@@ -14991,7 +15068,7 @@ async function mpAdminInvoice(owner, m) {
 // ===================== LEARNER LMS =====================
 const LMS_MODULES = [
   { id:'frec3', group:'course', title:'FREC 3', sub:'First Response Emergency Care Level 3', c:'#E36A12', ic:'amb', quiz:['faw'], match:n => /^FREC 3/i.test(n) },
-  { id:'frec4', group:'course', title:'FREC 4', sub:'First Response Emergency Care Level 4', c:'#B8321F', ic:'amb', quiz:['faw'], match:n => /^FREC 4/i.test(n) },
+  { id:'frec4', group:'course', title:'FREC 4', sub:'First Response Emergency Care Level 4', c:'#B8321F', ic:'amb', quiz:['faw'], workbooks:true, match:n => /^FREC 4/i.test(n) },
   { id:'aap', group:'course', title:'Associate Ambulance Practitioner', sub:'AAP pathway', c:'#2F5BD8', ic:'amb', quiz:[], match:n => /ASSOCIATE AMBULANCE|^AAP/i.test(n) },
   { id:'firstaid', group:'course', title:'First Aid', sub:'Workplace and life-support courses', c:'#D93A33', ic:'heart', quiz:['faw'], match:n => /FIRST AID|^BLS|^ILS|^DENTAL|^GP/i.test(n) },
   { id:'gases', group:'course', title:'Medical Gases', sub:'Oxygen therapy', c:'#0E8C8C', ic:'shield', quiz:['gas'], match:n => /GAS|OXYGEN/i.test(n) },
@@ -15003,7 +15080,7 @@ const LMS_MODULES = [
 let lms = { mod:'', tab:'', progress:null, preview:false, play:null };
 function lmsIsLearner() { return typeof cloud !== 'undefined' && cloud.session && cloud.profile && cloud.profile.role === 'learner'; }
 function lmsOpen(preview) {
-  lms.preview = !!preview && !lmsIsLearner(); lms.mod = ''; lms.tab = ''; lms.play = null;
+  lms.preview = !!preview && !lmsIsLearner(); lms.mod = ''; lms.tab = ''; lms.play = null; wb.comp = ''; wb.loaded = false;
   showView('lms'); lmsRender(); window.scrollTo(0, 0);
   if (lmsIsLearner()) lmsLoadProgress();
   if (kcH.list === null) kcLoadHandouts().then(lmsRender);
@@ -15035,7 +15112,8 @@ function lmsRender() {
     <div class="ct-grid">${LMS_MODULES.filter(x => x.group === 'org').map(tile).join('')}</div></div>`;
 }
 function lmsRenderModule(root, m) {
-  const back = `<button class="lms-pill" style="margin-top:14px;" onclick="${lms.tab ? "lms.tab='';lmsRender()" : "lms.mod='';lmsRender()"}">← ${lms.tab ? m.title : 'All modules'}</button>`;
+  const inWb = lms.tab === 'workbooks' && wb.comp;
+  const back = `<button class="lms-pill" style="margin-top:14px;" onclick="${inWb ? "wb.comp='';lmsRender()" : lms.tab ? "lms.tab='';lmsRender()" : "lms.mod='';lmsRender()"}">← ${inWb ? 'My workbooks' : lms.tab ? m.title : 'All modules'}</button>`;
   const head = `<div class="lms">${lmsTop(m.group === 'course' ? 'Course' : 'Organisation')}${back}<div class="lms-h">${m.title}</div><p class="lms-p">${m.sub}</p>`;
   if (!lms.tab) {
     const cards = [
@@ -15043,10 +15121,16 @@ function lmsRenderModule(root, m) {
       ['quiz', '#FDE4EE', '<path d="M2 8l10-4 10 4-10 4z"/><path d="M6 10v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/>', 'Knowledge Centre', 'Test yourself with interactive quizzes'],
       ['progress', '#DDEFE6', '<path d="M4 19V5M4 19h16"/><path d="M8 15l3-4 3 2 5-6"/>', m.group === 'course' ? 'Course progression' : 'My progress', m.group === 'course' ? 'Updates as your instructor moves through your course' : 'Your progress through this module'],
     ];
+    if (m.workbooks) cards.splice(2, 0, ['workbooks', '#FFF0C9', '<path d="M4 4h11l5 5v11H4z"/><path d="M15 4v5h5M8 13h8M8 17h5"/>', 'Workbooks', 'Answer your Qualsafe workbook questions and submit them for marking']);
     root.innerHTML = head + `<div class="lms-cards">${cards.map(([k, soft, ic, t, sub], i) => `<button class="lms-card" style="--soft:${soft};animation-delay:${i * 0.06}s" onclick="lms.tab='${k}';lmsRender();window.scrollTo(0,0)"><span class="lms-ic">${kcIcon(ic, 28)}</span><div><b>${t}</b><span class="s">${sub}</span></div></button>`).join('')}</div></div>`;
     return;
   }
   let body = '';
+  if (lms.tab === 'workbooks') {
+    if (!wb.loaded) { root.innerHTML = head + '<div class="lms-panel"><p class="jb-empty">Loading your workbooks…</p></div></div>'; wbLoad().then(lmsRender); return; }
+    if (wb.comp) return wbRenderLearner(root, head);
+    root.innerHTML = head + wbListHtml() + '</div>'; return;
+  }
   if (lms.tab === 'resources') {
     const list = (kcH.list || []).filter(h => h.module === m.id || h.module === 'all');
     body = `<div class="lms-panel"><h3>Resource Centre</h3>${kcH.list === null ? '<p class="jb-empty">Loading…</p>' : !list.length
@@ -15126,6 +15210,416 @@ function lmsPick(i) {
   else { p.pick = [i]; lmsCheck(); }
 }
 function lmsCheck() { const p = lms.play, q = p.qs[p.i]; p.checked = true; if (qzSame(p.pick, q.a)) p.score++; lmsRender(); }
+</script>
+
+<script>
+// ===================== FREC 4 ONLINE WORKBOOKS =====================
+// Questions and the Qualsafe form-field map for each component workbook. Templates: FREC4-Workbook-C1/C2/C3.pdf in the repo.
+const WB = {"c1":{"title":"Component 1: Patient assessment and management","file":"FREC4-Workbook-C1.pdf","front":{"cover":"dummyFieldName1","name":"dummyFieldName1","sig":"dummyFieldName2","date":"dummyFieldName3"},"qs":[{"n":1,"text":"As a First Responder, you are called to a taxi rank by the taxi dispatcher. The dispatcher noted a man's arrival but asked him to wait as he was busy on the phone, then forgot about him for around 15 minutes. When he went to check the waiting area, he found the man unresponsive and slumped over in a seat.\n\nIn no more than 500 words, rationalise why a <C>ABCDE method is used for primary patient assessment and briefly explain each element of the assessment in the context of this patient, including the airway stepwise approach.","parts":[{"f":["dummyFieldName4"],"label":"Your answer"}],"ref":"dummyFieldName14","refLabel":"1.1. 1.2","ach":[{"date":"dummyFieldName5","pr":"dummyFieldName6","prOpts":["Pass","Refer"],"yn":"dummyFieldName7","ynOpts":["Yes","No"]},{"date":"dummyFieldName8","pr":"dummyFieldName9","prOpts":["Pass","2"],"yn":"dummyFieldName10","ynOpts":["Yes","2"]},{"date":"dummyFieldName11","pr":"dummyFieldName12","prOpts":["Pass","2"],"yn":"dummyFieldName13","ynOpts":["Yes","2"]}]},{"n":2,"text":"You attend a scene with several casualties. Using both the NHS Ten Second Triage tool (TST) and the NHS Major Incident Triage Tool (MITT), give a classification and the associated interventions (within scope of practice) for each casualty.","parts":[{"f":["dummyFieldName15"],"label":"Casualty 1 \u2014 TST classification","info":"Primary: disorientated and mobile, no life-threatening bleeding, clear airway, RR 20, HR 89.\nSecondary (CCS): mobile, headache, blurred vision, no memory of events, RR 16, HR 66.","short":true},{"f":["dummyFieldName17"],"label":"Casualty 1 \u2014 MITT classification","short":true},{"f":["dummyFieldName16"],"label":"Casualty 1 \u2014 TST interventions"},{"f":["dummyFieldName18"],"label":"Casualty 1 \u2014 MITT interventions"},{"f":["dummyFieldName19"],"label":"Casualty 2 \u2014 TST classification","info":"Primary: lying on pedestrian crossing, unable to walk, severe pain, shouting for help, RR 22, HR 110.\nSecondary: stretchered to CCS with features of spinal injury, extreme pain, alert, RR 24, HR 130.","short":true},{"f":["dummyFieldName20"],"label":"Casualty 2 \u2014 MITT classification","short":true},{"f":["dummyFieldName21"],"label":"Casualty 2 \u2014 TST interventions"},{"f":["dummyFieldName22"],"label":"Casualty 2 \u2014 MITT interventions"},{"f":["dummyFieldName23"],"label":"Casualty 3 \u2014 TST classification","info":"Primary: unresponsive, obvious head injury, noisy breathing, RR 12, HR 50.\nSecondary: unresponsive, airway maintained with adjunct, RR 12, HR 55.","short":true},{"f":["dummyFieldName24"],"label":"Casualty 3 \u2014 MITT classification","short":true},{"f":["dummyFieldName26"],"label":"Casualty 3 \u2014 TST interventions"},{"f":["dummyFieldName25"],"label":"Casualty 3 \u2014 MITT interventions"},{"f":["dummyFieldName28"],"label":"Casualty 4 \u2014 TST classification","info":"Primary: alert and mobile, bruising on forehead, RR 18, HR 90.\nSecondary: alert and mobile, has vomited before arriving at CCS, RR 20, HR 95.","short":true},{"f":["dummyFieldName29"],"label":"Casualty 4 \u2014 MITT classification","short":true},{"f":["dummyFieldName30"],"label":"Casualty 4 \u2014 TST interventions"},{"f":["dummyFieldName27"],"label":"Casualty 4 \u2014 MITT interventions"},{"f":["dummyFieldName31"],"label":"Casualty 5 \u2014 TST classification","info":"Primary: unresponsive, blood coming from mouth, RR and HR unobtainable.\nSecondary: unresponsive, not breathing, airway maintained by OPA after suction, CPR in progress at CCS.","short":true},{"f":["dummyFieldName32"],"label":"Casualty 5 \u2014 MITT classification","short":true},{"f":["dummyFieldName33"],"label":"Casualty 5 \u2014 TST interventions"},{"f":["dummyFieldName34"],"label":"Casualty 5 \u2014 MITT interventions"},{"f":["dummyFieldName35"],"label":"Casualty 6 \u2014 TST classification","info":"Primary: responds to pain, snoring, blood pooled behind head, RR 10, HR 45.\nSecondary: unresponsive, head-tilt chin-lift, bleeding stopped, extensive chest bruising, RR 28, HR 125.","short":true},{"f":["dummyFieldName36"],"label":"Casualty 6 \u2014 MITT classification","short":true},{"f":["dummyFieldName38"],"label":"Casualty 6 \u2014 TST interventions"},{"f":["dummyFieldName37"],"label":"Casualty 6 \u2014 MITT interventions"},{"f":["dummyFieldName40"],"label":"Casualty 7 \u2014 TST classification","info":"Primary: head pain, unable to walk, multiple lacerations, RR 30, HR 121.\nSecondary: incoherent sounds, eyes open spontaneously, forehead wound with bruising and swelling, RR 24, HR 100.","short":true},{"f":["dummyFieldName41"],"label":"Casualty 7 \u2014 MITT classification","short":true},{"f":["dummyFieldName42"],"label":"Casualty 7 \u2014 TST interventions"},{"f":["dummyFieldName39"],"label":"Casualty 7 \u2014 MITT interventions"}],"ref":"dummyFieldName52","refLabel":"1.4","ach":[{"date":"dummyFieldName43","pr":"dummyFieldName44","prOpts":["Pass","Refer"],"yn":"dummyFieldName45","ynOpts":["Yes","No"]},{"date":"dummyFieldName46","pr":"dummyFieldName47","prOpts":["Pass","2"],"yn":"dummyFieldName48","ynOpts":["Yes","2"]},{"date":"dummyFieldName49","pr":"dummyFieldName50","prOpts":["Pass","2"],"yn":"dummyFieldName51","ynOpts":["Yes","2"]}]},{"n":3,"text":"Explain in no more than 200 words how the heart's function is affected by:\n\u2022 Arrhythmias\n\u2022 Heart failure","parts":[{"f":["dummyFieldName63"],"label":"Your answer"}],"ref":"dummyFieldName53","refLabel":"3.2","ach":[{"date":"dummyFieldName54","pr":"dummyFieldName55","prOpts":["Pass","Refer"],"yn":"dummyFieldName58","ynOpts":["Yes","No"]},{"date":"dummyFieldName56","pr":"dummyFieldName57","prOpts":["Pass","2"],"yn":"dummyFieldName59","ynOpts":["Yes","2"]},{"date":"dummyFieldName60","pr":"dummyFieldName61","prOpts":["Pass","2"],"yn":"dummyFieldName62","ynOpts":["Yes","2"]}]},{"n":4,"text":"In no more than 500 words, explain the electrical conduction system of the heart, its components, and its relation to the cardiac cycle.","parts":[{"f":["dummyFieldName64"],"label":"Your answer"}],"ref":"dummyFieldName74","refLabel":"2.2","ach":[{"date":"dummyFieldName65","pr":"dummyFieldName66","prOpts":["Pass","Refer"],"yn":"dummyFieldName67","ynOpts":["Yes","No"]},{"date":"dummyFieldName68","pr":"dummyFieldName69","prOpts":["Pass","2"],"yn":"dummyFieldName70","ynOpts":["Yes","2"]},{"date":"dummyFieldName71","pr":"dummyFieldName72","prOpts":["Pass","2"],"yn":"dummyFieldName73","ynOpts":["Yes","2"]}]},{"n":5,"text":"Define the following terms: atheroma; arteriosclerosis; myocardial infarction \u2014 then explain their connection as part of the development of Coronary Artery Disease (CAD).","parts":[{"f":["dummyFieldName84"],"label":"Arteriosclerosis \u2014 definition and causes"},{"f":["dummyFieldName85"],"label":"Myocardial infarction \u2014 definition and causes"},{"f":["dummyFieldName86"],"label":"Atheroma \u2014 definition and causes"},{"f":["dummyFieldName87"],"label":"Connection to coronary artery disease"}],"ref":"dummyFieldName88","refLabel":"3.1","ach":[{"date":"dummyFieldName75","pr":"dummyFieldName76","prOpts":["Pass","Refer"],"yn":"dummyFieldName77","ynOpts":["Yes","No"]},{"date":"dummyFieldName78","pr":"dummyFieldName79","prOpts":["Pass","2"],"yn":"dummyFieldName80","ynOpts":["Yes","2"]},{"date":"dummyFieldName81","pr":"dummyFieldName82","prOpts":["Pass","2"],"yn":"dummyFieldName83","ynOpts":["Yes","2"]}]},{"n":6,"text":"List the components of the heart on the diagram (see the workbook diagram \u2014 boxes are numbered top to bottom, left side first, then right side).","parts":[{"f":["dummyFieldName89"],"label":"Label 1 (left)","short":true},{"f":["dummyFieldName90"],"label":"Label 2 (left)","short":true},{"f":["dummyFieldName92"],"label":"Label 3 (left)","short":true},{"f":["dummyFieldName94"],"label":"Label 4 (left)","short":true},{"f":["dummyFieldName96"],"label":"Label 5 (left)","short":true},{"f":["dummyFieldName91"],"label":"Label 6 (right)","short":true},{"f":["dummyFieldName93"],"label":"Label 7 (right)","short":true},{"f":["dummyFieldName95"],"label":"Label 8 (right)","short":true},{"f":["dummyFieldName97"],"label":"Label 9 (right)","short":true},{"f":["dummyFieldName98"],"label":"Label 10 (right)","short":true}],"ref":"dummyFieldName108","refLabel":"2.1","ach":[{"date":"dummyFieldName100","pr":"dummyFieldName99","prOpts":["Pass","Refer"],"yn":"dummyFieldName104","ynOpts":["Yes","No"]},{"date":"dummyFieldName101","pr":"dummyFieldName102","prOpts":["Pass","2"],"yn":"dummyFieldName105","ynOpts":["Yes","2"]},{"date":"dummyFieldName106","pr":"dummyFieldName103","prOpts":["Pass","2"],"yn":"dummyFieldName107","ynOpts":["Yes","2"]}]},{"n":7,"text":"In no more than 200 words, explain what an ECG is and what it measures.","parts":[{"f":["dummyFieldName109","dummyFieldName110"],"label":"Your answer"}],"ref":"dummyFieldName120","refLabel":"4.1","ach":[{"date":"dummyFieldName111","pr":"dummyFieldName112","prOpts":["Pass","Refer"],"yn":"dummyFieldName113","ynOpts":["Yes","No"]},{"date":"dummyFieldName114","pr":"dummyFieldName115","prOpts":["Pass","2"],"yn":"dummyFieldName116","ynOpts":["Yes","2"]},{"date":"dummyFieldName117","pr":"dummyFieldName118","prOpts":["Pass","2"],"yn":"dummyFieldName119","ynOpts":["Yes","2"]}]},{"n":8,"text":"You are dealing with an unconscious casualty following a collapse in the street. Their airway has become 'noisy' and you decide to use a Supraglottic Airway Device (SAD). List five indications or problems in relation to its use.","parts":[{"f":["dummyFieldName130"],"label":"Indication or problem 1"},{"f":["dummyFieldName131"],"label":"Indication or problem 2"},{"f":["dummyFieldName132"],"label":"Indication or problem 3"},{"f":["dummyFieldName133"],"label":"Indication or problem 4"},{"f":["dummyFieldName134"],"label":"Indication or problem 5"}],"ref":"dummyFieldName135","refLabel":"5.1","ach":[{"date":"dummyFieldName121","pr":"dummyFieldName122","prOpts":["Pass","Refer"],"yn":"dummyFieldName123","ynOpts":["Yes","No"]},{"date":"dummyFieldName124","pr":"dummyFieldName125","prOpts":["Pass","2"],"yn":"dummyFieldName126","ynOpts":["Yes","2"]},{"date":"dummyFieldName127","pr":"dummyFieldName128","prOpts":["Pass","2"],"yn":"dummyFieldName129","ynOpts":["Yes","2"]}]},{"n":9,"text":"In relation to managing a patient using medical gases, complete the table: which medical gas, administration method/dosage and caution(s)/contraindication(s) for each patient. Then list the health and safety principles for medical gases.","parts":[{"f":["dummyFieldName136"],"label":"Pregnant, regular contractions, pain score 9 \u2014 Which medical gas?"},{"f":["dummyFieldName137"],"label":"Pregnant, regular contractions, pain score 9 \u2014 Administration method/dosage"},{"f":["dummyFieldName138"],"label":"Pregnant, regular contractions, pain score 9 \u2014 Caution(s)/contraindication(s)"},{"f":["dummyFieldName139"],"label":"Exacerbation of COPD, SpO2 87%, difficulty breathing, RR 32 \u2014 Which medical gas?"},{"f":["dummyFieldName140"],"label":"Exacerbation of COPD, SpO2 87%, difficulty breathing, RR 32 \u2014 Administration method/dosage"},{"f":["dummyFieldName141"],"label":"Exacerbation of COPD, SpO2 87%, difficulty breathing, RR 32 \u2014 Caution(s)/contraindication(s)"},{"f":["dummyFieldName142"],"label":"Heavy PV bleed, SpO2 90% \u2014 Which medical gas?"},{"f":["dummyFieldName143"],"label":"Heavy PV bleed, SpO2 90% \u2014 Administration method/dosage"},{"f":["dummyFieldName144"],"label":"Heavy PV bleed, SpO2 90% \u2014 Caution(s)/contraindication(s)"},{"f":["dummyFieldName145"],"label":"Ankle injury after rugby, pain score 8 \u2014 Which medical gas?"},{"f":["dummyFieldName146"],"label":"Ankle injury after rugby, pain score 8 \u2014 Administration method/dosage"},{"f":["dummyFieldName147"],"label":"Ankle injury after rugby, pain score 8 \u2014 Caution(s)/contraindication(s)"},{"f":["dummyFieldName148"],"label":"Cardiac arrest, SpO2 61% \u2014 Which medical gas?"},{"f":["dummyFieldName149"],"label":"Cardiac arrest, SpO2 61% \u2014 Administration method/dosage"},{"f":["dummyFieldName150"],"label":"Cardiac arrest, SpO2 61% \u2014 Caution(s)/contraindication(s)"},{"f":["dummyFieldName151"],"label":"Health and safety principles for medical gases"}],"ref":"dummyFieldName152","refLabel":"6.1; 6.2; 6.3","ach":[{"date":"dummyFieldName153","pr":"dummyFieldName154","prOpts":["Pass","Refer"],"yn":"dummyFieldName155","ynOpts":["Yes","No"]},{"date":"dummyFieldName156","pr":"dummyFieldName157","prOpts":["Pass","2"],"yn":"dummyFieldName158","ynOpts":["Yes","2"]},{"date":"dummyFieldName159","pr":"dummyFieldName160","prOpts":["Pass","2"],"yn":"dummyFieldName161","ynOpts":["Yes","2"]}]}],"back":{"bibQ":"dummyFieldName162","bibText":"dummyFieldName163","fbQ":"dummyFieldName169","fbText":"dummyFieldName168","apQ":"dummyFieldName172","apText":"dummyFieldName170","apDate":"dummyFieldName171","result":"dummyFieldName175","centreName":"dummyFieldName174","centreNo":"dummyFieldName178","date":"dummyFieldName176","trainerName":"dummyFieldName173","trainerSig":"dummyFieldName177"}},"c2":{"title":"Component 2: Emergency trauma care","file":"FREC4-Workbook-C2.pdf","front":{"cover":"dummyFieldName1","name":"dummyFieldName1","sig":"dummyFieldName13","date":"dummyFieldName14"},"qs":[{"n":1,"text":"Describe the structure and function of the main components involved in human respiration, including the pleural membranes, intercostal muscles, diaphragm, lungs and accessory muscles of breathing. Explain how these structures work together during inspiration and expiration.","parts":[{"f":["dummyFieldName2"],"label":"Your answer"}],"ref":"dummyFieldName12","refLabel":"1.1; 1.2","ach":[{"date":"dummyFieldName3","pr":"dummyFieldName4","prOpts":["Pass","Refer"],"yn":"dummyFieldName5","ynOpts":["Yes","No"]},{"date":"dummyFieldName6","pr":"dummyFieldName7","prOpts":["Pass","2"],"yn":"dummyFieldName8","ynOpts":["Yes","2"]},{"date":"dummyFieldName9","pr":"dummyFieldName10","prOpts":["Pass","2"],"yn":"dummyFieldName11","ynOpts":["Yes","2"]}]},{"n":2,"text":"Describe the meaning of the following terms and explain how an increase in each affects lung function:\n1. Compliance\n2. Elasticity\n3. Airway resistance","parts":[{"f":["dummyFieldName15"],"label":"Your answer"}],"ref":"dummyFieldName25","refLabel":"1.3","ach":[{"date":"dummyFieldName16","pr":"dummyFieldName17","prOpts":["Pass","2"],"yn":"dummyFieldName18","ynOpts":["Yes","2"]},{"date":"dummyFieldName19","pr":"dummyFieldName20","prOpts":["Pass","2"],"yn":"dummyFieldName21","ynOpts":["Yes","2"]},{"date":"dummyFieldName22","pr":"dummyFieldName23","prOpts":["Pass","2"],"yn":"dummyFieldName24","ynOpts":["Yes","2"]}]},{"n":3,"text":"You are called to a 36-year-old female who has fallen about 3 metres from a ladder. She is unconscious. There is no catastrophic bleeding. She is breathing, but you note a snoring sound from the airway and the breaths are deep and slow. The pulse is very strong but quite slow. Develop a treatment plan incorporating:\n\u2022 Scene consideration and additional resources\n\u2022 Patient assessment\n\u2022 Patient management\n\u2022 Transport to definitive care","parts":[{"f":["dummyFieldName26"],"label":"Your answer"}],"ref":"dummyFieldName36","refLabel":"2.1 2.3","ach":[{"date":"dummyFieldName27","pr":"dummyFieldName28","prOpts":["Pass","2"],"yn":"dummyFieldName29","ynOpts":["Yes","2"]},{"date":"dummyFieldName30","pr":"dummyFieldName31","prOpts":["Pass","2"],"yn":"dummyFieldName32","ynOpts":["Yes","2"]},{"date":"dummyFieldName33","pr":"dummyFieldName34","prOpts":["Pass","2"],"yn":"dummyFieldName35","ynOpts":["Yes","2"]}]},{"n":4,"text":"Label the bones on the diagram (boxes numbered top to bottom, left side first, then right side).\nWord bank: carpal bones, clavicle, cranium, fibula, femur, humerus, patella, pelvis, phalanges, radius, ribs, scapula, sternum, tibia, ulna, mandible, cervical vertebra.","parts":[{"f":["dummyFieldName37"],"label":"Label 1 (left)","short":true},{"f":["dummyFieldName38"],"label":"Label 2 (left)","short":true},{"f":["dummyFieldName39"],"label":"Label 3 (left)","short":true},{"f":["dummyFieldName40"],"label":"Label 4 (left)","short":true},{"f":["dummyFieldName41"],"label":"Label 5 (left)","short":true},{"f":["dummyFieldName42"],"label":"Label 6 (left)","short":true},{"f":["dummyFieldName43"],"label":"Label 7 (left)","short":true},{"f":["dummyFieldName44"],"label":"Label 8 (left)","short":true},{"f":["dummyFieldName45"],"label":"Label 9 (left)","short":true},{"f":["dummyFieldName46"],"label":"Label 10 (left)","short":true},{"f":["dummyFieldName47"],"label":"Label 11 (right)","short":true},{"f":["dummyFieldName48"],"label":"Label 12 (right)","short":true},{"f":["dummyFieldName49"],"label":"Label 13 (right)","short":true},{"f":["dummyFieldName50"],"label":"Label 14 (right)","short":true},{"f":["dummyFieldName51"],"label":"Label 15 (right)","short":true},{"f":["dummyFieldName52"],"label":"Label 16 (right)","short":true},{"f":["dummyFieldName53"],"label":"Label 17 (right)","short":true}],"ref":"dummyFieldName63","refLabel":"3.1","ach":[{"date":"dummyFieldName54","pr":"dummyFieldName55","prOpts":["Pass","2"],"yn":"dummyFieldName56","ynOpts":["Yes","2"]},{"date":"dummyFieldName57","pr":"dummyFieldName58","prOpts":["Pass","2"],"yn":"dummyFieldName59","ynOpts":["Yes","2"]},{"date":"dummyFieldName60","pr":"dummyFieldName61","prOpts":["Pass","2"],"yn":"dummyFieldName62","ynOpts":["Yes","2"]}]},{"n":5,"text":"Describe the basic functions and the key components of the nervous system. Include both the central and peripheral nervous systems.","parts":[{"f":["dummyFieldName64"],"label":"Your answer"}],"ref":"dummyFieldName74","refLabel":"4.1; 4.2; 4.3","ach":[{"date":"dummyFieldName65","pr":"dummyFieldName66","prOpts":["Pass","2"],"yn":"dummyFieldName67","ynOpts":["Yes","2"]},{"date":"dummyFieldName68","pr":"dummyFieldName69","prOpts":["Pass","2"],"yn":"dummyFieldName70","ynOpts":["Yes","2"]},{"date":"dummyFieldName71","pr":"dummyFieldName72","prOpts":["Pass","2"],"yn":"dummyFieldName73","ynOpts":["Yes","2"]}]},{"n":6,"text":"Explain the primary components and functions of the musculoskeletal system, including:\n\u2022 Bone \u2022 Tendon \u2022 Ligament \u2022 Joints \u2022 Muscle","parts":[{"f":["dummyFieldName75"],"label":"Your answer"}],"ref":"dummyFieldName85","refLabel":"3.2, 3.3","ach":[{"date":"dummyFieldName76","pr":"dummyFieldName77","prOpts":["Pass","2"],"yn":"dummyFieldName78","ynOpts":["Yes","2"]},{"date":"dummyFieldName79","pr":"dummyFieldName80","prOpts":["Pass","2"],"yn":"dummyFieldName81","ynOpts":["Yes","2"]},{"date":"dummyFieldName82","pr":"dummyFieldName83","prOpts":["Pass","2"],"yn":"dummyFieldName84","ynOpts":["Yes","2"]}]},{"n":7,"text":"You are called to assess a man who believes he has been the victim of sexual assault. As the attending responder, outline how you would manage this situation. Consider clinical priorities, communication, forensic procedures, consent, and referral to appropriate support services such as a Sexual Assault Referral Centre (SARC).","parts":[{"f":["dummyFieldName96"],"label":"Your answer"}],"ref":"dummyFieldName95","refLabel":"7.4","ach":[{"date":"dummyFieldName86","pr":"dummyFieldName87","prOpts":["Pass","2"],"yn":"dummyFieldName88","ynOpts":["Yes","2"]},{"date":"dummyFieldName89","pr":"dummyFieldName90","prOpts":["Pass","2"],"yn":"dummyFieldName91","ynOpts":["Yes","2"]},{"date":"dummyFieldName92","pr":"dummyFieldName93","prOpts":["Pass","2"],"yn":"dummyFieldName94","ynOpts":["Yes","2"]}]},{"n":8,"text":"Provide a definition of 'sexual assault' and list the psychological and physiological signs of sexual assault. Clearly identify whether each sign is psychological or physiological.","parts":[{"f":["dummyFieldName97"],"label":"Your answer"}],"ref":"dummyFieldName107","refLabel":"7.1, 7.2, 7.3","ach":[{"date":"dummyFieldName98","pr":"dummyFieldName99","prOpts":["Pass","2"],"yn":"dummyFieldName100","ynOpts":["Yes","2"]},{"date":"dummyFieldName101","pr":"dummyFieldName102","prOpts":["Pass","2"],"yn":"dummyFieldName103","ynOpts":["Yes","2"]},{"date":"dummyFieldName104","pr":"dummyFieldName105","prOpts":["Pass","2"],"yn":"dummyFieldName106","ynOpts":["Yes","2"]}]},{"n":9,"text":"You are called to a mass pile-up on the motorway involving at least forty vehicles, at night and in bad weather. The first crew on scene has declared a major incident. Define a 'major incident' and explain its 4 stages.","parts":[{"f":["dummyFieldName108"],"label":"Your answer"}],"ref":"dummyFieldName118","refLabel":"8.1; 8.3","ach":[{"date":"dummyFieldName109","pr":"dummyFieldName110","prOpts":["Pass","2"],"yn":"dummyFieldName111","ynOpts":["Yes","2"]},{"date":"dummyFieldName112","pr":"dummyFieldName113","prOpts":["Pass","2"],"yn":"dummyFieldName114","ynOpts":["Yes","2"]},{"date":"dummyFieldName115","pr":"dummyFieldName116","prOpts":["Pass","2"],"yn":"dummyFieldName117","ynOpts":["Yes","2"]}]},{"n":10,"text":"List the safety considerations when operating as the first responder at the scene of a major incident, describing the main functions of the Police, Fire Service, Ambulance Services and other agencies. Explain the 4 possible roles of a first responder at a major incident (first responder on scene, first crew on scene, driver and attendant).","parts":[{"f":["dummyFieldName119"],"label":"Your answer"}],"ref":"dummyFieldName129","refLabel":"8.4; 8.5; 8.6","ach":[{"date":"dummyFieldName120","pr":"dummyFieldName121","prOpts":["Pass","2"],"yn":"dummyFieldName122","ynOpts":["Yes","2"]},{"date":"dummyFieldName123","pr":"dummyFieldName124","prOpts":["Pass","2"],"yn":"dummyFieldName125","ynOpts":["Yes","2"]},{"date":"dummyFieldName126","pr":"dummyFieldName127","prOpts":["Pass","2"],"yn":"dummyFieldName128","ynOpts":["Yes","2"]}]},{"n":11,"text":"What are the possible routes of entry and potential effects to consider during Chemical, Biological, Radiological, Nuclear and Explosive (CBRNE) incidents? List each incident type and describe the routes of entry to the body and the effects to consider.","parts":[{"f":["dummyFieldName140"],"label":"Your answer"}],"ref":"dummyFieldName139","refLabel":"8.2","ach":[{"date":"dummyFieldName130","pr":"dummyFieldName131","prOpts":["Pass","2"],"yn":"dummyFieldName132","ynOpts":["Yes","2"]},{"date":"dummyFieldName133","pr":"dummyFieldName134","prOpts":["Pass","2"],"yn":"dummyFieldName135","ynOpts":["Yes","2"]},{"date":"dummyFieldName136","pr":"dummyFieldName137","prOpts":["Pass","2"],"yn":"dummyFieldName138","ynOpts":["Yes","2"]}]},{"n":12,"text":"You are at a football match with about 2,000 people. A member of the public tells you about an unattended rucksack under a seat where no one has been sitting. Summarise your initial actions dealing with the package and your actions when this is defined as a terrorist incident. Then complete your METHANE report, including what each letter stands for.","parts":[{"f":["dummyFieldName141"],"label":"Initial actions (package)"},{"f":["dummyFieldName142"],"label":"Initial actions (terrorist incident)"},{"f":["dummyFieldName143"],"label":"M \u2014 what it stands for","short":true},{"f":["dummyFieldName150"],"label":"M \u2014 information needed"},{"f":["dummyFieldName144"],"label":"E \u2014 what it stands for","short":true},{"f":["dummyFieldName151"],"label":"E \u2014 information needed"},{"f":["dummyFieldName145"],"label":"T \u2014 what it stands for","short":true},{"f":["dummyFieldName152"],"label":"T \u2014 information needed"},{"f":["dummyFieldName146"],"label":"H \u2014 what it stands for","short":true},{"f":["dummyFieldName153"],"label":"H \u2014 information needed"},{"f":["dummyFieldName147"],"label":"A \u2014 what it stands for","short":true},{"f":["dummyFieldName154"],"label":"A \u2014 information needed"},{"f":["dummyFieldName148"],"label":"N \u2014 what it stands for","short":true},{"f":["dummyFieldName155"],"label":"N \u2014 information needed"},{"f":["dummyFieldName149"],"label":"E \u2014 what it stands for","short":true},{"f":["dummyFieldName156"],"label":"E \u2014 information needed"}],"ref":"dummyFieldName166","refLabel":"8.7; 8.8; 8.9","ach":[{"date":"dummyFieldName157","pr":"dummyFieldName158","prOpts":["Pass","2"],"yn":"dummyFieldName159","ynOpts":["Yes","2"]},{"date":"dummyFieldName160","pr":"dummyFieldName161","prOpts":["Pass","2"],"yn":"dummyFieldName162","ynOpts":["Yes","2"]},{"date":"dummyFieldName163","pr":"dummyFieldName164","prOpts":["Pass","2"],"yn":"dummyFieldName165","ynOpts":["Yes","2"]}]},{"n":13,"text":"Describe all of the following traumatic chest injuries and explain the management of 2 of them:\n\u2022 Pneumothorax \u2022 Tension pneumothorax \u2022 Haemothorax \u2022 Flail chest \u2022 Open chest wound","parts":[{"f":["dummyFieldName167"],"label":"Your answer"}],"ref":"dummyFieldName177","refLabel":"2.2","ach":[{"date":"dummyFieldName168","pr":"dummyFieldName169","prOpts":["Pass","2"],"yn":"dummyFieldName170","ynOpts":["Yes","2"]},{"date":"dummyFieldName171","pr":"dummyFieldName172","prOpts":["Pass","2"],"yn":"dummyFieldName174","ynOpts":["Yes","2"]},{"date":"dummyFieldName173","pr":"dummyFieldName175","prOpts":["Pass","2"],"yn":"dummyFieldName176","ynOpts":["Yes","2"]}]}],"back":{"bibQ":"dummyFieldName179","bibText":"dummyFieldName178","fbQ":"dummyFieldName185","fbText":"dummyFieldName184","apQ":"dummyFieldName194","apText":"dummyFieldName192","apDate":"dummyFieldName193","result":"dummyFieldName186","centreName":"dummyFieldName187","centreNo":"dummyFieldName191","date":"dummyFieldName188","trainerName":"dummyFieldName189","trainerSig":"dummyFieldName190"}},"c3":{"title":"Component 3: Focused emergency and urgent care","file":"FREC4-Workbook-C3.pdf","front":{"cover":"dummyFieldName1","name":"dummyFieldName1","sig":"dummyFieldName2","date":"dummyFieldName3"},"qs":[{"n":1,"text":"Explain each component of the paediatric assessment triangle.","parts":[{"f":["dummyFieldName4"],"label":"Appearance"},{"f":["dummyFieldName5"],"label":"Work of breathing"},{"f":["dummyFieldName6"],"label":"Circulation"}],"ref":"dummyFieldName16","refLabel":"2.4","ach":[{"date":"dummyFieldName7","pr":"dummyFieldName8","prOpts":["Pass","Refer"],"yn":"dummyFieldName9","ynOpts":["Yes","No"]},{"date":"dummyFieldName10","pr":"dummyFieldName11","prOpts":["Pass","2"],"yn":"dummyFieldName12","ynOpts":["Yes","2"]},{"date":"dummyFieldName13","pr":"dummyFieldName14","prOpts":["Pass","2"],"yn":"dummyFieldName15","ynOpts":["Yes","2"]}]},{"n":2,"text":"Complete the table with the normal respiratory rate ranges and normal heart rate ranges (from deep sleep to awake) for children.","parts":[{"f":["dummyFieldName26"],"label":"Respiratory rate \u2014 age <1","short":true},{"f":["dummyFieldName29"],"label":"Respiratory rate \u2014 age 1\u20132","short":true},{"f":["dummyFieldName31"],"label":"Respiratory rate \u2014 age 2\u20135","short":true},{"f":["dummyFieldName33"],"label":"Respiratory rate \u2014 age 5\u201312","short":true},{"f":["dummyFieldName35"],"label":"Respiratory rate \u2014 age >12","short":true},{"f":["dummyFieldName27"],"label":"Heart rate \u2014 0\u20133 months","short":true},{"f":["dummyFieldName28"],"label":"Heart rate \u2014 3 months\u20132 years","short":true},{"f":["dummyFieldName30"],"label":"Heart rate \u2014 2\u201310 years","short":true},{"f":["dummyFieldName32"],"label":"Heart rate \u2014 >10 years","short":true}],"ref":"dummyFieldName36","refLabel":"1.2","ach":[{"date":"dummyFieldName17","pr":"dummyFieldName18","prOpts":["Pass","Refer"],"yn":"dummyFieldName19","ynOpts":["Yes","No"]},{"date":"dummyFieldName20","pr":"dummyFieldName21","prOpts":["Pass","2"],"yn":"dummyFieldName22","ynOpts":["Yes","2"]},{"date":"dummyFieldName23","pr":"dummyFieldName24","prOpts":["Pass","2"],"yn":"dummyFieldName25","ynOpts":["Yes","2"]}]},{"n":3,"text":"(a) Describe the signs of impending circulatory failure in a child.\n(b) Describe the signs of impending respiratory failure in a child.\n(c) Describe how you can differentiate between the two. (200\u2013300 words)","parts":[{"f":["dummyFieldName47"],"label":"Your answer"}],"ref":"dummyFieldName46","refLabel":"2.1","ach":[{"date":"dummyFieldName37","pr":"dummyFieldName38","prOpts":["Pass","Refer"],"yn":"dummyFieldName41","ynOpts":["Yes","No"]},{"date":"dummyFieldName39","pr":"dummyFieldName40","prOpts":["Pass","2"],"yn":"dummyFieldName42","ynOpts":["Yes","2"]},{"date":"dummyFieldName43","pr":"dummyFieldName44","prOpts":["Pass","2"],"yn":"dummyFieldName45","ynOpts":["Yes","2"]}]},{"n":4,"text":"Choose three common childhood illnesses from: bronchiolitis, croup, epiglottitis, sepsis, meningococcal septicaemia, viral wheeze. Summarise each illness and describe its recognition features (minimum of 3).","parts":[{"f":["dummyFieldName58"],"label":"Illness 1 \u2014 name","short":true},{"f":["dummyFieldName61"],"label":"Illness 1 \u2014 description"},{"f":["dummyFieldName64"],"label":"Illness 1 \u2014 recognition features (minimum 3)"},{"f":["dummyFieldName59"],"label":"Illness 2 \u2014 name","short":true},{"f":["dummyFieldName62"],"label":"Illness 2 \u2014 description"},{"f":["dummyFieldName65"],"label":"Illness 2 \u2014 recognition features (minimum 3)"},{"f":["dummyFieldName60"],"label":"Illness 3 \u2014 name","short":true},{"f":["dummyFieldName63"],"label":"Illness 3 \u2014 description"},{"f":["dummyFieldName66"],"label":"Illness 3 \u2014 recognition features (minimum 3)"}],"ref":"dummyFieldName57","refLabel":"2.2; 2.3","ach":[{"date":"dummyFieldName48","pr":"dummyFieldName49","prOpts":["Pass","Refer"],"yn":"dummyFieldName50","ynOpts":["Yes","No"]},{"date":"dummyFieldName51","pr":"dummyFieldName52","prOpts":["Pass","2"],"yn":"dummyFieldName53","ynOpts":["Yes","2"]},{"date":"dummyFieldName54","pr":"dummyFieldName55","prOpts":["Pass","2"],"yn":"dummyFieldName56","ynOpts":["Yes","2"]}]},{"n":5,"text":"Describe how to manage the 3 childhood illnesses you did not use in question 4.","parts":[{"f":["dummyFieldName67"],"label":"Illness 1 \u2014 name","short":true},{"f":["dummyFieldName70"],"label":"Illness 1 \u2014 management"},{"f":["dummyFieldName68"],"label":"Illness 2 \u2014 name","short":true},{"f":["dummyFieldName71"],"label":"Illness 2 \u2014 management"},{"f":["dummyFieldName69"],"label":"Illness 3 \u2014 name","short":true},{"f":["dummyFieldName72"],"label":"Illness 3 \u2014 management"}],"ref":"dummyFieldName82","refLabel":"2.6","ach":[{"date":"dummyFieldName73","pr":"dummyFieldName74","prOpts":["Pass","Refer"],"yn":"dummyFieldName75","ynOpts":["Yes","No"]},{"date":"dummyFieldName76","pr":"dummyFieldName77","prOpts":["Pass","2"],"yn":"dummyFieldName78","ynOpts":["Yes","2"]},{"date":"dummyFieldName79","pr":"dummyFieldName80","prOpts":["Pass","2"],"yn":"dummyFieldName81","ynOpts":["Yes","2"]}]},{"n":6,"text":"Describe (400\u2013500 words) the physical and psychosocial development of a child, including: brain and nervous system, heart, head, chest and lungs, abdomen, neck and airway, musculoskeletal system, emotions, communication and comprehension.","parts":[{"f":["dummyFieldName83"],"label":"Your answer"}],"ref":"dummyFieldName93","refLabel":"1.1","ach":[{"date":"dummyFieldName85","pr":"dummyFieldName84","prOpts":["Pass","Refer"],"yn":"dummyFieldName89","ynOpts":["Yes","No"]},{"date":"dummyFieldName86","pr":"dummyFieldName87","prOpts":["Pass","2"],"yn":"dummyFieldName90","ynOpts":["Yes","2"]},{"date":"dummyFieldName91","pr":"dummyFieldName88","prOpts":["Pass","2"],"yn":"dummyFieldName92","ynOpts":["Yes","2"]}]},{"n":7,"text":"You are called to a 4-year-old child with a cough and a temperature. He is alone at home with his mother, who appears heavily intoxicated. Describe your safeguarding considerations and your actions. (250\u2013300 words)","parts":[{"f":["dummyFieldName104"],"label":"Your answer"}],"ref":"dummyFieldName103","refLabel":"2.5","ach":[{"date":"dummyFieldName94","pr":"dummyFieldName95","prOpts":["Pass","Refer"],"yn":"dummyFieldName96","ynOpts":["Yes","No"]},{"date":"dummyFieldName97","pr":"dummyFieldName98","prOpts":["Pass","2"],"yn":"dummyFieldName99","ynOpts":["Yes","2"]},{"date":"dummyFieldName100","pr":"dummyFieldName101","prOpts":["Pass","2"],"yn":"dummyFieldName102","ynOpts":["Yes","2"]}]},{"n":8,"text":"Identify the key signs of a potential mental health crisis in a patient or colleague and your management of the crisis within national or local guidelines. (200\u2013300 words)","parts":[{"f":["dummyFieldName115"],"label":"Your answer"}],"ref":"dummyFieldName114","refLabel":"3.1; 3.2","ach":[{"date":"dummyFieldName105","pr":"dummyFieldName106","prOpts":["Pass","Refer"],"yn":"dummyFieldName107","ynOpts":["Yes","No"]},{"date":"dummyFieldName108","pr":"dummyFieldName109","prOpts":["Pass","2"],"yn":"dummyFieldName110","ynOpts":["Yes","2"]},{"date":"dummyFieldName111","pr":"dummyFieldName112","prOpts":["Pass","2"],"yn":"dummyFieldName113","ynOpts":["Yes","2"]}]},{"n":9,"text":"Describe the pathophysiology, recognition features (differentiating adult and child where appropriate) and patient assessment/management of: COPD (emphysema and bronchitis), pneumonia, mild asthma and severe asthma.","parts":[{"f":["dummyFieldName126"],"label":"COPD (emphysema, bronchitis) \u2014 Pathophysiology"},{"f":["dummyFieldName127"],"label":"COPD (emphysema, bronchitis) \u2014 Recognition features"},{"f":["dummyFieldName128"],"label":"COPD (emphysema, bronchitis) \u2014 Patient assessment/management"},{"f":["dummyFieldName129"],"label":"Pneumonia \u2014 Pathophysiology"},{"f":["dummyFieldName130"],"label":"Pneumonia \u2014 Recognition features"},{"f":["dummyFieldName131"],"label":"Pneumonia \u2014 Patient assessment/management"},{"f":["dummyFieldName132"],"label":"Mild asthma \u2014 Pathophysiology"},{"f":["dummyFieldName133"],"label":"Mild asthma \u2014 Recognition features"},{"f":["dummyFieldName134"],"label":"Mild asthma \u2014 Patient assessment/management"},{"f":["dummyFieldName135"],"label":"Severe asthma \u2014 Pathophysiology"},{"f":["dummyFieldName136"],"label":"Severe asthma \u2014 Recognition features"},{"f":["dummyFieldName137"],"label":"Severe asthma \u2014 Patient assessment/management"}],"ref":"dummyFieldName116","refLabel":"4.1; 4.2; 4.3; 4.4","ach":[{"date":"dummyFieldName117","pr":"dummyFieldName118","prOpts":["Pass","Refer"],"yn":"dummyFieldName119","ynOpts":["Yes","No"]},{"date":"dummyFieldName120","pr":"dummyFieldName121","prOpts":["Pass","2"],"yn":"dummyFieldName122","ynOpts":["Yes","2"]},{"date":"dummyFieldName123","pr":"dummyFieldName124","prOpts":["Pass","2"],"yn":"dummyFieldName125","ynOpts":["Yes","2"]}]},{"n":10,"text":"Label the key components of the digestive system on the diagram (boxes numbered top to bottom, left side first, then right side), then briefly summarise the function of each component.","parts":[{"f":["dummyFieldName147"],"label":"Diagram label 1 (left)","short":true},{"f":["dummyFieldName148"],"label":"Diagram label 2 (left)","short":true},{"f":["dummyFieldName149"],"label":"Diagram label 3 (left)","short":true},{"f":["dummyFieldName150"],"label":"Diagram label 4 (right)","short":true},{"f":["dummyFieldName151"],"label":"Diagram label 5 (right)","short":true},{"f":["dummyFieldName152"],"label":"Diagram label 6 (right)","short":true},{"f":["dummyFieldName153"],"label":"Colon \u2014 function"},{"f":["dummyFieldName154"],"label":"Gall bladder \u2014 function"},{"f":["dummyFieldName155"],"label":"Liver \u2014 function"},{"f":["dummyFieldName156"],"label":"Small intestines \u2014 function"},{"f":["dummyFieldName157"],"label":"Oesophagus \u2014 function"},{"f":["dummyFieldName158"],"label":"Stomach \u2014 function"}],"ref":"dummyFieldName159","refLabel":"5.1; 5.2","ach":[{"date":"dummyFieldName138","pr":"dummyFieldName139","prOpts":["Pass","Refer"],"yn":"dummyFieldName140","ynOpts":["Yes","No"]},{"date":"dummyFieldName141","pr":"dummyFieldName142","prOpts":["Pass","2"],"yn":"dummyFieldName143","ynOpts":["Yes","2"]},{"date":"dummyFieldName144","pr":"dummyFieldName145","prOpts":["Pass","2"],"yn":"dummyFieldName146","ynOpts":["Yes","2"]}]},{"n":11,"text":"Describe (250\u2013300 words) 4 common digestive system conditions from: appendicitis, bowel obstruction, cirrhosis of the liver, Crohn's disease, gall stones, GORD, hepatitis C, ulcer.","parts":[{"f":["dummyFieldName169"],"label":"Your answer"}],"ref":"dummyFieldName170","refLabel":"5.3","ach":[{"date":"dummyFieldName160","pr":"dummyFieldName162","prOpts":["Pass","Refer"],"yn":"dummyFieldName163","ynOpts":["Yes","No"]},{"date":"dummyFieldName161","pr":"dummyFieldName165","prOpts":["Pass","2"],"yn":"dummyFieldName167","ynOpts":["Yes","2"]},{"date":"dummyFieldName164","pr":"dummyFieldName166","prOpts":["Pass","2"],"yn":"dummyFieldName168","ynOpts":["Yes","2"]}]},{"n":12,"text":"Describe the recognition features and pathophysiology of sepsis, septic shock and Multiple Organ Dysfunction Syndrome (MODS). You are called to a patient displaying signs of sepsis \u2014 explain your assessment and your management of the patient.","parts":[{"f":["dummyFieldName180"],"label":"Recognition features / pathophysiology"},{"f":["dummyFieldName182"],"label":"Assessment / management"}],"ref":"dummyFieldName181","refLabel":"6.1; 6.2; 6.3","ach":[{"date":"dummyFieldName171","pr":"dummyFieldName172","prOpts":["Pass","Refer"],"yn":"dummyFieldName175","ynOpts":["Yes","No"]},{"date":"dummyFieldName173","pr":"dummyFieldName174","prOpts":["Pass","2"],"yn":"dummyFieldName176","ynOpts":["Yes","2"]},{"date":"dummyFieldName177","pr":"dummyFieldName178","prOpts":["Pass","2"],"yn":"dummyFieldName179","ynOpts":["Yes","2"]}]},{"n":13,"text":"You are called to a heavily pregnant patient having contractions. Identify the stages of labour and the care you would offer at each stage. Conclude by briefly explaining the management of mother and baby following delivery.","parts":[{"f":["dummyFieldName192"],"label":"Stage 1 \u2014 description"},{"f":["dummyFieldName195"],"label":"Stage 1 \u2014 care"},{"f":["dummyFieldName193"],"label":"Stage 2 \u2014 description"},{"f":["dummyFieldName196"],"label":"Stage 2 \u2014 care"},{"f":["dummyFieldName194"],"label":"Stage 3 \u2014 description"},{"f":["dummyFieldName197"],"label":"Stage 3 \u2014 care"},{"f":["dummyFieldName198"],"label":"Management of mother and baby (post-delivery)"}],"ref":"dummyFieldName199","refLabel":"7.1; 7.3","ach":[{"date":"dummyFieldName183","pr":"dummyFieldName184","prOpts":["Pass","Refer"],"yn":"dummyFieldName187","ynOpts":["Yes","No"]},{"date":"dummyFieldName185","pr":"dummyFieldName186","prOpts":["Pass","2"],"yn":"dummyFieldName188","ynOpts":["Yes","2"]},{"date":"dummyFieldName189","pr":"dummyFieldName190","prOpts":["Pass","2"],"yn":"dummyFieldName191","ynOpts":["Yes","2"]}]},{"n":14,"text":"Define each of these four complications of childbirth, using a paragraph for each.","parts":[{"f":["dummyFieldName209"],"label":"Breech presentation"},{"f":["dummyFieldName210"],"label":"Prolapsed cord"},{"f":["dummyFieldName211"],"label":"Shoulder dystocia"},{"f":["dummyFieldName212"],"label":"Eclampsia"}],"ref":"dummyFieldName213","refLabel":"7.2","ach":[{"date":"dummyFieldName200","pr":"dummyFieldName201","prOpts":["Pass","Refer"],"yn":"dummyFieldName204","ynOpts":["Yes","No"]},{"date":"dummyFieldName202","pr":"dummyFieldName203","prOpts":["Pass","2"],"yn":"dummyFieldName205","ynOpts":["Yes","2"]},{"date":"dummyFieldName206","pr":"dummyFieldName207","prOpts":["Pass","2"],"yn":"dummyFieldName208","ynOpts":["Yes","2"]}]}],"back":{"bibQ":"dummyFieldName215","bibText":"dummyFieldName214","fbQ":"dummyFieldName221","fbText":"dummyFieldName220","apQ":"dummyFieldName224","apText":"dummyFieldName222","apDate":"dummyFieldName223","result":"dummyFieldName225","centreName":"dummyFieldName226","centreNo":"dummyFieldName230","date":"dummyFieldName227","trainerName":"dummyFieldName228","trainerSig":"dummyFieldName229"}}};
+const WB_ORDER = ['c1', 'c2', 'c3'];
+let wb = { comp:'', rows:{}, marks:[], loaded:false, err:'', saving:{}, local:false, staff:{ list:null, sel:null, marks:[] } };
+function wbEsc(x) { return lmsEsc(x); }
+async function wbLoad() {
+  wb.local = !lmsIsLearner();
+  if (wb.local) { wb.loaded = true; return; }             // staff preview: nothing saved
+  try {
+    const rows = await cloudRest('lms_workbooks?select=*&owner=eq.' + cloudMe()) || [];
+    wb.rows = {}; rows.forEach(r => wb.rows[r.comp] = r);
+    wb.marks = await cloudRest('lms_marks?select=*&owner=eq.' + cloudMe() + '&order=created_at') || [];
+    wb.loaded = true; wb.err = '';
+  } catch (e) { wb.loaded = true; wb.err = /lms_workbooks|PGRST20|42P01/.test(String(e.message)) ? 'Workbooks need setting up — ask your training centre (supabase_workbooks.sql).' : String(e.message || e); }
+}
+function wbRow(c) {
+  if (!wb.rows[c]) wb.rows[c] = { comp:c, answers:{}, qstatus:{}, status:'in_progress', owner_name:(cloud.profile && cloud.profile.full_name) || '' };
+  return wb.rows[c];
+}
+function wbMarksFor(row, qn) { return (row === wb.staff.sel ? wb.staff.marks : wb.marks).filter(m => (m.workbook_id === row.id || (!row.id && m.comp === row.comp)) && m.qn === qn).sort((a, b) => a.attempt - b.attempt); }
+// Where a question stands: draft → submitted (locked) → pass / refer (open again, next attempt)
+function wbQState(row, qn) {
+  const s = (row.qstatus || {})[qn] || { st:'draft', attempt:1 };
+  const marks = wbMarksFor(row, qn), last = marks[marks.length - 1];
+  if (last && last.result === 'pass') return { st:'pass', attempt:last.attempt, mark:last, marks };
+  if (s.st === 'submitted' && !(last && last.attempt === s.attempt)) return { st:'submitted', attempt:s.attempt, marks };
+  if (last && last.result === 'refer') {
+    if (last.attempt >= 3) return { st:'failed', attempt:3, mark:last, marks };
+    if (s.st === 'submitted' && s.attempt > last.attempt) return { st:'submitted', attempt:s.attempt, marks };
+    return { st:'refer', attempt:last.attempt + 1, mark:last, marks };
+  }
+  return { st:'draft', attempt:s.attempt || 1, marks };
+}
+function wbProgress(c, row) {
+  const qs = WB[c].qs; let pass = 0, sub = 0, ref = 0;
+  qs.forEach(q => { const st = wbQState(row, q.n).st; if (st === 'pass') pass++; else if (st === 'submitted') sub++; else if (st === 'refer' || st === 'failed') ref++; });
+  return { pass, sub, ref, total: qs.length };
+}
+async function wbSave(c) {
+  const row = wbRow(c); if (wb.local) return;
+  const body = { owner: cloudMe(), owner_name: (cloud.profile && cloud.profile.full_name) || '', comp: c, answers: row.answers, qstatus: row.qstatus,
+    declared_at: row.declared_at || null, status: row.status, final_path: row.final_path || null, submitted_at: row.submitted_at || null, updated_at: new Date().toISOString() };
+  const r = await cloudRest('lms_workbooks?on_conflict=owner,comp', 'POST', [body], 'resolution=merge-duplicates,return=representation');
+  if (r && r[0]) wb.rows[c] = r[0];
+}
+let wbTimer = null;
+function wbInput(c, qn, key, i, val) {
+  const row = wbRow(c), a = row.answers[qn] = row.answers[qn] || { parts:[], ref:'' };
+  if (key === 'part') a.parts[i] = val; else if (key === 'ref') a.ref = val; else if (key === 'biblio') row.answers.biblio = val;
+  clearTimeout(wbTimer); wbTimer = setTimeout(() => { wbSave(c).then(() => wbSaved('Saved')).catch(() => wbSaved('Not saved — check connection', true)); }, 900);
+  wbSaved('Saving…');
+}
+function wbSaved(t, err) { const el = document.getElementById('wbSaveMsg'); if (el) { el.textContent = t; el.style.color = err ? '#C74444' : '#6B7A94'; } }
+// ---- learner screens ----
+function wbListHtml() {
+  return `<div class="lms-panel"><h3>My workbooks</h3><p class="sc-p">Answer each question here, then submit it for review. Your trainer marks each question — if it's referred you can improve it and resubmit (up to 3 attempts).</p>
+    ${wb.err ? `<p class="jb-msg" style="color:#C74444;">${wbEsc(wb.err)}</p>` : ''}
+    <div class="kc-list" style="margin-top:12px;">${WB_ORDER.map(c => { const p = wbProgress(c, wbRow(c)), done = wbRow(c).status === 'complete';
+      return `<button class="kc-doc wb-item" onclick="wb.comp='${c}';lmsRender();window.scrollTo(0,0)"><span class="kc-doc-ic">${kcIcon(KC_IC.doc, 26)}</span>
+        <div class="kc-doc-t"><b>${WB[c].title}</b><span>${done ? '✓ Workbook complete' : p.pass + ' of ' + p.total + ' passed' + (p.sub ? ' · ' + p.sub + ' awaiting marking' : '') + (p.ref ? ' · ' + p.ref + ' to improve' : '')}</span>
+        <div class="lms-bar" style="margin:8px 0 0;"><div style="width:${Math.round(p.pass / p.total * 100)}%"></div></div></div></button>`; }).join('')}</div></div>`;
+}
+const WB_CHIP = { draft:['open','Not submitted'], submitted:['sub','Awaiting marking'], pass:['paid','Passed'], refer:['acc','Referred — improve and resubmit'], failed:['sub','Referred 3 times — speak to your trainer'] };
+function wbQuestionHtml(c, row, q, staff) {
+  const s = wbQState(row, q.n), a = (row.answers || {})[q.n] || { parts:[], ref:'' };
+  const locked = staff || ['submitted', 'pass', 'failed'].includes(s.st) || row.status === 'complete';
+  const chip = WB_CHIP[s.st];
+  let h = `<div class="wb-q" id="wbq-${q.n}"><div class="wb-qh"><b>Question ${q.n}</b><span class="mp-chip ${chip[0]}">${chip[1]}</span>${s.attempt > 1 ? `<span class="wb-att">Attempt ${Math.min(s.attempt, 3)} of 3</span>` : ''}</div>
+    <div class="wb-qt">${wbEsc(q.text).replace(/\n/g, '<br>')}</div>`;
+  q.parts.forEach((p, i) => {
+    const v = a.parts[i] || '';
+    h += `<label class="wb-l">${q.parts.length === 1 ? (staff ? 'Learner\u2019s answer' : 'Your answer') : wbEsc(p.label)}${p.info ? `<span class="wb-info">${wbEsc(p.info).replace(/\n/g, '<br>')}</span>` : ''}
+      ${p.short ? `<input ${locked ? 'readonly' : ''} value="${wbEsc(v)}" oninput="wbInput('${c}',${q.n},'part',${i},this.value)">`
+                : `<textarea rows="${q.parts.length === 1 ? 10 : 4}" ${locked ? 'readonly' : ''} oninput="wbInput('${c}',${q.n},'part',${i},this.value)">${wbEsc(v)}</textarea>`}</label>`;
+  });
+  h += `<label class="wb-l">Reference source <span class="wb-crit">(${wbEsc(q.refLabel)})</span><input ${locked ? 'readonly' : ''} value="${wbEsc(a.ref || '')}" placeholder="Where did you find this information?" oninput="wbInput('${c}',${q.n},'ref',0,this.value)"></label>`;
+  s.marks.forEach(m => { if (m.feedback || m.result) h += `<div class="wb-fb ${m.result}"><b>Attempt ${m.attempt}: ${m.result === 'pass' ? 'Pass' : 'Refer'}</b>${m.marker_name ? ' · ' + wbEsc(m.marker_name) : ''} · ${fmtD(m.created_at)}${m.feedback ? '<br>' + wbEsc(m.feedback).replace(/\n/g, '<br>') : ''}</div>`; });
+  if (!staff && !locked) h += `<div class="jb-actions"><button class="jb-btn pri" onclick="wbSubmitQ('${c}',${q.n})">Submit for review</button></div>`;
+  if (staff && s.st === 'submitted') h += `<div class="wb-mark"><textarea id="wbFb-${q.n}" rows="3" placeholder="Feedback / action plan for the learner (required for a refer)"></textarea>
+      <div class="jb-actions" style="margin-top:8px;"><button class="jb-btn go" onclick="wbMark(${q.n},'pass')">Pass</button><button class="jb-btn no" onclick="wbMark(${q.n},'refer')">Refer</button></div></div>`;
+  return h + '</div>';
+}
+function wbRenderLearner(root, head) {
+  const c = wb.comp, W = WB[c], row = wbRow(c), p = wbProgress(c, row);
+  let h = head + `<div class="lms-panel"><h3>${W.title}</h3><div class="lms-bar"><div style="width:${Math.round(p.pass / p.total * 100)}%"></div></div>
+    <span class="sc-p">${p.pass} of ${p.total} questions passed${p.sub ? ' · ' + p.sub + ' awaiting marking' : ''}</span> <span id="wbSaveMsg" class="sc-p" style="float:right;"></span>
+</div>`;
+  if (!row.declared_at) {
+    h += `<div class="lms-panel"><h3>Before you start</h3><p class="sc-p">Using the work of others, including Artificial Intelligence (AI), as if it is your own is plagiarism and will have consequences, including loss of your qualification. You may paraphrase from resources but must list every source in your bibliography. If you are requalifying you must not copy your previous work.</p>
+      <label class="wb-decl"><input type="checkbox" id="wbDecl"> I confirm I have read and understand this information, and that the work I submit is my own, genuine and current.</label>
+      <div class="jb-actions"><button class="jb-btn pri" onclick="wbDeclare('${c}')">Sign and start</button></div></div></div>`;
+    root.innerHTML = h; return;
+  }
+  h += W.qs.map(q => wbQuestionHtml(c, row, q, false)).join('');
+  const all = W.qs.every(q => wbQState(row, q.n).st === 'pass');
+  h += `<div class="lms-panel"><h3>Bibliography</h3><p class="sc-p">List your sources with the question number, e.g. "Q3 — Ambulance Care Essentials, Chapter 3, page 74".</p>
+    <textarea class="wb-bib" rows="5" ${row.status === 'complete' ? 'readonly' : ''} oninput="wbInput('${c}',0,'biblio',0,this.value)">${wbEsc((row.answers || {}).biblio || '')}</textarea></div>
+    <div class="lms-panel"><h3>Submit your workbook</h3>${row.status === 'complete'
+      ? `<p class="sc-p">✓ Submitted ${fmtD(row.submitted_at)}. Your completed Qualsafe workbook has been created.</p>${row.final_path ? `<div class="jb-actions"><button class="jb-btn pri" onclick="mpOpenFile('${row.final_path}')">Open my workbook</button></div>` : ''}`
+      : all ? `<p class="sc-p">Every question has passed. Submit to create your completed Qualsafe workbook.</p><div class="jb-actions"><button class="jb-btn pri" onclick="wbFinal('${c}', this)">Submit completed workbook</button></div>`
+      : `<p class="sc-p">Once every question has passed, you can submit your completed workbook here.</p>`}</div></div>`;
+  root.innerHTML = h;
+}
+async function wbDeclare(c) {
+  if (!document.getElementById('wbDecl').checked) { alert('Please tick the declaration first.'); return; }
+  const row = wbRow(c); row.declared_at = new Date().toISOString();
+  try { await wbSave(c); } catch (e) { alert('Could not save: ' + (e.message || e)); row.declared_at = null; return; }
+  lmsRender();
+}
+async function wbSubmitQ(c, qn) {
+  const row = wbRow(c), q = WB[c].qs.find(x => x.n === qn), a = row.answers[qn] || { parts:[] };
+  if (!q.parts.some((p, i) => (a.parts[i] || '').trim())) { alert('Write your answer first.'); return; }
+  if (!(a.ref || '').trim() && !confirm('You haven\u2019t added a reference source. Submit anyway?')) return;
+  if (!confirm('Submit question ' + qn + ' for review? It will be locked until it\u2019s marked.')) return;
+  const st = wbQState(row, qn);
+  row.qstatus[qn] = { st:'submitted', attempt: st.attempt, at: new Date().toISOString() };
+  try { await wbSave(c); } catch (e) { alert('Could not submit: ' + (e.message || e)); row.qstatus[qn] = { st:'draft', attempt: st.attempt }; return; }
+  lmsRender(); const el = document.getElementById('wbq-' + qn); if (el) el.scrollIntoView({ block:'center' });
+}
+async function wbFinal(c, btn) {
+  if (!confirm('Submit your completed workbook? It will be locked and your Qualsafe workbook created.')) return;
+  const row = wbRow(c); btn.disabled = true; btn.textContent = 'Creating your workbook…';
+  try {
+    const blob = await wbFillPdf(c, row, wb.marks.filter(m => m.workbook_id === row.id), (cloud.profile && cloud.profile.full_name) || '');
+    if (!wb.local) {
+      const path = cloudMe() + '/workbooks/FREC4-' + c.toUpperCase() + '.pdf';
+      await cloudFetch('/storage/v1/object/course-files/' + path, { method:'POST', body: blob, json:false, headers:{ 'Content-Type':'application/pdf', 'x-upsert':'true' } });
+      row.final_path = path; row.status = 'complete'; row.submitted_at = new Date().toISOString(); await wbSave(c);
+    }
+    window.open(URL.createObjectURL(blob), '_blank'); lmsRender();
+  } catch (e) { btn.disabled = false; btn.textContent = 'Submit completed workbook'; alert('Could not create the workbook: ' + (e.message || e)); }
+}
+// ---- fill the Qualsafe PDF ----
+async function wbFillPdf(c, row, marks, learnerName) {
+  const W = WB[c];
+  const { PDFDocument } = await qsLoadPdfLib();
+  const res = await fetch(W.file, { cache:'no-store' });
+  if (!res.ok) throw new Error('The blank workbook ' + W.file + ' isn\u2019t on the website yet.');
+  const pdf = await PDFDocument.load(await res.arrayBuffer());
+  const form = pdf.getForm();
+  const T = (name, val) => { if (!name) return; try { const f = form.getTextField(name);
+      const ws = f.acroField.getWidgets(), h = ws[0] ? ws[0].getRectangle().height : 0;
+      if (f.isMultiline() || h > 40) { // big answer boxes: readable 9pt text, wrapping
+        f.enableMultiline(); f.acroField.setDefaultAppearance('/Helv 9 Tf 0 g'); ws.forEach(w => w.setDefaultAppearance('/Helv 9 Tf 0 g'));
+      }
+      f.setText(String(val == null ? '' : val)); } catch (e) { console.warn('field', name, e.message); } };
+  const R = (name, opt) => { if (!name || !opt) return; try { form.getRadioGroup(name).select(opt); } catch (e) { try { const cb = form.getCheckBox(name); cb.check(); } catch (x) { console.warn('radio', name, e.message); } } };
+  const d = x => x ? new Date(x).toLocaleDateString('en-GB') : '';
+  const F = W.front, B = W.back, ans = row.answers || {};
+  T(F.cover, learnerName); T(F.sig, learnerName + ' (signed electronically)'); T(F.date, d(row.declared_at));
+  const fbLines = [];
+  W.qs.forEach(q => {
+    const a = ans[q.n] || { parts:[] };
+    q.parts.forEach((p, i) => {
+      const txt = a.parts[i] || '';
+      if (p.f.length === 1) T(p.f[0], txt);
+      else { // spread a long answer over continuation boxes
+        const words = txt.split(/(\s+)/), cut = Math.ceil(words.length * 0.62);
+        T(p.f[0], words.slice(0, cut).join('')); T(p.f[1], words.slice(cut).join(''));
+      }
+    });
+    T(q.ref, a.ref || '');
+    const ms = marks.filter(m => m.qn === q.n).sort((x, y) => x.attempt - y.attempt);
+    ms.slice(0, 3).forEach((m, k) => {
+      const ach = q.ach[k]; if (!ach) return;
+      T(ach.date, d(m.created_at));
+      R(ach.pr, m.result === 'pass' ? ach.prOpts[0] : ach.prOpts[1]);
+      R(ach.yn, m.feedback ? ach.ynOpts[0] : ach.ynOpts[1]);
+      if (m.feedback) fbLines.push('Q' + q.n + ' (attempt ' + m.attempt + ', ' + (m.result === 'pass' ? 'pass' : 'refer') + '): ' + m.feedback);
+    });
+  });
+  T(B.bibText, ans.biblio || '');
+  T(B.fbText, fbLines.join('\n\n'));
+  const allPass = W.qs.every(q => marks.some(m => m.qn === q.n && m.result === 'pass'));
+  const last = marks.slice().sort((x, y) => (x.created_at < y.created_at ? -1 : 1)).pop();
+  T(B.result, allPass ? 'P' : 'R');
+  T(B.centreName, CENTRE_NAME + ' Ltd'); T(B.centreNo, CENTRE_NO || '908571');
+  T(B.date, allPass && last ? d(last.created_at) : '');
+  T(B.trainerName, last ? last.marker_name || '' : ''); T(B.trainerSig, last && allPass ? (last.marker_name || '') + ' (signed electronically)' : '');
+  const bytes = await pdf.save();
+  return new Blob([bytes], { type:'application/pdf' });
+}
+// ---- staff marking ----
+async function wbStaffOpen() {
+  showView('wbmark'); wb.staff.sel = null; wbStaffRender();
+  try {
+    wb.staff.list = await cloudRest('lms_workbooks?select=id,owner,owner_name,comp,qstatus,status,updated_at,submitted_at,final_path&order=updated_at.desc') || [];
+    const marks = await cloudRest('lms_marks?select=workbook_id,qn,attempt,result') || [];
+    wb.staff.allMarks = marks; wb.staff.err = '';
+  } catch (e) { wb.staff.list = []; wb.staff.err = /lms_workbooks|PGRST20|42P01/.test(String(e.message)) ? 'Run supabase_workbooks.sql in Supabase first.' : String(e.message || e); }
+  wbStaffRender();
+}
+function wbPending(r) {
+  const ms = (wb.staff.allMarks || []).filter(m => m.workbook_id === r.id);
+  return Object.keys(r.qstatus || {}).filter(qn => { const s = r.qstatus[qn]; return s.st === 'submitted' && !ms.some(m => m.qn === +qn && m.attempt === s.attempt); }).length;
+}
+function wbStaffRender() {
+  const root = document.getElementById('wbMarkRoot'); if (!root) return;
+  const top = `<button class="rn-nav-btn rn-no-print" onclick="${wb.staff.sel ? 'wb.staff.sel=null;wbStaffRender()' : "showView('hub')"}">← ${wb.staff.sel ? 'All workbooks' : 'Home'}</button>
+    <div class="hub-eyebrow" style="margin-top:14px;">Management Panel</div><div class="hub-h" style="margin-bottom:4px;">Workbook Marking</div>`;
+  if (wb.staff.sel) {
+    const r = wb.staff.sel, c = r.comp, W = WB[c], p = wbProgress(c, r);
+    root.innerHTML = top + `<p class="sc-p"><b>${wbEsc(r.owner_name || 'Learner')}</b> · FREC 4 ${W.title} · ${p.pass}/${p.total} passed${r.declared_at ? ' · declaration signed ' + fmtD(r.declared_at) : ' · declaration not signed yet'}</p>
+      <div class="jb-actions" style="margin-bottom:14px;"><button class="jb-btn" onclick="wbStaffPdf(this)">Preview Qualsafe workbook PDF</button>${r.final_path ? `<button class="jb-btn pri" onclick="mpOpenFile('${r.final_path}')">Open submitted workbook</button>` : ''}</div>
+      ${W.qs.map(q => wbQuestionHtml(c, r, q, true)).join('')}
+      <div class="wb-q"><div class="wb-qh"><b>Bibliography</b></div><div class="wb-qt" style="white-space:pre-line;">${wbEsc((r.answers || {}).biblio || '—')}</div></div>`;
+    return;
+  }
+  const list = wb.staff.list;
+  root.innerHTML = top + `<p class="sc-p">FREC 4 workbooks from learners. Open one to mark submitted questions Pass or Refer — learners see your feedback straight away.</p>
+    ${wb.staff.err ? `<p class="jb-msg" style="color:#C74444;">${wbEsc(wb.staff.err)}</p>` : ''}
+    ${list === null ? '<p class="jb-empty">Loading…</p>' : !list.length ? '<p class="jb-empty">No workbooks started yet.</p>' :
+      list.map(r => { const n = wbPending(r); return `<div class="au-row" style="grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) 170px 140px;">
+        <div><b>${wbEsc(r.owner_name || 'Learner')}</b><div class="au-mail">FREC 4 ${WB[r.comp] ? WB[r.comp].title : r.comp}</div></div>
+        <div class="au-when">Updated ${fmtD(r.updated_at)}</div>
+        <div>${r.status === 'complete' ? '<span class="au-st ok">Complete</span>' : n ? `<span class="au-st wait">${n} to mark</span>` : '<span class="au-st off">In progress</span>'}</div>
+        <div class="jb-actions" style="margin-top:0;justify-content:flex-end;"><button class="jb-btn pri" onclick="wbStaffSel('${r.id}')">Open</button></div></div>`; }).join('')}`;
+}
+async function wbStaffSel(id) {
+  try {
+    const r = (await cloudRest('lms_workbooks?select=*&id=eq.' + id) || [])[0]; if (!r) return;
+    wb.staff.marks = await cloudRest('lms_marks?select=*&workbook_id=eq.' + id + '&order=created_at') || [];
+    wb.staff.sel = r; wbStaffRender(); window.scrollTo(0, 0);
+  } catch (e) { alert('Could not open: ' + (e.message || e)); }
+}
+async function wbMark(qn, result) {
+  const r = wb.staff.sel, s = wbQState(r, qn), fb = (document.getElementById('wbFb-' + qn).value || '').trim();
+  if (result === 'refer' && !fb) { alert('Add feedback so the learner knows what to improve.'); return; }
+  const me = (cloud.profile && cloud.profile.full_name) || '';
+  try {
+    await cloudRest('lms_marks', 'POST', [{ workbook_id: r.id, owner: r.owner, comp: r.comp, qn, attempt: s.attempt, result, feedback: fb, marker: cloudMe(), marker_name: me }], 'return=minimal');
+    wb.staff.marks = await cloudRest('lms_marks?select=*&workbook_id=eq.' + r.id + '&order=created_at') || [];
+    const all = await cloudRest('lms_marks?select=workbook_id,qn,attempt,result') || []; wb.staff.allMarks = all;
+    wbStaffRender(); const el = document.getElementById('wbq-' + qn); if (el) el.scrollIntoView({ block:'center' });
+  } catch (e) { alert('Could not save the mark: ' + (e.message || e)); }
+}
+async function wbStaffPdf(btn) {
+  const r = wb.staff.sel, old = btn.textContent; btn.disabled = true; btn.textContent = 'Building…';
+  try { const blob = await wbFillPdf(r.comp, r, wb.staff.marks, r.owner_name || ''); window.open(URL.createObjectURL(blob), '_blank'); }
+  catch (e) { alert(e.message || e); }
+  btn.disabled = false; btn.textContent = old;
+}
+</script>
+<script>
+// ===================== LMS OVERVIEW (admin / IQA) =====================
+let lma = { tab:'learners', q:'', cohort:'', status:'', demo:true, real:null, sel:null, cohortSel:'', err:'' };
+const LMA_ST = { pass:['#1F8A5B','Passed'], sub:['#E3A21A','Awaiting marking'], refer:['#D93A33','Referred'], draft:['#8FA3C8','Started'], none:['#E6E9F0','Not started'] };
+// ---- 8 example learners across 2 cohorts (clearly marked as examples) ----
+function lmaDemo() {
+  const cohorts = [
+    { id:'DEMO-A', course:'FREC 4', label:'FREC 4 · Cohort A', location:'Beckton', start:'2026-09-07', end:'2026-11-27', instructor:'Miles Ward' },
+    { id:'DEMO-B', course:'FREC 4', label:'FREC 4 · Cohort B', location:'Croydon', start:'2026-10-05', end:'2026-12-18', instructor:'Neil Fossett' },
+  ];
+  const people = [['Jordan Ellis','DEMO-A',0.95],['Priya Shah','DEMO-A',0.78],['Sam Carter','DEMO-A',0.52],['Leah Brooks','DEMO-A',0.31],
+                  ['Tom Reid','DEMO-B',0.64],['Aisha Khan','DEMO-B',0.42],['Ben Walsh','DEMO-B',0.18],['Chloe Hart','DEMO-B',0.05]];
+  let seed = 7; const rnd = () => (seed = (seed * 9301 + 49297) % 233280) / 233280;
+  const learners = people.map(([name, cohort, lvl], i) => {
+    const comps = {};
+    WB_ORDER.forEach((c, ci) => {
+      const qs = {}; const n = WB[c].qs.length;
+      WB[c].qs.forEach((q, qi) => {
+        const pos = (ci * n + qi) / (3 * n);         // earlier questions get done first
+        const r = rnd();
+        qs[q.n] = pos < lvl - 0.08 ? (r < 0.9 ? 'pass' : 'refer') : pos < lvl ? (r < 0.6 ? 'sub' : 'refer') : pos < lvl + 0.06 ? 'draft' : 'none';
+      });
+      const all = Object.values(qs).every(v => v === 'pass');
+      comps[c] = { qs, status: all ? 'complete' : 'in_progress' };
+    });
+    const d = new Date(); d.setDate(d.getDate() - Math.round(rnd() * 12));
+    return { id:'demo' + i, name, cohort, comps, quiz: Math.round(55 + lvl * 40 + rnd() * 8), last: isoLocal(d), demo:true };
+  });
+  return { cohorts, learners };
+}
+// ---- real learners: workbooks + marks, cohort = the course they're listed on in Course Matrix ----
+async function lmaLoadReal() {
+  try {
+    const rows = await cloudRest('lms_workbooks?select=id,owner,owner_name,comp,qstatus,status,updated_at') || [];
+    const marks = await cloudRest('lms_marks?select=workbook_id,qn,attempt,result') || [];
+    const courses = lpmLoadCourses().filter(c => !c.isExample);
+    const cohorts = {}, learners = {};
+    rows.forEach(r => {
+      const nm = (r.owner_name || 'Learner').trim(), key = nm.toLowerCase();
+      const course = courses.find(c => (c.learners || []).some(l => (l.name || '').trim().toLowerCase() === key));
+      const cid = course ? course.id : 'NONE';
+      if (!cohorts[cid]) cohorts[cid] = course ? { id:cid, course: course.courseName, label: course.courseName + ' · ' + fmtD(course.startDate), location: course.location || '', start: course.startDate, end: course.endDate, instructor: course.instructor1 || '' }
+                                               : { id:'NONE', course:'—', label:'Not on a course yet', location:'', start:'', end:'', instructor:'' };
+      const L = learners[r.owner] = learners[r.owner] || { id:r.owner, name:nm, cohort:cid, comps:{}, quiz:null, last:'', demo:false, wbIds:{} };
+      const ms = marks.filter(m => m.workbook_id === r.id), qs = {};
+      (WB[r.comp] ? WB[r.comp].qs : []).forEach(q => {
+        const s = (r.qstatus || {})[q.n], mm = ms.filter(m => m.qn === q.n).sort((a, b) => a.attempt - b.attempt), last = mm[mm.length - 1];
+        qs[q.n] = last && last.result === 'pass' ? 'pass' : s && s.st === 'submitted' && !(last && last.attempt === s.attempt) ? 'sub' : last && last.result === 'refer' ? 'refer' : s ? 'draft' : 'none';
+      });
+      L.comps[r.comp] = { qs, status: r.status }; L.wbIds[r.comp] = r.id;
+      if ((r.updated_at || '') > L.last) L.last = (r.updated_at || '').slice(0, 10);
+    });
+    lma.real = { cohorts: Object.values(cohorts), learners: Object.values(learners) }; lma.err = '';
+  } catch (e) { lma.real = { cohorts:[], learners:[] }; lma.err = /lms_workbooks|PGRST20|42P01/.test(String(e.message)) ? '' : String(e.message || e); }
+}
+function lmaData() {
+  const real = lma.real || { cohorts:[], learners:[] };
+  if (!lma.demo) return real;
+  const d = lmaDemo();
+  return { cohorts: real.cohorts.concat(d.cohorts), learners: real.learners.concat(d.learners) };
+}
+function lmaStats(L) {
+  let pass = 0, sub = 0, ref = 0, tot = 0;
+  WB_ORDER.forEach(c => WB[c].qs.forEach(q => { tot++; const v = ((L.comps[c] || {}).qs || {})[q.n] || 'none'; if (v === 'pass') pass++; else if (v === 'sub') sub++; else if (v === 'refer') ref++; }));
+  return { pass, sub, ref, tot, pct: Math.round(pass / tot * 100), complete: WB_ORDER.every(c => (L.comps[c] || {}).status === 'complete') };
+}
+function lmaCompPct(L, c) { const qs = (L.comps[c] || {}).qs || {}; return Math.round(WB[c].qs.filter(q => qs[q.n] === 'pass').length / WB[c].qs.length * 100); }
+async function lmaOpen() {
+  showView('lmsadmin'); lma.sel = null; lmaRender();
+  await lmaLoadReal(); lmaRender();
+}
+function lmaFilter(list, cohortsById) {
+  const q = lma.q.trim().toLowerCase();
+  return list.filter(L => {
+    const s = lmaStats(L), co = cohortsById[L.cohort] || {};
+    if (lma.cohort && L.cohort !== lma.cohort) return false;
+    if (lma.status === 'mark' && !s.sub) return false;
+    if (lma.status === 'refer' && !s.ref) return false;
+    if (lma.status === 'complete' && !s.complete) return false;
+    if (lma.status === 'behind' && s.pct >= 40) return false;
+    if (q && !(L.name.toLowerCase().includes(q) || (co.label || '').toLowerCase().includes(q) || (co.location || '').toLowerCase().includes(q))) return false;
+    return true;
+  });
+}
+function lmaInit(n) { return n.split(/\s+/).map(w => w[0]).slice(0, 2).join('').toUpperCase(); }
+function lmaBar(p, col) { return `<span class="lma-bar"><i style="width:${p}%;${col ? 'background:' + col : ''}"></i></span>`; }
+function lmaRender() {
+  const root = document.getElementById('lmaRoot'); if (!root) return;
+  const D = lmaData(), byId = {}; D.cohorts.forEach(c => byId[c.id] = c);
+  const all = D.learners, stats = all.map(lmaStats);
+  const toMark = stats.reduce((t, s) => t + s.sub, 0), done = stats.filter(s => s.complete).length;
+  const avg = all.length ? Math.round(stats.reduce((t, s) => t + s.pct, 0) / all.length) : 0;
+  let h = `<button class="rn-nav-btn rn-no-print" onclick="showView('hub')">← Home</button>
+    <div class="hub-eyebrow" style="margin-top:14px;">Management Panel</div>
+    <div class="lma-top"><div class="hub-h" style="margin:0;">LMS Overview</div>
+      <label class="lma-demo-t"><input type="checkbox" ${lma.demo ? 'checked' : ''} onchange="lma.demo=this.checked;lma.cohort='';lma.cohortSel='';lmaRender()"> Show example learners</label></div>
+    <p class="sc-p">Every learner and cohort across the centre. Progress updates as learners submit work and it's marked.</p>
+    ${lma.err ? `<p class="jb-msg" style="color:#C74444;">${lmsEsc(lma.err)}</p>` : ''}
+    <div class="lma-stats">
+      <div><b>${all.length}</b><span>Learners</span></div><div><b>${D.cohorts.length}</b><span>Cohorts</span></div>
+      <div class="warn"><b>${toMark}</b><span>Answers to mark</span></div><div><b>${avg}%</b><span>Average progress</span></div><div class="ok"><b>${done}</b><span>Fully complete</span></div></div>
+    <div class="lma-bar-row">
+      <label class="lma-search">${kcIcon('<circle cx="11" cy="11" r="7"/><path d="M21 21l-5-5"/>', 18)}<input id="lmaQ" placeholder="Search learner, cohort or location" value="${lmsEsc(lma.q)}" oninput="lma.q=this.value;lmaRenderBody()"></label>
+      <select onchange="lma.cohort=this.value;lmaRenderBody()"><option value="">All cohorts</option>${D.cohorts.map(c => `<option value="${c.id}" ${lma.cohort === c.id ? 'selected' : ''}>${lmsEsc(c.label)}</option>`).join('')}</select>
+      <select onchange="lma.status=this.value;lmaRenderBody()">${[['', 'Any status'], ['mark', 'Has answers to mark'], ['refer', 'Has referrals'], ['behind', 'Under 40% progress'], ['complete', 'Fully complete']].map(([v, t]) => `<option value="${v}" ${lma.status === v ? 'selected' : ''}>${t}</option>`).join('')}</select>
+    </div>
+    <div class="au-tabs"><button class="${lma.tab === 'learners' ? 'on' : ''}" onclick="lma.tab='learners';lmaRender()">All learners</button><button class="${lma.tab === 'cohorts' ? 'on' : ''}" onclick="lma.tab='cohorts';lmaRender()">Cohorts</button><button class="${lma.tab === 'matrix' ? 'on' : ''}" onclick="lma.tab='matrix';lmaRender()">Question matrix</button></div>
+    <div id="lmaBody"></div>`;
+  root.innerHTML = h; lmaRenderBody();
+}
+function lmaRenderBody() {
+  const el = document.getElementById('lmaBody'); if (!el) return;
+  const D = lmaData(), byId = {}; D.cohorts.forEach(c => byId[c.id] = c);
+  const list = lmaFilter(D.learners, byId).sort((a, b) => a.name.localeCompare(b.name));
+  const legend = `<div class="lma-legend">${Object.entries(LMA_ST).map(([k, [c, t]]) => `<span><i style="background:${c}"></i>${t}</span>`).join('')}</div>`;
+  if (lma.tab === 'cohorts') {
+    const cs = D.cohorts.filter(c => !lma.cohort || c.id === lma.cohort);
+    el.innerHTML = `<div class="lma-cohorts">${cs.map(c => {
+      const ls = list.filter(L => L.cohort === c.id), st = ls.map(lmaStats);
+      const avg = ls.length ? Math.round(st.reduce((t, s) => t + s.pct, 0) / ls.length) : 0, mark = st.reduce((t, s) => t + s.sub, 0);
+      return `<div class="lma-cohort"><div class="lma-ch"><div><b>${lmsEsc(c.label)}</b><span>${[c.location, c.start ? fmtD(c.start) + (c.end ? ' – ' + fmtD(c.end) : '') : '', c.instructor].filter(Boolean).map(lmsEsc).join(' · ')}</span></div>
+          ${String(c.id).startsWith('DEMO') ? '<span class="lma-ex">Example</span>' : ''}</div>
+        <div class="lma-cstats"><div><b>${ls.length}</b><span>learners</span></div><div><b>${avg}%</b><span>average</span></div><div class="${mark ? 'warn' : ''}"><b>${mark}</b><span>to mark</span></div></div>
+        ${lmaBar(avg)}
+        <div class="lma-mini">${ls.map(L => { const s = lmaStats(L); return `<button onclick="lmaLearner('${L.id}')"><span class="lma-av">${lmaInit(L.name)}</span><span class="lma-n">${lmsEsc(L.name)}</span>${lmaBar(s.pct)}<b>${s.pct}%</b></button>`; }).join('') || '<p class="jb-empty">No learners match.</p>'}</div>
+        <div class="jb-actions"><button class="jb-btn pri" onclick="lma.tab='matrix';lma.cohort='${c.id}';lmaRender()">Open cohort matrix</button></div></div>`; }).join('') || '<p class="jb-empty">No cohorts yet.</p>'}</div>`;
+    return;
+  }
+  if (lma.tab === 'matrix') {
+    const head = WB_ORDER.map(c => `<th colspan="${WB[c].qs.length}" class="lma-ch-h">Component ${c[1]}</th>`).join('');
+    const sub = WB_ORDER.map(c => WB[c].qs.map(q => `<th class="lma-qh">Q${q.n}</th>`).join('')).join('');
+    el.innerHTML = `${lma.cohort ? `<p class="sc-p"><b>${lmsEsc((byId[lma.cohort] || {}).label || '')}</b> — cohort matrix</p>` : '<p class="sc-p">All learners — pick a cohort above to see one cohort.</p>'}${legend}
+      <div class="lma-scroll"><table class="lma-mx"><thead><tr><th rowspan="2" class="lma-sticky">Learner</th><th rowspan="2">Overall</th>${head}</tr><tr>${sub}</tr></thead><tbody>
+      ${list.map(L => { const s = lmaStats(L); return `<tr><td class="lma-sticky"><button class="lma-link" onclick="lmaLearner('${L.id}')">${lmsEsc(L.name)}</button><span>${lmsEsc((byId[L.cohort] || {}).label || '')}</span></td><td><b>${s.pct}%</b></td>
+        ${WB_ORDER.map((c, ci) => WB[c].qs.map((q, qi) => { const v = ((L.comps[c] || {}).qs || {})[q.n] || 'none'; return `<td class="lma-cell ${qi === 0 && ci ? 'lma-sep' : ''}"><i title="${lmsEsc(L.name)} · C${c[1]} Q${q.n}: ${LMA_ST[v][1]}" style="background:${LMA_ST[v][0]}" onclick="lmaCell('${L.id}','${c}')"></i></td>`; }).join('')).join('')}</tr>`; }).join('')}
+      </tbody></table></div>${list.length ? '' : '<p class="jb-empty">No learners match.</p>'}`;
+    return;
+  }
+  el.innerHTML = `<div class="lma-scroll"><table class="lma-tbl"><thead><tr><th>Learner</th><th>Cohort</th>${WB_ORDER.map(c => `<th>Component ${c[1]}</th>`).join('')}<th>Overall</th><th>To mark</th><th>Quiz best</th><th>Last active</th></tr></thead><tbody>
+    ${list.map(L => { const s = lmaStats(L), co = byId[L.cohort] || {}; return `<tr onclick="lmaLearner('${L.id}')">
+      <td><span class="lma-who"><span class="lma-av">${lmaInit(L.name)}</span><span><b>${lmsEsc(L.name)}</b>${L.demo ? '<span class="lma-ex">Example</span>' : ''}</span></span></td>
+      <td>${lmsEsc(co.label || '')}<span class="lma-sub">${lmsEsc(co.location || '')}</span></td>
+      ${WB_ORDER.map(c => { const p = lmaCompPct(L, c); return `<td>${lmaBar(p, p === 100 ? '#1F8A5B' : '')}<span class="lma-sub">${p}%</span></td>`; }).join('')}
+      <td><b>${s.pct}%</b></td><td>${s.sub ? `<span class="au-st wait">${s.sub}</span>` : '<span class="lma-sub">—</span>'}${s.ref ? ` <span class="au-st" style="background:#FDE3E1;color:#A33030">${s.ref} ref</span>` : ''}</td>
+      <td>${L.quiz != null ? L.quiz + '%' : '—'}</td><td>${L.last ? fmtD(L.last) : '—'}</td></tr>`; }).join('')}
+    </tbody></table></div>${list.length ? '' : '<p class="jb-empty">No learners match.</p>'}`;
+}
+function lmaCell(id, c) {
+  const L = lmaData().learners.find(x => x.id === id);
+  if (L && !L.demo && L.wbIds && L.wbIds[c]) { showView('wbmark'); wbStaffSel(L.wbIds[c]); return; }
+  lmaLearner(id);
+}
+function lmaLearner(id) {
+  const D = lmaData(), L = D.learners.find(x => x.id === id); if (!L) return;
+  const co = D.cohorts.find(c => c.id === L.cohort) || {}, s = lmaStats(L);
+  const ov = document.createElement('div'); ov.className = 'kc-qr-ov'; ov.onclick = e => { if (e.target === ov) ov.remove(); };
+  ov.innerHTML = `<div class="kc-qr-box lma-detail"><div class="lma-dh"><span class="lma-av lg">${lmaInit(L.name)}</span><div><div class="kc-qr-t" style="margin:0;">${lmsEsc(L.name)}</div><span class="lma-sub">${lmsEsc(co.label || '')}${co.location ? ' · ' + lmsEsc(co.location) : ''}</span></div></div>
+    <div class="lma-stats sm"><div><b>${s.pct}%</b><span>Overall</span></div><div><b>${s.pass}/${s.tot}</b><span>Passed</span></div><div class="warn"><b>${s.sub}</b><span>To mark</span></div><div><b>${s.ref}</b><span>Referred</span></div></div>
+    ${WB_ORDER.map(c => `<div class="lma-comp"><div><b>${WB[c].title}</b><span>${lmaCompPct(L, c)}%</span></div><div class="lma-strip">${WB[c].qs.map(q => { const v = ((L.comps[c] || {}).qs || {})[q.n] || 'none'; return `<i title="Q${q.n}: ${LMA_ST[v][1]}" style="background:${LMA_ST[v][0]}">${q.n}</i>`; }).join('')}</div>
+      ${!L.demo && L.wbIds && L.wbIds[c] ? `<button class="jb-btn" style="margin-top:8px;" onclick="this.closest('.kc-qr-ov').remove();showView('wbmark');wbStaffSel('${L.wbIds[c]}')">Open to mark</button>` : ''}</div>`).join('')}
+    <div class="jb-actions" style="justify-content:flex-end;"><button class="qz-btn qz-primary" onclick="this.closest('.kc-qr-ov').remove()">Close</button></div></div>`;
+  document.body.appendChild(ov);
+}
 </script>
 </body>
 </html>
