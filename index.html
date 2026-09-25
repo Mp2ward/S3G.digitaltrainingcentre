@@ -1727,6 +1727,18 @@ function fmtD(v) {
   .mp-st { font-size:0.72rem; font-weight:700; border-radius:999px; padding:3px 8px; } .mp-st.w { background:#DDF1E8; color:#0F6E56; } .mp-st.s { background:#E3E9FB; color:#2446B8; } .mp-st.p { background:#0F6E56; color:#fff; }
   .mp-sums { display:flex; gap:18px; flex-wrap:wrap; font-size:0.85rem; color:#5E6577; margin-bottom:6px; } .mp-sums b { color:#16203D; }
   .mp-note { font-size:0.82rem; color:#5E6577; margin-top:8px; }
+  .tq-ov { position:fixed; inset:0; z-index:450; background:#F6F3EC; overflow-y:auto; padding:calc(env(safe-area-inset-top,0px) + 20px) 18px 30px; box-sizing:border-box; }
+  .tq-in { max-width:860px; margin:0 auto; }
+  .tq-top { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:10px; }
+  .tq-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px; margin-top:10px; }
+  .tq-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:10px; align-items:end; padding:12px; margin-top:10px; background:#FBFAF6; border:1px solid #EEE9DE; border-radius:14px; }
+  .tq-f { display:flex; flex-direction:column; gap:5px; font-size:0.8rem; font-weight:700; color:#3A4760; }
+  .tq-f.wide { grid-column:1 / -1; }
+  .tq-f input, .tq-f textarea { font:inherit; font-weight:400; font-size:0.95rem; color:#16203D; border:1px solid #D8DEE8; border-radius:10px; padding:10px 12px; background:#fff; min-height:44px; box-sizing:border-box; width:100%; }
+  .tq-opts { display:flex; gap:14px; flex-wrap:wrap; }
+  .tq-chk { display:inline-flex; align-items:center; gap:8px; font-size:0.9rem; font-weight:500; color:#16203D; min-height:44px; }
+  .tq-chk input { width:20px; height:20px; }
+  .tq-decl-list { margin:6px 0 0 18px; padding:0; color:#3A4760; font-size:0.9rem; line-height:1.5; }
   .pf-card { display:flex; gap:20px; align-items:center; flex-wrap:wrap; background:#16203D; color:#fff; border-radius:24px; padding:26px; margin:14px 0 22px; }
   .pf-av { width:78px; height:78px; border-radius:50%; background:#E4572E; color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Fraunces',Georgia,serif; font-size:2rem; font-weight:600; flex-shrink:0; }
   .pf-name { font-family:'Fraunces',Georgia,serif; font-size:1.8rem; font-weight:600; line-height:1.15; }
@@ -14617,6 +14629,7 @@ function pfRender() {
         : `<button class="jb-btn pri" ${loading ? 'disabled' : ''} onclick="document.getElementById('pfCvIn').click()">Upload CV</button>`}
         <input type="file" id="pfCvIn" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style="display:none" onchange="pfCvUpload(this)">
         <span id="pfCvMsg" class="jb-msg"></span></div></div>`}
+    ${P.role === 'learner' ? '' : tqSectionHtml()}
 
     ${P.role === 'iqa' || P.role === 'learner' ? '' : `<div class="pf-sec"><h3>Payment details</h3><p class="sc-p" style="margin:0;">Used on your timesheets and invoices. Only you and your centre admin can see these. <span style="color:#C74444;">*</span> = required</p>
       <div class="jb-form">
@@ -15731,6 +15744,134 @@ async function wbPreview(c, btn, staffRow) {
     window.open(URL.createObjectURL(blob), '_blank');
   } catch (e) { alert(e.message || e); }
   btn.disabled = false; btn.textContent = old;
+}
+</script>
+<script>
+// ===== My Profile: Qualsafe Trainer/Assessor & IQA application form =====
+const TQ_FILE = 'QA-TIQA-Application-Form.pdf';
+const TQ_SECTIONS = [
+  { h:'Centre details', f:[['fillable_centre_name','Centre name'],['fillable_centre_number','Centre number']] },
+  { h:'Personal details', f:[['fillable_title','Title (Mr/Mrs/Ms/Dr/Prof/other)','s'],['fillable_first_name','First name'],['fillable_surname','Surname'],['fillable_maiden_name','Previous surname / maiden name'],
+     ['fillable_email_address','Email address'],['fillable_landline','Landline','s'],['fillable_mobile','Mobile','s'],
+     ['emp','Which statement best describes your employment?','radio',[['fillable_single_employer','I work for a single employer'],['fillable_multiple_employers','I work for multiple employers on a freelance basis']]]] },
+  { h:'Qualifications you want to deliver or quality assure', note:'e.g. "Level 2 Award in Fire Safety" or "All first aid qualifications"', rows:[1,2,3,4,5].map(i => [['fillable_qualification_name_' + i,'Qualification ' + i],['TA ' + i,'Trainer/Assessor','check'],['IQA ' + i,'IQA','check']]) },
+  { h:'Your qualifications', f:[['hcp','Are you a registered healthcare professional (e.g. doctor, paramedic or nurse)?','radio',[['fillable_healthcare_professional_yes','Yes'],['fillable_healthcare_professional_no','No']]],
+     ['fillable_PIN_number','If yes, your PIN number','s'],['fillable_expiry_date','PIN expiry date (if applicable)','s']],
+    rows:[1,2,3,4].map(i => [['fillable_qualification_' + i,'Qualification ' + i],['fillable_institution_organsation_' + i,'Institution / training organisation'],['fillable_awarding_organsation_' + i,'Awarding organisation / body'],['fillable_date_awarded_' + i,'Date awarded','s'],['fillable_expiry_date_' + i,'Expiry date (if applicable)','s']]),
+    note2:'Qualsafe asks you to attach copies of certificates for each qualification listed.' },
+  { h:'Experience', note:'First aid qualifications need a chronological list of the training/assessing you have delivered in the last 3 years. Prehospital care qualifications need an up-to-date portfolio of recent experience (within 2 years).',
+    f:[['evid','I have attached additional information / evidence','radio',[['fillable_additional_information_yes','Yes'],['fillable_additional_information_no','No']]]] },
+  { h:'Conflicts of interest — other Awarding Organisations', rows:[1,2,3,4].map(i => [['fillable_awarding_organsation_name_' + i,'Awarding Organisation name'],['fillable_job_' + i,'Job / role']]) },
+  { h:'Conflicts of interest — training centres or other companies', rows:[5,6,7,8].map(i => [['fillable_awarding_organsation_name_' + i,'Training centre / organisation name'],['fillable_job_' + i,'Job / role']]) },
+  { h:'Conflict of interest details', f:[['fillable_conflict_of_interest_1','Details of any conflict of interest identified','l'],['coi','This conflict is','radio',[['fillable_temp','Temporary'],['fillable_ongoing','Ongoing']]],
+     ['fillable_conflict_of_interest_2','What measures will you take to avoid this conflict of interest (if possible)?','l'],['fillable_conflict_of_interest_3','If unavoidable, what action will be taken to mitigate it?','l']] },
+  { h:'Further information', f:[['fillable_further_information_1','Any further information to support your application (you can also opt out of Qualsafe marketing here)','l']] },
+];
+let tq = { open:false, busy:false };
+function tqData() { const x = pf.extra || {}; return x.tiqa || (x.tiqa = { v:{} }); }
+function tqPrefill(v) {
+  const n = ((cloud.profile && cloud.profile.full_name) || '').trim().split(/\s+/), x = pf.extra || {};
+  const d = { fillable_centre_name: CENTRE_NAME + ' Ltd', fillable_centre_number: CENTRE_NO || '', fillable_first_name: n[0] || '', fillable_surname: n.slice(1).join(' '),
+    fillable_email_address: (cloud.session && cloud.session.user && cloud.session.user.email) || '', fillable_mobile: x.phone || '' };
+  Object.keys(d).forEach(k => { if (v[k] == null || v[k] === '') v[k] = d[k]; });
+}
+function tqSectionHtml() {
+  const t = (pf.extra || {}).tiqa || {};
+  const st = t.path ? (t.mode === 'upload' ? `Uploaded ${fmtD(t.at)}` : `Completed in the app ${fmtD(t.at)}`) : t.v && Object.keys(t.v).length ? 'Started — not finished' : 'Not started';
+  return `<div class="pf-sec"><h3>Qualsafe Trainer/Assessor &amp; IQA application</h3>
+    <p class="sc-p" style="margin:0;">The Qualsafe Awards approval form (TIQA-AP). Fill it in here and the official form is completed for you, or upload one you've already done.</p>
+    <div class="pf-cv">${t.path ? `<div class="pf-cv-file">${kcIcon(KC_IC.doc, 28)}<div><b>Trainer/IQA application form</b><span>${st}</span></div></div>` : `<span class="sc-p" style="margin:0;">Status: <b>${st}</b></span>`}
+      <div class="jb-actions" style="margin-top:0;">
+        <button class="jb-btn pri" onclick="tqOpen()">${t.v && Object.keys(t.v).length ? 'Continue / edit form' : 'Complete it here'}</button>
+        <button class="jb-btn" onclick="document.getElementById('tqUp').click()">${t.path ? 'Replace with upload' : 'Upload a completed form'}</button>
+        ${t.path ? `<button class="jb-btn" onclick="mpOpenFile('${t.path}')">View</button><button class="jb-btn no" onclick="tqRemove()">Remove</button>` : ''}
+      </div>
+      <input type="file" id="tqUp" accept="application/pdf,.pdf" style="display:none" onchange="tqUpload(this)"><span id="tqMsg" class="jb-msg"></span></div></div>`;
+}
+function tqField([k, label, type, opts], v, row) {
+  const val = v[k];
+  if (type === 'radio') return `<div class="tq-f wide"><span>${label}</span><div class="tq-opts">${opts.map(([fk, t]) => `<label class="tq-chk"><input type="radio" name="tq-${k}" ${val === fk ? 'checked' : ''} onchange="tqSet('${k}','${fk}')"> ${t}</label>`).join('')}</div></div>`;
+  if (type === 'check') return `<label class="tq-chk"><input type="checkbox" ${val ? 'checked' : ''} onchange="tqSet('${k}',this.checked)"> ${label}</label>`;
+  if (type === 'l') return `<label class="tq-f wide"><span>${label}</span><textarea rows="5" oninput="tqSet('${k}',this.value)">${lmsEsc(val || '')}</textarea></label>`;
+  return `<label class="tq-f ${type === 's' ? '' : 'wide'}"><span>${label}</span><input value="${lmsEsc(val || '')}" oninput="tqSet('${k}',this.value)"></label>`;
+}
+function tqRender() {
+  let o = document.getElementById('tqOv');
+  if (!tq.open) { if (o) o.remove(); return; }
+  if (!o) { o = document.createElement('div'); o.id = 'tqOv'; o.className = 'tq-ov'; document.body.appendChild(o); }
+  const T = tqData(), v = T.v; tqPrefill(v);
+  o.innerHTML = `<div class="tq-in"><div class="tq-top"><div><div class="hub-eyebrow">Qualsafe Awards · TIQA-AP</div><div class="hub-h" style="margin:4px 0 0;">Trainer/Assessor &amp; IQA Application</div></div>
+      <button class="ct-x" style="background:#EEF1F5;color:#16203D;" onclick="tq.open=false;tqRender()" aria-label="Close">✕</button></div>
+    <p class="sc-p">Everything saves as you type. When you've finished, sign the declaration and tap <b>Create my form</b> — the official Qualsafe PDF is filled in for you and saved to your profile.</p>
+    ${TQ_SECTIONS.map(S => `<div class="pf-sec"><h3>${S.h}</h3>${S.note ? `<p class="sc-p" style="margin:0 0 6px;">${S.note}</p>` : ''}
+      <div class="tq-grid">${(S.f || []).map(f => tqField(f, v)).join('')}</div>
+      ${(S.rows || []).map(r => `<div class="tq-row">${r.map(f => tqField(f, v)).join('')}</div>`).join('')}
+      ${S.note2 ? `<p class="sc-p" style="margin:8px 0 0;">${S.note2}</p>` : ''}</div>`).join('')}
+    <div class="pf-sec"><h3>Declaration</h3><ul class="tq-decl-list">
+      <li>I am fully aware of the requirements in the Qualification Specifications and assessment guidance for the qualifications I want to deliver and/or quality assure.</li>
+      <li>I understand QA qualifications may only be delivered and/or internally quality assured by QA registered Trainers/Assessors/IQAs through QA approved Centres.</li>
+      <li>I have read and understood the Qualsafe Awards Centre Quality Assurance Guidance.</li>
+      <li>I understand that Learner records must be stored for a minimum of three years.</li>
+      <li>I will inform the Responsible Person of the approved Centre of any conflicts of interest that arise.</li>
+      <li>I agree to abide by the Qualsafe Awards Code of Conduct for Approved Trainers, Assessors &amp; IQAs.</li>
+      <li>The information provided on this form is accurate and up to date.</li></ul>
+      <p class="sc-p" style="margin:6px 0 0;">Qualsafe uses these details for marketing under its Privacy Policy — you can opt out in Further information.</p>
+      <label class="wb-decl"><input type="checkbox" id="tqAgree" ${T.signedAt ? 'checked' : ''}> I confirm the declaration above.</label>
+      <div class="tq-grid"><label class="tq-f"><span>Type your full name to sign</span><input id="tqSig" value="${lmsEsc(T.sigName || '')}"></label></div></div>
+    <div class="jb-actions" style="margin-bottom:40px;"><button class="jb-btn pri" ${tq.busy ? 'disabled' : ''} onclick="tqCreate()">${tq.busy ? 'Creating…' : 'Create my form'}</button>
+      <button class="jb-btn" onclick="tqPreview(this)">Preview</button><button class="jb-btn" onclick="tq.open=false;tqRender()">Save and close</button><span id="tqSave" class="jb-msg"></span></div></div>`;
+}
+let tqTimer = null;
+function tqSet(k, val) {
+  tqData().v[k] = val; const m = document.getElementById('tqSave'); if (m) m.textContent = 'Saving…';
+  clearTimeout(tqTimer); tqTimer = setTimeout(async () => { try { await pfSaveExtra({ tiqa: tqData() }); if (m) m.textContent = 'Saved'; } catch (e) { if (m) m.textContent = 'Not saved — check connection'; } }, 800);
+}
+function tqOpen() { tq.open = true; tqRender(); }
+async function tqFill() {
+  const T = tqData(), v = T.v;
+  const { PDFDocument } = await qsLoadPdfLib();
+  const res = await fetch(TQ_FILE, { cache:'no-store' }); if (!res.ok) throw new Error('The blank form ' + TQ_FILE + ' isn\u2019t on the website yet.');
+  const pdf = await PDFDocument.load(await res.arrayBuffer()), form = pdf.getForm();
+  const txt = (k, s) => { try { const f = form.getTextField(k); f.setText(String(s || '')); } catch (e) {} };
+  const tick = k => { try { form.getCheckBox(k).check(); } catch (e) {} };
+  TQ_SECTIONS.forEach(S => [].concat(S.f || [], ...(S.rows || [])).forEach(([k, , type, opts]) => {
+    if (type === 'radio') { if (v[k]) tick(v[k]); } else if (type === 'check') { if (v[k]) tick(k); } else txt(k, v[k]);
+  }));
+  txt('fillable_signature_1', (T.sigName || '') + (T.sigName ? ' (signed electronically)' : '')); txt('fillable_print_name_1', T.sigName || '');
+  txt('fillable_centre_name_1', v.fillable_centre_name || ''); txt('fillable_date_1', T.signedAt ? new Date(T.signedAt).toLocaleDateString('en-GB') : '');
+  return new Blob([await pdf.save()], { type:'application/pdf' });
+}
+async function tqPreview(btn) { btn.disabled = true; try { window.open(URL.createObjectURL(await tqFill()), '_blank'); } catch (e) { alert(e.message || e); } btn.disabled = false; }
+async function tqCreate() {
+  const T = tqData(), sig = (document.getElementById('tqSig').value || '').trim();
+  if (!document.getElementById('tqAgree').checked || !sig) { alert('Tick the declaration and type your full name to sign.'); return; }
+  if (!T.v.fillable_first_name || !T.v.fillable_surname || !T.v.fillable_email_address) { alert('Add your first name, surname and email address.'); return; }
+  T.sigName = sig; T.signedAt = new Date().toISOString(); tq.busy = true; tqRender();
+  try {
+    const blob = await tqFill(), path = cloudMe() + '/profile/tiqa-application.pdf';
+    await cloudFetch('/storage/v1/object/course-files/' + path, { method:'POST', body: blob, json:false, headers:{ 'Content-Type':'application/pdf', 'x-upsert':'true' } });
+    Object.assign(T, { path, mode:'digital', at: new Date().toISOString() });
+    await pfSaveExtra({ tiqa: T });
+    tq.busy = false; tq.open = false; tqRender(); pfRender(); window.open(URL.createObjectURL(blob), '_blank');
+  } catch (e) { tq.busy = false; tqRender(); alert('Could not create the form: ' + (e.message || e)); }
+}
+async function tqUpload(input) {
+  const f = input.files && input.files[0]; input.value = ''; if (!f) return;
+  const m = document.getElementById('tqMsg');
+  if (!/pdf$/i.test(f.name) && f.type !== 'application/pdf') { m.style.color = '#C74444'; m.textContent = 'Please choose a PDF.'; return; }
+  if (f.size > 15 * 1024 * 1024) { m.style.color = '#C74444'; m.textContent = 'That file is over 15 MB.'; return; }
+  m.style.color = '#6B7A94'; m.textContent = 'Uploading…';
+  try {
+    const path = cloudMe() + '/profile/tiqa-application.pdf';
+    await cloudFetch('/storage/v1/object/course-files/' + path, { method:'POST', body: f, json:false, headers:{ 'Content-Type':'application/pdf', 'x-upsert':'true' } });
+    const T = tqData(); Object.assign(T, { path, mode:'upload', at: new Date().toISOString() });
+    await pfSaveExtra({ tiqa: T }); pfRender();
+  } catch (e) { m.style.color = '#C74444'; m.textContent = 'Could not upload: ' + (e.message || e); }
+}
+async function tqRemove() {
+  const T = tqData(); if (!T.path || !confirm('Remove your saved application form? Your typed answers are kept.')) return;
+  try { try { await cloudFetch('/storage/v1/object/course-files/' + T.path, { method:'DELETE' }); } catch (e) {}
+    delete T.path; delete T.mode; delete T.at; await pfSaveExtra({ tiqa: T }); pfRender(); } catch (e) { alert(e.message || e); }
 }
 </script>
 </body>
