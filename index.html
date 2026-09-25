@@ -1554,6 +1554,45 @@ function fmtD(v) {
   .jb-person i { font-style:normal; font-size:0.66rem; font-weight:700; background:#16203D; color:#fff; border-radius:999px; padding:2px 7px; }
   .jb-course-box { background:#F6F3EC; border:1px solid #E7E3DA; border-radius:14px; padding:14px 16px; margin:4px 0 16px; display:flex; flex-direction:column; gap:12px; color:#16203D; font-size:0.92rem; }
   .jb-daychips { display:flex; gap:6px; flex-wrap:wrap; margin-top:6px; } .jb-daychips span { background:#fff; border:1px solid #E7E3DA; border-radius:999px; padding:4px 10px; font-size:0.82rem; }
+  .lpm-back { margin-bottom:6px; }
+  #lpmSteps { flex-wrap:wrap; overflow-x:visible; }
+  /* ===== Learner LMS ===== */
+  body.role-learner #stRail, body.role-learner #menuFab, body.role-learner .rn-no-learner { display:none !important; }
+  body.role-learner.has-rail { padding-left:0 !important; }
+  #view-lms { background:#0D1B4C; min-height:calc(100vh - 60px); }
+  .lms { max-width:1080px; margin:0 auto; padding:32px 22px 60px; color:#fff; }
+  .lms-top { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; }
+  .lms-top .lms-k { color:#9FB0DA; font-size:0.8rem; letter-spacing:0.16em; text-transform:uppercase; font-weight:700; }
+  .lms-top-b { display:flex; gap:8px; }
+  .lms-pill { border:1px solid rgba(255,255,255,0.3); background:transparent; color:#fff; border-radius:999px; padding:10px 16px; font:inherit; font-size:0.88rem; cursor:pointer; min-height:44px; }
+  .lms-h { font-family:'Fraunces',Georgia,serif; font-weight:600; font-size:clamp(2rem,5vw,3.1rem); line-height:1.05; margin:12px 0 6px; }
+  .lms-p { color:#C9D3F0; margin:0 0 8px; }
+  .lms-sec { color:#fff; font-weight:800; font-size:1rem; letter-spacing:0.04em; margin:26px 0 12px; display:flex; align-items:center; gap:10px; }
+  .lms-sec img { width:36px; height:36px; border-radius:9px; background:#fff; object-fit:contain; padding:2px; }
+  .lms-demo { background:#FFF1D6; color:#8A5200; border-radius:12px; padding:10px 14px; font-size:0.85rem; margin-top:14px; }
+  .lms-cards { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:14px; margin-top:18px; }
+  .lms-card { background:#fff; color:#16203D; border:0; border-radius:22px; padding:22px; text-align:left; cursor:pointer; font-family:'Public Sans',sans-serif; display:flex; flex-direction:column; gap:14px; min-height:170px; animation:ctPop .45s cubic-bezier(.3,1.5,.5,1) both; }
+  .lms-card .lms-ic { width:56px; height:56px; border-radius:16px; display:flex; align-items:center; justify-content:center; background:var(--soft); color:#16203D; }
+  .lms-card b { font-family:'Fraunces',Georgia,serif; font-size:1.45rem; font-weight:600; display:block; }
+  .lms-card span.s { color:#5E6577; font-size:0.9rem; }
+  .lms-panel { background:#fff; color:#16203D; border-radius:22px; padding:22px; margin-top:18px; }
+  .lms-panel h3 { margin:0 0 4px; font-family:'Fraunces',Georgia,serif; font-size:1.5rem; }
+  .lms-bar { height:10px; background:#EEF1F5; border-radius:99px; overflow:hidden; margin:10px 0 4px; } .lms-bar div { height:100%; background:linear-gradient(90deg,#1F8A5B,#3FBF84); border-radius:99px; transition:width .6s ease; }
+  .lms-steps { list-style:none; margin:14px 0 0; padding:0; }
+  .lms-steps li { display:flex; gap:12px; align-items:flex-start; padding:10px 0; border-bottom:1px solid #F0F2F6; }
+  .lms-dot { width:26px; height:26px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:800; border:2px solid #D8DEE8; color:#8A93A6; background:#fff; }
+  .lms-steps li.done .lms-dot { background:#1F8A5B; border-color:#1F8A5B; color:#fff; }
+  .lms-steps li.now .lms-dot { border-color:#E4572E; color:#E4572E; animation:qzPulse 1.2s ease-in-out infinite; }
+  .lms-steps b { display:block; } .lms-steps span { font-size:0.84rem; color:#5E6577; }
+  .lms-q { background:#fff; color:#16203D; border-radius:22px; padding:24px; margin-top:18px; }
+  .lms-q .qn { color:#6B7A94; font-size:0.85rem; }
+  .lms-q .qt { font-family:'Fraunces',Georgia,serif; font-size:clamp(1.3rem,3vw,1.8rem); font-weight:600; margin:8px 0 14px; line-height:1.25; }
+  .lms-opts { display:grid; gap:10px; }
+  .lms-opt { border:2px solid #E4E8F0; background:#F8F9FC; border-radius:14px; padding:14px 16px; text-align:left; font:inherit; font-size:1rem; color:#16203D; cursor:pointer; min-height:54px; }
+  .lms-opt.sel { border-color:#2446B8; background:#E9EEFC; }
+  .lms-opt.ok { border-color:#1F8A5B; background:#E3F4EC; } .lms-opt.bad { border-color:#C74444; background:#FBE9E9; }
+  .lms-why { margin-top:14px; padding:12px 14px; border-radius:12px; background:#F6F3EC; }
+  .lms-score { text-align:center; padding:20px 0; } .lms-score b { font-family:'Fraunces',Georgia,serif; font-size:3.4rem; display:block; }
   .kc-soon-badge { font-family:'Public Sans',sans-serif; font-size:0.62rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; background:#FFF1D6; color:#8A5200; border-radius:999px; padding:3px 8px; vertical-align:middle; white-space:nowrap; }
   .kc-tile-soon { cursor:default !important; }
   .kc-tile-soon:hover { transform:none !important; box-shadow:none !important; }
@@ -1642,6 +1681,7 @@ function fmtD(v) {
   /* The logo lives in the left menu on tablets and computers, so the header drops its copy */
   @media (min-width:900px) {
     body.has-rail #menuFab { display:none !important; }
+    body.role-learner header .brand-logo-badge, body.role-learner header .brand-divider { display:revert !important; }
     body.has-rail header .brand-logo-badge, body.has-rail header .brand-divider, body.has-rail header > a > .brand-title { display:none !important; }
   }
   @media (max-width:980px) { #view-hub > .hub { flex-direction:column; } .hub-today { width:100%; position:static; } }
@@ -1721,6 +1761,11 @@ window.addEventListener('load', function () {
     <button class="hub-tile" id="hubJobsTile" style="--accent:#B06A00;--soft:#FDF3E3;display:none;" onclick="jbOpenAdmin()">
       <span class="hub-ic"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/><path d="M8 14h3M8 17.5h6"/></svg></span>
       <span class="hub-text"><span class="hub-title">Job Scheduling</span><span class="hub-sub" id="hubJobsSub">Create jobs, assign instructors, timesheets and payments</span></span>
+      <span class="hub-chev">&rsaquo;</span>
+    </button>
+    <button class="hub-tile" style="--accent:#6B4FA8;--soft:#F0EAFB;" onclick="lmsOpen(true)">
+      <span class="hub-ic"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8l10-4 10 4-10 4z"/><path d="M6 10v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/></svg></span>
+      <span class="hub-text"><span class="hub-title">Learner LMS</span><span class="hub-sub">See exactly what learners see</span></span>
       <span class="hub-chev">&rsaquo;</span>
     </button>
       </div>
@@ -2121,6 +2166,9 @@ window.addEventListener('load', function () {
 <div class="app-view" id="view-jobs">
   <div class="rn-wrap adm-wrap" id="jbAdminRoot"></div>
 </div>
+<div class="app-view" id="view-lms">
+  <div id="lmsRoot"></div>
+</div>
 <div class="app-view" id="view-mypay">
   <div class="rn-wrap adm-wrap" id="mpRoot"></div>
 </div>
@@ -2159,7 +2207,7 @@ window.addEventListener('load', function () {
   <div class="lpm-view" id="lpm-course">
     <div class="rn-wrap">
 
-      <button class="sc-back rn-no-print" id="lpmBackBtn" onclick="lpmBackFromCourse()">&larr; All courses</button>
+      <button class="rn-nav-btn rn-no-print lpm-back" id="lpmBackBtn" onclick="lpmBackFromCourse()">&larr; All courses</button>
 
       <div class="rn-head lpm-head-row">
         <button class="rn-nav-btn primary lpm-iqa-jump" id="lpmIqaJump" style="display:none;" onclick="lpmShowStep('iqa')">IQA review</button>
@@ -3516,6 +3564,7 @@ function menuFabSync() {
   fab.style.display = (hub && hub.classList.contains('active')) ? 'none' : '';
 }
 function showView(name) {
+  if (document.body.classList.contains('role-learner') && name !== 'lms' && name !== 'profile') name = 'lms';
   document.querySelectorAll('.app-view').forEach(v => v.classList.remove('active'));
   var el = document.getElementById('view-' + name);
   if (el) el.classList.add('active');
@@ -8836,7 +8885,7 @@ function lpmOpenCourse(id) {
   const ro = !reviewer && (locked || (CLOUD_ON && found.owner && found.owner !== cloudMe() && !lpmOnTeam(found)));
   document.getElementById('view-lpm').classList.toggle('lpm-ro', !!ro);
   const rob = document.getElementById('lpmRoBanner');
-  if (rob) rob.innerHTML = lockWhy === 'completed' ? `<div class="sc-note" style="margin:8px 0 0;border-left-color:#2446B8;">🔒 Course completed — it's locked. To change anything, open the <b>Course pack</b> tab and tap <b>Edit course</b>.</div>`
+  if (rob) rob.innerHTML = lockWhy === 'completed' ? `<div class="sc-note" style="margin:8px 0 0;border-left-color:#2446B8;">🔒 Course completed — it's locked until an admin reopens it. Use <b>Ask admin to reopen</b> on the Course pack tab if something needs changing.</div>`
     : lockWhy === 'submitted' ? `<div class="sc-note" style="margin:8px 0 0;border-left-color:#8A5200;">🔒 Submitted for IQA review — the course is locked until an admin or IQA reviews it or reopens it.</div>`
     : locked ? `<div class="sc-note" style="margin:8px 0 0;border-left-color:#0F6E56;">🔒 Accepted by the IQA — this course is locked. Use <b>Request to edit</b> on the Course pack tab if something needs changing.</div>`
     : ro ? `<div class="sc-note" style="margin:8px 0 0;">Read-only — ${lpmEsc(found.ownerName || 'another instructor')}'s course. You can view everything, build the course pack and record the IQA review, but not change the course.</div>` : '';
@@ -11173,7 +11222,7 @@ async function lpmRenderPack() {
     rows.push(`<tr><td>Practical assessment record (from the practical matrix)</td><td>${named}</td></tr>`);
   }
   rows.push(`<tr><td>Learner feedback forms</td><td>${(lpmCourse.feedback || []).length + c('feedback')}</td></tr>`);
-  el.innerHTML = `<div class="sc-note">One PDF containing everything an IQA or Qualsafe needs. Tap <b>Complete course</b> when you've finished — the course locks and the pack is built. Check it with <b>Open course pack</b>, then <b>Submit course</b> to send it to the IQA team. Need to change something first? Tap <b>Edit course</b>.</div>
+  el.innerHTML = `<div class="sc-note">One PDF containing everything an IQA or Qualsafe needs. Tap <b>Complete course</b> when you've finished — the pack is built and the course locks. Check it with <b>Open course pack</b>, then <b>Submit course</b> to send it to the IQA team. Once completed, only an admin can reopen the course — use <b>Ask admin to reopen</b> if something needs changing.</div>
     <table class="sc-table"><tr><th>Included</th><th>Pages</th></tr>
       ${rows.join('')}
     </table>
@@ -11182,9 +11231,12 @@ async function lpmRenderPack() {
         if (st === 'accepted') return (erLatest(lpmCourse.id) && erLatest(lpmCourse.id).status === 'pending'
             ? `<span class="er-waiting">Edit request sent — waiting for the IQA</span>`
             : `<button class="rn-nav-btn primary" onclick="erRequest('${lpmCourse.id}')">Request to edit</button>`) + `<button class="rn-nav-btn" onclick="lpmOpenPack(this)">Open course pack</button>`;
-        if (st === 'submitted') return `<span class="er-waiting">🔒 Submitted — locked until reviewed</span><button class="rn-nav-btn" onclick="lpmOpenPack(this)">Open course pack</button>`;
-        if (st === 'completed') return `<button class="rn-nav-btn" onclick="lpmEditCourse()">Edit course</button><button class="rn-nav-btn" onclick="lpmOpenPack(this)">Open course pack</button><button class="rn-nav-btn primary" id="lpmPackSubmit" onclick="lpmSubmitPack()">Submit course</button>`;
-        if (st === 'reviewer') return `<button class="rn-nav-btn primary" id="lpmPackBuild" onclick="lpmBuildPack('save')">Build course pack</button>${lpmCourse.submission ? `<button class="rn-nav-btn" onclick="lpmShowStep('iqa')">IQA review / reopen</button>` : ''}`;
+        if (st === 'submitted') return `<span class="er-waiting">🔒 Submitted — locked until reviewed</span><button class="rn-nav-btn" onclick="lpmOpenPack(this)">Open course pack</button>${ask}`;
+        const pend = erLatest(lpmCourse.id) && erLatest(lpmCourse.id).status === 'pending';
+        const ask = pend ? `<span class="er-waiting">Reopen request sent — waiting for an admin</span>` : `<button class="rn-nav-btn" onclick="erRequest('${lpmCourse.id}')">Ask admin to reopen</button>`;
+        if (st === 'completed') return `<button class="rn-nav-btn" onclick="lpmOpenPack(this)">Open course pack</button><button class="rn-nav-btn primary" id="lpmPackSubmit" onclick="lpmSubmitPack()">Submit course</button>${ask}`;
+        if (st === 'reviewer') { const raw = lpmPackState(lpmCourse, true);
+          return `<button class="rn-nav-btn primary" id="lpmPackBuild" onclick="lpmBuildPack('save')">Build course pack</button>${['completed', 'submitted', 'accepted'].includes(raw) ? `<button class="rn-nav-btn" onclick="admReopen('${lpmCourse.id}')">Reopen for instructor</button>` : ''}${lpmCourse.submission ? `<button class="rn-nav-btn" onclick="lpmShowStep('iqa')">IQA review</button>` : ''}`; }
         return `<button class="rn-nav-btn primary" id="lpmPackBuild" onclick="lpmCompleteCourse()">Complete course</button>`;
       })()}
       <a id="lpmPackLink" class="rn-nav-btn" style="display:none;text-decoration:none;" target="_blank">Open course pack</a>
@@ -12247,6 +12299,7 @@ function admRenderCourses() {
           <span class="adm-status ${s.cls}">${s.label}</span>
           <div class="adm-actions">
             ${c.isExample ? '' : `<button class="rn-nav-btn adm-del" onclick="admDeleteCourse('${c.id}')" aria-label="Delete course">Delete</button>`}
+            ${!c.isExample && ['completed', 'submitted', 'accepted'].includes(lpmPackState(c, true)) ? `<button class="rn-nav-btn" onclick="admReopen('${c.id}')">Reopen</button>` : ''}
             ${c.submission ? `<button class="rn-nav-btn primary" onclick="admOpen('${c.id}','iqa')">IQA review</button>` : `<button class="rn-nav-btn primary" onclick="admOpen('${c.id}','details')">Open course</button>`}
           </div>
         </div>
@@ -12281,7 +12334,7 @@ function admExportCsv() {
 function admInstructors() {
   const courses = lpmLoadCourses();
   const map = new Map();
-  admState.profiles.forEach(p => map.set(p.id, { id: p.id, name: p.full_name || 'Unnamed', role: p.role }));
+  admState.profiles.filter(p => p.role !== 'learner').forEach(p => map.set(p.id, { id: p.id, name: p.full_name || 'Unnamed', role: p.role }));
   courses.forEach(c => { if (c.owner && !map.has(c.owner)) map.set(c.owner, { id: c.owner, name: c.ownerName || 'Unnamed', role: 'instructor' }); });
   return [...map.values()].sort((a, b) => a.name.localeCompare(b.name));
 }
@@ -12428,7 +12481,7 @@ function lpmReapplyLock(step) {
   try { lpmShowStep(step || 'pack'); } catch (e) {}
 }
 async function lpmCompleteCourse() {
-  if (!confirm('Complete this course?\n\nThe course will be locked and the course pack built. You can still tap Edit course if something needs changing before you submit.')) return;
+  if (!confirm('Complete this course?\n\nThe course pack will be built and the course locked. After this, only an admin can reopen it for changes.')) return;
   await lpmBuildPack('save');
   if (!lpmPackFile) return;                          // build failed — stay open
   const file = lpmPackFile;
@@ -12538,6 +12591,7 @@ function lpmRenderIqa() {
       <textarea id="iqaNotes" rows="4" style="width:100%;">${lpmEsc(r.notes || '')}</textarea></div>
     <div style="display:flex;gap:10px;margin-top:14px;align-items:center;flex-wrap:wrap;">
       <button class="rn-nav-btn primary" onclick="iqaSave()">Save IQA review</button>
+      <button class="rn-nav-btn" onclick="lpmBackFromCourse()">${window.lpmFromAdmin ? '← Back to Course Admin' : '← All courses'}</button>
       <span id="iqaMsg" style="font-size:0.85rem;"></span>
     </div>
     ${r.updated_at ? `<p class="sc-p" style="font-size:0.75rem;color:#6B7A94;margin-top:10px;">Last saved ${fmtD(r.updated_at)} ${new Date(r.updated_at).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})}</p>` : ''}`;
@@ -13526,21 +13580,23 @@ function erPendingCount() { return erAll().filter(r => r.status === 'pending').l
 
 // A course accepted by the IQA is locked, unless an edit request has been approved since
 // Where a course is in its sign-off: open → completed (locked) → submitted (locked) → returned by IQA (open) / accepted (locked)
-function lpmPackState(c) {
+function lpmPackState(c, ignoreReviewer) {
   if (!c || c.isExample) return 'open';
-  if (typeof cloudActingReviewer === 'function' && cloudActingReviewer()) return 'reviewer';
-  if (lpmLocked(c)) return 'accepted';
-  if (c.submission) {
-    const subAt = c.submission.at || '';
-    const r = iqaFor(c.id), req = erLatest(c.id);
-    const times = [];
-    if (r && r.outcome !== 'Accepted') { const t = r.updated_at || r.created_at || r.review_date || ''; if (t && t >= subAt.slice(0, t.length)) times.push(t); }
-    if (req && req.status === 'approved' && (req.decided_at || '') > subAt) times.push(req.decided_at);
-    if (!times.length) return 'submitted';
-    const unlockAt = times.sort().pop();
-    return (c.completed && c.completed.at > unlockAt && !c.editing) ? 'completed' : 'open';
+  if (!ignoreReviewer && typeof cloudActingReviewer === 'function' && cloudActingReviewer()) return 'reviewer';
+  if (lpmLocked(c) || (ignoreReviewer && (iqaFor(c.id) || {}).outcome === 'Accepted' && !lpmReopenedSince(c, (iqaFor(c.id) || {}).updated_at || ''))) return 'accepted';
+  const subAt = (c.submission && c.submission.at) || '', compAt = (c.completed && c.completed.at) || '';
+  if (!subAt && !compAt) return 'open';
+  if (subAt && subAt >= compAt) {
+    const r = iqaFor(c.id);
+    const returned = r && r.outcome !== 'Accepted' && (r.updated_at || '') > subAt;
+    if (returned || lpmReopenedSince(c, subAt)) return 'open';
+    return 'submitted';
   }
-  return (c.completed && !c.editing) ? 'completed' : 'open';
+  return lpmReopenedSince(c, compAt) ? 'open' : 'completed';
+}
+// An admin or IQA reopened the course (an approved edit request) after the given time
+function lpmReopenedSince(c, t) {
+  return erFor(c.id).some(r => r.status === 'approved' && (r.decided_at || '') > (t || ''));
 }
 function lpmLockReason(c) { const st = lpmPackState(c); return ['accepted', 'submitted', 'completed'].includes(st) ? st : ''; }
 function lpmLocked(c) {
@@ -13559,9 +13615,27 @@ async function erPull() {
     erSave(rows);
   } catch (e) {}
 }
+async function admReopen(courseId) {
+  const c = lpmLoadCourses().find(x => x.id === courseId) || {};
+  if (!confirm('Reopen "' + (c.courseName || 'this course') + '" for the instructor?\n\nThey will be able to edit it again, then complete and submit it.')) return;
+  const now = new Date().toISOString(), me = (cloud.profile && cloud.profile.full_name) || '';
+  try {
+    await cloudRest('edit_requests', 'POST', [{ course_id: courseId, requester: cloudMe(), requester_name: me, reason: 'Reopened by ' + (me || 'an admin'),
+      status: 'approved', decided_by: me, decided_at: now, note: '', created_at: now }], 'return=minimal');
+    // close any pending request from the instructor too
+    for (const r of erFor(courseId).filter(r => r.status === 'pending' && !String(r.id).startsWith('local')))
+      { try { await cloudRest('edit_requests?id=eq.' + encodeURIComponent(r.id), 'PATCH', { status:'approved', decided_by: me, decided_at: now }, 'return=minimal'); } catch (e) {} }
+    await erPull();
+    if (document.getElementById('view-lpm').classList.contains('active') && lpmCourse && lpmCourse.id === courseId) lpmRenderPack();
+    if (document.getElementById('view-admcourses') && document.getElementById('view-admcourses').classList.contains('active')) admRenderCourses();
+    alert('Reopened. The instructor can edit the course again.');
+  } catch (e) {
+    alert(/edit_requests|PGRST20|42P01/.test(String(e.message)) ? 'Run supabase_iqa.sql in Supabase first, then try again.' : 'Could not reopen: ' + (e.message || e));
+  }
+}
 async function erRequest(courseId) {
   const c = lpmLoadCourses().find(x => x.id === courseId) || {};
-  const reason = prompt('Ask the IQA to unlock this course for editing.\n\nWhat needs changing?');
+  const reason = prompt('Ask an admin to reopen this course for editing.\n\nWhat needs changing?');
   if (reason === null) return;
   if (!reason.trim()) { alert('Add a short reason so the IQA knows what to look at.'); return; }
   try {
@@ -14008,6 +14082,7 @@ function kcRenderHandouts(r) {
       <div class="jb-form">
         <label>Title<input id="kcTitle" placeholder="e.g. Immediate Emergency Care Action Cards"></label>
         <label>Short description (optional)<input id="kcSub" placeholder="e.g. Quick-reference cards to keep"></label>
+        <label>Show to learners on<select id="kcMod"><option value="">Instructors only</option><option value="all">Every learner module</option>${LMS_MODULES.map(m => `<option value="${m.id}">${m.title}</option>`).join('')}</select></label>
         <div class="wide jb-actions" style="margin-top:0;"><button class="jb-btn pri" ${kcH.busy ? 'disabled' : ''} onclick="document.getElementById('kcFile').click()">${kcH.busy ? 'Uploading…' : 'Choose PDF and upload'}</button>
         <input type="file" id="kcFile" accept="application/pdf,.pdf" style="display:none" onchange="kcUpload(this)"><span id="kcMsg" class="jb-msg" style="color:#C74444;">${lpmEsc(kcH.err)}</span></div>
       </div></div>` : ''}
@@ -14015,7 +14090,7 @@ function kcRenderHandouts(r) {
     ${kcH.list === null ? '<p class="jb-empty">Loading…</p>' : !list.length ? `<p class="jb-empty">No hand-outs yet.${admin ? ' Add one above.' : ' Your centre admin can add them.'}</p>` : ''}
     <div class="kc-list">${list.map((h, i) => `<div class="kc-doc">
         <span class="kc-doc-ic">${kcIcon(KC_IC.doc, 26)}</span>
-        <div class="kc-doc-t"><b>${qzEsc(h.title)}</b><span>${qzEsc(h.sub || 'Course document')} · PDF</span></div>
+        <div class="kc-doc-t"><b>${qzEsc(h.title)}</b><span>${qzEsc(h.sub || 'Course document')} · PDF${h.module ? ' · Learners: ' + qzEsc(h.module === 'all' ? 'every module' : ((LMS_MODULES.find(m => m.id === h.module) || {}).title || h.module)) : ''}</span></div>
         <div class="kc-doc-b"><button class="qz-btn qz-primary" onclick="kcShowQr(${i})">Show QR code</button><a class="qz-btn" href="${qzEsc(kcPubUrl(h.path))}" target="_blank" rel="noopener" style="text-decoration:none;">Open</a>
           ${admin ? `<button class="qz-btn" style="color:#A33030;" onclick="kcRemove(${i})">Remove</button>` : ''}</div>
       </div>`).join('')}</div>`;
@@ -14032,7 +14107,7 @@ async function kcUpload(input) {
     const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60) || 'handout';
     const path = slug + '-' + Date.now().toString(36) + '.pdf';
     await cloudFetch('/storage/v1/object/handouts/' + path, { method:'POST', body: f, json:false, headers:{ 'Content-Type':'application/pdf', 'x-upsert':'true' } });
-    kcH.list.push({ title, sub, path, added: isoLocal() });
+    kcH.list.push({ title, sub, path, module: (document.getElementById('kcMod') || {}).value || '', added: isoLocal() });
     await kcSaveList();
   } catch (e) {
     const raw = String(e.message || e);
@@ -14320,7 +14395,7 @@ async function qzEnd(skipAsk) {
 // ===== Studio dashboard: left icon rail and "Today" panel =====
 const S3_LOGO = "data:image/jpeg;base64,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";
 const ST_HOME_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9h-6v-6H9v6H3z"/></svg>';
-function stViewOf(onclick) { const m = /showView\('([a-z]+)'\)/.exec(onclick || ''); return m ? m[1] : (/jbOpenMine/.test(onclick) ? 'myjobs' : /jbOpenAdmin/.test(onclick) ? 'jobs' : /pfOpen/.test(onclick) ? 'profile' : /mpOpen/.test(onclick) ? 'mypay' : ''); }
+function stViewOf(onclick) { const m = /showView\('([a-z]+)'\)/.exec(onclick || ''); return m ? m[1] : (/jbOpenMine/.test(onclick) ? 'myjobs' : /jbOpenAdmin/.test(onclick) ? 'jobs' : /pfOpen/.test(onclick) ? 'profile' : /lmsOpen/.test(onclick) ? 'lms' : /mpOpen/.test(onclick) ? 'mypay' : ''); }
 function stBuildRail() {
   if (document.getElementById('stRail')) return;
   const nav = document.createElement('nav'); nav.id = 'stRail'; nav.className = 'st-rail'; nav.setAttribute('aria-label', 'Main');
@@ -14345,6 +14420,9 @@ function stBuildRail() {
 function stRoleApply() {
   const role = (typeof cloud !== 'undefined' && cloud.session && cloud.profile) ? cloud.profile.role : '';
   document.body.classList.toggle('role-iqa', role === 'iqa');
+  const wasLearner = document.body.classList.contains('role-learner');
+  document.body.classList.toggle('role-learner', role === 'learner');
+  if (role === 'learner' && !wasLearner) { try { lmsOpen(); } catch (e) {} }
 }
 function stSyncRail() {
   try { stRoleApply(); } catch (e) {}
@@ -14411,14 +14489,15 @@ async function pfOpen() {
 }
 function pfRender() {
   const root = document.getElementById('pfRoot'); if (!root) return;
-  let html = `<button class="rn-nav-btn rn-no-print" onclick="showView('hub')">← Home</button>
+  const learnerMode = (cloud.profile || {}).role === 'learner';
+  let html = `<button class="rn-nav-btn rn-no-print" onclick="${learnerMode ? 'lmsOpen()' : "showView('hub')"}">← ${learnerMode ? 'My Learning' : 'Home'}</button>
     <div class="hub-eyebrow" style="margin-top:14px;">My Account</div>
     <div class="hub-h" style="margin-bottom:4px;">My Profile</div>`;
   if (!jbSignedIn()) { root.innerHTML = html + '<p class="jb-empty">Sign in to see your profile.</p>'; return; }
   const P = cloud.profile || {}, email = (cloud.session.user && cloud.session.user.email) || '';
   const name = P.full_name || '';
   const initials = (name || email).split(/[\s@.]+/).filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join('');
-  const role = ({ instructor:'Instructor', iqa:'IQA', admin:'Admin' })[P.role] || 'Instructor';
+  const role = ({ instructor:'Instructor', iqa:'IQA', admin:'Admin', learner:'Learner' })[P.role] || 'Instructor';
   let courses = 0, hours = 0, jobs = 0;
   try { courses = lpmLoadCourses().filter(c => !c.isExample).length; } catch (e) {}
   try { hours = Math.round((cpdEntries() || []).reduce((t, e) => t + (Number(e.hours) || 0), 0)); } catch (e) {}
@@ -14427,7 +14506,7 @@ function pfRender() {
   const loading = pf.extra === null;
   html += `<div class="pf-card"><div class="pf-av">${lpmEsc(initials || '?')}</div>
       <div><div class="pf-name">${lpmEsc(name || 'Your name')}</div><div class="pf-mail">${lpmEsc(email)}</div><span class="pf-role">${role}</span></div>
-      <div class="pf-stats"><div class="pf-stat"><b>${courses}</b><span>Courses</span></div><div class="pf-stat"><b>${hours}</b><span>CPD hours</span></div><div class="pf-stat"><b>${jobs}</b><span>Jobs this year</span></div></div></div>
+      <div class="pf-stats" ${learnerMode ? 'style="display:none"' : ''}><div class="pf-stat"><b>${courses}</b><span>Courses</span></div><div class="pf-stat"><b>${hours}</b><span>CPD hours</span></div><div class="pf-stat"><b>${jobs}</b><span>Jobs this year</span></div></div></div>
 
     <div class="pf-sec"><h3>My details</h3><p class="sc-p" style="margin:0;">Your name appears on course paperwork, timesheets and the home screen.</p>
       <div class="jb-form">
@@ -14435,16 +14514,16 @@ function pfRender() {
         <label>Mobile<input id="pfPhone" value="${v('phone')}" inputmode="tel" autocomplete="tel"></label>
       </div></div>
 
-    <div class="pf-sec"><h3>My CV</h3><p class="sc-p" style="margin:0;">Upload your latest CV (PDF or Word, up to 10 MB). Only you and your centre admin can see it.</p>
+    ${P.role === 'learner' ? '' : `<div class="pf-sec"><h3>My CV</h3><p class="sc-p" style="margin:0;">Upload your latest CV (PDF or Word, up to 10 MB). Only you and your centre admin can see it.</p>
       <div class="pf-cv">${x.cvPath
         ? `<div class="pf-cv-file"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></svg>
              <div><b>${v('cvName')}</b><span>Uploaded ${x.cvAt ? fmtD(x.cvAt) : ''}</span></div></div>
            <div class="jb-actions" style="margin-top:0;"><button class="jb-btn pri" onclick="pfCvView()">View</button><button class="jb-btn" onclick="document.getElementById('pfCvIn').click()">Replace</button><button class="jb-btn no" onclick="pfCvRemove()">Remove</button></div>`
         : `<button class="jb-btn pri" ${loading ? 'disabled' : ''} onclick="document.getElementById('pfCvIn').click()">Upload CV</button>`}
         <input type="file" id="pfCvIn" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style="display:none" onchange="pfCvUpload(this)">
-        <span id="pfCvMsg" class="jb-msg"></span></div></div>
+        <span id="pfCvMsg" class="jb-msg"></span></div></div>`}
 
-    ${P.role === 'iqa' ? '' : `<div class="pf-sec"><h3>Payment details</h3><p class="sc-p" style="margin:0;">Used on your timesheets and invoices. Only you and your centre admin can see these. <span style="color:#C74444;">*</span> = required</p>
+    ${P.role === 'iqa' || P.role === 'learner' ? '' : `<div class="pf-sec"><h3>Payment details</h3><p class="sc-p" style="margin:0;">Used on your timesheets and invoices. Only you and your centre admin can see these. <span style="color:#C74444;">*</span> = required</p>
       <div class="jb-form">
         <label>Account name <span class="pf-req">*</span><input id="pfAccName" value="${v('accountName')}" autocomplete="cc-name"></label>
         <label>Bank <span class="pf-req">*</span><input id="pfBank" value="${v('bank')}"></label>
@@ -14577,7 +14656,7 @@ async function auLoad() {
 }
 function auRender() {
   const root = document.getElementById('admInstrRoot'); if (!root) return;
-  const roleName = { instructor:'Instructor', iqa:'IQA', admin:'Admin' };
+  const roleName = { instructor:'Instructor', iqa:'IQA', admin:'Admin', learner:'Learner' };
   const when = d => d ? fmtD(d) : '';
   let html = `<button class="rn-nav-btn rn-no-print" onclick="showView('hub')">← Home</button>
     <div class="hub-eyebrow" style="margin-top:14px;">Management Panel</div>
@@ -14588,7 +14667,7 @@ function auRender() {
     <div class="jb-form">
       <label>Full name<input id="auName" autocomplete="off"></label>
       <label>Email<input id="auEmail" type="email" autocomplete="off" autocapitalize="off"></label>
-      <label>Role<select id="auRole"><option value="instructor">Instructor</option><option value="iqa">IQA</option><option value="admin">Admin</option></select></label>
+      <label>Role<select id="auRole"><option value="instructor">Instructor</option><option value="iqa">IQA</option><option value="admin">Admin</option><option value="learner">Learner</option></select></label>
       <div class="wide jb-actions" style="margin-top:0;"><button class="jb-btn pri" onclick="auInvite()" ${au.busy ? 'disabled' : ''}>${au.busy ? 'Adding…' : 'Add and create invite'}</button><span id="auMsg" class="jb-msg"></span></div>
     </div>`;
   if (au.link) {
@@ -14616,7 +14695,7 @@ function auRender() {
       return `<div class="au-row">
         <div><b>${lpmEsc(u.full_name || '(no name)')}</b>${u.me ? ' <span class="au-when">(you)</span>' : ''}<div class="au-mail">${lpmEsc(u.email || '')}</div></div>
         <select aria-label="Role for ${lpmEsc(u.full_name || u.email)}" ${u.me || !u.active ? 'disabled' : ''} onchange="auRole('${u.id}', this.value, this)">
-          ${['instructor', 'iqa', 'admin'].map(r => `<option value="${r}" ${u.role === r ? 'selected' : ''}>${roleName[r]}</option>`).join('')}</select>
+          ${['instructor', 'iqa', 'admin', 'learner'].map(r => `<option value="${r}" ${u.role === r ? 'selected' : ''}>${roleName[r]}</option>`).join('')}</select>
         <div><span class="au-st ${st[0]}">${st[1]}</span><div class="au-when">${sub}</div></div>
         <div class="jb-actions" style="margin-top:0;justify-content:flex-end;">
           ${u.active ? `<button class="jb-btn" onclick="auNewLink('${u.id}')">New sign-in link</button>` : ''}
@@ -14680,6 +14759,9 @@ const CT_IC = {
   steth:'<path d="M6 3v6a4 4 0 0 0 8 0V3"/><path d="M10 13v2a5 5 0 0 0 10 0v-2"/><circle cx="20" cy="11" r="2"/>',
   amb:'<path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/><path d="M8.5 9v4M6.5 11h4"/>',
   shield:'<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/>',
+  people:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14.2a5 5 0 0 1 6 4.8"/>',
+  box:'<path d="M3 8l9-4 9 4v9l-9 4-9-4z"/><path d="M3 8l9 4 9-4M12 12v9"/>',
+  chat:'<path d="M4 5h16v11H9l-5 4z"/><path d="M8 10h8M8 13h5"/>',
   hat:'<path d="M4 16h16M6 16a6 6 0 0 1 12 0M12 10V6M9.5 6h5"/><path d="M3 19h18"/>',
 };
 const CT_GROUPS = [
@@ -14904,6 +14986,146 @@ async function mpAdminInvoice(owner, m) {
          ${r.file_path ? `<div class="jb-actions"><button class="jb-btn pri" onclick="mpOpenFile('${r.file_path}')">View invoice</button></div>` : ''}`);
   } catch (e) { box.innerHTML = '<div class="jb-meta">Invoices aren\u2019t set up yet — run supabase_pay.sql in Supabase.</div>'; }
 }
+</script>
+<script>
+// ===================== LEARNER LMS =====================
+const LMS_MODULES = [
+  { id:'frec3', group:'course', title:'FREC 3', sub:'First Response Emergency Care Level 3', c:'#E36A12', ic:'amb', quiz:['faw'], match:n => /^FREC 3/i.test(n) },
+  { id:'frec4', group:'course', title:'FREC 4', sub:'First Response Emergency Care Level 4', c:'#B8321F', ic:'amb', quiz:['faw'], match:n => /^FREC 4/i.test(n) },
+  { id:'aap', group:'course', title:'Associate Ambulance Practitioner', sub:'AAP pathway', c:'#2F5BD8', ic:'amb', quiz:[], match:n => /ASSOCIATE AMBULANCE|^AAP/i.test(n) },
+  { id:'firstaid', group:'course', title:'First Aid', sub:'Workplace and life-support courses', c:'#D93A33', ic:'heart', quiz:['faw'], match:n => /FIRST AID|^BLS|^ILS|^DENTAL|^GP/i.test(n) },
+  { id:'gases', group:'course', title:'Medical Gases', sub:'Oxygen therapy', c:'#0E8C8C', ic:'shield', quiz:['gas'], match:n => /GAS|OXYGEN/i.test(n) },
+  { id:'induction', group:'org', title:'Induction', sub:'Welcome to Sector 3 Group', c:'#1E8A55', ic:'people', quiz:[] },
+  { id:'safeguarding', group:'org', title:'Safeguarding', sub:'Protecting children and adults at risk', c:'#7A4FC0', ic:'shield', quiz:[] },
+  { id:'manual', group:'org', title:'Manual Handling', sub:'Safe moving and handling', c:'#136240', ic:'box', quiz:[] },
+  { id:'conflict', group:'org', title:'Conflict Resolution', sub:'De-escalation and personal safety', c:'#A34A0A', ic:'chat', quiz:[] },
+];
+let lms = { mod:'', tab:'', progress:null, preview:false, play:null };
+function lmsIsLearner() { return typeof cloud !== 'undefined' && cloud.session && cloud.profile && cloud.profile.role === 'learner'; }
+function lmsOpen(preview) {
+  lms.preview = !!preview && !lmsIsLearner(); lms.mod = ''; lms.tab = ''; lms.play = null;
+  showView('lms'); lmsRender(); window.scrollTo(0, 0);
+  if (lmsIsLearner()) lmsLoadProgress();
+  if (kcH.list === null) kcLoadHandouts().then(lmsRender);
+}
+async function lmsLoadProgress() {
+  try { const r = await cloudRest('rpc/learner_progress', 'POST', {}); lms.progress = (r || []).map(x => Object.assign({ id: x.course_id }, x.info)); }
+  catch (e) { lms.progress = []; }
+  lmsRender();
+}
+function lmsEsc(x) { return String(x == null ? '' : x).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function lmsFirst() { const n = (cloud.profile && cloud.profile.full_name) || ''; return n.split(' ')[0] || 'there'; }
+function lmsTop(sub) {
+  return `<div class="lms-top"><span class="lms-k">${sub}</span><div class="lms-top-b">
+      ${lms.preview ? `<button class="lms-pill" onclick="showView('hub')">← Back to staff app</button>` : `<button class="lms-pill" onclick="pfOpen()">My Profile</button><button class="lms-pill" onclick="cloudSignOut()">Sign out</button>`}</div></div>`;
+}
+function lmsRender() {
+  const root = document.getElementById('lmsRoot'); if (!root) return;
+  if (lms.play) return lmsRenderPlay(root);
+  const m = LMS_MODULES.find(x => x.id === lms.mod);
+  if (m) return lmsRenderModule(root, m);
+  let n = 0;
+  const tile = t => `<button class="ct-tile" style="--c:${t.c};animation-delay:${(n++ * 0.05).toFixed(2)}s" onclick="lms.mod='${t.id}';lms.tab='';lmsRender();window.scrollTo(0,0)">${ctIcon(t.ic)}<div><b style="font-size:${t.title.length > 16 ? '1.35rem' : '1.9rem'}">${t.title}</b><span>${t.sub}</span></div></button>`;
+  root.innerHTML = `<div class="lms">${lmsTop(lms.preview ? 'Learner view · preview' : 'My Learning')}
+    <div class="lms-h">${lms.preview ? 'Learner dashboard' : 'Hi ' + lmsEsc(lmsFirst()) + ','}<br>what are you learning today?</div>
+    ${lms.preview ? '<div class="lms-demo">This is a preview of the learner app. Learners only ever see this screen and their profile.</div>' : ''}
+    <div class="lms-sec"><img src="${typeof S3_LOGO !== 'undefined' ? S3_LOGO : ''}" alt="">Courses</div>
+    <div class="ct-grid">${LMS_MODULES.filter(x => x.group === 'course').map(tile).join('')}</div>
+    <div class="lms-sec">Organisation</div>
+    <div class="ct-grid">${LMS_MODULES.filter(x => x.group === 'org').map(tile).join('')}</div></div>`;
+}
+function lmsRenderModule(root, m) {
+  const back = `<button class="lms-pill" style="margin-top:14px;" onclick="${lms.tab ? "lms.tab='';lmsRender()" : "lms.mod='';lmsRender()"}">← ${lms.tab ? m.title : 'All modules'}</button>`;
+  const head = `<div class="lms">${lmsTop(m.group === 'course' ? 'Course' : 'Organisation')}${back}<div class="lms-h">${m.title}</div><p class="lms-p">${m.sub}</p>`;
+  if (!lms.tab) {
+    const cards = [
+      ['resources', '#E3E8FA', KC_IC.doc, 'Resource Centre', 'Hand-outs and documents to download'],
+      ['quiz', '#FDE4EE', '<path d="M2 8l10-4 10 4-10 4z"/><path d="M6 10v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/>', 'Knowledge Centre', 'Test yourself with interactive quizzes'],
+      ['progress', '#DDEFE6', '<path d="M4 19V5M4 19h16"/><path d="M8 15l3-4 3 2 5-6"/>', m.group === 'course' ? 'Course progression' : 'My progress', m.group === 'course' ? 'Updates as your instructor moves through your course' : 'Your progress through this module'],
+    ];
+    root.innerHTML = head + `<div class="lms-cards">${cards.map(([k, soft, ic, t, sub], i) => `<button class="lms-card" style="--soft:${soft};animation-delay:${i * 0.06}s" onclick="lms.tab='${k}';lmsRender();window.scrollTo(0,0)"><span class="lms-ic">${kcIcon(ic, 28)}</span><div><b>${t}</b><span class="s">${sub}</span></div></button>`).join('')}</div></div>`;
+    return;
+  }
+  let body = '';
+  if (lms.tab === 'resources') {
+    const list = (kcH.list || []).filter(h => h.module === m.id || h.module === 'all');
+    body = `<div class="lms-panel"><h3>Resource Centre</h3>${kcH.list === null ? '<p class="jb-empty">Loading…</p>' : !list.length
+      ? '<p class="sc-p">No hand-outs for this module yet — your training team will add them here.</p>'
+      : `<div class="kc-list" style="margin-top:12px;">${list.map(h => `<div class="kc-doc"><span class="kc-doc-ic">${kcIcon(KC_IC.doc, 26)}</span><div class="kc-doc-t"><b>${lmsEsc(h.title)}</b><span>${lmsEsc(h.sub || 'Document')} · PDF</span></div><div class="kc-doc-b"><a class="qz-btn qz-primary" style="text-decoration:none;" href="${lmsEsc(kcPubUrl(h.path))}" target="_blank" rel="noopener">Open</a></div></div>`).join('')}</div>`}</div>`;
+  } else if (lms.tab === 'quiz') {
+    const qz = QZ_BANK.map((b, k) => [b, k]).filter(([b]) => m.quiz.includes(b.cat));
+    body = `<div class="lms-panel"><h3>Knowledge Centre</h3><p class="sc-p">Play on your own, at your own pace. You'll see the right answer and why after each question.</p>
+      ${qz.length ? `<div class="qz-grid" style="margin-top:12px;">${qz.map(([b, k]) => `<div class="qz-card"><div class="qz-card-t">${lmsEsc(b.title)}</div><div class="qz-card-s">${lmsEsc(b.sub)} · ${b.qs.length} questions</div><div class="qz-card-b"><button class="qz-btn qz-primary" onclick="lmsPlay(${k})">Start quiz</button></div></div>`).join('')}</div>`
+        : `<div class="kc-soon-card" style="margin-top:12px;"><span class="kc-dots"><i></i><i></i><i></i></span><b>Coming soon</b><span>Quizzes for ${m.title} are being written.</span></div>`}</div>`;
+  } else {
+    body = lmsProgressHtml(m);
+  }
+  root.innerHTML = head + body + '</div>';
+}
+function lmsSteps(p) {
+  const today = isoLocal();
+  const started = p.startDate && p.startDate <= today, finished = (p.endDate || p.startDate) && (p.endDate || p.startDate) < today;
+  const acc = p.outcome === 'Accepted' || p.outcome === 'Accepted with actions';
+  return [
+    ['Enrolled', 'You\u2019re on the course list', true],
+    ['Signed in', 'Register signed by QR', !!p.registered || !!finished],
+    ['Course in progress', p.startDate ? fmtD(p.startDate) + (p.endDate && p.endDate !== p.startDate ? ' – ' + fmtD(p.endDate) : '') : '', !!started],
+    ['Training days complete', 'All course days delivered', !!finished],
+    ['Feedback given', 'Thanks for telling us how it went', !!p.feedback],
+    ['Course completed by your instructor', 'Records and assessments signed off', !!(p.completed || p.submitted)],
+    ['Quality checked', 'Reviewed by our internal quality assurer', !!p.submitted && !!p.outcome],
+    ['Certification', acc ? 'Approved — your certificate is on its way' : 'Sent to the awarding body once approved', acc],
+  ];
+}
+function lmsProgressHtml(m) {
+  if (m.group === 'org') {
+    return `<div class="lms-panel"><h3>My progress</h3><p class="sc-p">Work through the ${m.title} learning and quiz to finish this module. Content is being added.</p><div class="lms-bar"><div style="width:0%"></div></div><span class="sc-p">0% complete</span></div>`;
+  }
+  let courses = (lms.progress || []).filter(p => m.match(p.courseName || '')), demo = false;
+  if (!courses.length && lms.preview) {
+    demo = true;
+    courses = [{ courseName: m.title + ' (example)', startDate: jbAddDays(isoLocal(), -1), endDate: jbAddDays(isoLocal(), 3), location:'Beckton', instructor:'Your instructor', registered:true, feedback:false }];
+  }
+  if (!courses.length) return `<div class="lms-panel"><h3>Course progression</h3><p class="sc-p">${lms.progress === null ? 'Loading…' : 'Your ' + m.title + ' course will appear here once your instructor adds you to it. Ask them to make sure your name on the course matches your login.'}</p></div>`;
+  return courses.map(p => {
+    const steps = lmsSteps(p), done = steps.filter(s => s[2]).length, pct = Math.round(done / steps.length * 100);
+    const nowIdx = steps.findIndex(s => !s[2]);
+    return `<div class="lms-panel"><h3>${lmsEsc(p.courseName)}</h3>
+      <div class="sc-p" style="margin:0;">${p.location ? lmsEsc(p.location) + ' · ' : ''}${p.instructor ? 'Instructor ' + lmsEsc(p.instructor) : ''}</div>
+      ${demo ? '<div class="lms-demo" style="margin-top:10px;">Example progress — a learner sees their real course here, updating as the instructor works through the Course Matrix.</div>' : ''}
+      <div class="lms-bar"><div style="width:${pct}%"></div></div><span class="sc-p">${pct}% complete</span>
+      <ol class="lms-steps">${steps.map((s, i) => `<li class="${s[2] ? 'done' : i === nowIdx ? 'now' : ''}"><span class="lms-dot">${s[2] ? '✓' : i + 1}</span><div><b>${s[0]}</b><span>${lmsEsc(s[1])}</span></div></li>`).join('')}</ol></div>`;
+  }).join('');
+}
+function lmsPlay(k) {
+  const b = QZ_BANK[k];
+  lms.play = { k, qs: qzShuffle(b.qs), i: 0, pick: [], checked: false, score: 0, title: b.title };
+  lmsRender(); window.scrollTo(0, 0);
+}
+function lmsRenderPlay(root) {
+  const p = lms.play, m = LMS_MODULES.find(x => x.id === lms.mod) || { title:'' };
+  const head = `<div class="lms">${lmsTop('Knowledge Centre · ' + lmsEsc(m.title))}<button class="lms-pill" style="margin-top:14px;" onclick="lms.play=null;lmsRender()">← Quizzes</button><div class="lms-h" style="font-size:2rem;">${lmsEsc(p.title)}</div>`;
+  if (p.i >= p.qs.length) {
+    const pct = Math.round(p.score / p.qs.length * 100);
+    root.innerHTML = head + `<div class="lms-q lms-score"><span class="qn">Your score</span><b>${p.score} / ${p.qs.length}</b><p class="sc-p">${pct >= 80 ? 'Excellent — well done!' : pct >= 60 ? 'Good effort. Have another go to beat it.' : 'Keep practising — try it again.'}</p>
+      <div class="jb-actions" style="justify-content:center;"><button class="jb-btn pri" onclick="lmsPlay(${p.k})">Try again</button><button class="jb-btn" onclick="lms.play=null;lmsRender()">Back to quizzes</button></div></div></div>`;
+    if (!p.saved && lmsIsLearner()) { p.saved = true; cloudRest('lms_quiz_results', 'POST', [{ owner: cloudMe(), module: lms.mod, quiz_id: QZ_BANK[p.k].id, score: p.score, total: p.qs.length }], 'return=minimal').catch(() => {}); }
+    return;
+  }
+  const q = p.qs[p.i], multi = q.a.length > 1;
+  root.innerHTML = head + `<div class="lms-q"><div class="qn">Question ${p.i + 1} of ${p.qs.length} · Score ${p.score}</div><div class="lms-bar"><div style="width:${p.i / p.qs.length * 100}%"></div></div>
+    <div class="qt">${lmsEsc(q.q)}</div>${multi ? '<div class="qz-hint">Pick two answers</div>' : ''}
+    <div class="lms-opts">${q.o.map((o, i) => { const cls = p.checked ? (q.a.includes(i) ? 'ok' : p.pick.includes(i) ? 'bad' : '') : (p.pick.includes(i) ? 'sel' : '');
+      return `<button class="lms-opt ${cls}" ${p.checked ? 'disabled' : ''} onclick="lmsPick(${i})">${lmsEsc(o)}${p.checked && q.a.includes(i) ? ' ✓' : ''}</button>`; }).join('')}</div>
+    ${p.checked ? `<div class="lms-why"><b>${qzSame(p.pick, q.a) ? 'Correct!' : 'Not quite.'}</b> ${lmsEsc(q.why)}</div><div class="jb-actions"><button class="jb-btn pri" onclick="lms.play.i++;lms.play.pick=[];lms.play.checked=false;lmsRender()">${p.i + 1 >= p.qs.length ? 'See my score' : 'Next question'}</button></div>`
+      : multi ? `<div class="jb-actions"><button class="jb-btn pri" ${p.pick.length === 2 ? '' : 'disabled'} onclick="lmsCheck()">Check answers</button></div>` : ''}</div></div>`;
+}
+function lmsPick(i) {
+  const p = lms.play, q = p.qs[p.i]; if (p.checked) return;
+  if (q.a.length > 1) { p.pick = p.pick.includes(i) ? p.pick.filter(x => x !== i) : p.pick.concat(i).slice(-2); lmsRender(); }
+  else { p.pick = [i]; lmsCheck(); }
+}
+function lmsCheck() { const p = lms.play, q = p.qs[p.i]; p.checked = true; if (qzSame(p.pick, q.a)) p.score++; lmsRender(); }
 </script>
 </body>
 </html>
