@@ -1590,6 +1590,18 @@ function fmtD(v) {
   .wb-tip { font-size:0.85rem; color:#5E6577; background:#F6F3EC; border-radius:12px; padding:10px 12px; margin:0; }
   .wb-wc { font-size:0.8rem; color:#5E6577; margin-top:6px; } .wb-wc.over { color:#C74444; font-weight:700; } .wb-wc.under { color:#8A5200; }
   @media (max-width:820px) { .wb-hy, .wb-hy.wide { grid-template-columns:1fr; } .wb-side { position:static; } }
+  /* Equipment */
+  .am-tools { display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; margin-top:12px; }
+  .am-chip { display:inline-block; font-size:0.7rem; font-weight:700; border-radius:999px; padding:3px 9px; white-space:nowrap; }
+  .am-chip.ok { background:#DDF1E8; color:#0F6E56; } .am-chip.warn { background:#FFF1D6; color:#8A5200; } .am-chip.bad { background:#FDE3E1; color:#A33030; } .am-chip.off { background:#EEF1F5; color:#5E6577; }
+  .am-dot { width:10px; height:10px; border-radius:50%; display:inline-block; } .am-dot.ok { background:#1F8A5B; } .am-dot.warn { background:#E3A21A; } .am-dot.bad { background:#D93A33; } .am-dot.off { background:#9AA3AE; }
+  .lma-click > button.bad b { color:#A33030; }
+  .am-events > div { padding:10px 0; border-bottom:1px solid #EEF1F5; font-size:0.9rem; color:#16203D; }
+  .am-ev { display:inline-block; font-size:0.7rem; font-weight:800; background:#E3E9FB; color:#2446B8; border-radius:999px; padding:2px 8px; margin-right:8px; } .am-ev.mv { background:#F0EAFB; color:#5B3FA0; }
+  .am-lrow { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid #F2F4F8; color:#16203D; }
+  .am-add { display:flex; gap:8px; margin:10px 0 4px; } .am-add input { flex:1; font:inherit; border:1px solid #D8DEE8; border-radius:10px; padding:10px 12px; min-height:44px; }
+  .tq-f select { font:inherit; font-weight:400; font-size:0.95rem; color:#16203D; border:1px solid #D8DEE8; border-radius:10px; padding:10px 12px; background:#fff; min-height:44px; width:100%; }
+  #amLocBox select, #amLocBox input { width:100%; box-sizing:border-box; font:inherit; font-weight:400; font-size:0.95rem; border:1px solid #D8DEE8; border-radius:10px; padding:10px 12px; min-height:44px; background:#fff; }
   /* LMS Overview */
   .lma-top { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin:4px 0 4px; }
   .lma-demo-t { display:flex; gap:8px; align-items:center; font-size:0.88rem; color:#3A4760; background:#FFF1D6; border-radius:999px; padding:8px 14px; }
@@ -1753,6 +1765,7 @@ function fmtD(v) {
   .mp-reqlist { border:1px solid #E7E3DA; border-radius:12px; margin:0 0 12px; max-height:220px; overflow-y:auto; }
   .mp-reqlist div { display:flex; justify-content:space-between; gap:10px; padding:8px 12px; border-bottom:1px solid #F2F4F8; font-size:0.88rem; }
   .mp-reqlist .tot { background:#F6F3EC; border-bottom:0; }
+  .mp-back { background:#FFF4F2; border:1px solid #F3C9C3; border-radius:14px; padding:12px 14px; margin-bottom:12px; font-size:0.9rem; color:#16203D; }
   .mp-req { border:1px solid #2446B8; color:#2446B8; background:#fff; border-radius:999px; padding:4px 10px; font:inherit; font-size:0.74rem; font-weight:700; cursor:pointer; margin-left:4px; }
   .jb-chk { flex-direction:row !important; align-items:center; gap:10px; text-transform:none !important; letter-spacing:0 !important; font-size:0.88rem !important; }
   .jb-chk input { width:20px; height:20px; }
@@ -1869,6 +1882,11 @@ window.addEventListener('load', function () {
     <button class="hub-tile" id="hubJobsTile" style="--accent:#B06A00;--soft:#FDF3E3;display:none;" onclick="jbOpenAdmin()">
       <span class="hub-ic"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/><path d="M8 14h3M8 17.5h6"/></svg></span>
       <span class="hub-text"><span class="hub-title">Job Scheduling</span><span class="hub-sub" id="hubJobsSub">Create jobs, assign instructors, timesheets and payments</span></span>
+      <span class="hub-chev">&rsaquo;</span>
+    </button>
+    <button class="hub-tile" style="--accent:#0E8C8C;--soft:#DDF1F0;" onclick="amOpen()">
+      <span class="hub-ic"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l9-4 9 4v9l-9 4-9-4z"/><path d="M3 8l9 4 9-4M12 12v9"/></svg></span>
+      <span class="hub-text"><span class="hub-title">Equipment</span><span class="hub-sub">Training kit, locations and service records</span></span>
       <span class="hub-chev">&rsaquo;</span>
     </button>
     <button class="hub-tile" style="--accent:#2446B8;--soft:#E3E8FA;" onclick="lmaOpen()">
@@ -2283,6 +2301,9 @@ window.addEventListener('load', function () {
 </div>
 <div class="app-view" id="view-jobs">
   <div class="rn-wrap adm-wrap" id="jbAdminRoot"></div>
+</div>
+<div class="app-view" id="view-assets">
+  <div class="rn-wrap adm-wrap lma-wrap" id="amRoot"></div>
 </div>
 <div class="app-view" id="view-lmsadmin">
   <div class="rn-wrap adm-wrap lma-wrap" id="lmaRoot"></div>
@@ -9195,10 +9216,30 @@ function lpmHiddenSteps(course) {
 }
 const LPM_INSTRUCTOR_NAMES = ['Miles Ward', 'Neil Fossett'];
 // The example course uses fictional trainers; they appear only on that course, never in anyone else's list
+function lpmStaffNames() {
+  let cached = []; try { cached = JSON.parse(localStorage.getItem('dtc_staff_names') || '[]'); } catch (e) {}
+  const me = (typeof cloud !== 'undefined' && cloud.profile && cloud.profile.role !== 'learner' && cloud.profile.full_name) || '';
+  return [...new Set(LPM_INSTRUCTOR_NAMES.concat(cached, me ? [me] : []).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+}
+async function lpmRefreshStaffNames() {
+  try { const r = await cloudRest('rpc/staff_names', 'POST', {}); if (Array.isArray(r)) localStorage.setItem('dtc_staff_names', JSON.stringify(r.map(x => x.full_name).filter(Boolean))); } catch (e) {}
+}
 function lpmInstructorOptions(c) {
-  const extra = [c.instructor1, c.instructor2, ...(c.extraInstructors || [])]
-    .filter(n => n && !LPM_INSTRUCTOR_NAMES.includes(n));
-  return LPM_INSTRUCTOR_NAMES.concat([...new Set(extra)]);
+  const base = lpmStaffNames();
+  const extra = [c.instructor1, c.instructor2, ...(c.extraInstructors || [])].filter(n => n && !base.includes(n));
+  return base.concat([...new Set(extra)]);
+}
+// Dropdowns with an "Other — type it" choice
+const LPM_TYPE = '__type__';
+function lpmOptType(list, cur, label) {
+  const all = cur && !list.includes(cur) ? list.concat([cur]) : list;
+  return lpmOpt(all, cur) + `<option value="${LPM_TYPE}">${label || 'Other — type it…'}</option>`;
+}
+function lpmTyped(sel, label, cur) {
+  if (sel.value !== LPM_TYPE) return sel.value;
+  const v = (prompt(label) || '').trim();
+  if (!v) { sel.value = cur || ''; return null; }
+  return v;
 }
 const LPM_COURSE_LENGTH_DAYS = { 'FREC 3 - RPL - 3 Day': 3, 'FREC 3 - 5 Day': 5, 'BLS - 1 Day': 1, 'ILS - 1 Day': 1 };
 const LPM_HOURS_PER_DAY = 8;
@@ -9226,7 +9267,7 @@ function lpmRenderDetails() {
       </div>
       <div class="lpm-field">
         <label>Training location</label>
-        <select onchange="lpmSetDetail('location', this.value);lpmRenderDetails()">${lpmOpt(LPM_LOCATIONS.concat(['Client location']), c.location)}</select>
+        <select onchange="{ const v = lpmTyped(this, 'Type the training location', ${lpmEsc(JSON.stringify(c.location || ''))}); if (v !== null) { lpmSetDetail('location', v); lpmRenderDetails(); } }">${lpmOptType(LPM_LOCATIONS.concat(['Client location']), c.location, 'Other — type a location…')}</select>
         ${c.location === 'Client location' ? `<textarea rows="3" style="margin-top:8px;" placeholder="Client name and full address, including postcode" oninput="lpmSetDetail('clientAddress', this.value)">${lpmEsc(c.clientAddress || '')}</textarea>` : ''}
       </div>
     </div>
@@ -9238,17 +9279,17 @@ function lpmRenderDetails() {
     <div class="lpm-field-row">
       <div class="lpm-field">
         <label>Instructor 1</label>
-        <select onchange="lpmSetDetail('instructor1', this.value)">${lpmOpt(lpmInstructorOptions(c), c.instructor1)}</select>
+        <select onchange="{ const v = lpmTyped(this, 'Type the trainer’s full name', ${lpmEsc(JSON.stringify(c.instructor1 || ''))}); if (v !== null) { lpmSetDetail('instructor1', v); lpmRenderDetails(); } }">${lpmOptType(lpmInstructorOptions(c), c.instructor1, 'Other — type a trainer…')}</select>
       </div>
       <div class="lpm-field">
         <label>Instructor 2</label>
-        <select onchange="lpmSetDetail('instructor2', this.value)">${lpmOpt(lpmInstructorOptions(c), c.instructor2)}</select>
+        <select onchange="{ const v = lpmTyped(this, 'Type the trainer’s full name', ${lpmEsc(JSON.stringify(c.instructor2 || ''))}); if (v !== null) { lpmSetDetail('instructor2', v); lpmRenderDetails(); } }">${lpmOptType(lpmInstructorOptions(c), c.instructor2, 'Other — type a trainer…')}</select>
       </div>
     </div>
     <div class="lpm-field">
       ${(c.extraInstructors || []).length ? '<label>Additional instructors</label>' : ''}
       ${(c.extraInstructors || []).map((n, i) => `<div class="lpm-extra-row">
-          <select onchange="lpmSetExtraInstructor(${i}, this.value)">${lpmOpt(lpmInstructorOptions(c), n)}</select>
+          <select onchange="{ const v = lpmTyped(this, 'Type the trainer’s full name', ${lpmEsc(JSON.stringify(n || ''))}); if (v !== null) { lpmSetExtraInstructor(${i}, v); lpmRenderDetails(); } }">${lpmOptType(lpmInstructorOptions(c), n, 'Other — type a trainer…')}</select>
           <button class="lpm-learner-remove" onclick="lpmRemoveExtraInstructor(${i})">Remove</button>
         </div>`).join('')}
       <button class="lpm-more-btn rn-no-print" onclick="lpmAddExtraInstructor()">+ More instructors</button>
@@ -12178,6 +12219,8 @@ function cloudShowSetPassword(type) {
   ov.innerHTML = `<div class="cl-box">
       <div class="cl-brand">${type === 'recovery' ? 'Reset your password' : 'Welcome — create your password'}</div>
       <div class="cl-sub">${lpmEsc((cloud.session.user && cloud.session.user.email) || '')}</div>
+      ${type === 'recovery' ? '' : (() => { const nm = ((cloud.profile && cloud.profile.full_name) || (cloud.session.user && cloud.session.user.user_metadata && cloud.session.user.user_metadata.full_name) || '').trim().split(/\s+/);
+        return `<label>First name</label><input id="clFirst" autocomplete="given-name" value="${lpmEsc(nm[0] || '')}"><label>Last name</label><input id="clLast" autocomplete="family-name" value="${lpmEsc(nm.slice(1).join(' '))}">`; })()}
       <label>New password (at least 10 characters)</label><input id="clNew1" type="password" autocomplete="new-password">
       <label>Confirm password</label><input id="clNew2" type="password" autocomplete="new-password" onkeydown="if(event.key==='Enter')cloudSetPassword()">
       <button class="rn-nav-btn primary" style="width:100%;margin-top:14px;" onclick="cloudSetPassword()">Save password and continue</button>
@@ -12185,14 +12228,43 @@ function cloudShowSetPassword(type) {
     </div>`;
   setTimeout(() => { const e = document.getElementById('clNew1'); if (e) e.focus(); }, 50);
 }
+async function cloudSaveMyName(first, last) {
+  try { await cloudRest('rpc/set_my_name', 'POST', { p_first: first, p_last: last }); }
+  catch (e) { try { await cloudRest('profiles?id=eq.' + cloudMe(), 'PATCH', { full_name: first + ' ' + last }, 'return=minimal'); } catch (x) {} }
+  if (cloud.profile) cloud.profile.full_name = first + ' ' + last;
+  lpmRefreshStaffNames();
+}
+// Anyone signed in without a proper first + last name is asked for it once
+function cloudNeedName() {
+  if (!cloud.session || !cloud.profile || document.getElementById('clNameOv') || document.getElementById('cloudLogin')) return;
+  if (/\S+\s+\S+/.test((cloud.profile.full_name || '').trim())) return;
+  const ov = document.createElement('div'); ov.id = 'clNameOv'; ov.className = 'kc-qr-ov';
+  const nm = (cloud.profile.full_name || '').trim().split(/\s+/);
+  ov.innerHTML = `<div class="kc-qr-box" style="text-align:left;max-width:420px;"><div class="kc-qr-t">What's your name?</div>
+    <p class="sc-p" style="margin:0 0 10px;">Your first and last name go on course paperwork and the trainer lists.</p>
+    <label class="tq-f"><span>First name</span><input id="nmFirst" autocomplete="given-name" value="${lpmEsc(nm[0] || '')}"></label>
+    <label class="tq-f" style="margin-top:8px;"><span>Last name</span><input id="nmLast" autocomplete="family-name" value="${lpmEsc(nm.slice(1).join(' '))}"></label>
+    <div class="jb-actions"><button class="jb-btn pri" onclick="cloudNameSave(this)">Save</button></div><span id="nmMsg" class="jb-msg" style="color:#C74444;"></span></div>`;
+  document.body.appendChild(ov);
+}
+async function cloudNameSave(btn) {
+  const f = document.getElementById('nmFirst').value.trim(), l = document.getElementById('nmLast').value.trim();
+  if (!f || !l) { document.getElementById('nmMsg').textContent = 'Enter your first and last name.'; return; }
+  btn.disabled = true; await cloudSaveMyName(f, l);
+  document.getElementById('clNameOv').remove(); try { cloudRenderBadge(); hubRender(); } catch (e) {}
+}
 async function cloudSetPassword() {
   const a = document.getElementById('clNew1').value, b = document.getElementById('clNew2').value;
   const m = document.getElementById('clMsg');
   if (a.length < 10) { m.textContent = 'Use at least 10 characters.'; return; }
   if (a !== b) { m.textContent = 'The two passwords don\'t match.'; return; }
+  const fe = document.getElementById('clFirst'), le = document.getElementById('clLast');
+  const first = fe ? fe.value.trim() : '', last = le ? le.value.trim() : '';
+  if (fe && (!first || !last)) { m.textContent = 'Enter your first and last name.'; return; }
   m.style.color = '#6B7A94'; m.textContent = 'Saving…';
   try {
-    await cloudFetch('/auth/v1/user', { method:'PUT', body: JSON.stringify({ password: a }) });
+    await cloudFetch('/auth/v1/user', { method:'PUT', body: JSON.stringify(fe ? { password: a, data: { full_name: first + ' ' + last } } : { password: a }) });
+    if (fe) await cloudSaveMyName(first, last);
     await cloudLoadProfile();
     document.getElementById('cloudLogin').remove();
     await cloudAfterLogin();
@@ -13270,7 +13342,7 @@ function jbBuilder() {
     <div class="wide jb-bh">${d.group ? 'Edit course' : 'New course'}</div>
     <label>Course type<select onchange="jbDraftCourse(this.value)"><option value="">Not a Course Matrix course</option>${courses.map(c => `<option ${c === d.course_name ? 'selected' : ''}>${lpmEsc(c)}</option>`).join('')}</select></label>
     <label>Title<input value="${lpmEsc(d.title)}" placeholder="e.g. FREC 3 — cohort 4" oninput="jbDraftSet('title', this.value)"></label>
-    <label>Location<select onchange="jbDraftSet('location', this.value);jbRenderAdmin()"><option value="">Choose location…</option>${locs.concat(['Client location']).map(l => `<option ${l === d.location ? 'selected' : ''}>${lpmEsc(l)}</option>`).join('')}</select></label>
+    <label>Location<select onchange="{ const v = lpmTyped(this, 'Type the location', jb.draft.location); if (v !== null) { jbDraftSet('location', v); jbRenderAdmin(); } }"><option value="">Choose location…</option>${[...new Set(locs.concat(['Client location'], d.location && !locs.includes(d.location) && d.location !== 'Client location' ? [d.location] : []))].map(l => `<option ${l === d.location ? 'selected' : ''}>${lpmEsc(l)}</option>`).join('')}<option value="${LPM_TYPE}">Other — type a location…</option></select></label>
     ${d.location === 'Client location' ? `<label class="wide">Client address<textarea rows="2" placeholder="Client name and full address, including postcode" oninput="jbDraftSet('address', this.value)">${lpmEsc(d.address || '')}</textarea></label>` : ''}
     <label>Day rate (£)<input type="number" min="0" step="0.01" value="${lpmEsc(d.rate)}" placeholder="e.g. 180" oninput="jbDraftSet('rate', this.value)"></label>
     <label>Start time<input type="time" value="${d.start}" oninput="jbDraftSet('start', this.value)"></label>
@@ -13449,7 +13521,7 @@ async function jbLoadPayFor(id) {
   }
   const p = jb.pay[id];
   box.innerHTML = `<h4 style="margin:0 0 6px;font-family:'Public Sans',sans-serif;color:#0D1B4C;">Payment details</h4>` + (p && (p.accountName || p.accountNumber)
-    ? `<div class="jb-meta">${lpmEsc(p.accountName || '')}<br>${lpmEsc(p.bank || '')}<br>Sort code ${lpmEsc(p.sortCode || '—')} · Account ${lpmEsc(p.accountNumber || '—')}${p.reference ? '<br>Reference / UTR ' + lpmEsc(p.reference) : ''}</div>`
+    ? `<div class="jb-meta">${lpmEsc(p.accountName || '')}<br>Sort code ${lpmEsc(p.sortCode || '—')} · Account ${lpmEsc(p.accountNumber || '—')}${p.reference ? '<br>Reference / UTR ' + lpmEsc(p.reference) : ''}</div>`
     : `<div class="jb-meta">This instructor hasn't added payment details yet. They can add them under <b>My Profile</b>.</div>`);
 }
 async function jbTogglePaid(id, paid) {
@@ -13496,7 +13568,7 @@ async function jbTimesheetPdf() {
   T('Total due: ' + jbMoney(total), 40, 12, bold); y -= 16;
   T(paidT >= total ? 'Status: PAID IN FULL' : 'Paid: ' + jbMoney(paidT) + '   Outstanding: ' + jbMoney(total - paidT), 40, 10, font, grey); y -= 34;
   T('Payment details', 40, 12, bold); y -= 18;
-  [['Account name', p.accountName], ['Bank', p.bank], ['Sort code', p.sortCode], ['Account number', p.accountNumber], ['Reference / UTR', p.reference]]
+  [['Account name', p.accountName], ['Sort code', p.sortCode], ['Account number', p.accountNumber], ['Reference / UTR', p.reference]]
     .forEach(([k, v]) => { T(k + ': ' + (v || '—'), 40, 10); y -= 15; });
   y -= 30;
   T('Instructor signature: ____________________________    Date: ____________', 40, 10); y -= 30;
@@ -14537,13 +14609,13 @@ async function qzEnd(skipAsk) {
 // ===== Studio dashboard: left icon rail and "Today" panel =====
 const S3_LOGO = "data:image/jpeg;base64,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";
 const ST_HOME_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-7 9 7v9h-6v-6H9v6H3z"/></svg>';
-function stViewOf(onclick) { const m = /showView\('([a-z]+)'\)/.exec(onclick || ''); return m ? m[1] : (/jbOpenMine/.test(onclick) ? 'myjobs' : /jbOpenAdmin/.test(onclick) ? 'jobs' : /pfOpen/.test(onclick) ? 'profile' : /lmaOpen/.test(onclick) ? 'lmsadmin' : /lmsOpen/.test(onclick) ? 'lms' : /wbStaffOpen/.test(onclick) ? 'wbmark' : /mpOpen/.test(onclick) ? 'mypay' : ''); }
+function stViewOf(onclick) { const m = /showView\('([a-z]+)'\)/.exec(onclick || ''); return m ? m[1] : (/jbOpenMine/.test(onclick) ? 'myjobs' : /jbOpenAdmin/.test(onclick) ? 'jobs' : /pfOpen/.test(onclick) ? 'profile' : /amOpen/.test(onclick) ? 'assets' : /lmaOpen/.test(onclick) ? 'lmsadmin' : /lmsOpen/.test(onclick) ? 'lms' : /wbStaffOpen/.test(onclick) ? 'wbmark' : /mpOpen/.test(onclick) ? 'mypay' : ''); }
 function stBuildRail() {
   if (document.getElementById('stRail')) return;
   const nav = document.createElement('nav'); nav.id = 'stRail'; nav.className = 'st-rail'; nav.setAttribute('aria-label', 'Main');
   let html = `<button class="st-logo" onclick="showView('hub')" aria-label="Home"><img src="${S3_LOGO}" alt="Sector 3 Group"></button>
     <button class="st-item" data-view="hub" onclick="showView('hub')">${ST_HOME_ICON}<span>Home</span></button>`;
-  const SHORT = { 'LMS Overview':'LMS Overview', 'Workbook Marking':'Marking', 'Instructor Admin':'Instructors', 'Job Scheduling':'Jobs', 'Scenario Cards':'Scenarios', 'Run a Scenario':'Run Scenario' };
+  const SHORT = { 'Equipment':'Equipment', 'LMS Overview':'LMS Overview', 'Workbook Marking':'Marking', 'Instructor Admin':'Instructors', 'Job Scheduling':'Jobs', 'Scenario Cards':'Scenarios', 'Run a Scenario':'Run Scenario' };
   let i = 0;
   document.querySelectorAll('#view-hub .hub-group').forEach(g => {
     const tiles = g.nextElementSibling; if (!tiles) return;
@@ -14568,6 +14640,7 @@ function stRoleApply() {
 }
 function stSyncRail() {
   try { stRoleApply(); } catch (e) {}
+  try { cloudNeedName(); if (cloud.session && !stSyncRail.names) { stSyncRail.names = 1; lpmRefreshStaffNames(); } } catch (e) {}
   const nav = document.getElementById('stRail'); if (!nav) return;
   const adminBox = document.getElementById('hubAdmin');
   const active = (document.querySelector('.app-view.active') || {}).id || '';
@@ -14669,7 +14742,6 @@ function pfRender() {
     ${P.role === 'iqa' || P.role === 'learner' ? '' : `<div class="pf-sec"><h3>Payment details</h3><p class="sc-p" style="margin:0;">Used on your timesheets and invoices. Only you and your centre admin can see these. <span style="color:#C74444;">*</span> = required</p>
       <div class="jb-form">
         <label>Account name <span class="pf-req">*</span><input id="pfAccName" value="${v('accountName')}" autocomplete="cc-name"></label>
-        <label>Bank <span class="pf-req">*</span><input id="pfBank" value="${v('bank')}"></label>
         <label>Sort code <span class="pf-req">*</span><input id="pfSort" value="${v('sortCode')}" placeholder="00-00-00" inputmode="numeric"></label>
         <label>Account number <span class="pf-req">*</span><input id="pfAcc" value="${v('accountNumber')}" inputmode="numeric" maxlength="8"></label>
         <label class="wide">Home address <span class="pf-req">*</span><textarea id="pfAddr" rows="3" autocomplete="street-address" placeholder="House number and street&#10;Town&#10;Postcode">${v('address')}</textarea></label>
@@ -14693,9 +14765,9 @@ async function pfSave() {
   const msg = document.getElementById('pfMsg'); msg.style.color = '#6B7A94'; msg.textContent = 'Saving…';
   const has = id => !!document.getElementById(id);
   const data = Object.assign({}, pf.extra || {}, { phone: g('pfPhone') },
-    has('pfAccName') ? { accountName: g('pfAccName'), bank: g('pfBank'), sortCode: g('pfSort'), accountNumber: g('pfAcc'), address: g('pfAddr'), reference: g('pfRef') } : {});
+    has('pfAccName') ? { accountName: g('pfAccName'), sortCode: g('pfSort'), accountNumber: g('pfAcc'), address: g('pfAddr'), reference: g('pfRef') } : {});
   if (has('pfAccName')) {
-    const missing = [['accountName', 'account name'], ['bank', 'bank'], ['sortCode', 'sort code'], ['accountNumber', 'account number'], ['address', 'home address']].filter(([k]) => !data[k]).map(([, n]) => n);
+    const missing = [['accountName', 'account name'], ['sortCode', 'sort code'], ['accountNumber', 'account number'], ['address', 'home address']].filter(([k]) => !data[k]).map(([, n]) => n);
     if (missing.length) { msg.style.color = '#C74444'; msg.textContent = 'Please add your ' + missing.join(', ') + '.'; return; }
     if (!/^\d{2}-?\d{2}-?\d{2}$/.test(data.sortCode.replace(/\s/g, ''))) { msg.style.color = '#C74444'; msg.textContent = 'Sort code should be 6 digits, like 12-34-56.'; return; }
     if (!/^\d{8}$/.test(data.accountNumber.replace(/\s/g, ''))) { msg.style.color = '#C74444'; msg.textContent = 'Account number should be 8 digits.'; return; }
@@ -14994,7 +15066,7 @@ function mpMonths() {
   mpJobs().forEach(j => { const m = (j.job_date || '').slice(0, 7); (by[m] = by[m] || []).push(j); });
   return Object.keys(by).sort().reverse().map(m => ({ m, rows: by[m].sort((a, b) => a.job_date < b.job_date ? -1 : 1) }));
 }
-function mpPayDetailsOk() { const x = pf.extra || {}; return !!(x.accountName && x.bank && x.sortCode && x.accountNumber && x.address); }
+function mpPayDetailsOk() { const x = pf.extra || {}; return !!(x.accountName && x.sortCode && x.accountNumber && x.address); }
 function mpRender() {
   const root = document.getElementById('mpRoot'); if (!root) return;
   let html = `<button class="rn-nav-btn rn-no-print" onclick="showView('hub')">← Home</button>
@@ -15004,15 +15076,19 @@ function mpRender() {
   if (!jbSignedIn()) { root.innerHTML = html + '<p class="jb-empty">Sign in to see your pay.</p>'; return; }
   const x = pf.extra || {};
   html += `<div class="pf-sec"><h3>My payment details</h3>${pf.extra === null ? '<p class="jb-empty">Loading…</p>' : mpPayDetailsOk()
-      ? `<div class="jb-meta">${lpmEsc(x.accountName)} · ${lpmEsc(x.bank)} · ${lpmEsc(x.sortCode)} · ••••${lpmEsc(String(x.accountNumber).slice(-4))}${x.reference ? ' · UTR ' + lpmEsc(x.reference) : ''}<br>${lpmEsc(x.address).replace(/\n/g, ', ')}</div>`
+      ? `<div class="jb-meta">${lpmEsc(x.accountName)} · ${lpmEsc(x.sortCode)} · ••••${lpmEsc(String(x.accountNumber).slice(-4))}${x.reference ? ' · UTR ' + lpmEsc(x.reference) : ''}<br>${lpmEsc(x.address).replace(/\n/g, ', ')}</div>`
       : `<p class="sc-p" style="margin:6px 0 0;color:#8A5200;">Your bank details and home address are needed before you can invoice.</p>`}
       <div class="jb-actions"><button class="jb-btn" onclick="pfOpen()">${mpPayDetailsOk() ? 'Edit in My Profile' : 'Add them in My Profile'}</button></div></div>`;
   if (mp.err) html += `<p class="jb-msg" style="color:#C74444;">${lpmEsc(mp.err)}</p>`;
   if (jb.err) html += `<p class="jb-msg" style="color:#C74444;">${lpmEsc(jb.err)}</p>`;
   const months = mpMonths(), today = isoLocal();
+  const back = Object.values(mp.inv).filter(r => /^J/.test(r.month || '') && r.status === 'returned');
+  back.forEach(r => { html += `<div class="mp-back"><b>Pay request returned by the office</b> · ref ${lmsEsc(r.invoice_no || '—')} · ${jbMoney(r.total)}
+      ${r.admin_note ? `<div class="mp-note" style="margin:4px 0 0;color:#16203D;">“${lmsEsc(r.admin_note)}”</div>` : ''}
+      <div class="jb-actions" style="margin-top:8px;"><button class="jb-btn pri" onclick="mpEditReturned(${r.id})">Edit &amp; resend</button>${r.file_path ? `<button class="jb-btn" onclick="mpOpenFile('${r.file_path}')">Open invoice</button>` : ''}<button class="jb-btn no" onclick="mpWithdraw(${r.id})">Withdraw</button></div></div>`; });
   const elig = mpJobs().filter(j => mpEligible(j, today));
-  if (elig.length) html += `<div class="mp-selall"><label class="tq-chk"><input type="checkbox" ${elig.every(j => mp.pick[j.id]) ? 'checked' : ''} onchange="mpPickAll()"> Select all completed days not yet requested (${elig.length})</label>
-    <span class="sc-p" style="margin:0;">Tick days to put them on one invoice.</span></div>`;
+  if (elig.length) html += `<div class="mp-selall"><label class="tq-chk"><input type="checkbox" ${elig.every(j => mp.pick[j.id]) ? 'checked' : ''} onchange="mpPickAll()"> Select all days worked or today, not yet requested (${elig.length})</label>
+    <span class="sc-p" style="margin:0;">Tick days to put them on one invoice — you can request pay from the day itself.</span></div>`;
   if (!jb.loaded) html += '<p class="jb-empty">Loading your work…</p>';
   else if (!months.length) html += '<p class="jb-empty">No confirmed work yet. Jobs you confirm in My Schedule will appear here.</p>';
   months.forEach(({ m, rows }) => {
@@ -15025,7 +15101,7 @@ function mpRender() {
       : inv && inv.status === 'accepted' ? '<span class="mp-chip acc">Timesheet accepted</span>' : ended ? '<span class="mp-chip open">Ready to accept</span>' : '<span class="mp-chip open">In progress</span>';
     html += `<div class="mp-month"><div class="mp-head"><div><h3>${jbMonthLabel(m)}</h3>${chip}</div><div class="mp-total">${jbMoney(sum(rows))}<span>month total</span></div></div>
       <div style="overflow-x:auto;"><table class="mp-table"><tr><th>Date</th><th>Course</th><th>Location</th><th class="r">Days</th><th class="r">Rate</th><th class="r">Total</th><th></th></tr>
-      ${rows.map(j => { const st = j.paid ? ['p', 'Paid'] : jbEnd(j) < today ? ['w', 'Worked'] : ['s', 'Scheduled'];
+      ${rows.map(j => { const st = j.paid ? ['p', 'Paid'] : jbEnd(j) < today ? ['w', 'Worked'] : j.job_date <= today ? ['w', 'Today'] : ['s', 'Scheduled'];
         return `<tr><td>${j.days > 1 ? jbDates(j) : jbDayLabel(j.job_date)}</td><td>${lpmEsc(j.title)}</td><td>${lpmEsc(j.location || '')}</td><td class="r">${j.days}</td><td class="r">${jbMoney(j.day_rate)}</td><td class="r">${jbMoney(jbTotal(j))}</td><td><span class="mp-st ${st[0]}">${st[1]}</span> ${mpReqCell(j, today)}</td></tr>`; }).join('')}
       </table></div>
       <div class="mp-sums"><span>Worked <b>${jbMoney(sum(worked))}</b></span><span>Scheduled <b>${jbMoney(sum(sched))}</b></span></div>`;
@@ -15116,7 +15192,7 @@ async function mpInvoicePdf(m, no) {
   page.drawLine({ start:{ x:300, y: y + 6 }, end:{ x:555, y: y + 6 }, thickness:0.8, color: line }); y -= 8;
   T('Total due', 390, 12, bold); R(jbMoney(total), 555, 12, bold); y -= 40;
   T('Payment details', 40, 11, bold); y -= 16;
-  [['Account name', x.accountName], ['Bank', x.bank], ['Sort code', x.sortCode], ['Account number', x.accountNumber], ['UTR', x.reference]].filter(p => p[1]).forEach(([k, val]) => { T(k, 40, 10, font, grey); T(val, 150, 10); y -= 14; });
+  [['Account name', x.accountName], ['Sort code', x.sortCode], ['Account number', x.accountNumber], ['UTR', x.reference]].filter(p => p[1]).forEach(([k, val]) => { T(k, 40, 10, font, grey); T(val, 150, 10); y -= 14; });
   y -= 16; T('Please quote ' + no + ' with your payment.', 40, 9, font, grey);
   return new Blob([await pdf.save()], { type:'application/pdf' });
 }
@@ -15936,18 +16012,22 @@ async function tqRemove() {
 const PAY_NOTIFY_TO = 'info@sector3group.co.uk';
 async function notifyOffice(subject, lines) {
   // Sends through the 'notify' Edge Function if it's set up; silently does nothing if not.
-  try { await cloudFetch('/functions/v1/notify', { method:'POST', body: JSON.stringify({ to: PAY_NOTIFY_TO, subject, text: lines.join('\n') }) }); } catch (e) { console.info('notify skipped', e && e.message); }
+  try {
+    const r = await cloudFetch('/functions/v1/notify', { method:'POST', body: JSON.stringify({ to: PAY_NOTIFY_TO, subject, text: lines.join('\n') }) });
+    const j = await r.json().catch(() => ({})); window.lastNotify = j; if (!j.ok) console.warn('notify:', j);
+  } catch (e) { window.lastNotify = { error: String(e && e.message || e) }; console.info('notify skipped', e && e.message); }
 }
 function mpReqKey(j) { return 'J' + j.id; }
 function mpReqIds(r) { return String(r.month || '').replace(/^J/, '').split('+').filter(Boolean); }
 function mpReqFor(j) { return Object.values(mp.inv).find(r => /^J/.test(r.month || '') && mpReqIds(r).includes(String(j.id))); }
 mp.pick = mp.pick || {};
-function mpEligible(j, today) { return !j.paid && !mpReqFor(j) && jbEnd(j) < today; }
+function mpEligible(j, today) { return !j.paid && !mpReqFor(j) && j.job_date <= today; }   // from the day itself
 function mpReqCell(j, today) {
   if (j.paid) return '';
   const r = mpReqFor(j);
+  if (r && r.status === 'returned') return `<span class="mp-st s" style="background:#FDE3E1;color:#A33030;" title="${lmsEsc(r.admin_note || '')}">Returned</span> <button class="mp-req" onclick="mpEditReturned(${r.id})">Edit &amp; resend</button>`;
   if (r) return `<span class="mp-st ${r.status === 'approved' ? 'w' : 's'}" title="Ref ${lmsEsc(r.invoice_no || '')}">${r.status === 'approved' ? 'Approved' : 'Requested'}</span>`;
-  if (jbEnd(j) >= today) return '';
+  if (j.job_date > today) return '';
   return `<label class="mp-pick"><input type="checkbox" ${mp.pick[j.id] ? 'checked' : ''} onchange="mpTogglePick('${j.id}', this.checked)" aria-label="Select for invoice"></label><button class="mp-req" onclick="mpRequestPay(['${j.id}'])">Request pay</button>`;
 }
 function mpTogglePick(id, on) { if (on) mp.pick[id] = 1; else delete mp.pick[id]; mpRenderBar(); }
@@ -15962,6 +16042,15 @@ function mpRenderBar() {
   bar.innerHTML = `<span><b>${js.length} day${js.length === 1 ? '' : 's'}</b> selected · ${jbMoney(js.reduce((t, j) => t + jbTotal(j), 0))}</span>
     <button class="jb-btn" onclick="mp.pick={};mpRender()">Clear</button><button class="jb-btn pri" onclick="mpRequestPay(Object.keys(mp.pick))">Request pay — one invoice</button>`;
 }
+function mpEditReturned(id) {
+  const r = Object.values(mp.inv).find(x => x.id === id); if (!r) return;
+  mp.editing = r; mpRequestPay(mpReqIds(r));
+  setTimeout(() => { const f = document.getElementById('mpRef'); if (f) f.value = r.invoice_no || ''; }, 60);
+}
+async function mpWithdraw(id) {
+  if (!confirm('Withdraw this pay request? The days become free to request again.')) return;
+  try { await cloudRest('pay_invoices?id=eq.' + id, 'DELETE', null, 'return=minimal'); await mpLoad(); mpRender(); } catch (e) { alert(e.message || e); }
+}
 function mpRequestPay(idList) {
   const ids = [].concat(idList).map(String), js = mpJobs().filter(x => ids.includes(String(x.id))).sort((a, b) => a.job_date < b.job_date ? -1 : 1);
   if (!js.length) return; const j = js[0], total = js.reduce((t, x) => t + jbTotal(x), 0);
@@ -15970,10 +16059,11 @@ function mpRequestPay(idList) {
   ov.innerHTML = `<div class="kc-qr-box" style="text-align:left;max-width:480px;"><div class="hub-eyebrow">My Pay</div><div class="kc-qr-t">${js.length === 1 ? 'Request pay for this day' : 'Request pay for ' + js.length + ' days'}</div>
     ${js.length === 1 ? `<p class="sc-p" style="margin:0 0 10px;">${lmsEsc(j.title)} · ${j.days > 1 ? jbDates(j) : jbDayLabel(j.job_date)} · <b>${jbMoney(total)}</b></p>`
       : `<div class="mp-reqlist">${js.map(x => `<div><span>${jbDayLabel(x.job_date)} · ${lmsEsc(x.title)}</span><b>${jbMoney(jbTotal(x))}</b></div>`).join('')}<div class="tot"><span>${js.length} days — one invoice</span><b>${jbMoney(total)}</b></div></div>`}
+    ${mp.editing && mp.editing.admin_note ? `<div class="mp-back" style="margin:0 0 10px;"><b>Note from the office:</b> ${lmsEsc(mp.editing.admin_note)}</div>` : ''}
     <label class="tq-f"><span>Your invoice reference *</span><input id="mpRef" placeholder="e.g. MW-0142" maxlength="40"></label>
     <label class="tq-chk" style="margin-top:6px;"><input type="checkbox" id="mpGen" checked> Create an invoice PDF for me</label>
     <label class="tq-f" style="margin-top:6px;"><span>Or attach your own invoice (optional, PDF)</span><input type="file" id="mpFile" accept="application/pdf,.pdf"></label>
-    <div class="jb-actions"><button class="jb-btn pri" id="mpReqGo" onclick="mpSubmitReq('${js.map(x => x.id).join('+')}', this)">Send for approval</button><button class="jb-btn" onclick="this.closest('.kc-qr-ov').remove()">Cancel</button></div>
+    <div class="jb-actions"><button class="jb-btn pri" id="mpReqGo" onclick="mpSubmitReq('${js.map(x => x.id).join('+')}', this)">Send for approval</button><button class="jb-btn" onclick="mp.editing=null;this.closest('.kc-qr-ov').remove()">Cancel</button></div>
     <span id="mpReqMsg" class="jb-msg" style="color:#C74444;"></span></div>`;
   document.body.appendChild(ov); setTimeout(() => document.getElementById('mpRef').focus(), 50);
 }
@@ -15992,8 +16082,10 @@ async function mpSubmitReq(idStr, btn) {
       path = cloudMe() + '/invoices/req-' + Date.now().toString(36) + '.pdf';
       await cloudFetch('/storage/v1/object/course-files/' + path, { method:'POST', body: blob, json:false, headers:{ 'Content-Type':'application/pdf', 'x-upsert':'true' } });
     }
-    await cloudRest('pay_invoices?on_conflict=owner,month', 'POST', [{ owner: cloudMe(), owner_name: me, month: key, total,
-      status:'requested', invoice_no: ref, file_path: path, generated: !!gen, submitted_at: new Date().toISOString(), updated_at: new Date().toISOString() }], 'resolution=merge-duplicates,return=minimal');
+    const ed = mp.editing; mp.editing = null;
+    if (ed && !path) path = ed.file_path || null;
+    await cloudRest('pay_invoices?on_conflict=owner,month', 'POST', [Object.assign({ owner: cloudMe(), owner_name: me, month: key, total,
+      status:'requested', invoice_no: ref, file_path: path, generated: !!gen, submitted_at: new Date().toISOString(), updated_at: new Date().toISOString() }, ed ? { admin_note: null } : {})], 'resolution=merge-duplicates,return=minimal');
     notifyOffice('Pay request: ' + me + ' — ' + jbMoney(total) + (js.length > 1 ? ' (' + js.length + ' days)' : ''),
       ['A new pay request is waiting for approval in Job Scheduling → Pay requests.', '', 'Instructor: ' + me, 'Invoice reference: ' + ref, 'Total: ' + jbMoney(total), '',
        ...js.map(x => fmtD(x.job_date) + ' — ' + x.title + ' — ' + jbMoney(jbTotal(x)))]);
@@ -16016,18 +16108,57 @@ function jbAdminPayReqs() {
   const jobsOf = r => mpReqIds(r).map(id => jb.jobs.find(x => String(x.id) === id)).filter(Boolean);
   const job = r => { const js = jobsOf(r); if (!js.length) return {}; if (js.length === 1) return js[0];
     return { title: js.length + ' days — ' + [...new Set(js.map(x => x.title))].join(', '), job_date: js[0].job_date, days: 1, dates: js.map(x => fmtD(x.job_date)).join(', '), paid: js.every(x => x.paid) }; };
-  const open = jb.reqs.filter(r => r.status !== 'paid' && !job(r).paid), done = jb.reqs.filter(r => r.status === 'paid' || job(r).paid);
+  const open = jb.reqs.filter(r => r.status === 'returned' || (r.status !== 'paid' && !job(r).paid)), done = jb.reqs.filter(r => r.status !== 'returned' && (r.status === 'paid' || job(r).paid));
   const row = r => { const j = job(r); return `<div class="au-row" style="grid-template-columns:minmax(0,1.3fr) minmax(0,1.3fr) 110px minmax(0,1fr) auto;">
       <div><b>${lpmEsc(r.owner_name || '')}</b><div class="au-mail">Ref ${lpmEsc(r.invoice_no || '—')} · requested ${fmtD(r.submitted_at)}</div></div>
       <div>${lpmEsc(j.title || 'Job')}<div class="au-mail">${j.dates || (j.job_date ? (j.days > 1 ? jbDates(j) : fmtD(j.job_date)) : '')}${j.location ? ' · ' + lpmEsc(j.location) : ''}</div></div>
       <div><b>${jbMoney(r.total)}</b></div>
-      <div>${j.paid || r.status === 'paid' ? '<span class="au-st ok">Paid</span>' : r.status === 'approved' ? '<span class="au-st ok">Approved</span>' : '<span class="au-st wait">Awaiting approval</span>'}</div>
-      <div class="jb-actions" style="margin-top:0;justify-content:flex-end;">${r.file_path ? `<button class="jb-btn" onclick="mpOpenFile('${r.file_path}')">Invoice</button>` : ''}
+      <div>${r.status === 'returned' ? '<span class="au-st off">Returned to instructor</span>' : j.paid || r.status === 'paid' ? '<span class="au-st ok">Paid</span>' : r.status === 'approved' ? '<span class="au-st ok">Approved</span>' : '<span class="au-st wait">Awaiting approval</span>'}${r.admin_note ? `<div class="au-mail">“${lpmEsc(r.admin_note)}”</div>` : ''}</div>
+      <div class="jb-actions" style="margin-top:0;justify-content:flex-end;">${r.file_path ? `<button class="jb-btn" onclick="mpOpenFile('${r.file_path}')">Open invoice</button>` : ''}
+        ${r.status !== 'returned' ? `<button class="jb-btn" onclick="jbReqEdit(${r.id})">Edit</button>` : '<span class="au-st" style="background:#FDE3E1;color:#A33030;">With instructor</span>'}
         ${r.status === 'requested' ? `<button class="jb-btn go" onclick="jbReqSet(${r.id},'approved')">Approve</button><button class="jb-btn no" onclick="jbReqSet(${r.id},'rejected')">Decline</button>` : ''}
         ${r.status === 'approved' && !j.paid ? `<button class="jb-btn pri" onclick="jbReqPaid(${r.id})">Mark paid</button>` : ''}</div></div>`; };
-  return `${jb.reqErr ? `<p class="jb-msg" style="color:#C74444;">${lpmEsc(jb.reqErr)}</p>` : ''}
+  return `<div class="jb-actions" style="margin:0 0 6px;"><button class="jb-btn" onclick="jbTestEmail(this)">Send a test email to ${PAY_NOTIFY_TO}</button><span id="jbMailMsg" class="jb-msg"></span></div>
+    ${jb.reqErr ? `<p class="jb-msg" style="color:#C74444;">${lpmEsc(jb.reqErr)}</p>` : ''}
     <div class="sc-h2">Waiting (${open.length})</div>${open.map(row).join('') || '<p class="jb-empty">No pay requests waiting.</p>'}
     ${done.length ? `<div class="sc-h2">Paid</div>${done.slice(0, 30).map(row).join('')}` : ''}`;
+}
+async function jbTestEmail(btn) {
+  const m = document.getElementById('jbMailMsg'); btn.disabled = true; m.style.color = '#6B7A94'; m.textContent = 'Sending…';
+  await notifyOffice('Test email from the Digital Training Centre', ['This is a test. Pay request emails will arrive like this.']);
+  const r = window.lastNotify || {}; btn.disabled = false;
+  if (r.ok) { m.style.color = '#0F6E56'; m.textContent = 'Sent — check the inbox (and junk folder).'; return; }
+  m.style.color = '#C74444';
+  m.textContent = r.skipped ? 'The email helper is running but RESEND_API_KEY isn\u2019t set in Supabase → Edge Functions → Secrets.'
+    : r.detail ? 'Resend refused it: ' + String(r.detail).slice(0, 200)
+    : /not.?found|404/i.test(r.error || '') ? 'The notify helper isn\u2019t deployed in Supabase yet.'
+    : 'Not sent: ' + (r.error || JSON.stringify(r)).slice(0, 200);
+}
+function jbReqEdit(id) {
+  const r = (jb.reqs || []).find(x => x.id === id); if (!r) return;
+  const paid = r.status === 'paid' || mpReqIds(r).some(i => (jb.jobs.find(x => String(x.id) === i) || {}).paid);
+  const ov = document.createElement('div'); ov.className = 'kc-qr-ov'; ov.onclick = e => { if (e.target === ov) ov.remove(); };
+  ov.innerHTML = `<div class="kc-qr-box" style="text-align:left;max-width:500px;"><div class="hub-eyebrow">Pay request · ${lpmEsc(r.owner_name || '')}</div><div class="kc-qr-t">Edit request</div>
+    ${paid ? '<div class="mp-back" style="margin:0 0 10px;">This request is marked <b>paid</b>. Sending it back will mark those days unpaid again.</div>' : ''}
+    <label class="tq-f"><span>Invoice reference</span><input id="jrRef" value="${lpmEsc(r.invoice_no || '')}"></label>
+    <label class="tq-f" style="margin-top:8px;"><span>Amount (£)</span><input id="jrAmt" type="number" step="0.01" min="0" value="${Number(r.total || 0).toFixed(2)}"></label>
+    <label class="tq-f" style="margin-top:8px;"><span>Note to the instructor</span><textarea id="jrNote" rows="3" placeholder="e.g. Please re-issue with your UTR, or correct the rate for 12 Sept.">${lpmEsc(r.admin_note || '')}</textarea></label>
+    <div class="jb-actions"><button class="jb-btn" onclick="jbReqSave(${r.id}, false, this)">Save changes</button>
+      <button class="jb-btn pri" onclick="jbReqSave(${r.id}, true, this)">Save &amp; send back to instructor</button>
+      <button class="jb-btn" onclick="this.closest('.kc-qr-ov').remove()">Cancel</button></div><span id="jrMsg" class="jb-msg" style="color:#C74444;"></span></div>`;
+  document.body.appendChild(ov);
+}
+async function jbReqSave(id, sendBack, btn) {
+  const r = (jb.reqs || []).find(x => x.id === id), note = document.getElementById('jrNote').value.trim(), m = document.getElementById('jrMsg');
+  if (sendBack && !note) { m.textContent = 'Add a note so the instructor knows what to change.'; return; }
+  const patch = { invoice_no: document.getElementById('jrRef').value.trim(), total: Number(document.getElementById('jrAmt').value) || 0, admin_note: note || null, updated_at: new Date().toISOString() };
+  if (sendBack) patch.status = 'returned';
+  btn.disabled = true;
+  try {
+    if (sendBack) { const ids = mpReqIds(r); if (ids.length) await cloudRest('jobs?id=in.(' + ids.join(',') + ')', 'PATCH', { paid: false, paid_at: null }, 'return=minimal'); }
+    await cloudRest('pay_invoices?id=eq.' + id, 'PATCH', patch, 'return=minimal');
+    btn.closest('.kc-qr-ov').remove(); jb.reqs = null; await jbLoad(); jbRenderAdmin();
+  } catch (e) { btn.disabled = false; m.textContent = /admin_note|PGRST204|column/i.test(String(e.message)) ? 'Run the updated supabase_pay.sql in Supabase first.' : (e.message || e); }
 }
 async function jbReqSet(id, status) {
   if (status === 'rejected' && !confirm('Decline this pay request? The instructor can send a new one.')) return;
@@ -16044,6 +16175,236 @@ async function jbReqPaid(id) {
     await cloudRest('pay_invoices?id=eq.' + id, 'PATCH', { status:'paid', updated_at: new Date().toISOString() }, 'return=minimal');
     jb.reqs = null; await jbLoad(); jbRenderAdmin();
   } catch (e) { alert(e.message || e); }
+}
+</script>
+<script>
+// ===================== EQUIPMENT / ASSET MANAGEMENT =====================
+const AM_CATS = ['Adult manikin','Child manikin','Infant manikin','AED trainer','Defibrillator (live)','Oxygen cylinder','Entonox','Airway kit (OPA/NPA/i-gel)','Bag-valve-mask','Suction unit','Monitor / pulse oximeter','Trauma / bleeding kit','First aid kit','Moulage / simulation','Projector / IT','Other'];
+const AM_COND = ['Good','Fair','Needs repair','Out of service'];
+const AM_KINDS = ['Service','Inspection','Repair','Cleaning','Calibration','PAT test','Note'];
+let am = { list:null, events:[], locs:[], demo:false, q:'', cat:'', loc:'', status:'', view:'list', err:'', sel:null };
+function amEsc(x) { return lpmEsc(x == null ? '' : x); }
+function amToday() { return isoLocal(); }
+function amDays(d) { if (!d) return null; return Math.round((new Date(d + 'T00:00:00') - new Date(amToday() + 'T00:00:00')) / 86400000); }
+function amAddMonths(d, m) { const x = new Date(d + 'T00:00:00'); x.setMonth(x.getMonth() + (+m || 0)); return isoLocal(x); }
+function amSites() { return [...new Set((typeof LPM_LOCATIONS !== 'undefined' ? LPM_LOCATIONS : []).concat(am.locs.filter(l => l.kind === 'site').map(l => l.name)))]; }
+function amStores() { const s = am.locs.filter(l => l.kind === 'storage').map(l => l.name); return s.length ? s : ['Storage location 1']; }
+function amPeople() { return typeof lpmStaffNames === 'function' ? lpmStaffNames() : []; }
+const AM_LT = { site:'📍 Site', storage:'📦 Storage', instructor:'👤 With instructor', client:'🏢 Client' };
+function amWhere(a) { return (AM_LT[a.location_type] || '') + (a.location ? ' · ' + a.location : ''); }
+function amStatus(a) {
+  if (a.condition === 'Out of service') return ['off', 'Out of service'];
+  const s = amDays(a.next_service), e = amDays(a.expiry);
+  if ((s != null && s < 0) || (e != null && e < 0)) return ['bad', s != null && s < 0 ? 'Service overdue' : 'Expired'];
+  if (a.condition === 'Needs repair') return ['warn', 'Needs repair'];
+  if ((s != null && s <= 30) || (e != null && e <= 30)) return ['warn', s != null && s <= 30 ? 'Service due' : 'Expiring soon'];
+  return ['ok', a.condition || 'Good'];
+}
+// ---- example kit so the screen can be shown before real equipment is added ----
+function amDemo() {
+  const t = amToday(), d = n => isoLocal(new Date(Date.now() + n * 86400000));
+  const mk = (i, name, cat, lt, loc, cond, next, extra) => Object.assign({ id:'demo' + i, tag:'S3-' + String(100 + i), name, category:cat, location_type:lt, location:loc, condition:cond, next_service:next, service_interval_months:12, value:null, demo:true }, extra || {});
+  return [
+    mk(1, 'Little Anne QCPR', 'Adult manikin', 'storage', 'Storage location 1', 'Good', d(140), { make:'Laerdal', model:'Little Anne QCPR', value:420 }),
+    mk(2, 'Little Anne QCPR', 'Adult manikin', 'instructor', 'Neil Fossett', 'Good', d(20), { make:'Laerdal', model:'Little Anne QCPR', value:420 }),
+    mk(3, 'Baby Anne', 'Infant manikin', 'site', 'Beckton', 'Fair', d(-5), { make:'Laerdal', value:260 }),
+    mk(4, 'AED Trainer 2', 'AED trainer', 'instructor', 'Miles Ward', 'Good', d(200), { make:'Philips', value:310 }),
+    mk(5, 'Oxygen cylinder CD', 'Oxygen cylinder', 'storage', 'Storage location 1', 'Good', d(60), { expiry:d(18), service_interval_months:null, next_service:null }),
+    mk(6, 'Suction unit', 'Suction unit', 'site', 'Croydon', 'Needs repair', d(90), { make:'Laerdal', value:540 }),
+    mk(7, 'Trauma kit A', 'Trauma / bleeding kit', 'storage', 'Storage location 1', 'Good', null, { expiry:d(240), service_interval_months:null }),
+    mk(8, 'Pulse oximeter', 'Monitor / pulse oximeter', 'client', '[Client name]', 'Out of service', d(-30), { value:45 }),
+  ];
+}
+function amAll() { return (am.list || []).concat(am.demo ? amDemo() : []); }
+async function amOpen() {
+  showView('assets'); amRender();
+  try {
+    const [a, e, l] = await Promise.all([cloudRest('assets?select=*&order=name') , cloudRest('asset_events?select=*&order=event_date.desc,created_at.desc'), cloudRest('asset_locations?select=*&order=name')]);
+    am.list = a || []; am.events = e || []; am.locs = l || []; am.err = '';
+  } catch (x) { am.list = am.list || []; am.err = /assets|asset_|PGRST20|42P01/.test(String(x.message)) ? 'Equipment tables aren\u2019t set up yet — run supabase_assets.sql in Supabase. Showing example equipment.' : String(x.message || x); am.demo = true; }
+  if (!am.list.length && !am.err) am.demo = true;
+  amRender();
+}
+function amIsAdmin() { return typeof jbIsAdmin === 'function' && jbIsAdmin(); }
+function amFiltered() {
+  const q = am.q.trim().toLowerCase();
+  return amAll().filter(a => {
+    if (am.cat && a.category !== am.cat) return false;
+    if (am.loc && (a.location_type + '|' + (a.location || '')) !== am.loc) return false;
+    const st = amStatus(a)[0], s = amDays(a.next_service);
+    if (am.status === 'due' && !(st === 'warn' && a.condition !== 'Needs repair')) return false;
+    if (am.status === 'overdue' && st !== 'bad') return false;
+    if (am.status === 'repair' && !['Needs repair', 'Out of service'].includes(a.condition)) return false;
+    if (q && ![a.name, a.tag, a.serial, a.make, a.model, a.location, a.category].some(v => String(v || '').toLowerCase().includes(q))) return false;
+    return true;
+  }).sort((x, y) => String(x.name).localeCompare(String(y.name)) || String(x.tag).localeCompare(String(y.tag)));
+}
+function amRender() {
+  const root = document.getElementById('amRoot'); if (!root) return;
+  const all = amAll();
+  const due = all.filter(a => amStatus(a)[0] === 'warn' && a.condition !== 'Needs repair').length, over = all.filter(a => amStatus(a)[0] === 'bad').length;
+  const rep = all.filter(a => ['Needs repair', 'Out of service'].includes(a.condition)).length, val = all.reduce((t, a) => t + (Number(a.value) || 0), 0);
+  const locOpts = [['site', amSites()], ['storage', amStores()], ['instructor', amPeople()]];
+  const inUse = [...new Set(all.filter(a => a.location_type === 'client').map(a => a.location))];
+  root.innerHTML = `<button class="rn-nav-btn rn-no-print" onclick="showView('hub')">← Home</button>
+    <div class="hub-eyebrow" style="margin-top:14px;">Management Panel</div>
+    <div class="lma-top"><div class="hub-h" style="margin:0;">Equipment</div>
+      <label class="lma-demo-t"><input type="checkbox" ${am.demo ? 'checked' : ''} onchange="am.demo=this.checked;amRender()"> Show example equipment</label></div>
+    <p class="sc-p">Every piece of training kit — where it is, who has it, and when it's next due a service.</p>
+    ${am.err ? `<p class="jb-msg" style="color:#8A5200;">${amEsc(am.err)}</p>` : ''}
+    <div class="lma-stats lma-click">
+      ${[['', all.length, 'Items', ''], ['due', due, 'Due in 30 days', 'warn'], ['overdue', over, 'Overdue / expired', 'bad'], ['repair', rep, 'Repair / out of service', 'warn'], ['val', '£' + Math.round(val).toLocaleString('en-GB'), 'Recorded value', '']]
+        .map(([k, n, t, cls]) => `<button class="${cls} ${am.status === k && k !== 'val' ? 'on' : ''}" onclick="${k === 'val' ? '' : `am.status='${k}';amRender()`}"><b>${n}</b><span>${t}</span></button>`).join('')}</div>
+    <div class="lma-bar-row">
+      <label class="lma-search">${kcIcon('<circle cx="11" cy="11" r="7"/><path d="M21 21l-5-5"/>', 18)}<input placeholder="Search name, tag, serial, make or location" value="${amEsc(am.q)}" oninput="am.q=this.value;amRenderBody()"></label>
+      <select onchange="am.cat=this.value;amRenderBody()"><option value="">All categories</option>${AM_CATS.map(c => `<option ${am.cat === c ? 'selected' : ''}>${c}</option>`).join('')}</select>
+      <select onchange="am.loc=this.value;amRenderBody()"><option value="">All locations</option>
+        ${locOpts.map(([k, list]) => `<optgroup label="${AM_LT[k]}">${list.map(n => `<option value="${k}|${amEsc(n)}" ${am.loc === k + '|' + n ? 'selected' : ''}>${amEsc(n)}</option>`).join('')}</optgroup>`).join('')}
+        ${inUse.length ? `<optgroup label="${AM_LT.client}">${inUse.map(n => `<option value="client|${amEsc(n)}">${amEsc(n)}</option>`).join('')}</optgroup>` : ''}</select>
+    </div>
+    <div class="am-tools"><div class="au-tabs" style="margin:0;"><button class="${am.view === 'list' ? 'on' : ''}" onclick="am.view='list';amRenderBody();amRender()">List</button><button class="${am.view === 'where' ? 'on' : ''}" onclick="am.view='where';amRender()">By location</button></div>
+      <div class="jb-actions" style="margin:0;">${amIsAdmin() ? `<button class="jb-btn pri" onclick="amEdit()">+ Add equipment</button><button class="jb-btn" onclick="amLocations()">Locations</button>` : ''}
+        <button class="jb-btn" onclick="amCsv()">Download CSV</button><button class="jb-btn" onclick="amCsvEvents()">Service log CSV</button></div></div>
+    <div id="amBody"></div>`;
+  amRenderBody();
+}
+function amRenderBody() {
+  const el = document.getElementById('amBody'); if (!el) return;
+  const list = amFiltered();
+  if (am.list === null && !am.demo) { el.innerHTML = '<p class="jb-empty">Loading…</p>'; return; }
+  if (am.view === 'where') {
+    const groups = {};
+    list.forEach(a => { const k = a.location_type + '|' + (a.location || '—'); (groups[k] = groups[k] || []).push(a); });
+    el.innerHTML = `<div class="lma-cohorts">${Object.keys(groups).sort().map(k => { const [t, n] = k.split('|'); const g = groups[k];
+      return `<div class="lma-cohort"><div class="lma-ch"><div><b>${amEsc(n)}</b><span>${AM_LT[t] || ''} · ${g.length} item${g.length === 1 ? '' : 's'}</span></div></div>
+        <div class="lma-mini">${g.map(a => { const st = amStatus(a); return `<button onclick="amEdit('${a.id}')"><span class="am-dot ${st[0]}"></span><span class="lma-n">${amEsc(a.name)} <span class="lma-sub" style="display:inline">${amEsc(a.tag || '')}</span></span><span class="am-chip ${st[0]}">${st[1]}</span><b></b></button>`; }).join('')}</div></div>`; }).join('') || '<p class="jb-empty">No equipment matches.</p>'}</div>`;
+    return;
+  }
+  el.innerHTML = `<div class="lma-scroll"><table class="lma-tbl"><thead><tr><th>Tag</th><th>Equipment</th><th>Category</th><th>Where</th><th>Status</th><th>Next service</th><th>Expiry</th></tr></thead><tbody>
+    ${list.map(a => { const st = amStatus(a), s = amDays(a.next_service), e = amDays(a.expiry);
+      return `<tr onclick="amEdit('${a.id}')"><td><b>${amEsc(a.tag || '—')}</b></td><td><b>${amEsc(a.name)}</b>${a.demo ? '<span class="lma-ex">Example</span>' : ''}<span class="lma-sub">${amEsc([a.make, a.model].filter(Boolean).join(' '))}${a.serial ? ' · SN ' + amEsc(a.serial) : ''}</span></td>
+        <td>${amEsc(a.category || '')}</td><td>${amEsc(amWhere(a))}</td><td><span class="am-chip ${st[0]}">${st[1]}</span></td>
+        <td>${a.next_service ? fmtD(a.next_service) + `<span class="lma-sub">${s < 0 ? Math.abs(s) + ' days overdue' : 'in ' + s + ' days'}</span>` : '—'}</td>
+        <td>${a.expiry ? fmtD(a.expiry) + `<span class="lma-sub">${e < 0 ? 'expired' : 'in ' + e + ' days'}</span>` : '—'}</td></tr>`; }).join('')}
+    </tbody></table></div>${list.length ? '' : '<p class="jb-empty">No equipment matches.</p>'}`;
+}
+// ---- add / edit an item ----
+function amLocSelect(type, cur) {
+  const list = type === 'site' ? amSites() : type === 'storage' ? amStores() : type === 'instructor' ? amPeople() : [];
+  if (type === 'client') return `<input id="amLoc" value="${amEsc(cur || '')}" placeholder="Client name and address">`;
+  const all = cur && !list.includes(cur) ? list.concat([cur]) : list;
+  return `<select id="amLoc">${all.map(n => `<option ${n === cur ? 'selected' : ''}>${amEsc(n)}</option>`).join('')}</select>`;
+}
+function amEdit(id) {
+  const a = id ? amAll().find(x => x.id === id) : { location_type:'storage', location: amStores()[0], condition:'Good', service_interval_months:12 };
+  if (!a) return; am.sel = a;
+  const admin = amIsAdmin() && !a.demo, ro = admin || !id ? '' : 'disabled';
+  const evs = am.events.filter(e => e.asset_id === a.id);
+  const F = (k, label, type, extra) => `<label class="tq-f ${extra || ''}"><span>${label}</span><input id="am_${k}" type="${type || 'text'}" value="${amEsc(a[k] == null ? '' : a[k])}" ${ro}></label>`;
+  const ov = document.createElement('div'); ov.className = 'tq-ov'; ov.id = 'amOv';
+  ov.innerHTML = `<div class="tq-in"><div class="tq-top"><div><div class="hub-eyebrow">Equipment</div><div class="hub-h" style="margin:4px 0 0;">${id ? amEsc(a.name) : 'Add equipment'}</div>${id ? `<span class="am-chip ${amStatus(a)[0]}">${amStatus(a)[1]}</span>` : ''}</div>
+      <button class="ct-x" style="background:#EEF1F5;color:#16203D;" onclick="document.getElementById('amOv').remove()" aria-label="Close">✕</button></div>
+    ${a.demo ? '<p class="lms-demo">This is example equipment — add your own with <b>+ Add equipment</b>.</p>' : ''}
+    <div class="pf-sec"><h3>Details</h3><div class="tq-grid">
+      ${F('name', 'Name *', 'text', 'wide')}
+      <label class="tq-f"><span>Category</span><select id="am_category" ${ro}>${AM_CATS.map(c => `<option ${c === a.category ? 'selected' : ''}>${c}</option>`).join('')}</select></label>
+      ${F('tag', 'Asset tag')}${F('make', 'Make')}${F('model', 'Model')}${F('serial', 'Serial number')}
+      ${F('purchase_date', 'Purchase date', 'date')}${F('value', 'Value (£)', 'number')}
+      <label class="tq-f"><span>Condition</span><select id="am_condition" ${ro}>${AM_COND.map(c => `<option ${c === a.condition ? 'selected' : ''}>${c}</option>`).join('')}</select></label>
+      <label class="tq-f wide"><span>Notes</span><textarea id="am_notes" rows="2" ${ro}>${amEsc(a.notes || '')}</textarea></label></div></div>
+    <div class="pf-sec"><h3>Where it is</h3><div class="tq-grid">
+      <label class="tq-f"><span>Type</span><select id="am_lt" ${ro} onchange="document.getElementById('amLocBox').innerHTML=amLocSelect(this.value,'')">${Object.keys(AM_LT).map(k => `<option value="${k}" ${k === a.location_type ? 'selected' : ''}>${AM_LT[k]}</option>`).join('')}</select></label>
+      <label class="tq-f"><span>Location</span><span id="amLocBox">${amLocSelect(a.location_type, a.location)}</span></label></div></div>
+    <div class="pf-sec"><h3>Servicing and expiry</h3><div class="tq-grid">
+      ${F('service_interval_months', 'Service every (months)', 'number')}${F('next_service', 'Next service due', 'date')}${F('expiry', 'Expiry date (pads, cylinders, kits)', 'date')}</div></div>
+    ${admin || !id ? `<div class="jb-actions"><button class="jb-btn pri" onclick="amSave(this)">${id ? 'Save changes' : 'Add equipment'}</button>${id ? `<button class="jb-btn no" onclick="amDelete('${a.id}')">Delete</button>` : ''}<span id="amMsg" class="jb-msg" style="color:#C74444;"></span></div>` : ''}
+    ${id ? `<div class="pf-sec" style="margin-top:18px;"><h3>Service record and history</h3>
+      ${admin ? `<div class="tq-row"><label class="tq-f"><span>Type</span><select id="ev_kind">${AM_KINDS.map(k => `<option>${k}</option>`).join('')}</select></label>
+        <label class="tq-f"><span>Date</span><input id="ev_date" type="date" value="${amToday()}"></label><label class="tq-f"><span>Done by</span><input id="ev_by" value="${amEsc((cloud.profile || {}).full_name || '')}"></label>
+        <label class="tq-f"><span>Cost (£)</span><input id="ev_cost" type="number" step="0.01"></label><label class="tq-f"><span>Next due (optional)</span><input id="ev_next" type="date"></label>
+        <label class="tq-f wide" style="grid-column:1/-1"><span>Notes</span><input id="ev_notes" placeholder="What was done, parts replaced, results"></label>
+        <div class="jb-actions" style="margin:0;grid-column:1/-1"><button class="jb-btn pri" onclick="amAddEvent('${a.id}', this)">Add to record</button></div></div>` : ''}
+      <div class="am-events">${evs.map(e => `<div><span class="am-ev ${e.kind === 'Move' ? 'mv' : ''}">${amEsc(e.kind)}</span><b>${fmtD(e.event_date)}</b> ${e.kind === 'Move' ? `${amEsc(e.from_loc || '—')} → ${amEsc(e.to_loc || '')}` : amEsc(e.notes || '')}
+        <span class="lma-sub">${[e.by_name, e.cost ? '£' + Number(e.cost).toFixed(2) : '', e.next_due ? 'next due ' + fmtD(e.next_due) : ''].filter(Boolean).map(amEsc).join(' · ')}</span></div>`).join('') || '<p class="jb-empty">No records yet.</p>'}</div></div>` : ''}
+    <div style="height:40px"></div></div>`;
+  document.body.appendChild(ov);
+}
+async function amSave(btn) {
+  const a = am.sel, g = k => (document.getElementById('am_' + k) || {}).value, m = document.getElementById('amMsg');
+  const row = { name: (g('name') || '').trim(), category: g('category'), tag: g('tag').trim() || null, make: g('make').trim() || null, model: g('model').trim() || null, serial: g('serial').trim() || null,
+    purchase_date: g('purchase_date') || null, value: g('value') === '' ? null : Number(g('value')), condition: g('condition'), notes: g('notes').trim() || null,
+    location_type: g('lt'), location: ((document.getElementById('amLoc') || {}).value || '').trim() || null,
+    service_interval_months: g('service_interval_months') === '' ? null : Number(g('service_interval_months')), next_service: g('next_service') || null, expiry: g('expiry') || null, updated_at: new Date().toISOString() };
+  if (!row.name) { m.textContent = 'Give it a name.'; return; }
+  if (!row.next_service && row.service_interval_months && row.purchase_date) row.next_service = amAddMonths(row.purchase_date, row.service_interval_months);
+  btn.disabled = true;
+  try {
+    if (a.id) {
+      await cloudRest('assets?id=eq.' + a.id, 'PATCH', row, 'return=minimal');
+      const was = a.location_type + '|' + (a.location || ''), now = row.location_type + '|' + (row.location || '');
+      if (was !== now) await cloudRest('asset_events', 'POST', [{ asset_id: a.id, kind:'Move', event_date: amToday(), by_name: (cloud.profile || {}).full_name || '', from_loc: amWhere(a), to_loc: amWhere(row) }], 'return=minimal');
+    } else await cloudRest('assets', 'POST', [row], 'return=minimal');
+    document.getElementById('amOv').remove(); await amOpen();
+  } catch (e) { btn.disabled = false; m.textContent = /PGRST20|42P01|assets/.test(String(e.message)) ? 'Run supabase_assets.sql in Supabase first.' : /row-level|42501/.test(String(e.message)) ? 'Only admins can change equipment.' : (e.message || e); }
+}
+async function amAddEvent(id, btn) {
+  const a = am.sel, g = k => document.getElementById('ev_' + k).value;
+  const ev = { asset_id: id, kind: g('kind'), event_date: g('date') || amToday(), by_name: g('by').trim() || null, cost: g('cost') === '' ? null : Number(g('cost')), next_due: g('next') || null, notes: g('notes').trim() || null };
+  btn.disabled = true;
+  try {
+    await cloudRest('asset_events', 'POST', [ev], 'return=minimal');
+    // servicing moves the next-due date on automatically
+    if (['Service', 'Inspection', 'Calibration', 'PAT test'].includes(ev.kind)) {
+      const next = ev.next_due || (a.service_interval_months ? amAddMonths(ev.event_date, a.service_interval_months) : null);
+      const patch = { updated_at: new Date().toISOString() }; if (next) patch.next_service = next;
+      if (ev.kind === 'Service' && a.condition === 'Needs repair') patch.condition = 'Good';
+      await cloudRest('assets?id=eq.' + id, 'PATCH', patch, 'return=minimal');
+    }
+    if (ev.kind === 'Repair') await cloudRest('assets?id=eq.' + id, 'PATCH', { condition:'Good', updated_at: new Date().toISOString() }, 'return=minimal');
+    document.getElementById('amOv').remove(); await amOpen(); amEdit(id);
+  } catch (e) { btn.disabled = false; alert(e.message || e); }
+}
+async function amDelete(id) {
+  if (!confirm('Delete this item and its service record? This can\u2019t be undone.')) return;
+  try { await cloudRest('assets?id=eq.' + id, 'DELETE', null, 'return=minimal'); document.getElementById('amOv').remove(); await amOpen(); } catch (e) { alert(e.message || e); }
+}
+// ---- locations ----
+function amLocations() {
+  const ov = document.createElement('div'); ov.className = 'kc-qr-ov'; ov.id = 'amLocOv'; ov.onclick = e => { if (e.target === ov) ov.remove(); };
+  const row = l => `<div class="am-lrow"><span>${amEsc(l.name)}</span>${l.id ? `<button class="jb-btn no" onclick="amLocDel(${l.id})">Remove</button>` : '<span class="lma-sub">built in</span>'}</div>`;
+  ov.innerHTML = `<div class="kc-qr-box" style="text-align:left;max-width:520px;max-height:86vh;overflow-y:auto;"><div class="kc-qr-t">Locations</div>
+    <div class="sc-h2" style="margin-top:4px;">Storage</div>${am.locs.filter(l => l.kind === 'storage').map(row).join('') || '<p class="jb-empty">No storage locations yet — add one below.</p>'}
+    <div class="am-add"><input id="amNewStore" placeholder="e.g. Storage location 1, Van 2, Head office cupboard"><button class="jb-btn pri" onclick="amLocAdd('storage')">Add</button></div>
+    <div class="sc-h2">Training sites</div>${(typeof LPM_LOCATIONS !== 'undefined' ? LPM_LOCATIONS : []).map(n => row({ name:n })).join('')}${am.locs.filter(l => l.kind === 'site').map(row).join('')}
+    <div class="am-add"><input id="amNewSite" placeholder="Add a training site"><button class="jb-btn pri" onclick="amLocAdd('site')">Add</button></div>
+    <p class="sc-p">Instructors appear automatically from your trainer list.</p>
+    <div class="jb-actions" style="justify-content:flex-end;"><button class="qz-btn qz-primary" onclick="this.closest('.kc-qr-ov').remove()">Done</button></div></div>`;
+  document.body.appendChild(ov);
+}
+async function amLocAdd(kind) {
+  const inp = document.getElementById(kind === 'site' ? 'amNewSite' : 'amNewStore'), name = inp.value.trim(); if (!name) return;
+  try { await cloudRest('asset_locations', 'POST', [{ kind, name }], 'return=minimal'); am.locs = await cloudRest('asset_locations?select=*&order=name') || []; document.getElementById('amLocOv').remove(); amLocations(); amRender(); }
+  catch (e) { alert(/duplicate|23505/.test(String(e.message)) ? 'That location already exists.' : /PGRST20|42P01/.test(String(e.message)) ? 'Run supabase_assets.sql in Supabase first.' : (e.message || e)); }
+}
+async function amLocDel(id) {
+  if (!confirm('Remove this location? Equipment already there keeps its location name.')) return;
+  try { await cloudRest('asset_locations?id=eq.' + id, 'DELETE', null, 'return=minimal'); am.locs = am.locs.filter(l => l.id !== id); document.getElementById('amLocOv').remove(); amLocations(); amRender(); } catch (e) { alert(e.message || e); }
+}
+// ---- CSV ----
+function amCsvCell(v) { v = v == null ? '' : String(v); return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }
+function amDownload(name, rows) {
+  const blob = new Blob(['\ufeff' + rows.map(r => r.map(amCsvCell).join(',')).join('\r\n')], { type:'text/csv;charset=utf-8' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); setTimeout(() => a.remove(), 500);
+}
+function amCsv() {
+  const list = amFiltered();
+  amDownload('equipment-' + amToday() + '.csv', [['Asset tag','Name','Category','Make','Model','Serial number','Location type','Location','Condition','Status','Purchase date','Value (GBP)','Service interval (months)','Next service','Expiry','Notes']]
+    .concat(list.map(a => [a.tag, a.name, a.category, a.make, a.model, a.serial, (AM_LT[a.location_type] || '').replace(/^\S+\s/, ''), a.location, a.condition, amStatus(a)[1], a.purchase_date, a.value, a.service_interval_months, a.next_service, a.expiry, a.notes])));
+}
+function amCsvEvents() {
+  const byId = {}; amAll().forEach(a => byId[a.id] = a);
+  amDownload('equipment-service-log-' + amToday() + '.csv', [['Date','Asset tag','Equipment','Type','Done by','Cost (GBP)','Next due','From','To','Notes']]
+    .concat(am.events.map(e => { const a = byId[e.asset_id] || {}; return [e.event_date, a.tag, a.name, e.kind, e.by_name, e.cost, e.next_due, e.from_loc, e.to_loc, e.notes]; })));
 }
 </script>
 </body>
