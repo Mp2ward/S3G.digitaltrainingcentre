@@ -14,10 +14,10 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Scene Sounds">
 <link rel="apple-touch-icon" href="/icon-192.png">
-<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght,SOFT,WONK@9..144,600,0,0&display=swap" rel="stylesheet">
 <script>
 // Centre details used on sign-off records and Qualsafe PDFs — set CENTRE_NO to Sector 3 Group's Qualsafe centre number
-const CENTRE_NAME = 'Sector 3 Group';
+const CENTRE_NAME = 'Sector 3 Group Ltd';
 const CENTRE_NO = '908571';
 // DD/MM/YYYY everywhere in the app (accepts ISO dates 'YYYY-MM-DD', full ISO timestamps or Date objects)
 function isoLocal(d) {
@@ -1474,6 +1474,7 @@ function fmtD(v) {
 
 <style id="studioTheme">
   /* ===== Studio dashboard ===== */
+  [style*="Fraunces"], .hub-h, .hub-tile .hub-title, .pf-name, .ht-t, .kc-qr-t, .lms-h, .ct-h, .mp-head h3, .lma-stats b { font-variation-settings:'WONK' 0, 'SOFT' 0; }
   :root { --st-ink:#16203D; --st-bg:#F6F3EC; --st-line:#E7E3DA; --st-acc:#E4572E; --st-muted:#5E6577; }
   #view-hub { background:var(--st-bg); }
   #view-hub > .hub { max-width:1320px !important; padding:36px 32px 56px !important; display:flex; gap:28px; align-items:flex-start; }
@@ -1596,6 +1597,11 @@ function fmtD(v) {
   .lma-stats > div { background:#fff; border:1px solid #E7E3DA; border-radius:16px; padding:14px 16px; }
   .lma-stats b { display:block; font-family:'Fraunces',Georgia,serif; font-size:1.7rem; color:#16203D; } .lma-stats span { font-size:0.78rem; color:#5E6577; }
   .lma-stats .warn b { color:#B26A00; } .lma-stats .ok b { color:#1F8A5B; }
+  .lma-click > button { background:#fff; border:1px solid #E7E3DA; border-radius:16px; padding:14px 16px; text-align:left; cursor:pointer; font:inherit; transition:transform .12s ease, box-shadow .12s ease; }
+  .lma-click > button:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(22,32,61,0.08); }
+  .lma-click > button.on { border:2px solid #16203D; box-shadow:0 8px 20px rgba(22,32,61,0.12); }
+  .lma-click > button b { display:block; font-family:'Fraunces',Georgia,serif; font-size:1.7rem; color:#16203D; } .lma-click > button span { font-size:0.78rem; color:#5E6577; }
+  .lma-click > button.warn b { color:#B26A00; } .lma-click > button.ok b { color:#1F8A5B; }
   .lma-stats.sm { grid-template-columns:repeat(4,1fr); } .lma-stats.sm b { font-size:1.3rem; }
   .lma-bar-row { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:6px; }
   .lma-search { flex:1; min-width:220px; display:flex; align-items:center; gap:8px; background:#fff; border:1px solid #D8DEE8; border-radius:12px; padding:0 12px; color:#6B7A94; }
@@ -1739,6 +1745,17 @@ function fmtD(v) {
   .tq-chk { display:inline-flex; align-items:center; gap:8px; font-size:0.9rem; font-weight:500; color:#16203D; min-height:44px; }
   .tq-chk input { width:20px; height:20px; }
   .tq-decl-list { margin:6px 0 0 18px; padding:0; color:#3A4760; font-size:0.9rem; line-height:1.5; }
+  .mp-pick { display:inline-flex; vertical-align:middle; margin-left:6px; } .mp-pick input { width:20px; height:20px; }
+  .mp-selall { display:flex; flex-wrap:wrap; gap:4px 16px; align-items:center; background:#fff; border:1px solid #E7E3DA; border-radius:16px; padding:6px 16px; margin-bottom:14px; }
+  .mp-bar { position:fixed; left:50%; transform:translateX(-50%); bottom:calc(env(safe-area-inset-bottom,0px) + 16px); z-index:300; display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:center;
+    background:#16203D; color:#fff; border-radius:18px; padding:10px 12px 10px 18px; box-shadow:0 12px 30px rgba(13,27,76,0.35); max-width:calc(100vw - 24px); }
+  .mp-bar .jb-btn:not(.pri) { background:transparent; color:#fff; border-color:rgba(255,255,255,0.4); }
+  .mp-reqlist { border:1px solid #E7E3DA; border-radius:12px; margin:0 0 12px; max-height:220px; overflow-y:auto; }
+  .mp-reqlist div { display:flex; justify-content:space-between; gap:10px; padding:8px 12px; border-bottom:1px solid #F2F4F8; font-size:0.88rem; }
+  .mp-reqlist .tot { background:#F6F3EC; border-bottom:0; }
+  .mp-req { border:1px solid #2446B8; color:#2446B8; background:#fff; border-radius:999px; padding:4px 10px; font:inherit; font-size:0.74rem; font-weight:700; cursor:pointer; margin-left:4px; }
+  .jb-chk { flex-direction:row !important; align-items:center; gap:10px; text-transform:none !important; letter-spacing:0 !important; font-size:0.88rem !important; }
+  .jb-chk input { width:20px; height:20px; }
   .pf-card { display:flex; gap:20px; align-items:center; flex-wrap:wrap; background:#16203D; color:#fff; border-radius:24px; padding:26px; margin:14px 0 22px; }
   .pf-av { width:78px; height:78px; border-radius:50%; background:#E4572E; color:#fff; display:flex; align-items:center; justify-content:center; font-family:'Fraunces',Georgia,serif; font-size:2rem; font-weight:600; flex-shrink:0; }
   .pf-name { font-family:'Fraunces',Georgia,serif; font-size:1.8rem; font-weight:600; line-height:1.15; }
@@ -3671,6 +3688,7 @@ function menuFabSync() {
   fab.style.display = (hub && hub.classList.contains('active')) ? 'none' : '';
 }
 function showView(name) {
+  if (name !== 'mypay') { const mb = document.getElementById('mpBar'); if (mb) mb.remove(); }
   if (document.body.classList.contains('role-learner') && name !== 'lms' && name !== 'profile') name = 'lms';
   document.querySelectorAll('.app-view').forEach(v => v.classList.remove('active'));
   var el = document.getElementById('view-' + name);
@@ -9194,7 +9212,7 @@ function lpmRenderDetails() {
   const c = lpmCourse;
   const jobBox = (c.courseDates && c.courseDates.length > 1) || c.adminNotes ? `<div class="jb-course-box">
       ${c.courseDates && c.courseDates.length > 1 ? `<div><b>Course days</b><div class="jb-daychips">${c.courseDates.map(d => `<span>${new Date(d + 'T00:00:00').toLocaleDateString('en-GB', { weekday:'short', day:'numeric', month:'short' })}</span>`).join('')}</div></div>` : ''}
-      ${c.adminNotes ? `<div><b>Notes from the office</b><div style="white-space:pre-line;margin-top:4px;">${lpmEsc(c.adminNotes)}</div></div>` : ''}</div>` : '';
+      ${c.adminNotes ? `<div><b>Notes from the office</b>${c.notesHidden ? ' <span class="jb-hint">(hidden from the customer)</span>' : ''}<div style="white-space:pre-line;margin-top:4px;">${lpmEsc(c.adminNotes)}</div></div>` : ''}</div>` : '';
   document.getElementById('lpmPanel-details').innerHTML = `
     <div class="sc-h2" style="margin-top:0;">Course details</div>${jobBox}
     <div class="lpm-field">
@@ -9208,7 +9226,8 @@ function lpmRenderDetails() {
       </div>
       <div class="lpm-field">
         <label>Training location</label>
-        <select onchange="lpmSetDetail('location', this.value)">${lpmOpt(LPM_LOCATIONS, c.location)}</select>
+        <select onchange="lpmSetDetail('location', this.value);lpmRenderDetails()">${lpmOpt(LPM_LOCATIONS.concat(['Client location']), c.location)}</select>
+        ${c.location === 'Client location' ? `<textarea rows="3" style="margin-top:8px;" placeholder="Client name and full address, including postcode" oninput="lpmSetDetail('clientAddress', this.value)">${lpmEsc(c.clientAddress || '')}</textarea>` : ''}
       </div>
     </div>
     <div class="lpm-field">
@@ -10173,6 +10192,9 @@ function skSaveAll(all) { if (lpmReadOnlyNow()) return; skSaveAllRaw(all); if (t
 function skData() {
   const all = skLoadAll();
   if (!all[skCourseId]) all[skCourseId] = { marks:{}, overrides:{}, signoff:{ centre:CENTRE_NAME, centreNo:CENTRE_NO, date:'', trainer:((skCourse()||{}).instructor1||'') } };
+  const so = all[skCourseId].signoff || (all[skCourseId].signoff = {});
+  if (!so.centre || so.centre === 'Sector 3 Group') so.centre = CENTRE_NAME;   // Qualsafe register details
+  if (!so.centreNo) so.centreNo = CENTRE_NO;
   return all[skCourseId];
 }
 function skUpdate(fn) {
@@ -11506,7 +11528,7 @@ async function fbFillPage(pdf, entry, PDFDocument) {
   const ticks = [];
   const pick = (group, value) => { if (value && FB_BOXES[group] && FB_BOXES[group][value]) ticks.push(FB_BOXES[group][value]); };
   text('fillable Trainers Name', lpmInstructorLine(lpmCourse) || '');
-  text('fillable Venue Name', lpmCourse.location || '');
+  text('fillable Venue Name', lpmCourse.location === 'Client location' ? (lpmCourse.clientAddress || 'Client location') : (lpmCourse.location || ''));
   text('fillable Course Start Date', fmtD(lpmCourse.startDate));
   text('fillable Your Title', entry.title || '');
   text('fillable Your Name', entry.name || '');
@@ -11515,6 +11537,8 @@ async function fbFillPage(pdf, entry, PDFDocument) {
   text('fillable Rate Trainer', entry.rateTrainer || '');
   text('fillable Rate Training Centre', entry.rateCentre || '');
   text('fillable Comments', entry.comments || '', 10);
+  try { form.getFields().forEach(f => { const n = f.getName(); if (!/centre/i.test(n) || !f.setText) return;
+      if (/(no|num)/i.test(n)) text(n, CENTRE_NO); else if (/name/i.test(n)) text(n, CENTRE_NAME); }); } catch (e) {}
   pick('Training Commitment Leaflet', entry.leaflet);
   const r = entry.ratings || {};
   const map = { venue:'Venue', classroom:'Classroom', handouts:'Handouts', equipment:'Equipment', content:'Course Content',
@@ -13085,7 +13109,8 @@ function jbReconcileCourses() {
     const dates = jbGroupDates(j);
     const team = j.team ? String(j.team).split('|').filter(Boolean) : [];
     const upd = { courseName: j.course_name || j.title, startDate: dates[0] || j.job_date, endDate: dates[dates.length - 1] || jbEnd(j), location: j.location || '' };
-    if (j.group_id) Object.assign(upd, { courseDates: dates, adminNotes: j.notes || '' });
+    if (j.group_id) Object.assign(upd, { courseDates: dates, adminNotes: j.notes || '', notesHidden: !!j.notes_hidden });
+    if (/^Client location: /.test(upd.location)) { upd.clientAddress = upd.location.replace(/^Client location: /, ''); upd.location = 'Client location'; }
     if (ex) {
       if (!ex.submission) for (const k in upd) if (ex[k] !== upd[k]) { ex[k] = upd[k]; changed = true; }
       return;
@@ -13168,11 +13193,11 @@ function jbRenderAdmin() {
     <div class="hub-eyebrow" style="margin-top:14px;">Management Panel</div>
     <div class="hub-h" style="margin-bottom:4px;">Job Scheduling</div>
     <p class="sc-p">Create a course, pick its days, put instructors on each day, then run timesheets and mark payments.</p>
-    <div class="jb-tabs"><button class="${jb.tab === 'schedule' ? 'on' : ''}" onclick="jb.tab='schedule';jbRenderAdmin()">Schedule</button><button class="${jb.tab === 'timesheets' ? 'on' : ''}" onclick="jb.tab='timesheets';jbRenderAdmin()">Timesheets &amp; payments</button></div>`;
+    <div class="jb-tabs"><button class="${jb.tab === 'schedule' ? 'on' : ''}" onclick="jb.tab='schedule';jbRenderAdmin()">Schedule</button><button class="${jb.tab === 'timesheets' ? 'on' : ''}" onclick="jb.tab='timesheets';jbRenderAdmin()">Timesheets &amp; payments</button><button class="${jb.tab === 'payreqs' ? 'on' : ''}" onclick="jb.tab='payreqs';jb.reqs=null;jbRenderAdmin()">Pay requests</button></div>`;
   if (!jbIsAdmin()) { root.innerHTML = html + '<p class="jb-empty">Only centre admins can schedule jobs.</p>'; return; }
   if (jb.err) html += `<p class="jb-msg" style="color:#C74444;">${lpmEsc(jb.err)}</p>`;
   if (jb.msg) html += `<p class="jb-msg" style="color:#0F6E56;">${lpmEsc(jb.msg)}</p>`;
-  html += jb.tab === 'schedule' ? jbAdminSchedule() : jbAdminTimesheets();
+  html += jb.tab === 'schedule' ? jbAdminSchedule() : jb.tab === 'payreqs' ? jbAdminPayReqs() : jbAdminTimesheets();
   root.innerHTML = html;
   if (jb.tab === 'timesheets') { jbLoadPayFor(jb.tsInstr); mpAdminInvoice(jb.tsInstr, jb.month); }
 }
@@ -13197,7 +13222,9 @@ function jbAdminSchedule() {
       <div class="jb-meta">${lpmEsc(j.course_name || 'Not a Course Matrix course')}<br>${lpmEsc(j.location || 'No location')}${jbTimes(j) ? ' · ' + jbTimes(j) : ''} · ${jbMoney(j.day_rate)}/day</div></div></div>
       <div class="jb-days">${dates.map(d => `<div class="jb-dayrow"><span class="jb-daylbl">${j.group_id ? jbDayLabel(d) : jbDates(j)}</span><span class="jb-people">${rows.filter(r => r.job_date === d).map(r =>
         `<span class="jb-person"><b>${lpmEsc(r.instructor_name || 'Unassigned')}</b>${r.is_lead ? ' <i>Lead</i>' : ''} <span class="jb-status ${r.status}">${jbStatusLabel(r)}</span>${r.paid ? ' <span class="jb-status paid">Paid</span>' : ''}</span>`).join('')}</span></div>`).join('')}</div>
-      ${j.notes ? `<div class="jb-meta" style="margin-top:8px;"><b>Notes (on the course):</b> ${lpmEsc(j.notes)}</div>` : ''}
+      ${j.notes ? `<div class="jb-meta" style="margin-top:8px;"><b>Instructor notes:</b> ${lpmEsc(j.notes)}</div>` : ''}
+      ${j.admin_notes ? `<div class="jb-meta" style="margin-top:4px;"><b>Admin notes:</b> ${lpmEsc(j.admin_notes)}</div>` : ''}
+      ${j.notes_hidden ? '<div class="jb-meta" style="margin-top:4px;">🔒 Notes hidden from the customer</div>' : ''}
       ${rows.filter(r => r.instructor_note).map(r => `<div class="jb-meta" style="margin-top:4px;"><b>${lpmEsc(r.instructor_name)}:</b> ${lpmEsc(r.instructor_note)}</div>`).join('')}
       <div class="jb-actions">${j.group_id
         ? `<button class="jb-btn" onclick="jbEditGroup('${j.group_id}')">Edit</button><button class="jb-btn no" onclick="jbRemoveGroup('${j.group_id}')">Remove course</button>`
@@ -13243,7 +13270,8 @@ function jbBuilder() {
     <div class="wide jb-bh">${d.group ? 'Edit course' : 'New course'}</div>
     <label>Course type<select onchange="jbDraftCourse(this.value)"><option value="">Not a Course Matrix course</option>${courses.map(c => `<option ${c === d.course_name ? 'selected' : ''}>${lpmEsc(c)}</option>`).join('')}</select></label>
     <label>Title<input value="${lpmEsc(d.title)}" placeholder="e.g. FREC 3 — cohort 4" oninput="jbDraftSet('title', this.value)"></label>
-    <label>Location<input list="jbfLocs" value="${lpmEsc(d.location)}" oninput="jbDraftSet('location', this.value)"><datalist id="jbfLocs">${locs.map(l => `<option value="${lpmEsc(l)}">`).join('')}</datalist></label>
+    <label>Location<select onchange="jbDraftSet('location', this.value);jbRenderAdmin()"><option value="">Choose location…</option>${locs.concat(['Client location']).map(l => `<option ${l === d.location ? 'selected' : ''}>${lpmEsc(l)}</option>`).join('')}</select></label>
+    ${d.location === 'Client location' ? `<label class="wide">Client address<textarea rows="2" placeholder="Client name and full address, including postcode" oninput="jbDraftSet('address', this.value)">${lpmEsc(d.address || '')}</textarea></label>` : ''}
     <label>Day rate (£)<input type="number" min="0" step="0.01" value="${lpmEsc(d.rate)}" placeholder="e.g. 180" oninput="jbDraftSet('rate', this.value)"></label>
     <label>Start time<input type="time" value="${d.start}" oninput="jbDraftSet('start', this.value)"></label>
     <label>Finish time<input type="time" value="${d.end}" oninput="jbDraftSet('end', this.value)"></label>
@@ -13258,7 +13286,9 @@ function jbBuilder() {
         ${i > 0 ? `<button class="jb-btn" onclick="jb.draft.days[${i}].instr=jb.draft.days[${i - 1}].instr.slice();jbRenderAdmin()">Same as day ${i}</button>` : ''}</div>
     </div>`).join('')}
       <button class="jb-btn" onclick="jb.draft.days.push({ date:'', instr:['', ''] });jbRenderAdmin()">+ Add day</button></div>
-    <label class="wide">Notes <span class="jb-hint">— shown on the course in Course Matrix</span><textarea rows="2" oninput="jbDraftSet('notes', this.value)">${lpmEsc(d.notes)}</textarea></label>
+    <label class="wide">Instructor notes <span class="jb-hint">— the instructors see these in My Schedule and on the course</span><textarea rows="2" oninput="jbDraftSet('notes', this.value)">${lpmEsc(d.notes)}</textarea></label>
+    <label class="wide">Admin notes <span class="jb-hint">— only admins see these in the app</span><textarea rows="2" oninput="jbDraftSet('adminNotes', this.value)">${lpmEsc(d.adminNotes || '')}</textarea></label>
+    <label class="wide jb-chk"><input type="checkbox" ${d.hide ? 'checked' : ''} onchange="jbDraftSet('hide', this.checked)"> Hide notes from the customer (never shown on course packs or anything the customer sees)</label>
     <div class="wide jb-actions" style="margin-top:0;"><button class="jb-btn pri" onclick="jbSaveGroup()">${d.group ? 'Save course' : 'Create course'}</button><button class="jb-btn" onclick="jb.formOpen=false;jb.draft=null;jbRenderAdmin()">Cancel</button><span id="jbfMsg" class="jb-msg" style="color:#C74444;"></span></div>
   </div>`;
 }
@@ -13273,7 +13303,10 @@ async function jbSaveGroup() {
   if (!lead) { msg.textContent = 'Choose a lead instructor for day 1.'; return; }
   const team = [lead, ...days.flatMap(x => x.instr)].filter((v, i, a) => v && a.indexOf(v) === i).map(nameOf);
   const group = d.group || ('G' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6));
-  const shared = { group_id: group, title: d.title.trim(), course_name: d.course_name || null, start_time: d.start, end_time: d.end, location: (d.location || '').trim(),
+  if (d.location === 'Client location' && !(d.address || '').trim()) { msg.textContent = 'Add the client address.'; return; }
+  const loc = d.location === 'Client location' ? 'Client location: ' + d.address.trim().replace(/\s*\n\s*/g, ', ') : (d.location || '').trim();
+  const shared = { group_id: group, title: d.title.trim(), course_name: d.course_name || null, start_time: d.start, end_time: d.end, location: loc,
+    admin_notes: (d.adminNotes || '').trim(), notes_hidden: !!d.hide,
     day_rate: Number(d.rate) || 0, notes: (d.notes || '').trim(), team: team.join('|'), course_dates: days.map(x => x.date).join(','), days: 1, updated_at: new Date().toISOString() };
   const want = days.flatMap(x => x.instr.map(id => ({ date: x.date, id })));
   msg.style.color = '#6B7A94'; msg.textContent = 'Saving…';
@@ -13293,15 +13326,16 @@ async function jbSaveGroup() {
   } catch (e) {
     const raw = String(e.message || e);
     msg.style.color = '#C74444';
-    msg.textContent = /group_id|is_lead|course_dates|team|PGRST204|column/i.test(raw) ? 'The job table needs updating for multi-day courses. Run supabase_jobs_courses.sql in Supabase, then try again.' : jbErr(e);
+    msg.textContent = /admin_notes|notes_hidden/i.test(raw) ? 'Run supabase_jobs_notes.sql in Supabase, then try again.' : /group_id|is_lead|course_dates|team|PGRST204|column/i.test(raw) ? 'The job table needs updating for multi-day courses. Run supabase_jobs_courses.sql in Supabase, then try again.' : jbErr(e);
   }
 }
 function jbEditGroup(g) {
   const rows = jb.jobs.filter(j => j.group_id === g); if (!rows.length) return;
   const j = rows[0], dates = [...new Set(rows.map(r => r.job_date))].sort();
   const lead = (rows.find(r => r.is_lead) || {}).instructor || '';
-  jb.draft = { group: g, course_name: j.course_name || '', title: j.title || '', location: j.location || '', start: j.start_time || '09:00', end: j.end_time || '17:00',
-    rate: j.day_rate != null ? String(j.day_rate) : '', notes: j.notes || '',
+  const cl = /^Client location: /.test(j.location || '');
+  jb.draft = { group: g, course_name: j.course_name || '', title: j.title || '', location: cl ? 'Client location' : (j.location || ''), address: cl ? j.location.replace(/^Client location: /, '') : '', start: j.start_time || '09:00', end: j.end_time || '17:00',
+    rate: j.day_rate != null ? String(j.day_rate) : '', notes: j.notes || '', adminNotes: j.admin_notes || '', hide: !!j.notes_hidden,
     days: dates.map((d, i) => { let ids = rows.filter(r => r.job_date === d).map(r => r.instructor);
       if (i === 0 && lead && ids.includes(lead)) ids = [lead, ...ids.filter(x => x !== lead)];
       while (ids.length < 2) ids.push(''); return { date: d, instr: ids }; }) };
@@ -13515,6 +13549,7 @@ function jbMineCard(j) {
     <div class="jb-meta">${lpmEsc(j.course_name || '')}${j.course_name ? '<br>' : ''}${jbDates(j)}${jbTimes(j) ? ' · ' + jbTimes(j) : ''}<br>${lpmEsc(j.location || '')}<br>${jbMoney(j.day_rate)}/day · ${jbMoney(jbTotal(j))} total</div></div>
     <div style="display:flex;gap:6px;flex-direction:column;align-items:flex-end;"><span class="jb-status ${j.status}">${jbStatusLabel(j)}</span>${j.paid ? '<span class="jb-status paid">Paid</span>' : ''}</div></div>
     ${j.group_id ? `<div class="jb-meta" style="margin-top:8px;">${j.is_lead ? '<b>You are the lead instructor.</b> ' : ''}${jbCourseDaysLine(j)}</div>` : ''}
+    ${j.notes ? `<div class="jb-meta" style="margin-top:6px;"><b>Notes from the office:</b> ${lpmEsc(j.notes)}</div>` : ''}
     <textarea class="jb-note" id="jbn-${j.id}" placeholder="My notes for this job…">${lpmEsc(j.instructor_note || '')}</textarea>
     <div class="jb-actions">
       ${j.status === 'offered' ? `<button class="jb-btn go" onclick="jbRespond('${j.id}','confirmed')">✓ Confirm</button><button class="jb-btn no" onclick="jbRespond('${j.id}','rejected')">✕ Reject</button>` : ''}
@@ -14965,7 +15000,7 @@ function mpRender() {
   let html = `<button class="rn-nav-btn rn-no-print" onclick="showView('hub')">← Home</button>
     <div class="hub-eyebrow" style="margin-top:14px;">My Account</div>
     <div class="hub-h" style="margin-bottom:4px;">My Pay</div>
-    <p class="sc-p">Your confirmed work month by month. When a month is finished, accept the timesheet, then turn it into an invoice or upload your own.</p>`;
+    <p class="sc-p">Your confirmed work month by month. Request pay for a single worked day with <b>Request pay</b>, or when a month is finished, accept the timesheet and invoice the whole month.</p>`;
   if (!jbSignedIn()) { root.innerHTML = html + '<p class="jb-empty">Sign in to see your pay.</p>'; return; }
   const x = pf.extra || {};
   html += `<div class="pf-sec"><h3>My payment details</h3>${pf.extra === null ? '<p class="jb-empty">Loading…</p>' : mpPayDetailsOk()
@@ -14975,6 +15010,9 @@ function mpRender() {
   if (mp.err) html += `<p class="jb-msg" style="color:#C74444;">${lpmEsc(mp.err)}</p>`;
   if (jb.err) html += `<p class="jb-msg" style="color:#C74444;">${lpmEsc(jb.err)}</p>`;
   const months = mpMonths(), today = isoLocal();
+  const elig = mpJobs().filter(j => mpEligible(j, today));
+  if (elig.length) html += `<div class="mp-selall"><label class="tq-chk"><input type="checkbox" ${elig.every(j => mp.pick[j.id]) ? 'checked' : ''} onchange="mpPickAll()"> Select all completed days not yet requested (${elig.length})</label>
+    <span class="sc-p" style="margin:0;">Tick days to put them on one invoice.</span></div>`;
   if (!jb.loaded) html += '<p class="jb-empty">Loading your work…</p>';
   else if (!months.length) html += '<p class="jb-empty">No confirmed work yet. Jobs you confirm in My Schedule will appear here.</p>';
   months.forEach(({ m, rows }) => {
@@ -14988,7 +15026,7 @@ function mpRender() {
     html += `<div class="mp-month"><div class="mp-head"><div><h3>${jbMonthLabel(m)}</h3>${chip}</div><div class="mp-total">${jbMoney(sum(rows))}<span>month total</span></div></div>
       <div style="overflow-x:auto;"><table class="mp-table"><tr><th>Date</th><th>Course</th><th>Location</th><th class="r">Days</th><th class="r">Rate</th><th class="r">Total</th><th></th></tr>
       ${rows.map(j => { const st = j.paid ? ['p', 'Paid'] : jbEnd(j) < today ? ['w', 'Worked'] : ['s', 'Scheduled'];
-        return `<tr><td>${j.days > 1 ? jbDates(j) : jbDayLabel(j.job_date)}</td><td>${lpmEsc(j.title)}</td><td>${lpmEsc(j.location || '')}</td><td class="r">${j.days}</td><td class="r">${jbMoney(j.day_rate)}</td><td class="r">${jbMoney(jbTotal(j))}</td><td><span class="mp-st ${st[0]}">${st[1]}</span></td></tr>`; }).join('')}
+        return `<tr><td>${j.days > 1 ? jbDates(j) : jbDayLabel(j.job_date)}</td><td>${lpmEsc(j.title)}</td><td>${lpmEsc(j.location || '')}</td><td class="r">${j.days}</td><td class="r">${jbMoney(j.day_rate)}</td><td class="r">${jbMoney(jbTotal(j))}</td><td><span class="mp-st ${st[0]}">${st[1]}</span> ${mpReqCell(j, today)}</td></tr>`; }).join('')}
       </table></div>
       <div class="mp-sums"><span>Worked <b>${jbMoney(sum(worked))}</b></span><span>Scheduled <b>${jbMoney(sum(sched))}</b></span></div>`;
     if (allPaid) html += '<div class="mp-note">All paid — thank you.</div>';
@@ -15002,7 +15040,7 @@ function mpRender() {
     else html += '<div class="mp-note">You can accept the timesheet once the month\u2019s work is done.</div>';
     html += '</div>';
   });
-  root.innerHTML = html;
+  root.innerHTML = html; mpRenderBar();
 }
 function mpMonthTotal(m) { return mpMonths().filter(x => x.m === m).reduce((t, x) => t + x.rows.reduce((a, j) => a + jbTotal(j), 0), 0); }
 async function mpSave(m, changes) {
@@ -15429,7 +15467,7 @@ async function wbFillPdf(c, row, marks, learnerName) {
   const allPass = W.qs.every(q => marks.some(m => m.qn === q.n && m.result === 'pass'));
   const last = marks.slice().sort((x, y) => (x.created_at < y.created_at ? -1 : 1)).pop();
   T(B.result, allPass ? 'P' : 'R');
-  T(B.centreName, CENTRE_NAME + ' Ltd'); T(B.centreNo, CENTRE_NO || '908571');
+  T(B.centreName, CENTRE_NAME); T(B.centreNo, CENTRE_NO || '908571');
   T(B.date, allPass && last ? d(last.created_at) : '');
   T(B.trainerName, last ? last.marker_name || '' : ''); T(B.trainerSig, last && allPass ? (last.marker_name || '') + ' (signed electronically)' : '');
   const bytes = await pdf.save();
@@ -15498,7 +15536,7 @@ async function wbStaffPdf(btn) {
 </script>
 <script>
 // ===================== LMS OVERVIEW (admin / IQA) =====================
-let lma = { tab:'learners', q:'', cohort:'', status:'', demo:true, real:null, sel:null, cohortSel:'', err:'' };
+let lma = { tab:'learners', stat:'', sort:'', q:'', cohort:'', status:'', demo:true, real:null, sel:null, cohortSel:'', err:'' };
 const LMA_ST = { pass:['#1F8A5B','Passed'], sub:['#E3A21A','Awaiting marking'], refer:['#D93A33','Referred'], draft:['#8FA3C8','Started'], none:['#E6E9F0','Not started'] };
 // ---- 8 example learners across 2 cohorts (clearly marked as examples) ----
 function lmaDemo() {
@@ -15594,22 +15632,32 @@ function lmaRender() {
       <label class="lma-demo-t"><input type="checkbox" ${lma.demo ? 'checked' : ''} onchange="lma.demo=this.checked;lma.cohort='';lma.cohortSel='';lmaRender()"> Show example learners</label></div>
     <p class="sc-p">Every learner and cohort across the centre. Progress updates as learners submit work and it's marked.</p>
     ${lma.err ? `<p class="jb-msg" style="color:#C74444;">${lmsEsc(lma.err)}</p>` : ''}
-    <div class="lma-stats">
-      <div><b>${all.length}</b><span>Learners</span></div><div><b>${D.cohorts.length}</b><span>Cohorts</span></div>
-      <div class="warn"><b>${toMark}</b><span>Answers to mark</span></div><div><b>${avg}%</b><span>Average progress</span></div><div class="ok"><b>${done}</b><span>Fully complete</span></div></div>
+    <div class="lma-stats lma-click">
+      ${[['learners', all.length, 'Learners', ''], ['cohorts', D.cohorts.length, 'Cohorts', ''], ['mark', toMark, 'Answers to mark', 'warn'], ['progress', avg + '%', 'Average progress', ''], ['complete', done, 'Fully complete', 'ok']]
+        .map(([k, n, t, cls]) => `<button class="${cls} ${lma.stat === k ? 'on' : ''}" onclick="lmaStat('${k}')"><b>${n}</b><span>${t}</span></button>`).join('')}</div>
     <div class="lma-bar-row">
       <label class="lma-search">${kcIcon('<circle cx="11" cy="11" r="7"/><path d="M21 21l-5-5"/>', 18)}<input id="lmaQ" placeholder="Search learner, cohort or location" value="${lmsEsc(lma.q)}" oninput="lma.q=this.value;lmaRenderBody()"></label>
       <select onchange="lma.cohort=this.value;lmaRenderBody()"><option value="">All cohorts</option>${D.cohorts.map(c => `<option value="${c.id}" ${lma.cohort === c.id ? 'selected' : ''}>${lmsEsc(c.label)}</option>`).join('')}</select>
       <select onchange="lma.status=this.value;lmaRenderBody()">${[['', 'Any status'], ['mark', 'Has answers to mark'], ['refer', 'Has referrals'], ['behind', 'Under 40% progress'], ['complete', 'Fully complete']].map(([v, t]) => `<option value="${v}" ${lma.status === v ? 'selected' : ''}>${t}</option>`).join('')}</select>
     </div>
-    <div class="au-tabs"><button class="${lma.tab === 'learners' ? 'on' : ''}" onclick="lma.tab='learners';lmaRender()">All learners</button><button class="${lma.tab === 'cohorts' ? 'on' : ''}" onclick="lma.tab='cohorts';lmaRender()">Cohorts</button><button class="${lma.tab === 'matrix' ? 'on' : ''}" onclick="lma.tab='matrix';lmaRender()">Question matrix</button></div>
+    <div class="au-tabs"><button class="${lma.tab === 'learners' ? 'on' : ''}" onclick="lma.tab='learners';lma.stat='';lma.status='';lma.sort='';lmaRender()">All learners</button><button class="${lma.tab === 'cohorts' ? 'on' : ''}" onclick="lma.tab='cohorts';lma.stat='cohorts';lmaRender()">Cohorts</button><button class="${lma.tab === 'matrix' ? 'on' : ''}" onclick="lma.tab='matrix';lma.stat='';lmaRender()">Question matrix</button><button class="${lma.tab === 'marking' ? 'on' : ''}" onclick="lma.tab='marking';lma.stat='mark';lmaRender()">To mark</button></div>
     <div id="lmaBody"></div>`;
   root.innerHTML = h; lmaRenderBody();
 }
 function lmaRenderBody() {
   const el = document.getElementById('lmaBody'); if (!el) return;
   const D = lmaData(), byId = {}; D.cohorts.forEach(c => byId[c.id] = c);
-  const list = lmaFilter(D.learners, byId).sort((a, b) => a.name.localeCompare(b.name));
+  const list = lmaFilter(D.learners, byId).sort((a, b) => lma.sort === 'progress' ? lmaStats(a).pct - lmaStats(b).pct : a.name.localeCompare(b.name));
+  if (lma.tab === 'marking') {
+    const items = [];
+    list.forEach(L => WB_ORDER.forEach(c => WB[c].qs.forEach(q => { if (((L.comps[c] || {}).qs || {})[q.n] === 'sub') items.push({ L, c, q }); })));
+    el.innerHTML = `<p class="sc-p">${items.length} answer${items.length === 1 ? '' : 's'} waiting to be marked${lma.cohort ? ' in ' + lmsEsc((byId[lma.cohort] || {}).label || '') : ''}. Tap one to open it.</p>
+      <div class="lma-scroll"><table class="lma-tbl" style="min-width:640px;"><thead><tr><th>Learner</th><th>Cohort</th><th>Workbook</th><th>Question</th><th></th></tr></thead><tbody>
+      ${items.map(({ L, c, q }) => `<tr onclick="lmaCell('${L.id}','${c}')"><td><span class="lma-who"><span class="lma-av">${lmaInit(L.name)}</span><b>${lmsEsc(L.name)}</b>${L.demo ? '<span class="lma-ex">Example</span>' : ''}</span></td>
+        <td>${lmsEsc((byId[L.cohort] || {}).label || '')}</td><td>Component ${c[1]}</td><td>Q${q.n}<span class="lma-sub">${lmsEsc(q.text.split('\n')[0].slice(0, 70))}…</span></td><td><span class="au-st wait">Mark</span></td></tr>`).join('')}
+      </tbody></table></div>${items.length ? '' : '<p class="jb-empty">Nothing waiting to be marked. 🎉</p>'}`;
+    return;
+  }
   const legend = `<div class="lma-legend">${Object.entries(LMA_ST).map(([k, [c, t]]) => `<span><i style="background:${c}"></i>${t}</span>`).join('')}</div>`;
   if (lma.tab === 'cohorts') {
     const cs = D.cohorts.filter(c => !lma.cohort || c.id === lma.cohort);
@@ -15642,6 +15690,15 @@ function lmaRenderBody() {
       <td><b>${s.pct}%</b></td><td>${s.sub ? `<span class="au-st wait">${s.sub}</span>` : '<span class="lma-sub">—</span>'}${s.ref ? ` <span class="au-st" style="background:#FDE3E1;color:#A33030">${s.ref} ref</span>` : ''}</td>
       <td>${L.quiz != null ? L.quiz + '%' : '—'}</td><td>${L.last ? fmtD(L.last) : '—'}</td></tr>`; }).join('')}
     </tbody></table></div>${list.length ? '' : '<p class="jb-empty">No learners match.</p>'}`;
+}
+function lmaStat(k) {
+  lma.stat = lma.stat === k && k !== 'learners' ? '' : k; lma.sort = ''; lma.status = '';
+  if (k === 'learners') lma.tab = 'learners';
+  if (k === 'cohorts') lma.tab = 'cohorts';
+  if (k === 'mark') lma.tab = lma.stat ? 'marking' : 'learners';
+  if (k === 'progress') { lma.tab = 'learners'; lma.sort = lma.stat ? 'progress' : ''; }
+  if (k === 'complete') { lma.tab = 'learners'; lma.status = lma.stat ? 'complete' : ''; }
+  lmaRender(); const b = document.getElementById('lmaBody'); if (b) b.scrollIntoView({ behavior:'smooth', block:'start' });
 }
 function lmaCell(id, c) {
   const L = lmaData().learners.find(x => x.id === id);
@@ -15771,7 +15828,7 @@ let tq = { open:false, busy:false };
 function tqData() { const x = pf.extra || {}; return x.tiqa || (x.tiqa = { v:{} }); }
 function tqPrefill(v) {
   const n = ((cloud.profile && cloud.profile.full_name) || '').trim().split(/\s+/), x = pf.extra || {};
-  const d = { fillable_centre_name: CENTRE_NAME + ' Ltd', fillable_centre_number: CENTRE_NO || '', fillable_first_name: n[0] || '', fillable_surname: n.slice(1).join(' '),
+  const d = { fillable_centre_name: CENTRE_NAME, fillable_centre_number: CENTRE_NO || '', fillable_first_name: n[0] || '', fillable_surname: n.slice(1).join(' '),
     fillable_email_address: (cloud.session && cloud.session.user && cloud.session.user.email) || '', fillable_mobile: x.phone || '' };
   Object.keys(d).forEach(k => { if (v[k] == null || v[k] === '') v[k] = d[k]; });
 }
@@ -15872,6 +15929,121 @@ async function tqRemove() {
   const T = tqData(); if (!T.path || !confirm('Remove your saved application form? Your typed answers are kept.')) return;
   try { try { await cloudFetch('/storage/v1/object/course-files/' + T.path, { method:'DELETE' }); } catch (e) {}
     delete T.path; delete T.mode; delete T.at; await pfSaveExtra({ tiqa: T }); pfRender(); } catch (e) { alert(e.message || e); }
+}
+</script>
+<script>
+// ===== My Pay: daily pay requests → admin approval (and a quiet email to the office) =====
+const PAY_NOTIFY_TO = 'info@sector3group.co.uk';
+async function notifyOffice(subject, lines) {
+  // Sends through the 'notify' Edge Function if it's set up; silently does nothing if not.
+  try { await cloudFetch('/functions/v1/notify', { method:'POST', body: JSON.stringify({ to: PAY_NOTIFY_TO, subject, text: lines.join('\n') }) }); } catch (e) { console.info('notify skipped', e && e.message); }
+}
+function mpReqKey(j) { return 'J' + j.id; }
+function mpReqIds(r) { return String(r.month || '').replace(/^J/, '').split('+').filter(Boolean); }
+function mpReqFor(j) { return Object.values(mp.inv).find(r => /^J/.test(r.month || '') && mpReqIds(r).includes(String(j.id))); }
+mp.pick = mp.pick || {};
+function mpEligible(j, today) { return !j.paid && !mpReqFor(j) && jbEnd(j) < today; }
+function mpReqCell(j, today) {
+  if (j.paid) return '';
+  const r = mpReqFor(j);
+  if (r) return `<span class="mp-st ${r.status === 'approved' ? 'w' : 's'}" title="Ref ${lmsEsc(r.invoice_no || '')}">${r.status === 'approved' ? 'Approved' : 'Requested'}</span>`;
+  if (jbEnd(j) >= today) return '';
+  return `<label class="mp-pick"><input type="checkbox" ${mp.pick[j.id] ? 'checked' : ''} onchange="mpTogglePick('${j.id}', this.checked)" aria-label="Select for invoice"></label><button class="mp-req" onclick="mpRequestPay(['${j.id}'])">Request pay</button>`;
+}
+function mpTogglePick(id, on) { if (on) mp.pick[id] = 1; else delete mp.pick[id]; mpRenderBar(); }
+function mpPickAll() {
+  const today = isoLocal(), el = mpJobs().filter(j => mpEligible(j, today)), all = el.every(j => mp.pick[j.id]);
+  mp.pick = {}; if (!all) el.forEach(j => mp.pick[j.id] = 1); mpRender();
+}
+function mpRenderBar() {
+  let bar = document.getElementById('mpBar'); const ids = Object.keys(mp.pick), js = mpJobs().filter(j => ids.includes(String(j.id)));
+  if (!js.length) { if (bar) bar.remove(); return; }
+  if (!bar) { bar = document.createElement('div'); bar.id = 'mpBar'; bar.className = 'mp-bar'; document.body.appendChild(bar); }
+  bar.innerHTML = `<span><b>${js.length} day${js.length === 1 ? '' : 's'}</b> selected · ${jbMoney(js.reduce((t, j) => t + jbTotal(j), 0))}</span>
+    <button class="jb-btn" onclick="mp.pick={};mpRender()">Clear</button><button class="jb-btn pri" onclick="mpRequestPay(Object.keys(mp.pick))">Request pay — one invoice</button>`;
+}
+function mpRequestPay(idList) {
+  const ids = [].concat(idList).map(String), js = mpJobs().filter(x => ids.includes(String(x.id))).sort((a, b) => a.job_date < b.job_date ? -1 : 1);
+  if (!js.length) return; const j = js[0], total = js.reduce((t, x) => t + jbTotal(x), 0);
+  if (!mpPayDetailsOk()) { alert('Add your bank details and home address in My Profile first.'); pfOpen(); return; }
+  const ov = document.createElement('div'); ov.className = 'kc-qr-ov'; ov.onclick = e => { if (e.target === ov) ov.remove(); };
+  ov.innerHTML = `<div class="kc-qr-box" style="text-align:left;max-width:480px;"><div class="hub-eyebrow">My Pay</div><div class="kc-qr-t">${js.length === 1 ? 'Request pay for this day' : 'Request pay for ' + js.length + ' days'}</div>
+    ${js.length === 1 ? `<p class="sc-p" style="margin:0 0 10px;">${lmsEsc(j.title)} · ${j.days > 1 ? jbDates(j) : jbDayLabel(j.job_date)} · <b>${jbMoney(total)}</b></p>`
+      : `<div class="mp-reqlist">${js.map(x => `<div><span>${jbDayLabel(x.job_date)} · ${lmsEsc(x.title)}</span><b>${jbMoney(jbTotal(x))}</b></div>`).join('')}<div class="tot"><span>${js.length} days — one invoice</span><b>${jbMoney(total)}</b></div></div>`}
+    <label class="tq-f"><span>Your invoice reference *</span><input id="mpRef" placeholder="e.g. MW-0142" maxlength="40"></label>
+    <label class="tq-chk" style="margin-top:6px;"><input type="checkbox" id="mpGen" checked> Create an invoice PDF for me</label>
+    <label class="tq-f" style="margin-top:6px;"><span>Or attach your own invoice (optional, PDF)</span><input type="file" id="mpFile" accept="application/pdf,.pdf"></label>
+    <div class="jb-actions"><button class="jb-btn pri" id="mpReqGo" onclick="mpSubmitReq('${js.map(x => x.id).join('+')}', this)">Send for approval</button><button class="jb-btn" onclick="this.closest('.kc-qr-ov').remove()">Cancel</button></div>
+    <span id="mpReqMsg" class="jb-msg" style="color:#C74444;"></span></div>`;
+  document.body.appendChild(ov); setTimeout(() => document.getElementById('mpRef').focus(), 50);
+}
+async function mpSubmitReq(idStr, btn) {
+  const ids = String(idStr).split('+'), js = mpJobs().filter(x => ids.includes(String(x.id))).sort((a, b) => a.job_date < b.job_date ? -1 : 1);
+  const ref = document.getElementById('mpRef').value.trim(), msg = document.getElementById('mpReqMsg');
+  if (!ref) { msg.textContent = 'Enter your invoice reference.'; return; }
+  if (!js.length) return;
+  const file = (document.getElementById('mpFile').files || [])[0], gen = document.getElementById('mpGen').checked && !file;
+  const total = js.reduce((t, x) => t + jbTotal(x), 0), me = (cloud.profile && cloud.profile.full_name) || 'Instructor';
+  btn.disabled = true; btn.textContent = 'Sending…';
+  try {
+    const key = 'J' + js.map(x => x.id).join('+'); let path = null;
+    if (file || gen) {
+      const blob = file || await mpDayInvoicePdf(js, ref);
+      path = cloudMe() + '/invoices/req-' + Date.now().toString(36) + '.pdf';
+      await cloudFetch('/storage/v1/object/course-files/' + path, { method:'POST', body: blob, json:false, headers:{ 'Content-Type':'application/pdf', 'x-upsert':'true' } });
+    }
+    await cloudRest('pay_invoices?on_conflict=owner,month', 'POST', [{ owner: cloudMe(), owner_name: me, month: key, total,
+      status:'requested', invoice_no: ref, file_path: path, generated: !!gen, submitted_at: new Date().toISOString(), updated_at: new Date().toISOString() }], 'resolution=merge-duplicates,return=minimal');
+    notifyOffice('Pay request: ' + me + ' — ' + jbMoney(total) + (js.length > 1 ? ' (' + js.length + ' days)' : ''),
+      ['A new pay request is waiting for approval in Job Scheduling → Pay requests.', '', 'Instructor: ' + me, 'Invoice reference: ' + ref, 'Total: ' + jbMoney(total), '',
+       ...js.map(x => fmtD(x.job_date) + ' — ' + x.title + ' — ' + jbMoney(jbTotal(x)))]);
+    btn.closest('.kc-qr-ov').remove(); mp.pick = {}; await mpLoad(); mpRender();
+  } catch (e) { btn.disabled = false; btn.textContent = 'Send for approval'; msg.textContent = /pay_invoices|PGRST20|42P01/.test(String(e.message)) ? 'Run supabase_pay.sql in Supabase first.' : 'Could not send: ' + (e.message || e); }
+}
+async function mpDayInvoicePdf(js, ref) {
+  js = [].concat(js); const m = (js[0].job_date || '').slice(0, 7); // reuse the monthly invoice layout for the chosen days
+  const orig = mpMonths; mpMonths = () => [{ m, rows: js }];
+  try { return await mpInvoicePdf(m, ref); } finally { mpMonths = orig; }
+}
+// ---- admin: approve pay requests ----
+async function jbLoadPayReqs() {
+  try { jb.reqs = await cloudRest('pay_invoices?select=*&month=like.J*&order=submitted_at.desc') || []; jb.reqErr = ''; }
+  catch (e) { jb.reqs = []; jb.reqErr = /pay_invoices|PGRST20|42P01/.test(String(e.message)) ? 'Run supabase_pay.sql in Supabase first.' : String(e.message || e); }
+  if (jb.tab === 'payreqs') jbRenderAdmin();
+}
+function jbAdminPayReqs() {
+  if (!jb.reqs) { jbLoadPayReqs(); return '<p class="jb-empty">Loading pay requests…</p>'; }
+  const jobsOf = r => mpReqIds(r).map(id => jb.jobs.find(x => String(x.id) === id)).filter(Boolean);
+  const job = r => { const js = jobsOf(r); if (!js.length) return {}; if (js.length === 1) return js[0];
+    return { title: js.length + ' days — ' + [...new Set(js.map(x => x.title))].join(', '), job_date: js[0].job_date, days: 1, dates: js.map(x => fmtD(x.job_date)).join(', '), paid: js.every(x => x.paid) }; };
+  const open = jb.reqs.filter(r => r.status !== 'paid' && !job(r).paid), done = jb.reqs.filter(r => r.status === 'paid' || job(r).paid);
+  const row = r => { const j = job(r); return `<div class="au-row" style="grid-template-columns:minmax(0,1.3fr) minmax(0,1.3fr) 110px minmax(0,1fr) auto;">
+      <div><b>${lpmEsc(r.owner_name || '')}</b><div class="au-mail">Ref ${lpmEsc(r.invoice_no || '—')} · requested ${fmtD(r.submitted_at)}</div></div>
+      <div>${lpmEsc(j.title || 'Job')}<div class="au-mail">${j.dates || (j.job_date ? (j.days > 1 ? jbDates(j) : fmtD(j.job_date)) : '')}${j.location ? ' · ' + lpmEsc(j.location) : ''}</div></div>
+      <div><b>${jbMoney(r.total)}</b></div>
+      <div>${j.paid || r.status === 'paid' ? '<span class="au-st ok">Paid</span>' : r.status === 'approved' ? '<span class="au-st ok">Approved</span>' : '<span class="au-st wait">Awaiting approval</span>'}</div>
+      <div class="jb-actions" style="margin-top:0;justify-content:flex-end;">${r.file_path ? `<button class="jb-btn" onclick="mpOpenFile('${r.file_path}')">Invoice</button>` : ''}
+        ${r.status === 'requested' ? `<button class="jb-btn go" onclick="jbReqSet(${r.id},'approved')">Approve</button><button class="jb-btn no" onclick="jbReqSet(${r.id},'rejected')">Decline</button>` : ''}
+        ${r.status === 'approved' && !j.paid ? `<button class="jb-btn pri" onclick="jbReqPaid(${r.id})">Mark paid</button>` : ''}</div></div>`; };
+  return `${jb.reqErr ? `<p class="jb-msg" style="color:#C74444;">${lpmEsc(jb.reqErr)}</p>` : ''}
+    <div class="sc-h2">Waiting (${open.length})</div>${open.map(row).join('') || '<p class="jb-empty">No pay requests waiting.</p>'}
+    ${done.length ? `<div class="sc-h2">Paid</div>${done.slice(0, 30).map(row).join('')}` : ''}`;
+}
+async function jbReqSet(id, status) {
+  if (status === 'rejected' && !confirm('Decline this pay request? The instructor can send a new one.')) return;
+  try {
+    if (status === 'rejected') await cloudRest('pay_invoices?id=eq.' + id, 'DELETE', null, 'return=minimal');
+    else await cloudRest('pay_invoices?id=eq.' + id, 'PATCH', { status, updated_at: new Date().toISOString() }, 'return=minimal');
+    jb.reqs = null; jbRenderAdmin();
+  } catch (e) { alert(/row-level|42501/.test(String(e.message)) ? 'Your database needs the admin permission for pay requests — run the updated supabase_pay.sql.' : (e.message || e)); }
+}
+async function jbReqPaid(id) {
+  const r = (jb.reqs || []).find(x => x.id === id); if (!r) return;
+  try {
+    await cloudRest('jobs?id=in.(' + mpReqIds(r).join(',') + ')', 'PATCH', { paid: true, paid_at: new Date().toISOString() }, 'return=minimal');
+    await cloudRest('pay_invoices?id=eq.' + id, 'PATCH', { status:'paid', updated_at: new Date().toISOString() }, 'return=minimal');
+    jb.reqs = null; await jbLoad(); jbRenderAdmin();
+  } catch (e) { alert(e.message || e); }
 }
 </script>
 </body>
