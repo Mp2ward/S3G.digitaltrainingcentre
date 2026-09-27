@@ -1554,6 +1554,10 @@ function fmtD(v) {
     font-family:'Public Sans',sans-serif; box-shadow:0 10px 24px rgba(0,0,0,0.25); animation:ctPop .45s cubic-bezier(.3,1.5,.5,1) both; transition:transform .15s ease; }
   .ct-tile:hover, .ct-tile:focus-visible { transform:translateY(-3px) scale(1.02); }
   .ct-tile:active { transform:scale(0.97); }
+  .kc-scen-grid { margin-top:22px; }
+  .ct-tile.kc-scen-soon { cursor:default; filter:saturate(0.55); opacity:0.8; }
+  .ct-tile.kc-scen-soon:hover { transform:none; }
+  .kc-scen-badge { position:absolute; top:14px; right:14px; background:rgba(255,255,255,0.92); color:#16203D; font-size:0.62rem; font-weight:800; letter-spacing:0.08em; text-transform:uppercase; border-radius:999px; padding:4px 9px; }
   @keyframes ctPop { from { transform:scale(0.6) translateY(20px); opacity:0; } }
   .ct-tile svg { width:38px; height:38px; }
   .ct-tile b { font-size:1.9rem; font-weight:900; letter-spacing:-0.01em; line-height:1; display:block; }
@@ -1623,6 +1627,19 @@ function fmtD(v) {
   #lpmSteps .lpm-secbar { display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin:6px 0 14px; }
   #lpmSteps.home .lpm-secbar { display:none; }
   .lpm-sectitle { font-family:'Fraunces',Georgia,serif; font-size:1.5rem; font-weight:600; color:#16203D; }
+  /* Admin portal label */
+  .adm-portal { display:flex; align-items:center; gap:8px; background:#16203D; color:#fff; border-radius:12px; padding:9px 14px; margin:14px 0 10px; font-size:0.85rem; letter-spacing:0.02em; }
+  .adm-portal b { letter-spacing:0.14em; font-size:0.8rem; } .adm-portal span:last-child { color:#C9D3F0; }
+  .adm-portal-ic { display:inline-flex; color:#F2C14E; }
+  body.admin-mode #view-lpm .rn-wrap { border-top:4px solid #16203D; }
+  #lpmAdminBar .adm-portal { margin-right:150px; }
+  @media (max-width:560px) { #lpmAdminBar .adm-portal { margin-right:0; margin-top:56px; } }
+  /* Instructor profile for admins */
+  .aip-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px; margin-top:8px; }
+  .aip-card { background:#FBFAF6; border:1px solid #EEE9DE; border-radius:14px; padding:14px; }
+  .aip-h { font-weight:800; font-size:0.78rem; letter-spacing:0.06em; text-transform:uppercase; color:#5E6577; margin-bottom:8px; }
+  .aip-row { display:flex; justify-content:space-between; gap:10px; padding:5px 0; border-bottom:1px solid #F0EDE6; font-size:0.88rem; } .aip-row span { color:#6B7A94; } .aip-row b { color:#16203D; text-align:right; font-weight:600; word-break:break-word; }
+  .aip-row a { color:#2446B8; }
   /* Course progress + completion ticks */
   .lpm-prog { display:none; justify-content:space-between; align-items:center; gap:14px; margin:6px 0 14px; }
   #lpmSteps.home .lpm-prog { display:flex; }
@@ -1985,11 +2002,6 @@ window.addEventListener('load', function () {
       <span class="hub-text"><span class="hub-title">Course Matrix</span><span class="hub-sub" id="hubLpmSub">Record competencies, upload exams and submit course paperwork</span></span>
       <span class="hub-chev">&rsaquo;</span>
     </button>
-    <button class="hub-tile" style="--accent:#2446B8;--soft:#E3E8FA;" onclick="showView('cards')">
-      <span class="hub-ic"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="13" height="15" rx="2"/><path d="M19 8v9a3 3 0 0 1-3 3M7 9.5h5M7 13h5"/></svg></span>
-      <span class="hub-text"><span class="hub-title">Scenario Cards</span><span class="hub-sub" id="hubCardsSub">Briefs, role-player cards and assessment criteria</span></span>
-      <span class="hub-chev">&rsaquo;</span>
-    </button>
     <button class="hub-tile" style="--accent:#C2410C;--soft:#FFE1D6;" onclick="showView('run');rnRenderPick();">
       <span class="hub-ic"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M10 8.5l6 3.5-6 3.5z"/></svg></span>
       <span class="hub-text"><span class="hub-title">Run a Scenario</span><span class="hub-sub">Brief, safety, roles, sound and assessment in one flow</span></span>
@@ -2245,7 +2257,8 @@ window.addEventListener('load', function () {
   <!-- Scenario grid -->
   <div class="sc-view active" id="sc-grid">
     <div class="hub" style="padding-top:32px;">
-      <div class="hub-eyebrow lic-short">Sector 3 Group</div>
+      <button class="rn-nav-btn rn-no-print" onclick="showView('knowledge');kc.sec='scenarios';qzRender()">← Scenario Cards</button>
+      <div class="hub-eyebrow" style="margin-top:14px;">Knowledge Centre · FREC 3</div>
       <div class="hub-h">Scenario cards</div>
       <div class="hub-p">Brief, role-player cards, safety and assessment criteria.</div>
 
@@ -2426,7 +2439,8 @@ window.addEventListener('load', function () {
 
       <div class="rn-head lpm-head-row">
         <button class="rn-nav-btn primary lpm-iqa-jump" id="lpmIqaJump" style="display:none;" onclick="lpmShowStep('iqa')">IQA review</button>
-        <div class="lpm-main-title">Course Matrix</div>
+        <div id="lpmAdminBar"></div>
+        <div class="lpm-main-title" id="lpmMainTitle">Course Matrix</div>
         <div id="lpmRoBanner"></div>
         <div class="lpm-course-name" id="lpmCourseTitle">Course record</div>
         <div class="lpm-course-date" id="lpmCourseDate"></div>
@@ -3683,7 +3697,6 @@ const MENU_ITEMS = [
     { label:'Job Scheduling', sub:'Jobs, timesheets and payments', go:"jbOpenAdmin()" } ] },
   { g:'Course Delivery', iqaHide:true, items:[
     { label:'Course Matrix', sub:'Record competencies, upload exams, submit paperwork', go:"showView('lpm');lpmShowPick()" },
-    { label:'Scenario Cards', sub:'Briefs, roles, assessment criteria', go:"showView('cards');scRenderGrid()" },
     { label:'Run a Scenario', sub:'Deliver and assess in one flow', go:"showView('run');rnRenderPick()" },
     { label:'Soundboard', sub:'Live scene sound mixer', go:"showView('sounds')" },
     { label:'Knowledge Centre', sub:'QR pop quizzes', go:"showView('knowledge')" } ] },
@@ -3780,6 +3793,7 @@ function menuFabSync() {
   fab.style.display = (hub && hub.classList.contains('active')) ? 'none' : '';
 }
 function showView(name) {
+  if (name !== 'lpm') document.body.classList.remove('admin-mode');
   if (FEAT_VIEWS[name] && !FEAT(FEAT_VIEWS[name])) name = 'hub';
   if (name !== 'mypay') { const mb = document.getElementById('mpBar'); if (mb) mb.remove(); }
   if (document.body.classList.contains('role-learner') && name !== 'lms' && name !== 'profile') name = 'lms';
@@ -8958,6 +8972,7 @@ function lpmSyncBackBtn() {
   if (b) b.innerHTML = window.lpmFromAdmin ? '&larr; Course Admin' : '&larr; All courses';
 }
 function lpmShowPick() {
+  window.lpmFromAdmin = false; try { lpmAdminMode(); } catch (e) {}
   window.lpmFromAdmin = false;
   lpmRenderCourseList();
   try { hubRender(); } catch (e) {}
@@ -12603,6 +12618,15 @@ function admOpenCourses() {
   showView('admcourses');
   admRenderCourses();
 }
+function admPortalBar(section) {
+  return `<div class="adm-portal"><span class="adm-portal-ic">${kcIcon('<path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6z"/><path d="M9 12l2 2 4-4"/>', 18)}</span><b>ADMIN PORTAL</b><span>· ${section}</span></div>`;
+}
+function lpmAdminMode() {
+  const on = !!window.lpmFromAdmin, bar = document.getElementById('lpmAdminBar'), t = document.getElementById('lpmMainTitle');
+  if (bar) bar.innerHTML = on ? admPortalBar('Course Admin') : '';
+  if (t) t.textContent = on ? 'Course Admin' : 'Course Matrix';
+  document.body.classList.toggle('admin-mode', on && document.getElementById('view-lpm').classList.contains('active'));
+}
 function admRenderCourses() {
   const root = document.getElementById('admCoursesRoot');
   const all = lpmLoadCourses().filter(c => !c.isExample);
@@ -12625,7 +12649,7 @@ function admRenderCourses() {
   const learnerHit = c => q ? admLearnerNames(c).filter(n => n.toLowerCase().includes(q)) : [];
 
   root.innerHTML = `<button class="rn-nav-btn rn-no-print" onclick="showView('hub')">← Home</button>
-    <div class="hub-eyebrow" style="margin-top:14px;">Management Panel</div>
+    ${admPortalBar('Course Admin')}
     <div class="hub-h" style="margin-bottom:4px;">Course Admin</div>
     <p class="sc-p">Every course recorded in the Digital Training Centre, across all instructors.</p>
     <div class="adm-stats">
@@ -12648,7 +12672,7 @@ function admRenderCourses() {
       <span>${(admState.q || admState.owner || admState.status || admState.from || admState.to) ? `<button class="cl-link" onclick="admState={...admState,q:'',owner:'',status:'',from:'',to:''};admRenderCourses()">Clear filters</button> · ` : ''}<button class="cl-link" onclick="admExportCsv()">Download list (CSV)</button></span></div>
     <div class="adm-list">${list.length ? list.map(c => { const s = admCourseStatus(c), hits = learnerHit(c); return `
       <div class="adm-row">
-        <div class="adm-main" onclick="admOpen('${c.id}','details')">
+        <div class="adm-main" onclick="admOpen('${c.id}')">
           <div class="adm-title">${lpmEsc(c.courseName || 'Untitled course')}</div>
           <div class="adm-meta">${fmtShort(c.startDate)}${c.endDate && c.endDate !== c.startDate ? ' – ' + fmtShort(c.endDate) : ''}${c.courseRef ? ' · ' + lpmEsc(c.courseRef) : ''} · ${lpmEsc(c.ownerName || lpmInstructorLine(c) || '—')}${c.location ? ' · ' + lpmEsc(c.location) : ''}</div>
           ${hits.length ? `<div class="adm-hit">Learner: ${hits.map(lpmEsc).join(', ')}</div>` : ''}
@@ -12659,7 +12683,7 @@ function admRenderCourses() {
           <div class="adm-actions">
             ${c.isExample ? '' : `<button class="rn-nav-btn adm-del" onclick="admDeleteCourse('${c.id}')" aria-label="Delete course">Delete</button>`}
             ${!c.isExample && ['completed', 'submitted', 'accepted'].includes(lpmPackState(c, true)) ? `<button class="rn-nav-btn" onclick="admReopen('${c.id}')">Reopen</button>` : ''}
-            ${c.submission ? `<button class="rn-nav-btn primary" onclick="admOpen('${c.id}','iqa')">IQA review</button>` : `<button class="rn-nav-btn primary" onclick="admOpen('${c.id}','details')">Open course</button>`}
+            ${c.submission ? `<button class="rn-nav-btn primary" onclick="admOpen('${c.id}','iqa')">IQA review</button>` : `<button class="rn-nav-btn primary" onclick="admOpen('${c.id}')">Open course</button>`}
           </div>
         </div>
       </div>`; }).join('') : `<div class="rn-empty">No courses match.</div>`}</div>`;
@@ -12678,6 +12702,7 @@ function admOpen(id, step) {
   showView('lpm');
   lpmOpenCourse(id);
   lpmShowStep(step || 'home');
+  lpmAdminMode();
 }
 function admExportCsv() {
   const rows = [['Course','Reference','Start','End','Location','Instructor','Learners','Theory complete','Feedback','Signed','Status']];
@@ -12725,7 +12750,7 @@ function admRenderInstructors() {
   const list = admInstructors();
   const roleName = { instructor:'Instructor', iqa:'IQA', admin:'Admin' };
   root.innerHTML = `<button class="rn-nav-btn rn-no-print" onclick="showView('hub')">← Home</button>
-    <div class="hub-eyebrow" style="margin-top:14px;">Management Panel</div>
+    ${admPortalBar('Instructors')}
     <div class="hub-h" style="margin-bottom:4px;">Instructor Admin</div>
     <p class="sc-p">Each instructor's courses and CPD. Tap an instructor to see their record.</p>
     ${auTabs()}
@@ -12755,8 +12780,9 @@ function admRenderInstructor(id) {
   const ref = y1.find(e => e.type === 'Clinical refresher / ILS');
   const learners = cs.reduce((t, c) => t + admLearnerNames(c).length, 0);
   root.innerHTML = `<button class="rn-nav-btn rn-no-print" onclick="admState.sel='';admRenderInstructors()">← All instructors</button>
-    <div class="hub-eyebrow" style="margin-top:14px;">Instructor Admin</div>
+    ${admPortalBar('Instructors')}
     <div class="hub-h" style="margin-bottom:4px;">${lpmEsc(inst.name)}</div>
+    <div id="admInstrProfile" class="pf-sec"><p class="jb-empty">Loading profile…</p></div>
     <div class="adm-stats">
       <div><b>${cs.length}</b><span>Courses</span></div>
       <div><b>${learners}</b><span>Learners taught</span></div>
@@ -12767,12 +12793,12 @@ function admRenderInstructor(id) {
     <div class="sc-h2">Courses</div>
     <div class="adm-list">${cs.length ? cs.map(c => { const s = admCourseStatus(c); return `
       <div class="adm-row">
-        <div class="adm-main" onclick="admOpen('${c.id}','details')">
+        <div class="adm-main" onclick="admOpen('${c.id}')">
           <div class="adm-title">${lpmEsc(c.courseName || 'Untitled course')}</div>
           <div class="adm-meta">${fmtD(c.startDate)}${c.location ? ' · ' + lpmEsc(c.location) : ''} · ${s.n} learners${c.owner !== inst.id ? ' · co-instructor' : ''}</div>
         </div>
         <div class="adm-side"><span class="adm-status ${s.cls}">${s.label}</span>
-          <div class="adm-actions"><button class="rn-nav-btn primary" onclick="admOpen('${c.id}','details')">Open course</button></div></div>
+          <div class="adm-actions"><button class="rn-nav-btn primary" onclick="admOpen('${c.id}')">Open course</button></div></div>
       </div>`; }).join('') : `<div class="rn-empty">No courses yet.</div>`}</div>
     <div class="sc-h2" style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">CPD log
       <span><button class="rn-nav-btn primary" onclick="admCpdPdf('${inst.id}')">Download CPD portfolio (PDF)</button>
@@ -12782,6 +12808,26 @@ function admRenderInstructor(id) {
       <tr><th style="width:96px;">Date</th><th>Activity</th><th style="width:150px;">Type</th><th style="width:64px;text-align:right;">Hours</th></tr>
       ${all.length ? all.map(e => `<tr><td>${fmtD(e.date)}</td><td><strong>${lpmEsc(e.title)}</strong>${e.detail ? `<div class="cpd-detail">${lpmEsc(e.detail)}</div>` : ''}</td><td>${lpmEsc(e.type)}</td><td style="text-align:right;">${e.hours || '—'}</td></tr>`).join('') : `<tr><td colspan="4" style="color:#6B7A94;">No CPD recorded yet.</td></tr>`}
     </table></div>`;
+  admLoadInstrProfile(inst);
+}
+// Everything from the instructor's My Profile, for admins
+async function admLoadInstrProfile(inst) {
+  const box = () => document.getElementById('admInstrProfile');
+  let x = {}, u = null;
+  try { const r = await cloudRest('pay_details?select=data&owner=eq.' + inst.id) || []; x = (r[0] && r[0].data) || {}; } catch (e) {}
+  try { if (!au.users && typeof auCall === 'function') { const r = await auCall({ action:'list' }); au.users = r.users || []; } u = (au.users || []).find(z => z.id === inst.id) || null; } catch (e) {}
+  if (!box()) return;
+  const row = (k, v) => v ? `<div class="aip-row"><span>${k}</span><b>${v}</b></div>` : '';
+  const t = x.tiqa || {};
+  box().innerHTML = `<h3>Profile</h3>
+    <div class="aip-grid">
+      <div class="aip-card"><div class="aip-h">Contact</div>${row('Name', lpmEsc(inst.name))}${row('Role', ({ instructor:'Instructor', iqa:'IQA', admin:'Admin' })[inst.role] || 'Instructor')}
+        ${row('Email', u && u.email ? `<a href="mailto:${lpmEsc(u.email)}">${lpmEsc(u.email)}</a>` : '')}${row('Mobile', x.phone ? `<a href="tel:${lpmEsc(x.phone)}">${lpmEsc(x.phone)}</a>` : '')}
+        ${row('Last signed in', u && u.last_sign_in_at ? fmtD(u.last_sign_in_at) : u ? 'Never' : '')}${u || x.phone ? '' : '<p class="sc-p">No contact details yet.</p>'}</div>
+      <div class="aip-card"><div class="aip-h">CV</div>${x.cvPath ? `${row('File', lpmEsc(x.cvName || 'CV'))}${row('Uploaded', x.cvAt ? fmtD(x.cvAt) : '')}<div class="jb-actions"><button class="jb-btn pri" onclick="mpOpenFile('${lpmEsc(x.cvPath)}')">View CV</button></div>` : '<p class="sc-p">No CV uploaded.</p>'}</div>
+      ${FEAT('tiqaForm') ? `<div class="aip-card"><div class="aip-h">Qualsafe Trainer/IQA application</div>${t.path ? `${row('Status', t.mode === 'upload' ? 'Uploaded' : 'Completed in the app')}${row('Date', fmtD(t.at))}<div class="jb-actions"><button class="jb-btn pri" onclick="mpOpenFile('${lpmEsc(t.path)}')">View form</button></div>` : `<p class="sc-p">${t.v && Object.keys(t.v).length ? 'Started — not finished.' : 'Not started.'}</p>`}</div>` : ''}
+      ${FEAT('payDetails') && inst.role !== 'iqa' ? `<div class="aip-card"><div class="aip-h">Payment details</div>${x.accountNumber || x.accountName ? `${row('Account name', lpmEsc(x.accountName || ''))}${row('Sort code', lpmEsc(x.sortCode || ''))}${row('Account number', lpmEsc(x.accountNumber || ''))}${row('UTR', lpmEsc(x.reference || ''))}${row('Home address', lpmEsc(x.address || '').replace(/\n/g, '<br>'))}` : '<p class="sc-p">No payment details yet.</p>'}</div>` : ''}
+    </div>`;
 }
 async function admCpdPdf(id) {
   const inst = admInstructors().find(i => i.id === id);
@@ -13796,7 +13842,7 @@ async function jbRespond(id, status) {
     jbRenderMine();
   } catch (e) { alert(jbErr(e)); }
 }
-function jbOpenCourse(id) { window.lpmFromAdmin = false; showView('lpm'); lpmOpenCourse(id); }
+function jbOpenCourse(id) { window.lpmFromAdmin = false; showView('lpm'); lpmOpenCourse(id); lpmAdminMode(); }
 async function jbSavePay() {
   const g = id => document.getElementById(id).value.trim();
   const data = Object.assign({}, jb.myPay || {}, { accountName: g('jbpName'), bank: g('jbpBank'), sortCode: g('jbpSort'), accountNumber: g('jbpAcc'), reference: g('jbpRef') });
@@ -14376,6 +14422,7 @@ function kcBack(to) { return `<button class="rn-nav-btn" onclick="${to}">← ${t
 function qzRenderPick(r) {
   if (kc.sec === 'quiz') return kcRenderQuiz(r);
   if (kc.sec === 'handouts') return kcRenderHandouts(r);
+  if (kc.sec === 'scenarios') return kcRenderScenarios(r);
   if (kc.sec === 'resources') return kcRenderResources(r);
   const tile = (go, ic, soft, title, sub, badge) => `<button class="hub-tile" style="--soft:${soft};" onclick="${go}">
       <span class="hub-ic">${kcIcon(ic)}</span>
@@ -14386,9 +14433,28 @@ function qzRenderPick(r) {
     <div class="hub-p">Quizzes, hand-outs and learning resources for your courses.</div>
     <div class="hub-tiles" style="margin-top:22px;">
       ${tile("kc.sec='quiz';qzRender()", KC_IC.quiz, '#FDE4EE', 'QR Game Board Quiz', 'Live quizzes learners play on their phones')}
+      ${FEAT('scenarios') ? tile("kc.sec='scenarios';qzRender()", '<path d="M4 4h12a2 2 0 0 1 2 2v14H6a2 2 0 0 1-2-2z"/><path d="M8 8h6M8 12h6M8 16h3"/><path d="M18 8h2v12"/>', '#FFE1D6', 'Scenario Cards', 'Briefs, role-player cards and assessment criteria') : ''}
       ${tile("kc.sec='handouts';kcH.list=null;qzRender()", KC_IC.doc, '#E3E8FA', 'Hand Outs', 'Course documents and links, with QR codes to download')}
       ${tile("kc.sec='resources';qzRender()", KC_IC.shelf, '#DDEFE6', 'Resource Centre', 'Manufacturer hand-outs', 'Coming soon')}
     </div>`;
+}
+const KC_SCEN = [
+  { id:'frec3', title:'FREC 3', sub:'First Response Emergency Care', c:'#E36A12', ic:'amb', live:true },
+  { id:'fa', title:'First Aid', sub:'Workplace first aid', c:'#D93A33', ic:'heart' },
+  { id:'dental', title:'Dental', sub:'Medical emergencies in dental practice', c:'#0E8C8C', ic:'shield' },
+  { id:'blsils', title:'BLS / ILS', sub:'Basic and immediate life support', c:'#2F5BD8', ic:'heart' },
+];
+function kcRenderScenarios(r) {
+  const n = (typeof SC_SCENARIOS !== 'undefined' ? SC_SCENARIOS : []).filter(x => x.ready).length;
+  let k = 0;
+  r.innerHTML = `${kcBack("kc.sec='';qzRender()")}
+    <div class="hub-eyebrow" style="margin-top:14px;">Knowledge Centre</div>
+    <div class="hub-h" style="margin-bottom:6px;">Scenario Cards</div>
+    <div class="hub-p">Choose a course to see its scenarios — briefs, role-player cards, safety and assessment criteria.</div>
+    <div class="ct-grid kc-scen-grid">${KC_SCEN.map(t => `<button class="ct-tile ${t.live ? '' : 'kc-scen-soon'}" style="--c:${t.c};animation-delay:${(k++ * 0.05).toFixed(2)}s"
+        ${t.live ? `onclick="showView('cards');scRenderGrid();window.scrollTo(0,0)"` : 'aria-disabled="true"'}>${ctIcon(t.ic)}
+        <div><b style="font-size:${t.title.length > 10 ? '1.5rem' : '1.9rem'}">${t.title}</b><span>${t.live ? n + ' scenario' + (n === 1 ? '' : 's') : t.sub}</span></div>
+        ${t.live ? '' : '<span class="kc-scen-badge">Coming soon</span>'}</button>`).join('')}</div>`;
 }
 function kcRenderQuiz(r) {
   const signedIn = typeof CLOUD_ON !== 'undefined' && CLOUD_ON && cloud.session;
@@ -14815,7 +14881,8 @@ function stSyncRail() {
   try { cloudNeedName(); if (cloud.session && !stSyncRail.names) { stSyncRail.names = 1; lpmRefreshStaffNames(); } } catch (e) {}
   const nav = document.getElementById('stRail'); if (!nav) return;
   const adminBox = document.getElementById('hubAdmin');
-  const active = (document.querySelector('.app-view.active') || {}).id || '';
+  let active = (document.querySelector('.app-view.active') || {}).id || '';
+  if (active === 'view-lpm' && window.lpmFromAdmin) active = 'view-admcourses';
   nav.querySelectorAll('.st-item').forEach(b => {
     if (b.dataset.tile != null) {
       const t = document.querySelector('#view-hub .hub-tile[data-st="' + b.dataset.tile + '"]');
@@ -15046,7 +15113,7 @@ function auRender() {
   const roleName = { instructor:'Instructor', iqa:'IQA', admin:'Admin', learner:'Learner' };
   const when = d => d ? fmtD(d) : '';
   let html = `<button class="rn-nav-btn rn-no-print" onclick="showView('hub')">← Home</button>
-    <div class="hub-eyebrow" style="margin-top:14px;">Management Panel</div>
+    ${admPortalBar('Instructors')}
     <div class="hub-h" style="margin-bottom:4px;">Instructor Admin</div>
     <p class="sc-p">Add people, set what they can do, and delete logins when someone leaves.</p>
     ${auTabs()}
