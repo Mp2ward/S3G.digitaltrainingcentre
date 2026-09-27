@@ -1862,6 +1862,15 @@ function fmtD(v) {
   .jb-cs.completed { background:#DDF1E8; color:#0F6E56; } .jb-cs.cancelled { background:#FDE3E1; color:#A33030; }
   .jb-card.jb-cs-cancelled { opacity:0.65; } .jb-card.jb-draft { border-style:dashed; }
   .jb-cs-sel { font:inherit; font-size:0.85rem; border:1px solid #D8DEE8; border-radius:10px; padding:0 10px; min-height:40px; background:#fff; color:#16203D; }
+  .jb-tiles { margin:18px 0 0; }
+  .jb-tiles .hub-tile.lpm-on { outline:3px solid #16203D; outline-offset:3px; }
+  .jb-sec-line { border-top:1px solid #E7E3DA; margin:22px 0 18px; }
+  .pr-row { width:100%; display:flex; align-items:center; gap:12px; background:#fff; border:1px solid #E7E3DA; border-radius:16px; padding:12px 14px; margin-bottom:8px; font:inherit; text-align:left; cursor:pointer; color:#16203D; }
+  .pr-row:hover { border-color:#16203D; }
+  .pr-who { flex:1; min-width:0; } .pr-who b { display:block; } .pr-who span { display:block; font-size:0.8rem; color:#6B7A94; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .pr-amt { display:flex; flex-direction:column; align-items:flex-end; gap:4px; } .pr-amt b { font-size:1.05rem; }
+  .pr-big { font-family:'Fraunces',Georgia,serif; font-size:2.2rem; font-weight:600; color:#16203D; margin:0 0 10px; }
+  .pr-acts { display:flex; flex-wrap:wrap; gap:8px; margin-top:16px; } .pr-acts .jb-btn { flex:1 1 auto; min-height:44px; }
   .mp-req { border:1px solid #2446B8; color:#2446B8; background:#fff; border-radius:999px; padding:4px 10px; font:inherit; font-size:0.74rem; font-weight:700; cursor:pointer; margin-left:4px; }
   .jb-chk { flex-direction:row !important; align-items:center; gap:10px; text-transform:none !important; letter-spacing:0 !important; font-size:0.88rem !important; }
   .jb-chk input { width:20px; height:20px; }
@@ -13517,7 +13526,7 @@ function jbRenderAdmin() {
     ${admPortalBar('Job Scheduling')}
     <div class="hub-h" style="margin-bottom:4px;">Job Scheduling</div>
     <p class="sc-p">Create a course, pick its days, put instructors on each day, then run timesheets and mark payments.</p>
-    <div class="jb-tabs"><button class="${jb.tab === 'schedule' ? 'on' : ''}" onclick="jb.tab='schedule';jbRenderAdmin()">Schedule</button><button class="${jb.tab === 'timesheets' ? 'on' : ''}" onclick="jb.tab='timesheets';jbRenderAdmin()">Timesheets &amp; payments</button><button class="${jb.tab === 'payreqs' ? 'on' : ''}" onclick="jb.tab='payreqs';jb.reqs=null;jbRenderAdmin()">Pay requests</button></div>`;
+    ${jbSectionTiles()}`;
   if (!jbIsAdmin()) { root.innerHTML = html + '<p class="jb-empty">Only centre admins can schedule jobs.</p>'; return; }
   if (jb.err) html += `<p class="jb-msg" style="color:#C74444;">${lpmEsc(jb.err)}</p>`;
   if (jb.msg) html += `<p class="jb-msg" style="color:#0F6E56;">${lpmEsc(jb.msg)}</p>`;
@@ -13526,6 +13535,19 @@ function jbRenderAdmin() {
   if (jb.tab === 'timesheets') { jbLoadPayFor(jb.tsInstr); mpAdminInvoice(jb.tsInstr, jb.month); }
 }
 
+function jbSectionTiles() {
+  const m = jb.jobs.filter(j => jbInMonth(j, jb.month) && jbCourseStatus(j) !== 'cancelled');
+  const courses = new Set(m.map(j => j.group_id || 'J' + j.id)).size;
+  const shifts = m.filter(j => j.status === 'confirmed').length;
+  const waiting = (jb.reqs || []).filter(r => r.status === 'requested').length;
+  const t = (k, go, soft, ic, title, sub) => `<button class="hub-tile ${jb.tab === k ? 'lpm-on' : ''}" style="--soft:${soft};" onclick="${go}">
+      <span class="hub-ic">${kcIcon(ic)}</span><span class="hub-text"><span class="hub-title">${title}</span><span class="hub-sub">${sub}</span></span></button>`;
+  return `<div class="hub-tiles jb-tiles">
+    ${t('schedule', "jb.tab='schedule';jbRenderAdmin()", '#E3E8FA', '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>', 'Schedule', courses + ' course' + (courses === 1 ? '' : 's') + ' in ' + jbMonthLabel(jb.month))}
+    ${t('timesheets', "jb.tab='timesheets';jbRenderAdmin()", '#DDEFE6', '<path d="M6 3h9l4 4v14H6z"/><path d="M9 11h7M9 15h7M9 19h4"/>', 'Timesheets', shifts + ' confirmed shift' + (shifts === 1 ? '' : 's') + ' this month')}
+    ${t('payreqs', "jb.tab='payreqs';jb.reqs=null;jbRenderAdmin()", '#FFF0C9', '<rect x="2.5" y="6" width="19" height="13" rx="2"/><path d="M2.5 10h19M6.5 15h4"/>', 'Finance', jb.reqs ? (waiting ? waiting + ' pay request' + (waiting === 1 ? '' : 's') + ' waiting' : 'No pay requests waiting') : 'Pay requests and invoices')}
+  </div><div class="jb-sec-line"></div>`;
+}
 function jbAdminSchedule() {
   const month = jb.jobs.filter(j => jbInMonth(j, jb.month));
   const ed = jb.editing ? jb.jobs.find(j => j.id === jb.editing) : null;
@@ -16453,15 +16475,11 @@ function jbAdminPayReqs() {
   const job = r => { const js = jobsOf(r); if (!js.length) return {}; if (js.length === 1) return js[0];
     return { title: js.length + ' days — ' + [...new Set(js.map(x => x.title))].join(', '), job_date: js[0].job_date, days: 1, dates: js.map(x => fmtD(x.job_date)).join(', '), paid: js.every(x => x.paid) }; };
   const open = jb.reqs.filter(r => r.status === 'returned' || (r.status !== 'paid' && !job(r).paid)), done = jb.reqs.filter(r => r.status !== 'returned' && (r.status === 'paid' || job(r).paid));
-  const row = r => { const j = job(r); return `<div class="au-row" style="grid-template-columns:minmax(0,1.3fr) minmax(0,1.3fr) 110px minmax(0,1fr) auto;">
-      <div><b>${lpmEsc(r.owner_name || '')}</b><div class="au-mail">Ref ${lpmEsc(r.invoice_no || '—')} · requested ${fmtD(r.submitted_at)}</div></div>
-      <div>${lpmEsc(j.title || 'Job')}<div class="au-mail">${j.dates || (j.job_date ? (j.days > 1 ? jbDates(j) : fmtD(j.job_date)) : '')}${j.location ? ' · ' + lpmEsc(j.location) : ''}</div></div>
-      <div><b>${jbMoney(r.total)}</b></div>
-      <div>${r.status === 'returned' ? '<span class="au-st off">Returned to instructor</span>' : j.paid || r.status === 'paid' ? '<span class="au-st ok">Paid</span>' : r.status === 'approved' ? '<span class="au-st ok">Approved</span>' : '<span class="au-st wait">Awaiting approval</span>'}${r.admin_note ? `<div class="au-mail">“${lpmEsc(r.admin_note)}”</div>` : ''}</div>
-      <div class="jb-actions" style="margin-top:0;justify-content:flex-end;">${r.file_path ? `<button class="jb-btn" onclick="mpOpenFile('${r.file_path}')">Open invoice</button>` : ''}
-        ${r.status !== 'returned' ? `<button class="jb-btn" onclick="jbReqEdit(${r.id})">Edit</button>` : '<span class="au-st" style="background:#FDE3E1;color:#A33030;">With instructor</span>'}
-        ${r.status === 'requested' ? `<button class="jb-btn go" onclick="jbReqSet(${r.id},'approved')">Approve</button><button class="jb-btn no" onclick="jbReqSet(${r.id},'rejected')">Decline</button>` : ''}
-        ${r.status === 'approved' && !j.paid ? `<button class="jb-btn pri" onclick="jbReqPaid(${r.id})">Mark paid</button>` : ''}</div></div>`; };
+  jb.reqJob = job;
+  const row = r => { const j = job(r), st = r.status === 'returned' ? ['off', 'Returned'] : j.paid || r.status === 'paid' ? ['ok', 'Paid'] : r.status === 'approved' ? ['ok', 'Approved'] : ['wait', 'To approve'];
+    return `<button class="pr-row" onclick="jbReqOpen(${r.id})"><span class="lma-av">${lmaInit(r.owner_name || '?')}</span>
+      <span class="pr-who"><b>${lpmEsc(r.owner_name || 'Instructor')}</b><span>${lpmEsc(j.title || 'Pay request')}</span></span>
+      <span class="pr-amt"><b>${jbMoney(r.total)}</b><span class="au-st ${st[0]}">${st[1]}</span></span><span class="hub-chev">&rsaquo;</span></button>`; };
   return `<div class="jb-actions" style="margin:0 0 6px;"><button class="jb-btn" onclick="jbTestEmail(this)">Send a test email to ${PAY_NOTIFY_TO}</button><span id="jbMailMsg" class="jb-msg"></span></div>
     ${jb.reqErr ? `<p class="jb-msg" style="color:#C74444;">${lpmEsc(jb.reqErr)}</p>` : ''}
     <div class="sc-h2">Waiting (${open.length})</div>${open.map(row).join('') || '<p class="jb-empty">No pay requests waiting.</p>'}
@@ -16477,6 +16495,28 @@ async function jbTestEmail(btn) {
     : r.detail ? 'Resend refused it: ' + String(r.detail).slice(0, 200)
     : /not.?found|404|load failed|failed to fetch|networkerror/i.test(r.error || '') ? 'The app couldn\u2019t reach the email helper — check Supabase → Edge Functions has a function named exactly "notify", deployed with the latest notify.ts.'
     : 'Not sent: ' + (r.error || JSON.stringify(r)).slice(0, 200);
+}
+function jbReqOpen(id) {
+  const r = (jb.reqs || []).find(x => x.id === id); if (!r) return;
+  const j = jb.reqJob ? jb.reqJob(r) : {}, days = mpReqIds(r).map(i => jb.jobs.find(x => String(x.id) === i)).filter(Boolean);
+  const paid = j.paid || r.status === 'paid';
+  const ov = document.createElement('div'); ov.className = 'kc-qr-ov'; ov.onclick = e => { if (e.target === ov) ov.remove(); };
+  const row = (k, v) => v ? `<div class="aip-row"><span>${k}</span><b>${v}</b></div>` : '';
+  ov.innerHTML = `<div class="kc-qr-box" style="text-align:left;max-width:480px;max-height:88vh;overflow-y:auto;">
+    <div class="hub-eyebrow">Pay request</div><div class="kc-qr-t" style="margin-bottom:2px;">${lpmEsc(r.owner_name || '')}</div>
+    <div class="pr-big">${jbMoney(r.total)}</div>
+    ${row('Status', r.status === 'returned' ? 'Returned to instructor' : paid ? 'Paid' : r.status === 'approved' ? 'Approved' : 'Awaiting approval')}
+    ${row('Invoice reference', lpmEsc(r.invoice_no || '—'))}${row('Requested', fmtD(r.submitted_at))}
+    ${r.admin_note ? row('Note to instructor', lpmEsc(r.admin_note)) : ''}
+    ${days.length ? `<div class="aip-h" style="margin-top:12px;">Days</div>${days.map(x => row(fmtD(x.job_date), lpmEsc(x.title) + ' · ' + jbMoney(jbTotal(x)))).join('')}` : ''}
+    <div class="pr-acts">
+      ${r.file_path ? `<button class="jb-btn" onclick="mpOpenFile('${r.file_path}')">Open invoice</button>` : ''}
+      ${r.status !== 'returned' ? `<button class="jb-btn" onclick="this.closest('.kc-qr-ov').remove();jbReqEdit(${r.id})">Edit</button>` : ''}
+      ${r.status === 'requested' ? `<button class="jb-btn go" onclick="this.closest('.kc-qr-ov').remove();jbReqSet(${r.id},'approved')">Approve</button><button class="jb-btn no" onclick="this.closest('.kc-qr-ov').remove();jbReqSet(${r.id},'rejected')">Decline</button>` : ''}
+      ${r.status === 'approved' && !paid ? `<button class="jb-btn pri" onclick="this.closest('.kc-qr-ov').remove();jbReqPaid(${r.id})">Mark paid</button>` : ''}
+    </div>
+    <div class="jb-actions" style="justify-content:flex-end;"><button class="qz-btn qz-primary" onclick="this.closest('.kc-qr-ov').remove()">Close</button></div></div>`;
+  document.body.appendChild(ov);
 }
 function jbReqEdit(id) {
   const r = (jb.reqs || []).find(x => x.id === id); if (!r) return;
