@@ -462,6 +462,7 @@ function fmtD(v) {
   header, header * { color:#FFFFFF; }
   .brand-logo { height:40px; width:auto; display:block; }
   .brand-logo-badge { display:flex; align-items:center; background:#FFFFFF; border-radius:8px; padding:6px 10px; flex-shrink:0; }
+  @media (max-width:640px) { #menuFab { display:none !important; } .brand-logo-badge { cursor:pointer; } }
   .brand-divider { width:1px; height:26px; background:rgba(255,255,255,0.28); }
   .brand-title { font-family:'Public Sans',sans-serif; font-weight:700; font-size:1.15rem;
                  letter-spacing:0.08em; color:#FFFFFF; line-height:1; white-space:nowrap;
@@ -593,6 +594,17 @@ function fmtD(v) {
   .jb-pill { font-size:0.66rem; line-height:1.25; border-radius:6px; padding:3px 5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; cursor:pointer; border:none; text-align:left; font-family:inherit; }
   .jb-pill.offered { background:#FFF1D6; color:#8A5200; }
   .jb-pill.confirmed { background:#DDF1E8; color:#0F6E56; }
+  .jb-pill.gap { background:#FFE7B8; color:#7A4A00; font-weight:700; box-shadow:inset 0 0 0 1px #E3A21A; }
+  .jb-pill.gapred { background:#FDE0DD; color:#A33030; font-weight:700; box-shadow:inset 0 0 0 1px #D93A33; }
+  .jb-gaps { background:#FFF8EC; border:1px solid #F3D9A4; border-radius:18px; padding:14px 16px; margin:0 0 18px; scroll-margin-top:80px; }
+  .jb-gaps-h b { display:block; font-family:'Fraunces',Georgia,serif; font-size:1.3rem; color:#16203D; } .jb-gaps-h span { font-size:0.85rem; color:#5E6577; }
+  .jb-gap { display:flex; align-items:center; gap:12px; background:#fff; border:1px solid #F0E3C6; border-left:4px solid #E3A21A; border-radius:12px; padding:10px 12px; margin-top:8px; }
+  .jb-gap.red { border-left-color:#D93A33; }
+  .jb-gap-t { flex:1; min-width:0; } .jb-gap-t b { display:block; color:#16203D; } .jb-gap-t span { display:block; font-size:0.8rem; color:#6B7A94; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .jb-gap-t .jb-gap-n { color:#8A5200; font-weight:700; white-space:normal; } .jb-gap.red .jb-gap-n { color:#A33030; }
+  .jb-gap select { font:inherit; font-size:0.88rem; border:1px solid #D8DEE8; border-radius:10px; padding:0 10px; min-height:42px; background:#fff; max-width:44%; }
+  .hub-tile .hub-sub:has(.jb-gap-badge) { display:block !important; }
+  .jb-gap-badge { display:inline-block; background:#D93A33; color:#fff; font-weight:800; font-size:0.72rem; border-radius:999px; padding:3px 10px; }
   .jb-pill.rejected { background:#FBE3E3; color:#A33030; text-decoration:line-through; }
   .jb-card { border:1px solid #D8DEE8; border-radius:14px; background:#fff; padding:14px 16px; margin-bottom:10px; }
   .jb-card-top { display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; }
@@ -13535,15 +13547,66 @@ function jbRenderAdmin() {
   if (jb.tab === 'timesheets') { jbLoadPayFor(jb.tsInstr); mpAdminInvoice(jb.tsInstr, jb.month); }
 }
 
+// Short course names for the calendar: FREC 3, FAW, BLS …
+function jbShortName(j) {
+  const n = String(j.course_name || j.title || '').trim(), u = n.toUpperCase();
+  const map = [[/^FREC\s*3/, 'FREC 3'], [/^FREC\s*4/, 'FREC 4'], [/EMERGENCY FIRST AID AT WORK|^EFAW/, 'EFAW'], [/FIRST AID AT WORK|^FAW/, 'FAW'], [/^BLS/, 'BLS'], [/^ILS/, 'ILS'],
+    [/^DENTAL/, 'Dental'], [/^GP/, 'GP'], [/HEALTH AND SAFETY LEVEL 2|H&S.*2/, 'H&S L2'], [/HEALTH AND SAFETY LEVEL 3|H&S.*3/, 'H&S L3'], [/MEDICAL GAS|OXYGEN/, 'Med Gases'], [/ASSOCIATE AMBULANCE|^AAP/, 'AAP']];
+  const hit = map.find(([re]) => re.test(u));
+  return hit ? hit[1] : n.split(/\s+[-—–]\s+/)[0].slice(0, 14);
+}
+function jbDefaultNeed(j) { return /^FREC/i.test(j.course_name || '') ? 2 : 1; }
+// Every upcoming course day that is short of instructors
+function jbGaps() {
+  const today = isoLocal(), out = [], groups = {};
+  (jb.jobs || []).forEach(j => { const k = j.group_id || 'J' + j.id; (groups[k] = groups[k] || []).push(j); });
+  Object.entries(groups).forEach(([k, rows]) => {
+    const j = rows[0], cs = jbCourseStatus(j);
+    if (cs === 'cancelled' || cs === 'completed') return;
+    const dates = j.group_id ? [...new Set(String(j.course_dates || '').split(',').filter(Boolean).concat(rows.map(r => r.job_date)))] : [j.job_date];
+    dates.filter(d => d >= today).sort().forEach(d => {
+      const on = rows.filter(r => r.job_date === d), declined = on.filter(r => r.status === 'rejected');
+      const need = (j.staffing && j.staffing[d]) || (j.group_id ? jbDefaultNeed(j) : 1), have = on.length - declined.length;
+      const missing = Math.max(0, need - have);
+      if (missing) out.push({ key:k, group:j.group_id, first:j, date:d, need, have, missing, declined: declined.map(r => r.instructor_name || 'Instructor'), awaiting: on.filter(r => r.status === 'offered').length });
+    });
+  });
+  return out.sort((a, b) => a.date < b.date ? -1 : 1);
+}
+function jbGapFor(key, date) { return (jb.gapCache || []).find(g => g.key === key && g.date === date); }
+async function jbAssignGap(i, sel) {
+  const g = (jb.gapCache || [])[i], id = sel.value; if (!g || !id) return;
+  const ins = jbInstructors(), nm = (ins.find(p => p.id === id) || {}).full_name || '';
+  if ((jb.jobs || []).some(r => (r.group_id || 'J' + r.id) === g.key && r.job_date === g.date && r.instructor === id && r.status !== 'rejected')) { alert(nm + ' is already on this day.'); sel.value = ''; return; }
+  const j = g.first, base = {}; ['group_id','title','course_name','start_time','end_time','location','day_rate','notes','admin_notes','notes_hidden','course_status','course_dates','team','staffing'].forEach(k => { if (j[k] !== undefined) base[k] = j[k]; });
+  sel.disabled = true;
+  try {
+    const team = [...new Set(String(j.team || '').split('|').filter(Boolean).concat(nm ? [nm] : []))].join('|');
+    await cloudRest('jobs', 'POST', [Object.assign(base, { team, job_date: g.date, days: 1, instructor: id, instructor_name: nm, is_lead: false, status: 'offered', updated_at: new Date().toISOString() })], 'return=minimal');
+    if (j.group_id) await cloudRest('jobs?group_id=eq.' + encodeURIComponent(j.group_id), 'PATCH', { team }, 'return=minimal');
+    jb.msg = nm + ' added to ' + jbShortName(j) + ' on ' + jbDayLabel(g.date) + ' — sent to confirm.';
+    await jbLoad(); jbRenderAdmin();
+  } catch (e) { sel.disabled = false; alert(jbErr(e)); }
+}
+function jbGapsHtml() {
+  const gaps = jb.gapCache || []; if (!gaps.length) return '';
+  const ins = jbInstructors();
+  return `<div class="jb-gaps" id="jbGaps"><div class="jb-gaps-h"><b>Needs instructors (${gaps.length})</b><span>Upcoming course days that are short. Pick someone to send it straight to them.</span></div>
+    ${gaps.map((g, i) => `<div class="jb-gap ${g.declined.length ? 'red' : ''}">
+      <div class="jb-gap-t"><b>${jbDayLabel(g.date)} · ${lpmEsc(jbShortName(g.first))}</b><span>${lpmEsc(g.first.title)}${g.first.location ? ' · ' + lpmEsc(g.first.location) : ''}</span>
+        <span class="jb-gap-n">Needs ${g.missing} more${g.declined.length ? ' — ' + lpmEsc(g.declined.join(', ')) + ' declined' : ''}${jbCourseStatus(g.first) === 'pending' ? ' · pending' : ''}</span></div>
+      <select onchange="jbAssignGap(${i}, this)" aria-label="Assign an instructor"><option value="">Assign…</option>${ins.map(p => `<option value="${p.id}">${lpmEsc(p.full_name || p.id)}</option>`).join('')}</select></div>`).join('')}</div>`;
+}
 function jbSectionTiles() {
   const m = jb.jobs.filter(j => jbInMonth(j, jb.month) && jbCourseStatus(j) !== 'cancelled');
   const courses = new Set(m.map(j => j.group_id || 'J' + j.id)).size;
   const shifts = m.filter(j => j.status === 'confirmed').length;
   const waiting = (jb.reqs || []).filter(r => r.status === 'requested').length;
+  jb.gapCache = jbGaps(); const gapN = jb.gapCache.length;
   const t = (k, go, soft, ic, title, sub) => `<button class="hub-tile ${jb.tab === k ? 'lpm-on' : ''}" style="--soft:${soft};" onclick="${go}">
       <span class="hub-ic">${kcIcon(ic)}</span><span class="hub-text"><span class="hub-title">${title}</span><span class="hub-sub">${sub}</span></span></button>`;
   return `<div class="hub-tiles jb-tiles">
-    ${t('schedule', "jb.tab='schedule';jbRenderAdmin()", '#E3E8FA', '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>', 'Schedule', courses + ' course' + (courses === 1 ? '' : 's') + ' in ' + jbMonthLabel(jb.month))}
+    ${t('schedule', "jb.tab='schedule';jbRenderAdmin();setTimeout(()=>{const g=document.getElementById('jbGaps');if(g)g.scrollIntoView({behavior:'smooth',block:'start'})},60)", '#E3E8FA', '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>', 'Schedule', gapN ? `<span class="jb-gap-badge">${gapN} need${gapN === 1 ? 's' : ''} instructors</span>` : courses + ' course' + (courses === 1 ? '' : 's') + ' in ' + jbMonthLabel(jb.month))}
     ${t('timesheets', "jb.tab='timesheets';jbRenderAdmin()", '#DDEFE6', '<path d="M6 3h9l4 4v14H6z"/><path d="M9 11h7M9 15h7M9 19h4"/>', 'Timesheets', shifts + ' confirmed shift' + (shifts === 1 ? '' : 's') + ' this month')}
     ${t('payreqs', "jb.tab='payreqs';jb.reqs=null;jbRenderAdmin()", '#FFF0C9', '<rect x="2.5" y="6" width="19" height="13" rx="2"/><path d="M2.5 10h19M6.5 15h4"/>', 'Finance', jb.reqs ? (waiting ? waiting + ' pay request' + (waiting === 1 ? '' : 's') + ' waiting' : 'No pay requests waiting') : 'Pay requests and invoices')}
   </div><div class="jb-sec-line"></div>`;
@@ -13553,11 +13616,20 @@ function jbAdminSchedule() {
   const ed = jb.editing ? jb.jobs.find(j => j.id === jb.editing) : null;
   let html = `<button class="jb-btn pri" onclick="${jb.formOpen ? "jb.formOpen=false;jb.editing='';jb.draft=null;jbRenderAdmin()" : 'jbNewDraft()'}">${jb.formOpen ? 'Close' : '+ New course'}</button><div style="height:12px"></div>`;
   if (jb.formOpen) html += (ed && !ed.group_id) ? jbForm(ed) : jbBuilder();
+  html += jbGapsHtml();
   if (jb.drafts && jb.drafts.length) html += `<div class="sc-h2" style="margin-top:4px;">Drafts</div>${jb.drafts.map(r => `<div class="jb-card jb-draft"><div class="jb-card-top"><div><h4>${lpmEsc(r.title || 'Untitled course')} <span class="jb-cs draft">Draft</span></h4>
       <div class="jb-meta">${r.first_date ? 'Starts ' + fmtD(r.first_date) + ' · ' : ''}saved ${fmtD(r.updated_at)}</div></div></div>
       <div class="jb-actions"><button class="jb-btn pri" onclick="jbOpenDraft('${r.id}')">Continue</button><button class="jb-btn no" onclick="jbDeleteDraft('${r.id}')">Delete draft</button></div></div>`).join('')}`;
   html += jbMonthBar('jbRenderAdmin');
-  html += jbCalendar(month.filter(j => jbCourseStatus(j) !== 'cancelled'), 'jbAdminFocus', j => jbInitials(j.instructor_name) + ' · ' + j.title);
+  // one entry per course per day, labelled with the short course name only
+  const seen = new Set(), calRows = month.filter(j => jbCourseStatus(j) !== 'cancelled').filter(j => { const k = (j.group_id || 'J' + j.id) + '|' + j.job_date; if (seen.has(k)) return false; seen.add(k); return true; });
+  // days short of instructors are amber (red if someone declined); gap-only days with nobody booked still show
+  (jb.gapCache || []).filter(g => jbInMonth({ job_date: g.date, days: 1 }, jb.month)).forEach(g => {
+    if (!calRows.some(r => (r.group_id || 'J' + r.id) === g.key && r.job_date === g.date)) calRows.push(Object.assign({}, g.first, { job_date: g.date, days: 1 }));
+  });
+  const calView = calRows.map(r => { const g = jbGapFor(r.group_id || 'J' + r.id, r.job_date);
+    return Object.assign({}, r, { status: g ? (g.declined.length ? 'gapred' : 'gap') : r.status, _gap: g }); });
+  html += jbCalendar(calView, 'jbAdminFocus', j => jbShortName(j) + (j._gap ? ' · ' + j._gap.missing + ' needed' : ''));
   html += `<div class="sc-h2">Courses and jobs in ${jbMonthLabel(jb.month)}</div>`;
   // one card per course (grouped days), older single jobs keep their own card
   const groups = [], byKey = {};
@@ -13566,11 +13638,11 @@ function jbAdminSchedule() {
   groups.forEach(k => {
     const rows = k.startsWith('J') ? byKey[k] : jb.jobs.filter(j => j.group_id === k);
     const j = rows[0];
-    const dates = [...new Set(rows.map(r => r.job_date))].sort();
+    const dates = [...new Set(rows.map(r => r.job_date).concat(j.group_id ? String(j.course_dates || '').split(',').filter(Boolean) : []))].sort();
     const cs = jbCourseStatus(j);
     html += `<div class="jb-card jb-cs-${cs}" id="jbc-${j.id}"><div class="jb-card-top"><div><h4>${lpmEsc(j.title)} <span class="jb-cs ${cs}">${(JB_STATUSES.find(x => x[0] === cs) || [, cs])[1]}</span></h4>
-      <div class="jb-meta">${lpmEsc(j.course_name || 'Not linked to a course record')}<br>${lpmEsc(j.location || 'No location')}${jbTimes(j) ? ' · ' + jbTimes(j) : ''} · ${jbMoney(j.day_rate)}/day</div></div></div>
-      <div class="jb-days">${dates.map(d => `<div class="jb-dayrow"><span class="jb-daylbl">${j.group_id ? jbDayLabel(d) : jbDates(j)}</span><span class="jb-people">${rows.filter(r => r.job_date === d).map(r =>
+      <div class="jb-meta">${lpmEsc(j.course_name || 'Not linked to a course record')}<br>${lpmEsc(j.location || 'No location')}${jbTimes(j) ? ' · ' + jbTimes(j) : ''}</div></div></div>
+      <div class="jb-days">${dates.map(d => `<div class="jb-dayrow"><span class="jb-daylbl">${j.group_id ? jbDayLabel(d) : jbDates(j)}</span><span class="jb-people">${rows.some(r => r.job_date === d) ? '' : '<span class="jb-gap-n" style="color:#8A5200;font-weight:700;">No instructor yet</span>'}${rows.filter(r => r.job_date === d).map(r =>
         `<span class="jb-person"><b>${lpmEsc(r.instructor_name || 'Unassigned')}</b>${r.is_lead ? ' <i>Lead</i>' : ''} ${cs === 'pending' ? '<span class="jb-status">Not sent yet</span>' : `<span class="jb-status ${r.status}">${jbStatusLabel(r)}</span>`}${r.paid ? ' <span class="jb-status paid">Paid</span>' : ''}</span>`).join('')}</span></div>`).join('')}</div>
       ${j.notes ? `<div class="jb-meta" style="margin-top:8px;"><b>Instructor notes:</b> ${lpmEsc(j.notes)}</div>` : ''}
       ${j.admin_notes ? `<div class="jb-meta" style="margin-top:4px;"><b>Admin notes:</b> ${lpmEsc(j.admin_notes)}</div>` : ''}
@@ -13689,6 +13761,8 @@ async function jbSaveGroup() {
   const shared = { group_id: group, title: d.title.trim(), course_name: d.course_name || null, start_time: d.start, end_time: d.end, location: loc,
     admin_notes: (d.adminNotes || '').trim(), notes_hidden: !!d.hide, course_status: d.status || 'pending',
     day_rate: Number(d.rate) || 0, notes: (d.notes || '').trim(), team: team.join('|'), course_dates: days.map(x => x.date).join(','), days: 1, updated_at: new Date().toISOString() };
+  const staffing = {}; (d.days || []).filter(x => x.date).forEach(x => { staffing[x.date] = Math.max(1, (x.instr || []).length); });
+  shared.staffing = staffing;
   const want = days.flatMap(x => x.instr.map(id => ({ date: x.date, id })));
   msg.style.color = '#6B7A94'; msg.textContent = 'Saving…';
   try {
@@ -13709,7 +13783,7 @@ async function jbSaveGroup() {
   } catch (e) {
     const raw = String(e.message || e);
     msg.style.color = '#C74444';
-    msg.textContent = /course_status/i.test(raw) ? 'Run supabase_jobs_status.sql in Supabase, then try again.' : /admin_notes|notes_hidden/i.test(raw) ? 'Run supabase_jobs_notes.sql in Supabase, then try again.' : /group_id|is_lead|course_dates|team|PGRST204|column/i.test(raw) ? 'The job table needs updating for multi-day courses. Run supabase_jobs_courses.sql in Supabase, then try again.' : jbErr(e);
+    msg.textContent = /staffing/i.test(raw) ? 'Run the updated supabase_jobs_status.sql in Supabase, then try again.' : /course_status/i.test(raw) ? 'Run supabase_jobs_status.sql in Supabase, then try again.' : /admin_notes|notes_hidden/i.test(raw) ? 'Run supabase_jobs_notes.sql in Supabase, then try again.' : /group_id|is_lead|course_dates|team|PGRST204|column/i.test(raw) ? 'The job table needs updating for multi-day courses. Run supabase_jobs_courses.sql in Supabase, then try again.' : jbErr(e);
   }
 }
 function jbEditGroup(g) {
@@ -13721,7 +13795,7 @@ function jbEditGroup(g) {
     rate: j.day_rate != null ? String(j.day_rate) : '', notes: j.notes || '', adminNotes: j.admin_notes || '', hide: !!j.notes_hidden,
     days: dates.map((d, i) => { let ids = rows.filter(r => r.job_date === d).map(r => r.instructor);
       if (i === 0 && lead && ids.includes(lead)) ids = [lead, ...ids.filter(x => x !== lead)];
-      while (ids.length < 2) ids.push(''); return { date: d, instr: ids }; }) };
+      const need = (j.staffing && j.staffing[d]) || 2; while (ids.length < need) ids.push(''); return { date: d, instr: ids }; }) };
   jb.formOpen = true; jb.editing = ''; jbRenderAdmin(); window.scrollTo(0, 0);
 }
 async function jbRemoveGroup(g) {
@@ -14970,6 +15044,7 @@ function licApply() {
   try { MENU_ITEMS.forEach(g => { g.items = g.items.filter(x => !featOff(x.go)); }); } catch (e) {}
 }
 document.addEventListener('DOMContentLoaded', licApply);
+document.addEventListener('DOMContentLoaded', () => { const b = document.querySelector('header .brand-logo-badge'); if (b) { b.setAttribute('role', 'button'); b.setAttribute('aria-label', 'Home'); b.addEventListener('click', () => { if (typeof lmsIsLearner === 'function' && lmsIsLearner()) lmsOpen(); else showView('hub'); window.scrollTo(0, 0); }); } });
 function stBuildRail() {
   licApply();
   if (document.getElementById('stRail')) return;
