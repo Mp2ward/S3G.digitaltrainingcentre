@@ -604,6 +604,14 @@ function fmtD(v) {
   .jb-gap-t .jb-gap-n { color:#8A5200; font-weight:700; white-space:normal; } .jb-gap.red .jb-gap-n { color:#A33030; }
   .jb-gap select { font:inherit; font-size:0.88rem; border:1px solid #D8DEE8; border-radius:10px; padding:0 10px; min-height:42px; background:#fff; max-width:44%; }
   .hub-tile .hub-sub:has(.jb-gap-badge) { display:block !important; }
+  details.jb-gaps > summary { list-style:none; cursor:pointer; position:relative; padding-right:28px; }
+  details.jb-gaps > summary::-webkit-details-marker { display:none; }
+  details.jb-gaps > summary::after { content:'▾'; position:absolute; right:4px; top:4px; font-size:1.1rem; color:#8A5200; transition:transform .15s; }
+  details.jb-gaps:not([open]) > summary::after { transform:rotate(-90deg); }
+  button.jb-gap { width:100%; font:inherit; text-align:left; cursor:pointer; }
+  .jb-row .jb-row-tag { flex-shrink:0; min-width:54px; text-align:center; background:#16203D; color:#fff; font-weight:800; font-size:0.72rem; border-radius:10px; padding:8px 6px; }
+  .jb-row .pr-who span { white-space:nowrap; } .jb-row.jb-cs-cancelled { opacity:0.6; }
+  .jb-detail { scroll-margin-top:80px; }
   .jb-gap-badge { display:inline-block; background:#D93A33; color:#fff; font-weight:800; font-size:0.72rem; border-radius:999px; padding:3px 10px; }
   .jb-pill.rejected { background:#FBE3E3; color:#A33030; text-decoration:line-through; }
   .jb-card { border:1px solid #D8DEE8; border-radius:14px; background:#fff; padding:14px 16px; margin-bottom:10px; }
@@ -13590,12 +13598,12 @@ async function jbAssignGap(i, sel) {
 }
 function jbGapsHtml() {
   const gaps = jb.gapCache || []; if (!gaps.length) return '';
-  const ins = jbInstructors();
-  return `<div class="jb-gaps" id="jbGaps"><div class="jb-gaps-h"><b>Needs instructors (${gaps.length})</b><span>Upcoming course days that are short. Pick someone to send it straight to them.</span></div>
-    ${gaps.map((g, i) => `<div class="jb-gap ${g.declined.length ? 'red' : ''}">
-      <div class="jb-gap-t"><b>${jbDayLabel(g.date)} · ${lpmEsc(jbShortName(g.first))}</b><span>${lpmEsc(g.first.title)}${g.first.location ? ' · ' + lpmEsc(g.first.location) : ''}</span>
-        <span class="jb-gap-n">Needs ${g.missing} more${g.declined.length ? ' — ' + lpmEsc(g.declined.join(', ')) + ' declined' : ''}${jbCourseStatus(g.first) === 'pending' ? ' · pending' : ''}</span></div>
-      <select onchange="jbAssignGap(${i}, this)" aria-label="Assign an instructor"><option value="">Assign…</option>${ins.map(p => `<option value="${p.id}">${lpmEsc(p.full_name || p.id)}</option>`).join('')}</select></div>`).join('')}</div>`;
+  const byJob = {}; gaps.forEach(g => { (byJob[g.key] = byJob[g.key] || []).push(g); });
+  return `<details class="jb-gaps" id="jbGaps" ${jb.gapsOpen ? 'open' : ''} ontoggle="jb.gapsOpen=this.open">
+    <summary class="jb-gaps-h"><b>Needs instructors (${gaps.length} day${gaps.length === 1 ? '' : 's'})</b><span>Tap to see which courses are short</span></summary>
+    ${Object.entries(byJob).map(([k, gs]) => { const j = gs[0].first, red = gs.some(g => g.declined.length);
+      return `<button class="jb-gap ${red ? 'red' : ''}" onclick="jbOpenJob('${k}')"><div class="jb-gap-t"><b>${lpmEsc(jbShortName(j))} · ${lpmEsc(j.title)}</b>
+        <span>${gs.map(g => jbDayLabel(g.date)).join(', ')}</span><span class="jb-gap-n">Needs ${gs.reduce((t, g) => t + g.missing, 0)} more${red ? ' — someone declined' : ''}</span></div><span class="hub-chev">&rsaquo;</span></button>`; }).join('')}</details>`;
 }
 function jbSectionTiles() {
   const m = jb.jobs.filter(j => jbInMonth(j, jb.month) && jbCourseStatus(j) !== 'cancelled');
@@ -13606,12 +13614,53 @@ function jbSectionTiles() {
   const t = (k, go, soft, ic, title, sub) => `<button class="hub-tile ${jb.tab === k ? 'lpm-on' : ''}" style="--soft:${soft};" onclick="${go}">
       <span class="hub-ic">${kcIcon(ic)}</span><span class="hub-text"><span class="hub-title">${title}</span><span class="hub-sub">${sub}</span></span></button>`;
   return `<div class="hub-tiles jb-tiles">
-    ${t('schedule', "jb.tab='schedule';jbRenderAdmin();setTimeout(()=>{const g=document.getElementById('jbGaps');if(g)g.scrollIntoView({behavior:'smooth',block:'start'})},60)", '#E3E8FA', '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>', 'Schedule', gapN ? `<span class="jb-gap-badge">${gapN} need${gapN === 1 ? 's' : ''} instructors</span>` : courses + ' course' + (courses === 1 ? '' : 's') + ' in ' + jbMonthLabel(jb.month))}
+    ${t('schedule', "jb.tab='schedule';jb.openKey='';jb.gapsOpen=${gapN ? 'true' : 'false'};jbRenderAdmin();setTimeout(()=>{const g=document.getElementById('jbGaps');if(g)g.scrollIntoView({behavior:'smooth',block:'start'})},60)", '#E3E8FA', '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>', 'Schedule', gapN ? `<span class="jb-gap-badge">${gapN} need${gapN === 1 ? 's' : ''} instructors</span>` : courses + ' course' + (courses === 1 ? '' : 's') + ' in ' + jbMonthLabel(jb.month))}
     ${t('timesheets', "jb.tab='timesheets';jbRenderAdmin()", '#DDEFE6', '<path d="M6 3h9l4 4v14H6z"/><path d="M9 11h7M9 15h7M9 19h4"/>', 'Timesheets', shifts + ' confirmed shift' + (shifts === 1 ? '' : 's') + ' this month')}
     ${t('payreqs', "jb.tab='payreqs';jb.reqs=null;jbRenderAdmin()", '#FFF0C9', '<rect x="2.5" y="6" width="19" height="13" rx="2"/><path d="M2.5 10h19M6.5 15h4"/>', 'Finance', jb.reqs ? (waiting ? waiting + ' pay request' + (waiting === 1 ? '' : 's') + ' waiting' : 'No pay requests waiting') : 'Pay requests and invoices')}
   </div><div class="jb-sec-line"></div>`;
 }
+function jbCardHtml(k) {
+    const rows = k.startsWith('J') ? jb.jobs.filter(j => 'J' + j.id === k) : jb.jobs.filter(j => j.group_id === k);
+    const j = rows[0];
+    const dates = [...new Set(rows.map(r => r.job_date).concat(j.group_id ? String(j.course_dates || '').split(',').filter(Boolean) : []))].sort();
+    const cs = jbCourseStatus(j);
+    return `<div class="jb-card jb-cs-${cs}" id="jbc-${j.id}"><div class="jb-card-top"><div><h4>${lpmEsc(j.title)} <span class="jb-cs ${cs}">${(JB_STATUSES.find(x => x[0] === cs) || [, cs])[1]}</span></h4>
+      <div class="jb-meta">${lpmEsc(j.course_name || 'Not linked to a course record')}<br>${lpmEsc(j.location || 'No location')}${jbTimes(j) ? ' · ' + jbTimes(j) : ''}</div></div></div>
+      <div class="jb-days">${dates.map(d => `<div class="jb-dayrow"><span class="jb-daylbl">${j.group_id ? jbDayLabel(d) : jbDates(j)}</span><span class="jb-people">${rows.some(r => r.job_date === d) ? '' : '<span class="jb-gap-n" style="color:#8A5200;font-weight:700;">No instructor yet</span>'}${rows.filter(r => r.job_date === d).map(r =>
+        `<span class="jb-person"><b>${lpmEsc(r.instructor_name || 'Unassigned')}</b>${r.is_lead ? ' <i>Lead</i>' : ''} ${cs === 'pending' ? '<span class="jb-status">Not sent yet</span>' : `<span class="jb-status ${r.status}">${jbStatusLabel(r)}</span>`}${r.paid ? ' <span class="jb-status paid">Paid</span>' : ''}</span>`).join('')}</span></div>`).join('')}</div>
+      ${j.notes ? `<div class="jb-meta" style="margin-top:8px;"><b>Instructor notes:</b> ${lpmEsc(j.notes)}</div>` : ''}
+      ${j.admin_notes ? `<div class="jb-meta" style="margin-top:4px;"><b>Admin notes:</b> ${lpmEsc(j.admin_notes)}</div>` : ''}
+      ${j.notes_hidden ? '<div class="jb-meta" style="margin-top:4px;">🔒 Notes hidden from the customer</div>' : ''}
+      ${rows.filter(r => r.instructor_note).map(r => `<div class="jb-meta" style="margin-top:4px;"><b>${lpmEsc(r.instructor_name)}:</b> ${lpmEsc(r.instructor_note)}</div>`).join('')}
+      <div class="jb-actions"><select class="jb-cs-sel" onchange="jbSetStatus('${j.group_id || 'J' + j.id}', this.value)" aria-label="Course status">${JB_STATUSES.map(([v, t]) => `<option value="${v}" ${v === cs ? 'selected' : ''}>${t}</option>`).join('')}</select>${j.group_id
+        ? `<button class="jb-btn" onclick="jbEditGroup('${j.group_id}')">Edit</button><button class="jb-btn no" onclick="jbRemoveGroup('${j.group_id}')">Remove course</button>`
+        : `<button class="jb-btn" onclick="jb.editing='${j.id}';jb.formOpen=true;jbRenderAdmin();window.scrollTo(0,0)">Edit</button><button class="jb-btn no" onclick="jbRemove('${j.id}')">Remove shift</button>`}</div></div>`;
+}
+function jbRowHtml(k) {
+  const rows = k.startsWith('J') ? jb.jobs.filter(j => 'J' + j.id === k) : jb.jobs.filter(j => j.group_id === k);
+  const j = rows[0]; if (!j) return '';
+  const dates = [...new Set(rows.map(r => r.job_date).concat(j.group_id ? String(j.course_dates || '').split(',').filter(Boolean) : []))].sort();
+  const cs = jbCourseStatus(j), gaps = (jb.gapCache || []).filter(g => g.key === k).reduce((t, g) => t + g.missing, 0);
+  const names = [...new Set(rows.filter(r => r.status !== 'rejected').map(r => r.instructor_name).filter(Boolean))];
+  const when = dates.length > 1 ? jbDayLabel(dates[0]) + ' – ' + jbDayLabel(dates[dates.length - 1]) + ' · ' + dates.length + ' days' : jbDayLabel(dates[0] || j.job_date);
+  return `<button class="pr-row jb-row jb-cs-${cs}" onclick="jbOpenJob('${k}')"><span class="jb-row-tag">${lpmEsc(jbShortName(j))}</span>
+    <span class="pr-who"><b>${lpmEsc(j.title)}</b><span>${when}${j.location ? ' · ' + lpmEsc(j.location) : ''}</span><span>${names.length ? lpmEsc(names.join(', ')) : 'No instructors yet'}</span></span>
+    <span class="pr-amt"><span class="jb-cs ${cs}">${(JB_STATUSES.find(x => x[0] === cs) || [, cs])[1]}</span>${gaps ? `<span class="jb-gap-badge">${gaps} needed</span>` : ''}</span><span class="hub-chev">&rsaquo;</span></button>`;
+}
+function jbAdminFocus(id) { const j = (jb.jobs || []).find(x => String(x.id) === String(id)); if (j) jbOpenJob(j.group_id || 'J' + j.id); }
+function jbOpenJob(k) { jb.openKey = k; jb.tab = 'schedule'; jb.formOpen = false; jbRenderAdmin(); setTimeout(() => { const d = document.getElementById('jbJobDetail'); if (d) d.scrollIntoView({ behavior:'smooth', block:'start' }); }, 40); }
 function jbAdminSchedule() {
+  if (jb.openKey && !jb.formOpen) {
+    const card = jbCardHtml(jb.openKey);
+    if (card) {
+      const gaps = (jb.gapCache || []).map((g, i) => [g, i]).filter(([g]) => g.key === jb.openKey), ins = jbInstructors();
+      return `<div id="jbJobDetail" class="jb-detail"><button class="rn-nav-btn" onclick="jb.openKey='';jbRenderAdmin()">← Schedule</button>
+        ${gaps.length ? `<div class="jb-gaps" style="margin-top:14px;"><div class="jb-gaps-h"><b>Needs instructors</b></div>${gaps.map(([g, i]) => `<div class="jb-gap ${g.declined.length ? 'red' : ''}"><div class="jb-gap-t"><b>${jbDayLabel(g.date)}</b><span class="jb-gap-n">Needs ${g.missing} more${g.declined.length ? ' — ' + lpmEsc(g.declined.join(', ')) + ' declined' : ''}</span></div>
+          <select onchange="jbAssignGap(${i}, this)" aria-label="Assign an instructor"><option value="">Assign…</option>${ins.map(p => `<option value="${p.id}">${lpmEsc(p.full_name || p.id)}</option>`).join('')}</select></div>`).join('')}</div>` : ''}
+        <div style="margin-top:14px;">${card}</div></div>`;
+    }
+    jb.openKey = '';
+  }
   const month = jb.jobs.filter(j => jbInMonth(j, jb.month));
   const ed = jb.editing ? jb.jobs.find(j => j.id === jb.editing) : null;
   let html = `<button class="jb-btn pri" onclick="${jb.formOpen ? "jb.formOpen=false;jb.editing='';jb.draft=null;jbRenderAdmin()" : 'jbNewDraft()'}">${jb.formOpen ? 'Close' : '+ New course'}</button><div style="height:12px"></div>`;
@@ -13635,23 +13684,7 @@ function jbAdminSchedule() {
   const groups = [], byKey = {};
   month.forEach(j => { const k = j.group_id || ('J' + j.id); if (!byKey[k]) { byKey[k] = []; groups.push(k); } byKey[k].push(j); });
   if (!groups.length) html += '<p class="jb-empty">Nothing booked this month yet.</p>';
-  groups.forEach(k => {
-    const rows = k.startsWith('J') ? byKey[k] : jb.jobs.filter(j => j.group_id === k);
-    const j = rows[0];
-    const dates = [...new Set(rows.map(r => r.job_date).concat(j.group_id ? String(j.course_dates || '').split(',').filter(Boolean) : []))].sort();
-    const cs = jbCourseStatus(j);
-    html += `<div class="jb-card jb-cs-${cs}" id="jbc-${j.id}"><div class="jb-card-top"><div><h4>${lpmEsc(j.title)} <span class="jb-cs ${cs}">${(JB_STATUSES.find(x => x[0] === cs) || [, cs])[1]}</span></h4>
-      <div class="jb-meta">${lpmEsc(j.course_name || 'Not linked to a course record')}<br>${lpmEsc(j.location || 'No location')}${jbTimes(j) ? ' · ' + jbTimes(j) : ''}</div></div></div>
-      <div class="jb-days">${dates.map(d => `<div class="jb-dayrow"><span class="jb-daylbl">${j.group_id ? jbDayLabel(d) : jbDates(j)}</span><span class="jb-people">${rows.some(r => r.job_date === d) ? '' : '<span class="jb-gap-n" style="color:#8A5200;font-weight:700;">No instructor yet</span>'}${rows.filter(r => r.job_date === d).map(r =>
-        `<span class="jb-person"><b>${lpmEsc(r.instructor_name || 'Unassigned')}</b>${r.is_lead ? ' <i>Lead</i>' : ''} ${cs === 'pending' ? '<span class="jb-status">Not sent yet</span>' : `<span class="jb-status ${r.status}">${jbStatusLabel(r)}</span>`}${r.paid ? ' <span class="jb-status paid">Paid</span>' : ''}</span>`).join('')}</span></div>`).join('')}</div>
-      ${j.notes ? `<div class="jb-meta" style="margin-top:8px;"><b>Instructor notes:</b> ${lpmEsc(j.notes)}</div>` : ''}
-      ${j.admin_notes ? `<div class="jb-meta" style="margin-top:4px;"><b>Admin notes:</b> ${lpmEsc(j.admin_notes)}</div>` : ''}
-      ${j.notes_hidden ? '<div class="jb-meta" style="margin-top:4px;">🔒 Notes hidden from the customer</div>' : ''}
-      ${rows.filter(r => r.instructor_note).map(r => `<div class="jb-meta" style="margin-top:4px;"><b>${lpmEsc(r.instructor_name)}:</b> ${lpmEsc(r.instructor_note)}</div>`).join('')}
-      <div class="jb-actions"><select class="jb-cs-sel" onchange="jbSetStatus('${j.group_id || 'J' + j.id}', this.value)" aria-label="Course status">${JB_STATUSES.map(([v, t]) => `<option value="${v}" ${v === cs ? 'selected' : ''}>${t}</option>`).join('')}</select>${j.group_id
-        ? `<button class="jb-btn" onclick="jbEditGroup('${j.group_id}')">Edit</button><button class="jb-btn no" onclick="jbRemoveGroup('${j.group_id}')">Remove course</button>`
-        : `<button class="jb-btn" onclick="jb.editing='${j.id}';jb.formOpen=true;jbRenderAdmin();window.scrollTo(0,0)">Edit</button><button class="jb-btn no" onclick="jbRemove('${j.id}')">Remove shift</button>`}</div></div>`;
-  });
+  groups.forEach(k => { html += jbRowHtml(k); });
   return html;
 }
 
@@ -13808,7 +13841,7 @@ async function jbRemoveGroup(g) {
     jb.msg = 'Course removed.'; await jbLoad(); jbRenderAdmin();
   } catch (e) { alert(jbErr(e)); }
 }
-function jbAdminFocus(id) { const el = document.getElementById('jbc-' + id); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+function jbAdminFocusOld_(id) { const el = document.getElementById('jbc-' + id); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
 
 function jbForm(j) {
   j = j || {};
