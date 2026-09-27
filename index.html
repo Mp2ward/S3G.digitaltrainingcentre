@@ -12285,7 +12285,15 @@ async function cloudPull() {
       if (r.skills) sk[r.id] = r.skills;
       if (r.owner === me) synced['c:' + r.id] = cloudHash([r.course, r.skills || null]);
     });
-    lpmSaveCoursesRaw(local); skSaveAllRaw(sk);
+    // Make this device match the server: drop courses that were deleted elsewhere, or that this person can no longer see
+    const remoteIds = new Set(rows.map(r => r.id));
+    const kept = local.filter(c => {
+      if (c.isExample || remoteIds.has(c.id)) return true;
+      if (synced['c:' + c.id]) { delete synced['c:' + c.id]; return false; }   // was on the server, now gone
+      if (c.owner && c.owner !== me) return false;                             // someone else's, no longer shared
+      return true;                                                             // made here and not uploaded yet — keep and push
+    });
+    lpmSaveCoursesRaw(kept); skSaveAllRaw(sk);
     const srows = await cloudRest('sessions?select=id,owner,data') || [];
     const ls = rnLoadSessions();
     srows.forEach(r => {
@@ -12350,6 +12358,15 @@ async function cloudOfferImport() {
 
 async function cloudAfterLogin() {
   cloudRenderBadge();
+  // A different person signed in on this device: clear what the last person left behind
+  try {
+    const me = cloudMe(), last = localStorage.getItem('dtc_last_user');
+    if (last && last !== me) {
+      lpmSaveCoursesRaw(lpmLoadCourses().filter(c => c.isExample || !c.owner));
+      cloudSetSynced({});
+    }
+    localStorage.setItem('dtc_last_user', me);
+  } catch (e) {}
   await cloudPull();
   if (!cloudIsReviewer()) await cloudOfferImport();
   if (cloud.profile && cloud.profile.full_name && typeof cpdWho !== 'undefined') cpdWho = cloud.profile.full_name;
