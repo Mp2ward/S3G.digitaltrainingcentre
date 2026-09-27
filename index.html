@@ -1664,6 +1664,33 @@ function fmtD(v) {
   .aip-row { display:flex; justify-content:space-between; gap:10px; padding:5px 0; border-bottom:1px solid #F0EDE6; font-size:0.88rem; } .aip-row span { color:#6B7A94; } .aip-row b { color:#16203D; text-align:right; font-weight:600; word-break:break-word; }
   .aip-row a { color:#2446B8; }
   @media (max-width:640px) { .mixer-board-btn, .mixer-board-hint { display:none !important; } }
+  /* Training completion / learner register */
+  .sr-box { background:#fff; border:1px solid #E7E3DA; border-radius:18px; padding:16px 18px; margin-top:20px; }
+  .sr-h { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; } .sr-h b { display:block; font-family:'Fraunces',Georgia,serif; font-size:1.3rem; color:#16203D; } .sr-h span { font-size:0.85rem; color:#5E6577; }
+  .sr-scroll { overflow-x:auto; margin-top:12px; border:1px solid #EEE9DE; border-radius:12px; }
+  .sr-t { width:100%; border-collapse:collapse; min-width:760px; font-size:0.86rem; }
+  .sr-t th { text-align:left; font-size:0.7rem; text-transform:uppercase; letter-spacing:0.05em; color:#6B7A94; background:#FBFAF6; padding:8px; } .sr-t th i { text-transform:none; font-style:normal; font-weight:400; }
+  .sr-t td { padding:6px 8px; border-top:1px solid #F2F4F8; } .sr-t td.c { text-align:center; }
+  .sr-t input:not([type=checkbox]), .sr-t select { font:inherit; font-size:0.85rem; border:1px solid #D8DEE8; border-radius:8px; padding:6px 8px; min-height:36px; width:100%; box-sizing:border-box; background:#fff; }
+  .sr-t input[type=checkbox] { width:22px; height:22px; }
+  .sr-sig { display:block; font-size:0.72rem; color:#0F6E56; } .sr-nosig { display:block; font-size:0.72rem; color:#8A5200; }
+  .sr-sign { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-top:14px; padding-top:12px; border-top:1px solid #F2F4F8; }
+  .sr-sign b { display:block; color:#16203D; } .sr-sign img { display:block; height:44px; margin:4px 0; } .sr-sign span { font-size:0.8rem; color:#6B7A94; }
+  .sr-pad { width:100%; height:180px; border:2px dashed #C9D0DD; border-radius:12px; background:#fff; touch-action:none; }
+  .sr-line { flex-basis:100%; display:flex; flex-wrap:wrap; align-items:center; gap:8px 16px; padding-top:8px; margin-top:4px; border-top:1px dashed #E7E3DA; font-size:0.86rem; color:#16203D; }
+  .sr-line input { flex:0 0 auto !important; width:auto !important; }
+  @media (max-width:520px) { .lpm-learner-card > input { flex:1 1 100% !important; width:100% !important; } }
+  .sr-ck { display:inline-flex; align-items:center; gap:6px; font-weight:600; min-height:36px; } .sr-ck input { width:22px; height:22px; }
+  .sr-exp { display:inline-flex; align-items:center; gap:6px; font-weight:600; } .sr-exp i { font-style:normal; font-weight:400; color:#6B7A94; }
+  .sr-exp input { font:inherit; font-size:0.85rem; border:1px solid #D8DEE8; border-radius:8px; padding:4px 8px; min-height:34px; }
+  .sr-rpl { border:1px solid #D8DEE8; background:#F6F7FA; color:#3A4760; border-radius:999px; padding:6px 14px; font:inherit; font-size:0.82rem; font-weight:700; cursor:pointer; min-height:36px; }
+  .sr-rpl.y { background:#DDF1E8; border-color:#1F8A5B; color:#0F6E56; } .sr-rpl.n { background:#FDE3E1; border-color:#D93A33; color:#A33030; }
+  .lpm-learner-card { flex-wrap:wrap; }
+  .sr-bar { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; background:#fff; border:1px solid #E7E3DA; border-radius:16px; padding:12px 14px; margin-top:16px; }
+  .sr-bar-l { display:flex; align-items:center; gap:10px; flex-wrap:wrap; } .sr-bar-l b { font-family:'Fraunces',Georgia,serif; font-size:1.15rem; color:#16203D; }
+  .sr-dur { display:inline-flex; align-items:center; gap:6px; font-size:0.85rem; font-weight:600; color:#3A4760; } .sr-dur input { width:72px; font:inherit; border:1px solid #D8DEE8; border-radius:8px; padding:4px 8px; min-height:34px; }
+  .sr-sigimg { height:36px; }
+  .lpm-aw-note { font-size:0.8rem; color:#6B7A94; margin-top:4px; }
   /* Course progress + completion ticks */
   .lpm-prog { display:none; justify-content:space-between; align-items:center; gap:14px; margin:6px 0 14px; }
   #lpmSteps .lpm-prog { display:flex; }
@@ -3810,8 +3837,7 @@ function hubRender() {
   const thisYear = mine.filter(c => (c.startDate || '').startsWith(year)).length;
   const awaiting = mine.filter(c => c.submission && !iqaFor(c.id)).length;
   const action = reviewer ? awaiting + erPendingCount()
-    : mine.filter(c => { const r = iqaFor(c.id); return r && r.outcome !== 'Accepted'; }).length
-      + mine.filter(c => !c.submission && c.endDate && c.endDate < isoLocal()).length;
+    : mine.filter(lpmNeedsAction).length;
   let hours = 0;
   try { hours = Math.round((cpdEntries() || []).reduce((t, e) => t + (Number(e.hours) || 0), 0)); } catch (e) {}
   const stat = (cls, n, label, go) => `<button class="hub-stat ${cls}" onclick="${go}"><b>${n}</b><span>${label}</span></button>`;
@@ -9025,6 +9051,12 @@ function lpmIqaState(c) {
   if (r.outcome === 'Accepted with actions') return 'action';
   return 'approved';
 }
+// One definition of "action required", used on the home screen and the course list
+function lpmNeedsAction(c) {
+  if (!c || c.isExample) return false;
+  if (lpmIqaState(c) === 'action') return true;                          // returned / accepted with actions by the IQA
+  return !c.submission && !!c.endDate && c.endDate < isoLocal();        // finished but not submitted yet
+}
 function lpmSetIqaFilter(v) { lpmIqaFilter = (lpmIqaFilter === v) ? '' : v; lpmRenderCourseList(); }
 function lpmToggleSearch() {
   lpmSearchOpen = !lpmSearchOpen;
@@ -9059,9 +9091,9 @@ function lpmRenderCourseList() {
   const live = list.filter(c => !c.isExample);
   const counts = { approved: live.filter(c => lpmIqaState(c) === 'approved').length,
                    pending: live.filter(c => lpmIqaState(c) === 'pending').length,
-                   action: live.filter(c => lpmIqaState(c) === 'action').length };
+                   action: live.filter(lpmNeedsAction).length };
   const returned = rest.filter(c => lpmIqaState(c) === 'action');
-  if (lpmIqaFilter) rest = rest.filter(c => lpmIqaState(c) === lpmIqaFilter);
+  if (lpmIqaFilter) rest = rest.filter(c => lpmIqaFilter === 'action' ? lpmNeedsAction(c) : lpmIqaState(c) === lpmIqaFilter);
   const search = `<div class="lpm-search ${lpmSearchOpen ? 'open' : ''}">
       <button class="lpm-search-btn" onclick="lpmToggleSearch()" aria-label="${lpmSearchOpen ? 'Close search' : 'Search courses'}">
         ${lpmSearchOpen
@@ -9080,7 +9112,7 @@ function lpmRenderCourseList() {
     <div class="lpm-course-row-wrap${isExample ? ' example' : ''}${lpmIqaState(c) === 'action' ? ' action' : ''}">
       <button class="lpm-course-row" onclick="lpmOpenCourse('${c.id}')">
         <div class="lpm-course-name">${isExample ? '<span class="lpm-pin">📌 Example</span> ' : ''}${lpmEsc(c.courseName || 'Untitled course')}</div>
-        ${!isExample && lpmIqaState(c) === 'action' ? `<span class="lpm-stamp">Action required</span>` : ''}
+        ${!isExample && lpmNeedsAction(c) ? `<span class="lpm-stamp">${lpmIqaState(c) === 'action' ? 'Action required' : 'Not submitted'}</span>` : ''}
         <div class="lpm-course-meta">${fmtShort(c.startDate)}${c.endDate && c.endDate !== c.startDate ? ' – ' + fmtShort(c.endDate) : ''}${c.courseRef ? ' · ' + lpmEsc(c.courseRef) : ''}${c.location ? ' · ' + lpmEsc(c.location) : ''}${reviewer && c.ownerName ? ' · ' + lpmEsc(c.ownerName) : ''}</div>
         ${c.submission ? (() => { const r = iqaFor(c.id), act = lpmIqaState(c) === 'action';
             return `<div class="lpm-course-sub${act ? ' bad' : ''}"><span class="lpm-tick${act ? ' bad' : ''}">${act ? '!' : '✓'}</span> Submitted ${fmtShort(c.submission.at)}${r ? ' · IQA ' + lpmEsc(r.outcome.toLowerCase()) : ' · awaiting IQA'}${act && r && r.notes ? ' — ' + lpmEsc(r.notes) : ''}</div>`; })() : ''}
@@ -9349,6 +9381,8 @@ function lpmLocalIqa(c, files) {
   if (kind === 'frec') ck.push(
     ['Anatomy & physiology papers', named > 0 && n('anat') >= named, n('anat') + ' of ' + named + ' uploaded', 'theory'],
     ['Multiple choice papers', named > 0 && n('mc') >= named, n('mc') + ' of ' + named + ' uploaded', 'theory']);
+  if (srUses(c)) { const rr = srLearnerRows(c), comp = srComp(c);
+    ck.push(['Learner register', rr.length > 0 && rr.every(r => r.t.attended === 'Y') && !!comp.trainerSig, rr.filter(r => r.t.attended === 'Y').length + ' of ' + rr.length + ' completed' + (comp.trainerSig ? ' · signed' : ' · not signed'), 'learners']); }
   ck.push(
     ['Learner feedback', named > 0 && fb >= named, fb + ' of ' + named + ' returned', 'feedback'],
     ['Reasonable adjustments', alnDone, alnL.length ? (alnL.filter(l => (alnOf(l).adjustments || []).length).length + ' of ' + alnL.length + ' needs have adjustments recorded') : 'None disclosed', 'learners'],
@@ -9485,6 +9519,11 @@ function lpmRenderDetails() {
     <div class="lpm-field">
       <label>Course name</label>
       <select onchange="lpmSetDetail('courseName', this.value); lpmApplyCourseLength();">${lpmOpt(LPM_COURSE_NAMES, c.courseName)}</select>
+    </div>
+    <div class="lpm-field">
+      <label>Awarding organisation</label>
+      <select onchange="lpmSetDetail('awarding', this.value); lpmRenderDetails();">${AWARDING.map(([v, t]) => `<option value="${v}" ${awardingOf(c) === v ? 'selected' : ''}>${t}</option>`).join('')}</select>
+      <div class="lpm-aw-note">${awardingOf(c) === 'sector3' ? 'Uses the Sector 3 Group learner register, completed in Learners.' : 'Uses the Qualsafe paperwork and register.'}</div>
     </div>
     <div class="lpm-field-row">
       <div class="lpm-field">
@@ -9770,6 +9809,7 @@ function lpmRenderLearners() {
       <input type="email" class="lpm-learner-email" value="${lpmEsc(l.email || '')}" placeholder="Email (for joining instructions)" oninput="lpmSetLearnerEmail(${i}, this.value)">
       <button class="aln-btn ${a ? 'on' : ''}" onclick="lpmOpenAln(${i})" title="Additional learning needs">${a ? 'ALN ' + (n || '✓') : '+ Learning needs'}</button>
       <button class="lpm-learner-remove" onclick="lpmRemoveLearner(${i})">Remove</button>
+      ${srUses(c) ? srLearnerLine(l) : ''}
     </div>`;
     if (a && ((a.adjustments || []).length || (a.needs || []).length)) {
       html += `<div class="aln-line">${[...(a.needs || []), ...(a.adjustments || []).map(x => '→ ' + x)].map(lpmEsc).join(' · ')}</div>`;
@@ -9777,6 +9817,7 @@ function lpmRenderLearners() {
   });
 
   html += `<button class="lpm-add-learner" onclick="lpmAddLearner()">+ Add learner</button>`;
+  html += srHtml();
   document.getElementById('lpmPanel-learners').innerHTML = html;
   lpmRenderRegisterPhotos();
   rgRenderQrCard();
@@ -11422,7 +11463,8 @@ async function lpmBuildPack(action) {
     // 2b. Live register — recreated in the same layout as the seminar sign-in sheet
     //     (Seminar / session details header, then Course Name | Name | Position | Organisation | Signature)
     const rgEntries = lpmCourse.registerEntries || [];
-    if (rgEntries.length) {
+    if (srUses(lpmCourse)) { await srAddRegisterPages(pdf, lpmCourse); }
+    else if (rgEntries.length) {
       const rowH = 46, perPage = 9;
       const sessionStart = fmtD(lpmCourse.startDate) + (lpmCourse.startTime ? ', ' + lpmCourse.startTime : '');
       const sessionEnd = fmtD(lpmCourse.endDate || lpmCourse.startDate) + (lpmCourse.endTime ? ', ' + lpmCourse.endTime : '');
@@ -13338,13 +13380,16 @@ function rgUpdateCounts() {
 async function rgPullResponses() {
   if (!CLOUD_ON || !cloud.session || !navigator.onLine || !lpmCourse) return 0;
   try {
-    const rows = await cloudRest('register_responses?select=id,name,position,organisation,signature,created_at&course_id=eq.' + encodeURIComponent(lpmCourse.id) + '&order=created_at') || [];
+    let rows;
+    try { rows = await cloudRest('register_responses?select=id,name,position,organisation,signature,created_at,first_name,last_name,dob,email,employer&course_id=eq.' + encodeURIComponent(lpmCourse.id) + '&order=created_at') || []; }
+    catch (e) { rows = await cloudRest('register_responses?select=id,name,position,organisation,signature,created_at&course_id=eq.' + encodeURIComponent(lpmCourse.id) + '&order=created_at') || []; }
     const have = new Set(rgList().map(r => r.id));
     let added = 0;
     rows.forEach(r => {
       const id = 'QR-' + r.id;
       if (have.has(id)) return;
-      rgList().push({ id, name: r.name || '', position: r.position || '', organisation: r.organisation || '', signature: r.signature || '', signedAt: r.created_at });
+      rgList().push({ id, name: r.name || [r.first_name, r.last_name].filter(Boolean).join(' '), first: r.first_name || '', last: r.last_name || '', dob: r.dob || '', email: r.email || '', employer: r.employer || r.organisation || '',
+        position: r.position || '', organisation: r.organisation || r.employer || '', signature: r.signature || '', signedAt: r.created_at });
       added++;
     });
     // anyone who signs the register goes straight onto the learner list
@@ -13354,7 +13399,7 @@ async function rgPullResponses() {
       rgList().forEach(r => {
         const key = (r.name || '').trim().toLowerCase();
         if (!key || existing.has(key)) return;
-        (lpmCourse.learners = lpmCourse.learners || []).push({ id: 'L' + Date.now() + Math.random().toString(36).slice(2, 6), name: r.name.trim() });
+        (lpmCourse.learners = lpmCourse.learners || []).push({ id: 'L' + Date.now() + Math.random().toString(36).slice(2, 6), name: r.name.trim(), first: r.first || '', last: r.last || '', dob: r.dob || '', email: r.email || '', employer: r.employer || '' });
         existing.add(key); learnersAdded++;
       });
     }
@@ -13463,6 +13508,7 @@ function jbReconcileCourses() {
     const team = j.team ? String(j.team).split('|').filter(Boolean) : [];
     const upd = { courseName: j.course_name || j.title, startDate: dates[0] || j.job_date, endDate: dates[dates.length - 1] || jbEnd(j), location: j.location || '', startTime: (j.start_time || '').slice(0, 5), endTime: (j.end_time || '').slice(0, 5) };
     if (j.group_id) Object.assign(upd, { courseDates: dates, adminNotes: j.notes || '', notesHidden: !!j.notes_hidden });
+    if (j.awarding) upd.awarding = j.awarding;
     if (/^Client location: /.test(upd.location)) { upd.clientAddress = upd.location.replace(/^Client location: /, ''); upd.location = 'Client location'; }
     if (ex) {
       if (!ex.submission) for (const k in upd) if (ex[k] !== upd[k]) { ex[k] = upd[k]; changed = true; }
@@ -13728,6 +13774,7 @@ async function jbSetStatus(key, status) {
 function jbDraftCourse(v) {
   const d = jb.draft; d.course_name = v;
   if (v && !d.title.trim()) d.title = v;
+  d.awarding = awardingDefault(v);
   const first = (d.days[0] && d.days[0].date) || isoLocal();
   const keep = i => (d.days[i] && d.days[i].instr) || ['', ''];
   if (v === 'FREC 3 - Custom Dates') d.days = [0, 1, 2, 3, 4].map(i => ({ date: i === 0 ? first : '', instr: keep(i) }));
@@ -13754,6 +13801,7 @@ function jbBuilder() {
   return `<div class="jb-form jb-builder">
     <div class="wide jb-bh">${d.group ? 'Edit course' : 'New course'}</div>
     <label>Course type<select onchange="jbDraftCourse(this.value)"><option value="">Not linked to a course record</option>${courses.map(c => `<option ${c === d.course_name ? 'selected' : ''}>${lpmEsc(c)}</option>`).join('')}</select></label>
+    <label>Awarding organisation<select onchange="jbDraftSet('awarding', this.value)">${AWARDING.map(([v, t]) => `<option value="${v}" ${(d.awarding || awardingDefault(d.course_name)) === v ? 'selected' : ''}>${t}</option>`).join('')}</select></label>
     <label>Title<input value="${lpmEsc(d.title)}" placeholder="e.g. FREC 3 — cohort 4" oninput="jbDraftSet('title', this.value)"></label>
     <label>Location<select onchange="{ const v = lpmTyped(this, 'Type the location', jb.draft.location); if (v !== null) { jbDraftSet('location', v); jbRenderAdmin(); } }"><option value="">Choose location…</option>${[...new Set(locs.concat(['Client location'], d.location && !locs.includes(d.location) && d.location !== 'Client location' ? [d.location] : []))].map(l => `<option ${l === d.location ? 'selected' : ''}>${lpmEsc(l)}</option>`).join('')}<option value="${LPM_TYPE}">Other — type a location…</option></select></label>
     ${d.location === 'Client location' ? `<label class="wide">Client address<textarea rows="2" placeholder="Client name and full address, including postcode" oninput="jbDraftSet('address', this.value)">${lpmEsc(d.address || '')}</textarea></label>` : ''}
@@ -13792,7 +13840,7 @@ async function jbSaveGroup() {
   if (d.location === 'Client location' && !(d.address || '').trim()) { msg.textContent = 'Add the client address.'; return; }
   const loc = d.location === 'Client location' ? 'Client location: ' + d.address.trim().replace(/\s*\n\s*/g, ', ') : (d.location || '').trim();
   const shared = { group_id: group, title: d.title.trim(), course_name: d.course_name || null, start_time: d.start, end_time: d.end, location: loc,
-    admin_notes: (d.adminNotes || '').trim(), notes_hidden: !!d.hide, course_status: d.status || 'pending',
+    admin_notes: (d.adminNotes || '').trim(), notes_hidden: !!d.hide, course_status: d.status || 'pending', awarding: d.awarding || awardingDefault(d.course_name),
     day_rate: Number(d.rate) || 0, notes: (d.notes || '').trim(), team: team.join('|'), course_dates: days.map(x => x.date).join(','), days: 1, updated_at: new Date().toISOString() };
   const staffing = {}; (d.days || []).filter(x => x.date).forEach(x => { staffing[x.date] = Math.max(1, (x.instr || []).length); });
   shared.staffing = staffing;
@@ -13816,7 +13864,7 @@ async function jbSaveGroup() {
   } catch (e) {
     const raw = String(e.message || e);
     msg.style.color = '#C74444';
-    msg.textContent = /staffing/i.test(raw) ? 'Run the updated supabase_jobs_status.sql in Supabase, then try again.' : /course_status/i.test(raw) ? 'Run supabase_jobs_status.sql in Supabase, then try again.' : /admin_notes|notes_hidden/i.test(raw) ? 'Run supabase_jobs_notes.sql in Supabase, then try again.' : /group_id|is_lead|course_dates|team|PGRST204|column/i.test(raw) ? 'The job table needs updating for multi-day courses. Run supabase_jobs_courses.sql in Supabase, then try again.' : jbErr(e);
+    msg.textContent = /awarding/i.test(raw) ? 'Run the updated supabase_jobs_status.sql in Supabase, then try again.' : /staffing/i.test(raw) ? 'Run the updated supabase_jobs_status.sql in Supabase, then try again.' : /course_status/i.test(raw) ? 'Run supabase_jobs_status.sql in Supabase, then try again.' : /admin_notes|notes_hidden/i.test(raw) ? 'Run supabase_jobs_notes.sql in Supabase, then try again.' : /group_id|is_lead|course_dates|team|PGRST204|column/i.test(raw) ? 'The job table needs updating for multi-day courses. Run supabase_jobs_courses.sql in Supabase, then try again.' : jbErr(e);
   }
 }
 function jbEditGroup(g) {
@@ -13824,7 +13872,7 @@ function jbEditGroup(g) {
   const j = rows[0], dates = [...new Set(rows.map(r => r.job_date))].sort();
   const lead = (rows.find(r => r.is_lead) || {}).instructor || '';
   const cl = /^Client location: /.test(j.location || '');
-  jb.draft = { group: g, status: jbCourseStatus(j), course_name: j.course_name || '', title: j.title || '', location: cl ? 'Client location' : (j.location || ''), address: cl ? j.location.replace(/^Client location: /, '') : '', start: j.start_time || '09:00', end: j.end_time || '17:00',
+  jb.draft = { group: g, status: jbCourseStatus(j), awarding: j.awarding || awardingDefault(j.course_name), course_name: j.course_name || '', title: j.title || '', location: cl ? 'Client location' : (j.location || ''), address: cl ? j.location.replace(/^Client location: /, '') : '', start: j.start_time || '09:00', end: j.end_time || '17:00',
     rate: j.day_rate != null ? String(j.day_rate) : '', notes: j.notes || '', adminNotes: j.admin_notes || '', hide: !!j.notes_hidden,
     days: dates.map((d, i) => { let ids = rows.filter(r => r.job_date === d).map(r => r.instructor);
       if (i === 0 && lead && ids.includes(lead)) ids = [lead, ...ids.filter(x => x !== lead)];
@@ -15485,6 +15533,7 @@ function ctPick(step) {
 function ctChoose(name) {
   ctClose();
   lpmCreateCourse(name);
+  try { lpmCourse.awarding = CT_GROUPS.find(g => g.items.some(t => t.name === name)) === CT_GROUPS[0] ? 'sector3' : 'qualsafe'; if (/^FREC 3/i.test(name)) lpmCourse.awarding = 'qualsafe'; lpmPersist(); } catch (e) {}
   try { lpmShowStep('details'); } catch (e) {}
 }
 // ===== Course Admin: delete a course (admins and IQAs) =====
@@ -17050,6 +17099,146 @@ async function jiSend(btn) {
   lpmRenderJoining();
   const m2 = document.getElementById('jiMsg');
   if (m2) { m2.style.color = fail.length ? '#C74444' : '#0F6E56'; m2.textContent = (ok ? 'Sent to ' + ok + '. ' : '') + (fail.length ? 'Not sent — ' + fail[0] + (fail.length > 1 ? ' (+' + (fail.length - 1) + ' more)' : '') : ''); }
+}
+</script>
+<script>
+// ===================== LEARNER REGISTER + TRAINING COMPLETION (all courses except FREC 3 / FREC 4) =====================
+// Which register a course uses depends on its awarding organisation
+function awardingDefault(name) { return /^(BLS|ILS|DENTAL|GP)/i.test(String(name || '').trim()) ? 'sector3' : 'qualsafe'; }
+function awardingOf(c) { return (c && c.awarding) || awardingDefault((c || {}).courseName); }
+const AWARDING = [['qualsafe', 'Qualsafe'], ['sector3', 'Sector 3 Group']];
+function srUses(c) { return awardingOf(c) === 'sector3'; }
+function srSplit(n) { const p = String(n || '').trim().split(/\s+/); return [p[0] || '', p.slice(1).join(' ')]; }
+function srComp(c) { c.completion = c.completion || { learners:{} }; c.completion.learners = c.completion.learners || {}; return c.completion; }
+function srLearnerRows(c) {
+  const reg = c.registerEntries || [];
+  return (c.learners || []).filter(l => (l.name || '').trim()).map(l => {
+    const r = reg.find(x => (x.name || '').trim().toLowerCase() === l.name.trim().toLowerCase()) || {};
+    const [f, s] = l.first || l.last ? [l.first || '', l.last || ''] : srSplit(l.name);
+    return { l, first: r.first || f, last: r.last || s, dob: l.dob || r.dob || '', email: l.email || r.email || '', employer: l.employer || r.employer || r.organisation || '', signature: r.signature || '', t: srComp(c).learners[l.id] || {} };
+  });
+}
+function srHours(c) {
+  const comp = srComp(c); if (comp.hours) return comp.hours;
+  const days = (c.courseDates && c.courseDates.length) || (c.startDate && c.endDate ? Math.round((new Date(c.endDate) - new Date(c.startDate)) / 86400000) + 1 : 1);
+  const st = (c.startTime || '09:00').split(':'), en = (c.endTime || '17:00').split(':');
+  const h = Math.max(0, (+en[0] + (+en[1] || 0) / 60) - (+st[0] + (+st[1] || 0) / 60) - 0.5);   // less a half-hour break
+  return String(Math.round(h * days * 10) / 10);
+}
+async function srEmbed(pdf, dataUrl) {
+  if (!dataUrl || !/^data:image\/(png|jpe?g)/.test(dataUrl)) return null;
+  const bytes = Uint8Array.from(atob(dataUrl.split(',')[1]), ch => ch.charCodeAt(0));
+  try { return /png/.test(dataUrl.slice(0, 20)) ? await pdf.embedPng(bytes) : await pdf.embedJpg(bytes); } catch (e) { return null; }
+}
+// Draws the register (A4 landscape) into a PDF — blank when the course has no learners
+async function srAddRegisterPages(pdf, c, blank) {
+  const { StandardFonts, rgb } = await qsLoadPdfLib();
+  const font = await pdf.embedFont(StandardFonts.Helvetica), bold = await pdf.embedFont(StandardFonts.HelveticaBold);
+  const navy = rgb(0.13, 0.17, 0.36), ink = rgb(0.1, 0.1, 0.14), grey = rgb(0.42, 0.45, 0.52), line = rgb(0.72, 0.74, 0.8), pale = rgb(0.93, 0.93, 0.96), white = rgb(1, 1, 1);
+  const S = x => jbPdfSafe(x == null ? '' : x);
+  let logo = null;
+  try { const src = S3_LOGO; const bytes = src.startsWith('data:') ? Uint8Array.from(atob(src.split(',')[1]), ch => ch.charCodeAt(0)) : new Uint8Array(await (await fetch(src)).arrayBuffer());
+    logo = /png/i.test(src.slice(0, 30)) || /\.png$/i.test(src) ? await pdf.embedPng(bytes) : await pdf.embedJpg(bytes); } catch (e) {}
+  const comp = srComp(c), rows = blank ? [] : srLearnerRows(c), per = 10, pages = Math.max(1, Math.ceil(rows.length / per));
+  const trainerSig = blank ? null : await srEmbed(pdf, comp.trainerSig);
+  const W = 841.89, H = 595.28;
+  for (let pi = 0; pi < pages; pi++) {
+    const page = pdf.addPage([W, H]), chunk = rows.slice(pi * per, pi * per + per);
+    const T = (t, x, y, size, f, col) => page.drawText(S(t), { x, y, size, font: f || font, color: col || ink });
+    const field = (label, val, x, y, w) => { T(label, x, y, 8.5, bold, navy); const lw = bold.widthOfTextAtSize(S(label), 8.5) + 4; page.drawLine({ start:{ x: x + lw, y: y - 2 }, end:{ x: x + w, y: y - 2 }, thickness:0.5, color: line }); if (val) T(String(val).slice(0, 60), x + lw + 2, y + 1, 9); };
+    if (logo) { const h = 50, w = logo.width / logo.height * h; page.drawImage(logo, { x: 26, y: H - 26 - h, width: w, height: h }); }
+    T('Learner register', 170, H - 38, 15, bold, navy);
+    let y = H - 58;
+    field('Centre name:', blank ? 'Sector 3 Group' : 'Sector 3 Group', 170, y, 390); field('Centre number:', LICENCE.centreNo || '', 570, y, 120); field('Venue:', blank ? '' : (c.location === 'Client location' ? c.clientAddress : c.location || ''), 700, y, 116);
+    y -= 18; field('Qualification:', blank ? '' : c.courseName, 170, y, 480); field('Trainer:', blank ? '' : [c.instructor1, c.instructor2].filter(Boolean).join(', '), 660, y, 156);
+    y -= 18; field('Course start: Date', blank ? '' : fmtD(c.startDate), 170, y, 150); field('Time:', blank ? '' : c.startTime || '', 330, y, 70);
+    field('Course finish: Date', blank ? '' : fmtD(c.endDate || c.startDate), 410, y, 160); field('Time:', blank ? '' : c.endTime || '', 580, y, 70); field('Course duration:', blank ? '' : srHours(c) + ' hours', 660, y, 156);
+    // table
+    const top = H - 128, cols = [[26, 180, 'Name', 'Print in CAPITALS'], [206, 68, 'Date of birth*', 'dd/mm/yyyy'], [274, 150, 'Email address', ''], [424, 84, 'Employer', '(optional)'], [508, 96, 'Learner signature', ''],
+      [608, 50, 'Photo ID', 'seen? (tick)'], [658, 54, 'Full', 'attendance Y/N'], [712, 56, 'Expiry of', 'last cert (if any)'], [768, 48, 'RPL', 'applied Y/N']];
+    page.drawRectangle({ x: 26, y: top, width: 578, height: 16, color: navy }); T('Learner completion', 260, top + 4.5, 10, bold, white);
+    page.drawRectangle({ x: 608, y: top, width: 208, height: 16, color: navy }); T('Trainer completion', 670, top + 4.5, 10, bold, white);
+    const hy = top - 26;
+    cols.forEach(([x, w, a, b]) => { page.drawRectangle({ x, y: hy, width: w - 2, height: 26, color: pale }); T(a, x + 4, hy + 15, 7.5, bold, navy); if (b) T(b, x + 4, hy + 6, 6.5, font, grey); });
+    const rh = 34;
+    for (let i = 0; i < per; i++) {
+      const ry = hy - (i + 1) * rh, r = chunk[i];
+      cols.forEach(([x, w]) => page.drawRectangle({ x, y: ry + 2, width: w - 2, height: rh - 4, borderColor: line, borderWidth: 0.6 }));
+      T('First:', 29, ry + 20, 6.5, font, grey); T('Surname:', 29, ry + 8, 6.5, font, grey);
+      page.drawLine({ start:{ x: 26, y: ry + 17 }, end:{ x: 204, y: ry + 17 }, thickness:0.4, color: line });
+      if (!r) continue;
+      T(String(r.first).toUpperCase().slice(0, 24), 64, ry + 20, 9, bold); T(String(r.last).toUpperCase().slice(0, 24), 64, ry + 7, 9, bold);
+      T(r.dob ? fmtD(r.dob) : '', 210, ry + 14, 8.5); T(String(r.email).slice(0, 34), 278, ry + 14, 7.5); T(String(r.employer).slice(0, 18), 428, ry + 14, 7.5);
+      const sig = await srEmbed(pdf, r.signature); if (sig) { const sh = rh - 10, sw = Math.min(90, sig.width / sig.height * sh); page.drawImage(sig, { x: 511, y: ry + 5, width: sw, height: sh }); }
+      if (r.t.photoId) T('X', 628, ry + 12, 12, bold, navy);
+      T(r.t.attended === 'Y' ? 'Y' : 'N', 680, ry + 12, 11, bold, navy); T(r.t.expiry ? fmtD(r.t.expiry) : '', 716, ry + 14, 7.5); T(r.t.rpl || 'N/A', r.t.rpl ? 786 : 780, ry + 12, r.t.rpl ? 11 : 9, bold, navy);
+    }
+    const fy = hy - per * rh - 30;
+    page.drawRectangle({ x: 26, y: fy, width: 70, height: 24, borderColor: line, borderWidth: 0.6 }); T('Total learners:', 30, fy + 9, 7.5, bold, navy);
+    T(blank ? '' : String(rows.length), 84, fy + 8, 10, bold);
+    page.drawRectangle({ x: 100, y: fy, width: 330, height: 24, borderColor: line, borderWidth: 0.6 }); T("Trainer's signature:", 104, fy + 9, 7.5, bold, navy);
+    if (trainerSig) { const sh = 20, sw = Math.min(150, trainerSig.width / trainerSig.height * sh); page.drawImage(trainerSig, { x: 186, y: fy + 2, width: sw, height: sh }); }
+    T('Date:', 344, fy + 9, 7.5, bold, navy); T(blank ? '' : (comp.trainerSigAt ? fmtD(comp.trainerSigAt) : ''), 368, fy + 9, 8.5);
+    const note = '* Date of birth is required for some qualifications. Employer is optional. Your details are held by Sector 3 Group to record attendance and completion, and are shared with the awarding body only where the qualification requires it to issue your certificate. Signing this register confirms you attended and agree to the course terms.';
+    const words = note.split(' '); let ln = '', ly = fy + 16;
+    for (const w of words) { const t = ln ? ln + ' ' + w : w; if (font.widthOfTextAtSize(S(t), 6.5) > 380) { T(ln, 440, ly, 6.5, font, grey); ly -= 8; ln = w; } else ln = t; }
+    T(ln, 440, ly, 6.5, font, grey);
+    if (pages > 1) T('Page ' + (pi + 1) + ' of ' + pages, W - 80, 16, 7, font, grey);
+  }
+}
+async function srDownload(btn, blank) {
+  const old = btn.textContent; btn.disabled = true; btn.textContent = 'Building…';
+  try { const { PDFDocument } = await qsLoadPdfLib(); const pdf = await PDFDocument.create(); await srAddRegisterPages(pdf, lpmCourse, blank);
+    window.open(URL.createObjectURL(new Blob([await pdf.save()], { type:'application/pdf' })), '_blank'); } catch (e) { alert(e.message || e); }
+  btn.disabled = false; btn.textContent = old;
+}
+// ---- the training completion area (Learners section) ----
+function srSetT(id, k, v) { const comp = srComp(lpmCourse); comp.learners[id] = comp.learners[id] || {}; comp.learners[id][k] = v; lpmPersist(); }
+function srSetL(i, k, v) { lpmCourse.learners[i][k] = v; lpmPersist(); }
+const SR_RPL = ['', 'Y', 'N'], SR_RPL_T = { '':'N/A', Y:'Yes', N:'No' };
+function srLearnerLine(l) {
+  const t = srComp(lpmCourse).learners[l.id] || {};
+  return `<div class="sr-line">
+    <label class="sr-ck"><input type="checkbox" ${t.photoId ? 'checked' : ''} onchange="srSetT('${l.id}','photoId',this.checked)"> ID seen</label>
+    <label class="sr-ck"><input type="checkbox" ${t.attended === 'Y' ? 'checked' : ''} onchange="srSetT('${l.id}','attended',this.checked ? 'Y' : '');srRefreshBar()"> Full attendance</label>
+    <label class="sr-exp">Last cert <i>(optional)</i><input type="date" value="${lpmEsc(t.expiry || '')}" onchange="srSetT('${l.id}','expiry',this.value)"></label>
+    <button class="sr-rpl ${t.rpl === 'Y' ? 'y' : t.rpl === 'N' ? 'n' : ''}" onclick="srCycleRpl('${l.id}', this)">RPL: ${SR_RPL_T[t.rpl || '']}</button></div>`;
+}
+function srCycleRpl(id, btn) {
+  const comp = srComp(lpmCourse), t = comp.learners[id] = comp.learners[id] || {};
+  t.rpl = SR_RPL[(SR_RPL.indexOf(t.rpl || '') + 1) % SR_RPL.length]; lpmPersist();
+  btn.textContent = 'RPL: ' + SR_RPL_T[t.rpl]; btn.className = 'sr-rpl ' + (t.rpl === 'Y' ? 'y' : t.rpl === 'N' ? 'n' : '');
+}
+function srRefreshBar() { const b = document.getElementById('srBar'); if (b) b.outerHTML = srHtml(); }
+function srHtml() {
+  const c = lpmCourse; if (!srUses(c)) return '';
+  const comp = srComp(c), rows = srLearnerRows(c), done = rows.filter(r => r.t.attended === 'Y').length;
+  return `<div class="sr-bar" id="srBar">
+    <div class="sr-bar-l"><b>Learner register</b><span class="au-st ${rows.length && done === rows.length && comp.trainerSig ? 'ok' : 'wait'}">${done} of ${rows.length} attended${comp.trainerSig ? ' · signed' : ''}</span></div>
+    <label class="sr-dur">Duration<input type="number" step="0.5" min="0" value="${lpmEsc(srHours(c))}" onchange="srComp(lpmCourse).hours=this.value;lpmPersist()"> hrs</label>
+    <div class="jb-actions" style="margin:0;">${comp.trainerSig ? `<img class="sr-sigimg" src="${comp.trainerSig}" alt="Trainer signature"><button class="jb-btn" onclick="srClearSig()">Re-sign</button>` : `<button class="jb-btn pri" onclick="srSignOpen()">Trainer sign</button>`}
+      <button class="jb-btn" onclick="srDownload(this)">Register PDF</button><button class="jb-btn" onclick="srDownload(this, true)">Blank</button></div></div>`;
+}
+function srClearSig() { const comp = srComp(lpmCourse); delete comp.trainerSig; delete comp.trainerSigAt; lpmPersist(); lpmRenderLearners(); srSignOpen(); }
+function srSignOpen() {
+  const ov = document.createElement('div'); ov.className = 'kc-qr-ov'; ov.onclick = e => { if (e.target === ov) ov.remove(); };
+  ov.innerHTML = `<div class="kc-qr-box" style="max-width:520px;"><div class="kc-qr-t">Trainer signature</div><p class="sc-p" style="margin:0 0 8px;">I confirm the information on this register is accurate.</p>
+    <canvas id="srPad" width="900" height="300" class="sr-pad"></canvas>
+    <div class="jb-actions" style="justify-content:space-between;"><button class="jb-btn" onclick="srPadClear()">Clear</button><div style="display:flex;gap:8px;"><button class="jb-btn" onclick="this.closest('.kc-qr-ov').remove()">Cancel</button><button class="jb-btn pri" onclick="srPadSave(this)">Save signature</button></div></div></div>`;
+  document.body.appendChild(ov);
+  const cv = document.getElementById('srPad'), cx = cv.getContext('2d'); let draw = false, used = false;
+  cx.lineWidth = 5; cx.lineCap = 'round'; cx.strokeStyle = '#0D1B4C';
+  const pos = e => { const r = cv.getBoundingClientRect(), p = e.touches ? e.touches[0] : e; return [(p.clientX - r.left) * cv.width / r.width, (p.clientY - r.top) * cv.height / r.height]; };
+  const down = e => { e.preventDefault(); draw = true; used = true; const [x, y] = pos(e); cx.beginPath(); cx.moveTo(x, y); };
+  const move = e => { if (!draw) return; e.preventDefault(); const [x, y] = pos(e); cx.lineTo(x, y); cx.stroke(); };
+  const up = () => { draw = false; };
+  ['mousedown', 'touchstart'].forEach(ev => cv.addEventListener(ev, down, { passive:false }));
+  ['mousemove', 'touchmove'].forEach(ev => cv.addEventListener(ev, move, { passive:false }));
+  ['mouseup', 'mouseleave', 'touchend'].forEach(ev => cv.addEventListener(ev, up));
+  window.srPadClear = () => { cx.clearRect(0, 0, cv.width, cv.height); used = false; };
+  window.srPadSave = btn => { if (!used) { alert('Sign in the box first.'); return; } const comp = srComp(lpmCourse);
+    comp.trainerSig = cv.toDataURL('image/png'); comp.trainerSigAt = new Date().toISOString(); comp.trainerSigBy = (cloud.profile && cloud.profile.full_name) || '';
+    lpmPersist(); btn.closest('.kc-qr-ov').remove(); lpmRenderLearners(); };
 }
 </script>
 </body>
