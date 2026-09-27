@@ -1857,6 +1857,11 @@ function fmtD(v) {
   .mp-reqlist div { display:flex; justify-content:space-between; gap:10px; padding:8px 12px; border-bottom:1px solid #F2F4F8; font-size:0.88rem; }
   .mp-reqlist .tot { background:#F6F3EC; border-bottom:0; }
   .mp-back { background:#FFF4F2; border:1px solid #F3C9C3; border-radius:14px; padding:12px 14px; margin-bottom:12px; font-size:0.9rem; color:#16203D; }
+  .jb-cs { display:inline-block; font-family:'Public Sans',sans-serif; font-size:0.66rem; font-weight:800; letter-spacing:0.06em; text-transform:uppercase; border-radius:999px; padding:3px 9px; vertical-align:middle; }
+  .jb-cs.draft { background:#EEF1F5; color:#5E6577; } .jb-cs.pending { background:#FFF1D6; color:#8A5200; } .jb-cs.scheduled { background:#E3E9FB; color:#2446B8; }
+  .jb-cs.completed { background:#DDF1E8; color:#0F6E56; } .jb-cs.cancelled { background:#FDE3E1; color:#A33030; }
+  .jb-card.jb-cs-cancelled { opacity:0.65; } .jb-card.jb-draft { border-style:dashed; }
+  .jb-cs-sel { font:inherit; font-size:0.85rem; border:1px solid #D8DEE8; border-radius:10px; padding:0 10px; min-height:40px; background:#fff; color:#16203D; }
   .mp-req { border:1px solid #2446B8; color:#2446B8; background:#fff; border-radius:999px; padding:4px 10px; font:inherit; font-size:0.74rem; font-weight:700; cursor:pointer; margin-left:4px; }
   .jb-chk { flex-direction:row !important; align-items:center; gap:10px; text-transform:none !important; letter-spacing:0 !important; font-size:0.88rem !important; }
   .jb-chk input { width:20px; height:20px; }
@@ -2008,7 +2013,7 @@ window.addEventListener('load', function () {
     </button>
     <button class="hub-tile" style="--accent:#C2410C;--soft:#FFE1D6;" onclick="pcOpen()">
       <span class="hub-ic"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M10 8.5l6 3.5-6 3.5z"/></svg></span>
-      <span class="hub-text"><span class="hub-title">Practical Centre</span><span class="hub-sub">Scenario cards, run a scenario and the soundboard</span></span>
+      <span class="hub-text"><span class="hub-title">Practical Centre</span><span class="hub-sub">Scenario cards, assess a scenario and the soundboard</span></span>
       <span class="hub-chev">&rsaquo;</span>
     </button>
             <button class="hub-tile" style="--accent:#6B4FA8;--soft:#FDE4EE;" onclick="showView('knowledge')">
@@ -2304,7 +2309,7 @@ window.addEventListener('load', function () {
       <button class="sc-back rn-no-print rn-course-back" style="display:none;" onclick="rnBackToCourse()">&larr; Back to course</button>
       <button class="rn-nav-btn rn-no-print" onclick="pcOpen()">← Practical Centre</button>
       <div class="hub-eyebrow" style="margin-top:14px;">Practical Centre</div>
-      <div class="hub-h">Run a scenario</div>
+      <div class="hub-h">Assess a scenario</div>
       <div class="hub-p">Choose a scenario to run.</div>
       <div id="rnPickList"></div>
     </div>
@@ -2481,7 +2486,7 @@ window.addEventListener('load', function () {
       <button class="sc-back rn-no-print" onclick="lpmShowPick()">&larr; Back</button>
       <div class="hub-eyebrow">Whole course</div>
       <div class="hub-h">Full learner matrix</div>
-      <div class="hub-p">Every learner, every recorded competency, across every course on this device — including any sessions saved from Run a Scenario.</div>
+      <div class="hub-p">Every learner, every recorded competency, across every course on this device — including any sessions saved from Assess a Scenario.</div>
       <div id="lpmFullBody"></div>
     </div>
   </div>
@@ -3700,7 +3705,7 @@ const MENU_ITEMS = [
     { label:'Job Scheduling', sub:'Jobs, timesheets and payments', go:"jbOpenAdmin()" } ] },
   { g:'Course Delivery', iqaHide:true, items:[
     { label:'Course', sub:'Record competencies, upload exams, submit paperwork', go:"showView('lpm');lpmShowPick()" },
-    { label:'Practical Centre', sub:'Scenario cards, run a scenario, soundboard', go:"pcOpen()" },
+    { label:'Practical Centre', sub:'Scenario cards, assess a scenario, soundboard', go:"pcOpen()" },
     { label:'Knowledge Centre', sub:'QR pop quizzes', go:"showView('knowledge')" } ] },
   { g:'My Account', iqaHide:true, items:[
     { label:'My Schedule', sub:'Your jobs by month', go:"jbOpenMine()" },
@@ -7776,7 +7781,7 @@ function scSaveState(scenarioId, state) {
 }
 
 function scRenderAssessment(d) {
-  let html = `<div class="sc-note">Criteria for reference. Mark learners during the session in Run a Scenario.</div>`;
+  let html = `<div class="sc-note">Criteria for reference. Mark learners during the session in Assess a Scenario.</div>`;
   d.assessment.forEach(group => {
     html += `<!--SEC:${group.group}-->` + `<div class="sc-assess-group">`;
     group.items.forEach(([ref, crit, good]) => {
@@ -8820,7 +8825,7 @@ function rnRenderMatrix() {
   const sessions = rnLoadSessions();
   const el = document.getElementById('rnMatrixBody');
   if (!sessions.length) {
-    el.innerHTML = `<div class="rn-empty">No sessions recorded yet. Run a scenario and save it to build the course record.</div>`;
+    el.innerHTML = `<div class="rn-empty">No sessions recorded yet. Assess a scenario and save it to build the course record.</div>`;
     return;
   }
 
@@ -10248,9 +10253,9 @@ function lpmRenderSessions() {
   const allSessions = (typeof rnLoadSessions === 'function') ? rnLoadSessions() : [];
   const linked = allSessions.filter(s => lpmCourse.linkedSessionIds.includes(s.id));
 
-  let html = `<button class="rn-nav-btn primary rn-no-print" style="margin-bottom:14px;" onclick="rnRunForCourse('${lpmCourse.id}')">Run a scenario for this course</button>
+  let html = `<button class="rn-nav-btn primary rn-no-print" style="margin-bottom:14px;" onclick="rnRunForCourse('${lpmCourse.id}')">Assess a scenario for this course</button>
     <div class="sc-h2" style="margin-top:0;">Scenario sessions run for this course</div>
-    <div class="sc-note">Sessions are added here automatically when they are saved in Run a Scenario with this course selected.</div>`;
+    <div class="sc-note">Sessions are added here automatically when they are saved in Assess a Scenario with this course selected.</div>`;
 
   html += linked.length ? linked.map(s => lpmSessionCard(s, true)).join('')
     : `<div class="rn-empty">No scenario sessions run for this course yet.</div>`;
@@ -12510,7 +12515,7 @@ function ticketRef() {
 function ticketContext() {
   const active = document.querySelector('.app-view.active');
   const view = active ? active.id.replace('view-', '') : 'hub';
-  const names = { hub:'Home', lpm:'Course', cards:'Scenario Cards', run:'Run a Scenario', sounds:'Soundboard', cpd:'My CPD', knowledge:'Knowledge Centre' };
+  const names = { hub:'Home', lpm:'Course', cards:'Scenario Cards', run:'Assess a Scenario', sounds:'Soundboard', cpd:'My CPD', knowledge:'Knowledge Centre' };
   let screen = names[view] || view;
   try { if (view === 'lpm' && lpmCourse && document.getElementById('lpm-course').classList.contains('active')) screen += ' → ' + (LPM_STEPS[lpmStepIdx] || ''); } catch (e) {}
   const ctx = { screen, device: navigator.userAgent.replace(/\s*\(KHTML.*$/, '').slice(0, 140), version: APP_VERSION };
@@ -12947,6 +12952,7 @@ async function lpmOpenPack(btn) {
     await lpmBuildPack('save');
     btn.disabled = false;
     if (!lpmPackFile) { btn.textContent = old; return; }
+    const dup = document.getElementById('lpmPackLink'); if (dup) dup.style.display = 'none';   // one button, not two
     btn.textContent = 'Tap to open course pack';
     btn.onclick = () => window.open(URL.createObjectURL(lpmPackFile.blob), '_blank');
     return;
@@ -13382,10 +13388,18 @@ function jbDayLabel(d) { return new Date(d + 'T00:00:00').toLocaleDateString('en
 function jbCourseDaysLine(j) { const d = jbGroupDates(j); return d.length > 1 ? 'Course days: ' + d.map(jbDayLabel).join(', ') + '.' : ''; }
 function jbStatusLabel(j) { return j.status === 'offered' ? 'Awaiting reply' : j.status === 'confirmed' ? 'Confirmed' : 'Rejected'; }
 
+const JB_STATUSES = [['pending','Pending','Saved but not sent — instructors can\u2019t see it'], ['scheduled','Scheduled','Sent to instructors'], ['completed','Completed','Delivered'], ['cancelled','Cancelled','Removed from instructors\u2019 schedules']];
+const JB_LIVE = ['scheduled', 'completed'];
+function jbAdminViewing() { const v = document.getElementById('view-jobs'); return !!(v && v.classList.contains('active')); }
+function jbCourseStatus(j) { return j.course_status || 'scheduled'; }
 async function jbLoad() {
   if (!jbSignedIn() || !navigator.onLine) return false;
   try {
-    jb.jobs = await cloudRest('jobs?select=*&order=job_date,start_time') || [];
+    const all = await cloudRest('jobs?select=*&order=job_date,start_time') || [];
+    jb.all = all;
+    // Pending (not sent yet) and cancelled courses never reach an instructor's schedule, pay or course list
+    jb.jobs = jbIsAdmin() && jbAdminViewing() ? all : all.filter(j => JB_LIVE.includes(j.course_status || 'scheduled'));
+    if (jbIsAdmin()) { try { jb.drafts = await cloudRest('job_drafts?select=*&order=updated_at.desc') || []; } catch (e) { jb.drafts = null; } }
     jb.loaded = true; jb.err = '';
     jbReconcileCourses();
     jbRenderHub();
@@ -13517,8 +13531,11 @@ function jbAdminSchedule() {
   const ed = jb.editing ? jb.jobs.find(j => j.id === jb.editing) : null;
   let html = `<button class="jb-btn pri" onclick="${jb.formOpen ? "jb.formOpen=false;jb.editing='';jb.draft=null;jbRenderAdmin()" : 'jbNewDraft()'}">${jb.formOpen ? 'Close' : '+ New course'}</button><div style="height:12px"></div>`;
   if (jb.formOpen) html += (ed && !ed.group_id) ? jbForm(ed) : jbBuilder();
+  if (jb.drafts && jb.drafts.length) html += `<div class="sc-h2" style="margin-top:4px;">Drafts</div>${jb.drafts.map(r => `<div class="jb-card jb-draft"><div class="jb-card-top"><div><h4>${lpmEsc(r.title || 'Untitled course')} <span class="jb-cs draft">Draft</span></h4>
+      <div class="jb-meta">${r.first_date ? 'Starts ' + fmtD(r.first_date) + ' · ' : ''}saved ${fmtD(r.updated_at)}</div></div></div>
+      <div class="jb-actions"><button class="jb-btn pri" onclick="jbOpenDraft('${r.id}')">Continue</button><button class="jb-btn no" onclick="jbDeleteDraft('${r.id}')">Delete draft</button></div></div>`).join('')}`;
   html += jbMonthBar('jbRenderAdmin');
-  html += jbCalendar(month, 'jbAdminFocus', j => jbInitials(j.instructor_name) + ' · ' + j.title);
+  html += jbCalendar(month.filter(j => jbCourseStatus(j) !== 'cancelled'), 'jbAdminFocus', j => jbInitials(j.instructor_name) + ' · ' + j.title);
   html += `<div class="sc-h2">Courses and jobs in ${jbMonthLabel(jb.month)}</div>`;
   // one card per course (grouped days), older single jobs keep their own card
   const groups = [], byKey = {};
@@ -13528,15 +13545,16 @@ function jbAdminSchedule() {
     const rows = k.startsWith('J') ? byKey[k] : jb.jobs.filter(j => j.group_id === k);
     const j = rows[0];
     const dates = [...new Set(rows.map(r => r.job_date))].sort();
-    html += `<div class="jb-card" id="jbc-${j.id}"><div class="jb-card-top"><div><h4>${lpmEsc(j.title)}</h4>
+    const cs = jbCourseStatus(j);
+    html += `<div class="jb-card jb-cs-${cs}" id="jbc-${j.id}"><div class="jb-card-top"><div><h4>${lpmEsc(j.title)} <span class="jb-cs ${cs}">${(JB_STATUSES.find(x => x[0] === cs) || [, cs])[1]}</span></h4>
       <div class="jb-meta">${lpmEsc(j.course_name || 'Not linked to a course record')}<br>${lpmEsc(j.location || 'No location')}${jbTimes(j) ? ' · ' + jbTimes(j) : ''} · ${jbMoney(j.day_rate)}/day</div></div></div>
       <div class="jb-days">${dates.map(d => `<div class="jb-dayrow"><span class="jb-daylbl">${j.group_id ? jbDayLabel(d) : jbDates(j)}</span><span class="jb-people">${rows.filter(r => r.job_date === d).map(r =>
-        `<span class="jb-person"><b>${lpmEsc(r.instructor_name || 'Unassigned')}</b>${r.is_lead ? ' <i>Lead</i>' : ''} <span class="jb-status ${r.status}">${jbStatusLabel(r)}</span>${r.paid ? ' <span class="jb-status paid">Paid</span>' : ''}</span>`).join('')}</span></div>`).join('')}</div>
+        `<span class="jb-person"><b>${lpmEsc(r.instructor_name || 'Unassigned')}</b>${r.is_lead ? ' <i>Lead</i>' : ''} ${cs === 'pending' ? '<span class="jb-status">Not sent yet</span>' : `<span class="jb-status ${r.status}">${jbStatusLabel(r)}</span>`}${r.paid ? ' <span class="jb-status paid">Paid</span>' : ''}</span>`).join('')}</span></div>`).join('')}</div>
       ${j.notes ? `<div class="jb-meta" style="margin-top:8px;"><b>Instructor notes:</b> ${lpmEsc(j.notes)}</div>` : ''}
       ${j.admin_notes ? `<div class="jb-meta" style="margin-top:4px;"><b>Admin notes:</b> ${lpmEsc(j.admin_notes)}</div>` : ''}
       ${j.notes_hidden ? '<div class="jb-meta" style="margin-top:4px;">🔒 Notes hidden from the customer</div>' : ''}
       ${rows.filter(r => r.instructor_note).map(r => `<div class="jb-meta" style="margin-top:4px;"><b>${lpmEsc(r.instructor_name)}:</b> ${lpmEsc(r.instructor_note)}</div>`).join('')}
-      <div class="jb-actions">${j.group_id
+      <div class="jb-actions"><select class="jb-cs-sel" onchange="jbSetStatus('${j.group_id || 'J' + j.id}', this.value)" aria-label="Course status">${JB_STATUSES.map(([v, t]) => `<option value="${v}" ${v === cs ? 'selected' : ''}>${t}</option>`).join('')}</select>${j.group_id
         ? `<button class="jb-btn" onclick="jbEditGroup('${j.group_id}')">Edit</button><button class="jb-btn no" onclick="jbRemoveGroup('${j.group_id}')">Remove course</button>`
         : `<button class="jb-btn" onclick="jb.editing='${j.id}';jb.formOpen=true;jbRenderAdmin();window.scrollTo(0,0)">Edit</button><button class="jb-btn no" onclick="jbRemove('${j.id}')">Remove shift</button>`}</div></div>`;
   });
@@ -13546,10 +13564,40 @@ function jbAdminSchedule() {
 // ---------- Course builder: days first, then instructors on each day ----------
 function jbNewDraft() {
   jb.editing = ''; jb.formOpen = true;
-  jb.draft = { group:'', course_name:'', title:'', location:'', start:'09:00', end:'17:00', rate:'', notes:'', days:[{ date: isoLocal(), instr:['', ''] }] };
+  jb.draft = { group:'', status:'pending', course_name:'', title:'', location:'', start:'09:00', end:'17:00', rate:'', notes:'', days:[{ date: isoLocal(), instr:['', ''] }] };
   jbRenderAdmin();
 }
 function jbDraftSet(k, v) { jb.draft[k] = v; }
+async function jbSaveDraft(btn) {
+  const d = jb.draft, m = document.getElementById('jbfMsg');
+  d.draftId = d.draftId || ('D' + Date.now().toString(36));
+  const first = (d.days || []).map(x => x.date).filter(Boolean).sort()[0] || null;
+  btn.disabled = true; m.style.color = '#6B7A94'; m.textContent = 'Saving draft…';
+  try {
+    await cloudRest('job_drafts?on_conflict=id', 'POST', [{ id: d.draftId, title: (d.title || '').trim() || 'Untitled course', first_date: first, data: d, created_by: cloudMe(), updated_at: new Date().toISOString() }], 'resolution=merge-duplicates,return=minimal');
+    jb.drafts = await cloudRest('job_drafts?select=*&order=updated_at.desc') || [];
+    m.style.color = '#0F6E56'; m.textContent = 'Draft saved — carry on, or come back to it any time.';
+  } catch (e) { m.style.color = '#C74444'; m.textContent = /job_drafts|PGRST20|42P01/.test(String(e.message)) ? 'Run supabase_jobs_status.sql in Supabase first.' : jbErr(e); }
+  btn.disabled = false;
+}
+function jbOpenDraft(id) {
+  const r = (jb.drafts || []).find(x => x.id === id); if (!r) return;
+  jb.editing = ''; jb.formOpen = true; jb.draft = Object.assign({}, r.data, { draftId: r.id, group: '' });
+  jbRenderAdmin(); window.scrollTo(0, 0);
+}
+async function jbDeleteDraft(id) {
+  if (!confirm('Delete this draft?')) return;
+  try { await cloudRest('job_drafts?id=eq.' + encodeURIComponent(id), 'DELETE', null, 'return=minimal'); jb.drafts = (jb.drafts || []).filter(x => x.id !== id); jbRenderAdmin(); } catch (e) { alert(jbErr(e)); }
+}
+async function jbSetStatus(key, status) {
+  const rows = key.startsWith('J') ? jb.jobs.filter(j => 'J' + j.id === key) : jb.jobs.filter(j => j.group_id === key);
+  if (!rows.length) return;
+  if (status === 'cancelled' && !confirm('Cancel "' + rows[0].title + '"? It will be taken off every instructor\u2019s schedule.')) { jbRenderAdmin(); return; }
+  try {
+    await cloudRest('jobs?id=in.(' + rows.map(r => r.id).join(',') + ')', 'PATCH', { course_status: status, updated_at: new Date().toISOString() }, 'return=minimal');
+    jb.msg = rows[0].title + ' is now ' + status + '.'; await jbLoad(); jbRenderAdmin();
+  } catch (e) { alert(/course_status/i.test(String(e.message)) ? 'Run supabase_jobs_status.sql in Supabase first.' : jbErr(e)); }
+}
 function jbDraftCourse(v) {
   const d = jb.draft; d.course_name = v;
   if (v && !d.title.trim()) d.title = v;
@@ -13599,7 +13647,8 @@ function jbBuilder() {
     <label class="wide">Instructor notes <span class="jb-hint">— the instructors see these in My Schedule and on the course</span><textarea rows="2" oninput="jbDraftSet('notes', this.value)">${lpmEsc(d.notes)}</textarea></label>
     <label class="wide">Admin notes <span class="jb-hint">— only admins see these in the app</span><textarea rows="2" oninput="jbDraftSet('adminNotes', this.value)">${lpmEsc(d.adminNotes || '')}</textarea></label>
     <label class="wide jb-chk"><input type="checkbox" ${d.hide ? 'checked' : ''} onchange="jbDraftSet('hide', this.checked)"> Hide notes from the customer (never shown on course packs or anything the customer sees)</label>
-    <div class="wide jb-actions" style="margin-top:0;"><button class="jb-btn pri" onclick="jbSaveGroup()">${d.group ? 'Save course' : 'Create course'}</button><button class="jb-btn" onclick="jb.formOpen=false;jb.draft=null;jbRenderAdmin()">Cancel</button><span id="jbfMsg" class="jb-msg" style="color:#C74444;"></span></div>
+    <label class="wide">Status<select onchange="jbDraftSet('status', this.value)">${JB_STATUSES.filter(x => d.group || ['pending', 'scheduled'].includes(x[0])).map(([v, t, h]) => `<option value="${v}" ${(d.status || 'pending') === v ? 'selected' : ''}>${t} — ${h}</option>`).join('')}</select></label>
+    <div class="wide jb-actions" style="margin-top:0;"><button class="jb-btn pri" onclick="jbSaveGroup()">${d.group ? 'Save course' : 'Create course'}</button>${d.group ? '' : `<button class="jb-btn" onclick="jbSaveDraft(this)">Save as draft</button>`}<button class="jb-btn" onclick="jb.formOpen=false;jb.draft=null;jbRenderAdmin()">Cancel</button><span id="jbfMsg" class="jb-msg" style="color:#C74444;"></span></div>
   </div>`;
 }
 async function jbSaveGroup() {
@@ -13616,7 +13665,7 @@ async function jbSaveGroup() {
   if (d.location === 'Client location' && !(d.address || '').trim()) { msg.textContent = 'Add the client address.'; return; }
   const loc = d.location === 'Client location' ? 'Client location: ' + d.address.trim().replace(/\s*\n\s*/g, ', ') : (d.location || '').trim();
   const shared = { group_id: group, title: d.title.trim(), course_name: d.course_name || null, start_time: d.start, end_time: d.end, location: loc,
-    admin_notes: (d.adminNotes || '').trim(), notes_hidden: !!d.hide,
+    admin_notes: (d.adminNotes || '').trim(), notes_hidden: !!d.hide, course_status: d.status || 'pending',
     day_rate: Number(d.rate) || 0, notes: (d.notes || '').trim(), team: team.join('|'), course_dates: days.map(x => x.date).join(','), days: 1, updated_at: new Date().toISOString() };
   const want = days.flatMap(x => x.instr.map(id => ({ date: x.date, id })));
   msg.style.color = '#6B7A94'; msg.textContent = 'Saving…';
@@ -13630,13 +13679,15 @@ async function jbSaveGroup() {
     const have = new Set(existing.map(j => keyOf(j.job_date, j.instructor)));
     const add = want.filter(w => !have.has(keyOf(w.date, w.id))).map(w => Object.assign({}, shared, { job_date: w.date, instructor: w.id, instructor_name: nameOf(w.id), is_lead: w.id === lead, status: 'offered' }));
     if (add.length) await cloudRest('jobs', 'POST', add, 'return=minimal');
-    jb.msg = (d.group ? 'Course updated.' : 'Course created.') + (add.length ? ' ' + add.length + ' day' + (add.length === 1 ? '' : 's') + ' sent to instructors to confirm.' : '');
+    if (d.draftId) { try { await cloudRest('job_drafts?id=eq.' + encodeURIComponent(d.draftId), 'DELETE', null, 'return=minimal'); } catch (e) {} }
+    const live = JB_LIVE.includes(d.status || 'pending');
+    jb.msg = (d.group ? 'Course updated.' : 'Course created.') + (add.length && live ? ' ' + add.length + ' day' + (add.length === 1 ? '' : 's') + ' sent to instructors to confirm.' : !live ? ' It\u2019s ' + (d.status || 'pending') + ' — instructors can\u2019t see it.' : '');
     jb.formOpen = false; jb.draft = null; jb.month = days[0].date.slice(0, 7);
     await jbLoad(); jbRenderAdmin(); window.scrollTo(0, 0);
   } catch (e) {
     const raw = String(e.message || e);
     msg.style.color = '#C74444';
-    msg.textContent = /admin_notes|notes_hidden/i.test(raw) ? 'Run supabase_jobs_notes.sql in Supabase, then try again.' : /group_id|is_lead|course_dates|team|PGRST204|column/i.test(raw) ? 'The job table needs updating for multi-day courses. Run supabase_jobs_courses.sql in Supabase, then try again.' : jbErr(e);
+    msg.textContent = /course_status/i.test(raw) ? 'Run supabase_jobs_status.sql in Supabase, then try again.' : /admin_notes|notes_hidden/i.test(raw) ? 'Run supabase_jobs_notes.sql in Supabase, then try again.' : /group_id|is_lead|course_dates|team|PGRST204|column/i.test(raw) ? 'The job table needs updating for multi-day courses. Run supabase_jobs_courses.sql in Supabase, then try again.' : jbErr(e);
   }
 }
 function jbEditGroup(g) {
@@ -13644,7 +13695,7 @@ function jbEditGroup(g) {
   const j = rows[0], dates = [...new Set(rows.map(r => r.job_date))].sort();
   const lead = (rows.find(r => r.is_lead) || {}).instructor || '';
   const cl = /^Client location: /.test(j.location || '');
-  jb.draft = { group: g, course_name: j.course_name || '', title: j.title || '', location: cl ? 'Client location' : (j.location || ''), address: cl ? j.location.replace(/^Client location: /, '') : '', start: j.start_time || '09:00', end: j.end_time || '17:00',
+  jb.draft = { group: g, status: jbCourseStatus(j), course_name: j.course_name || '', title: j.title || '', location: cl ? 'Client location' : (j.location || ''), address: cl ? j.location.replace(/^Client location: /, '') : '', start: j.start_time || '09:00', end: j.end_time || '17:00',
     rate: j.day_rate != null ? String(j.day_rate) : '', notes: j.notes || '', adminNotes: j.admin_notes || '', hide: !!j.notes_hidden,
     days: dates.map((d, i) => { let ids = rows.filter(r => r.job_date === d).map(r => r.instructor);
       if (i === 0 && lead && ids.includes(lead)) ids = [lead, ...ids.filter(x => x !== lead)];
@@ -13734,7 +13785,7 @@ async function jbRemove(id) {
 
 // ---------- Timesheets & payments ----------
 function jbAdminTimesheets() {
-  const month = jb.jobs.filter(j => j.status === 'confirmed' && jbInMonth(j, jb.month));
+  const month = jb.jobs.filter(j => j.status === 'confirmed' && JB_LIVE.includes(jbCourseStatus(j)) && jbInMonth(j, jb.month));
   const people = [...new Map(month.filter(j => j.instructor).map(j => [j.instructor, j.instructor_name || 'Instructor'])).entries()];
   if (!people.some(([id]) => id === jb.tsInstr)) jb.tsInstr = people.length ? people[0][0] : '';
   let html = jbMonthBar('jbRenderAdmin');
@@ -14490,7 +14541,7 @@ function pcRender() {
     <div class="hub-p">Everything for running practical sessions and scenarios.</div>
     <div class="hub-tiles" style="margin-top:22px;">
       ${FEAT('scenarios') ? tile("pc.sec='scenarios';pcRender();window.scrollTo(0,0)", '<path d="M4 4h12a2 2 0 0 1 2 2v14H6a2 2 0 0 1-2-2z"/><path d="M8 8h6M8 12h6M8 16h3"/><path d="M18 8h2v12"/>', '#FFE1D6', 'Scenario Cards', 'Briefs, role-player cards and assessment criteria') : ''}
-      ${FEAT('runScenario') ? tile("showView('run');rnRenderPick()", '<circle cx="12" cy="12" r="9"/><path d="M10 8.5l6 3.5-6 3.5z"/>', '#E3E8FA', 'Run a Scenario', 'Brief, safety, roles, sound and assessment in one flow') : ''}
+      ${FEAT('runScenario') ? tile("showView('run');rnRenderPick()", '<circle cx="12" cy="12" r="9"/><path d="M10 8.5l6 3.5-6 3.5z"/>', '#E3E8FA', 'Assess a Scenario', 'Brief, safety, roles, sound and assessment in one flow') : ''}
       ${FEAT('soundboard') ? tile("showView('sounds')", '<path d="M4 10v4M8 7v10M12 4v16M16 7v10M20 10v4"/>', '#F0EAFB', 'Soundboard', 'Live scene sound mixer for scenarios') : ''}
     </div>`;
 }
@@ -14972,7 +15023,7 @@ function stTodayRender() {
     : `<div class="ht-next"><div class="ht-k">Coming up</div><div class="ht-t">Nothing scheduled</div><div class="ht-m">Your next job or course will show here.</div></div>`) +
     `<div class="ht-quick"><b>Quick actions</b>
       ${FEAT('knowledgeCentre') ? `<button onclick="showView('knowledge')">${ic('M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.8.8 1 1.5 1 2.5h6c0-1 .2-1.7 1-2.5A6 6 0 0 0 12 3z')}Start a live quiz</button>` : ''}
-      ${FEAT('runScenario') ? `<button onclick="showView('run');rnRenderPick()">${ic('M7 4l13 8-13 8z')}Run a scenario</button>` : ''}
+      ${FEAT('runScenario') ? `<button onclick="showView('run');rnRenderPick()">${ic('M7 4l13 8-13 8z')}Assess a scenario</button>` : ''}
       ${FEAT('myCpd') ? `<button onclick="showView('cpd');cpdOpen()">${ic('M12 5v14M5 12h14')}Add a CPD entry</button>` : ''}</div>`;
 }
 document.addEventListener('DOMContentLoaded', () => { try { stBuildRail(); stTodayRender(); } catch (e) { console.warn('studio', e); } });
