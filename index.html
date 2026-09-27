@@ -1622,8 +1622,11 @@ function fmtD(v) {
   @media (max-width:820px) { .wb-hy, .wb-hy.wide { grid-template-columns:1fr; } .wb-side { position:static; } }
   /* Course Matrix section tiles */
   #lpmSteps { display:block !important; border:0 !important; overflow:visible !important; margin-bottom:10px; }
-  #lpmSteps .lpm-tiles { display:none !important; margin-top:8px; }
-  #lpmSteps.home .lpm-tiles { display:grid !important; }
+  #lpmSteps .lpm-tiles { display:grid !important; margin-top:8px; }
+  #lpmSteps .hub-tile.lpm-on { outline:3px solid #16203D; outline-offset:3px; }
+  #lpmSteps .lpm-secbar .rn-nav-btn { display:none; }
+  #lpmSteps .lpm-sectitle { display:none; }
+  #lpmSteps .lpm-secbar { margin:22px 0 6px; padding-top:18px; border-top:1px solid #E7E3DA; scroll-margin-top:80px; }
   #lpmSteps .lpm-secbar { display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin:6px 0 14px; }
   #lpmSteps.home .lpm-secbar { display:none; }
   .lpm-sectitle { font-family:'Fraunces',Georgia,serif; font-size:1.5rem; font-weight:600; color:#16203D; }
@@ -1640,9 +1643,10 @@ function fmtD(v) {
   .aip-h { font-weight:800; font-size:0.78rem; letter-spacing:0.06em; text-transform:uppercase; color:#5E6577; margin-bottom:8px; }
   .aip-row { display:flex; justify-content:space-between; gap:10px; padding:5px 0; border-bottom:1px solid #F0EDE6; font-size:0.88rem; } .aip-row span { color:#6B7A94; } .aip-row b { color:#16203D; text-align:right; font-weight:600; word-break:break-word; }
   .aip-row a { color:#2446B8; }
+  @media (max-width:640px) { .mixer-board-btn, .mixer-board-hint { display:none !important; } }
   /* Course progress + completion ticks */
   .lpm-prog { display:none; justify-content:space-between; align-items:center; gap:14px; margin:6px 0 14px; }
-  #lpmSteps.home .lpm-prog { display:flex; }
+  #lpmSteps .lpm-prog { display:flex; }
   .lpm-prog-k { font-size:0.88rem; color:#5E6577; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
   .lpm-prog-t { font-family:'Fraunces',Georgia,serif; font-size:1.45rem; font-weight:600; color:#16203D; margin-top:2px; }
   .lpm-ring { width:64px; height:64px; flex-shrink:0; }
@@ -8161,7 +8165,7 @@ function rnRenderSound() {
   if (!mix && !extras.length) {
     const p = document.getElementById('ssPlay'); if (p) p.classList.add('empty');
     document.getElementById('rnSoundSub').textContent = 'No preset mix for this scenario';
-    inner.innerHTML = '<p class="sc-p">No preset mix for this scenario. Use <b>Open full sound board</b> to add any sounds you need.</p>';
+    inner.innerHTML = '<p class="sc-p">No preset mix for this scenario.<span class="mixer-board-hint"> Use <b>Open full sound board</b> to add any sounds you need.</span></p>';
     return;
   }
   rnSoundsState(Object.keys(activeNodes).length > 0);
@@ -9328,7 +9332,10 @@ function lpmToggleStep(k, ev) {
   if (ev) ev.stopPropagation();
   const c = lpmCourse; if (typeof lpmReadOnlyNow === 'function' && lpmReadOnlyNow()) { alert('This course is locked.'); return; }
   c.steps = c.steps || {}; if (c.steps[k]) delete c.steps[k]; else c.steps[k] = new Date().toISOString();
-  lpmPersist(); lpmRenderSteps(); document.getElementById('lpmSteps').classList.add('home');
+  lpmPersist(); lpmRenderSteps();
+  const cur = lpmStepIdx >= 0 ? LPM_STEPS[lpmStepIdx] : '';
+  if (!cur) document.getElementById('lpmSteps').classList.add('home');
+  else document.querySelectorAll('#lpmSteps .lpm-tw').forEach(w => { const t = w.querySelector('.hub-tile'); if (t) t.classList.toggle('lpm-on', w.dataset.step === cur); });
 }
 function lpmRenderSteps() {
   const el = document.getElementById('lpmSteps'); if (!el) return;
@@ -9357,6 +9364,8 @@ function lpmShowStep(key) {
     lpmStepIdx = -1; window.scrollTo(0, 0); return;
   }
   document.getElementById('lpmSteps').classList.remove('home');
+  document.querySelectorAll('#lpmSteps .hub-tile').forEach(t => t.classList.toggle('lpm-on', t.closest('.lpm-tw') && t.closest('.lpm-tw').dataset.step === key));
+  setTimeout(() => { const b = document.querySelector('#lpmSteps .lpm-secbar'); if (b && lpmShowStep.scroll !== false) b.scrollIntoView({ behavior:'smooth', block:'start' }); }, 30);
   const isRev = typeof cloudActingReviewer === 'function' && cloudActingReviewer();
   const hidden = lpmHiddenSteps(lpmCourse);
   document.querySelectorAll('#lpmSteps .lpm-tw').forEach(t => { t.style.display = lpmStepVisible(t.dataset.step) ? '' : 'none'; });
@@ -11593,7 +11602,7 @@ async function lpmRenderPack() {
         const ask = pend ? `<span class="er-waiting">Reopen request sent — waiting for an admin</span>` : `<button class="rn-nav-btn" onclick="erRequest('${lpmCourse.id}')">Ask admin to reopen</button>`;
         if (st === 'completed') return `<button class="rn-nav-btn" onclick="lpmOpenPack(this)">Open course pack</button><button class="rn-nav-btn primary" id="lpmPackSubmit" onclick="lpmSubmitPack()">Submit course</button>${ask}`;
         if (st === 'reviewer') { const raw = lpmPackState(lpmCourse, true);
-          return `<button class="rn-nav-btn primary" id="lpmPackBuild" onclick="lpmBuildPack('save')">Build course pack</button>${['completed', 'submitted', 'accepted'].includes(raw) ? `<button class="rn-nav-btn" onclick="admReopen('${lpmCourse.id}')">Reopen for instructor</button>` : ''}${lpmCourse.submission ? `<button class="rn-nav-btn" onclick="lpmShowStep('iqa')">IQA review</button>` : ''}`; }
+          return `${lpmCourse.submission ? `<button class="rn-nav-btn primary" onclick="iqaOpenPack('${lpmCourse.id}', this)">Open course pack</button>` : `<button class="rn-nav-btn primary" onclick="lpmOpenPack(this)">Open course pack</button>`}${['completed', 'submitted', 'accepted'].includes(raw) ? `<button class="rn-nav-btn" onclick="admReopen('${lpmCourse.id}')">Reopen for instructor</button>` : ''}${lpmCourse.submission ? `<button class="rn-nav-btn" onclick="lpmShowStep('iqa')">IQA review</button>` : ''}`; }
         return `<button class="rn-nav-btn primary" id="lpmPackBuild" onclick="lpmCompleteCourse()">Complete course</button>`;
       })()}
       <a id="lpmPackLink" class="rn-nav-btn" style="display:none;text-decoration:none;" target="_blank">Open course pack</a>
@@ -12975,7 +12984,7 @@ async function iqaOpenPack(courseId, btn) {
     const res = await cloudFetch('/storage/v1/object/authenticated/course-files/' + c.submission.path, { json:false });
     const url = URL.createObjectURL(await res.blob());
     const a = document.createElement('a');
-    a.href = url; a.target = '_blank'; a.className = btn.className; a.textContent = 'Open submitted pack'; a.style.textDecoration = 'none';
+    a.href = url; a.target = '_blank'; a.className = btn.className; a.textContent = 'Tap to open course pack'; a.style.textDecoration = 'none';
     a.download = 'Course_Pack_' + (c.courseName || 'course').replace(/[^A-Za-z0-9]+/g, '_') + '_' + (c.startDate || '') + '.pdf';
     btn.replaceWith(a);
     window.open(url, '_blank');
@@ -12990,8 +12999,9 @@ function lpmRenderIqa() {
   const outcome = r.outcome || '';
   el.innerHTML = `<div class="sc-h2" style="margin-top:0;">IQA review</div>
     ${s ? `<div class="iqa-state sub"><b>Submitted</b> ${fmtD(s.at)}${s.by ? ' by ' + lpmEsc(s.by) : ''} · ${s.pages || '?'} pages
-        <div style="margin-top:8px;"><button class="rn-nav-btn primary" onclick="iqaOpenPack('${c.id}', this)">Open submitted pack</button></div></div>`
-        : `<div class="sc-note">This course pack hasn't been submitted yet. You can still review the course using the other tabs.</div>`}
+        <div style="margin-top:8px;"><button class="rn-nav-btn primary" onclick="iqaOpenPack('${c.id}', this)">Open course pack</button></div></div>`
+        : `<div class="sc-note">This course pack hasn't been submitted yet — you can open the current version to review it.
+        <div style="margin-top:8px;"><button class="rn-nav-btn primary" onclick="lpmOpenPack(this)">Open course pack</button></div></div>`}
     <div class="lpm-field-row" style="margin-top:14px;">
       <div class="lpm-field rn-learner-field"><label>Reviewed by</label>
         <div class="iqa-who">${lpmEsc(r.iqa_name && r.reviewer && r.reviewer !== cloudMe() ? r.iqa_name + ' (you will replace this review)' : iqaMyName())}</div></div>
@@ -13473,7 +13483,7 @@ function jbInstructors() {
 function jbRenderAdmin() {
   const root = document.getElementById('jbAdminRoot'); if (!root) return;
   let html = `<button class="rn-nav-btn rn-no-print" onclick="showView('hub')">← Home</button>
-    <div class="hub-eyebrow" style="margin-top:14px;">Management Panel</div>
+    ${admPortalBar('Job Scheduling')}
     <div class="hub-h" style="margin-bottom:4px;">Job Scheduling</div>
     <p class="sc-p">Create a course, pick its days, put instructors on each day, then run timesheets and mark payments.</p>
     <div class="jb-tabs"><button class="${jb.tab === 'schedule' ? 'on' : ''}" onclick="jb.tab='schedule';jbRenderAdmin()">Schedule</button><button class="${jb.tab === 'timesheets' ? 'on' : ''}" onclick="jb.tab='timesheets';jbRenderAdmin()">Timesheets &amp; payments</button><button class="${jb.tab === 'payreqs' ? 'on' : ''}" onclick="jb.tab='payreqs';jb.reqs=null;jbRenderAdmin()">Pay requests</button></div>`;
@@ -15514,7 +15524,7 @@ function lmsRender() {
   if (m) return lmsRenderModule(root, m);
   let n = 0;
   const tile = t => `<button class="ct-tile" style="--c:${t.c};animation-delay:${(n++ * 0.05).toFixed(2)}s" onclick="lms.mod='${t.id}';lms.tab='';lmsRender();window.scrollTo(0,0)">${ctIcon(t.ic)}<div><b style="font-size:${t.title.length > 16 ? '1.35rem' : '1.9rem'}">${t.title}</b><span>${t.sub}</span></div></button>`;
-  root.innerHTML = `<div class="lms">${lmsTop(lms.preview ? 'Learner view · preview' : 'My Learning')}
+  root.innerHTML = `<div class="lms">${lms.preview ? admPortalBar('Learner LMS preview') : ''}${lmsTop(lms.preview ? 'Learner view · preview' : 'My Learning')}
     <div class="lms-h">${lms.preview ? 'Learner dashboard' : 'Hi ' + lmsEsc(lmsFirst()) + ','}<br>what are you learning today?</div>
     ${lms.preview ? '<div class="lms-demo">This is a preview of the learner app. Learners only ever see this screen and their profile.</div>' : ''}
     <div class="lms-sec"><img src="${typeof S3_LOGO !== 'undefined' ? S3_LOGO : ''}" alt="" onerror="this.onerror=null;this.src=licBadge()">Courses</div>
@@ -15832,7 +15842,7 @@ function wbPending(r) {
 function wbStaffRender() {
   const root = document.getElementById('wbMarkRoot'); if (!root) return;
   const top = `<button class="rn-nav-btn rn-no-print" onclick="${wb.staff.sel ? 'wb.staff.sel=null;wbStaffRender()' : "showView('hub')"}">← ${wb.staff.sel ? 'All workbooks' : 'Home'}</button>
-    <div class="hub-eyebrow" style="margin-top:14px;">Management Panel</div><div class="hub-h" style="margin-bottom:4px;">Workbook Marking</div>`;
+    ${admPortalBar('Workbook Marking')}<div class="hub-h" style="margin-bottom:4px;">Workbook Marking</div>`;
   if (wb.staff.sel) {
     const r = wb.staff.sel, c = r.comp, W = WB[c], p = wbProgress(c, r);
     root.innerHTML = top + `<p class="sc-p"><b>${wbEsc(r.owner_name || 'Learner')}</b> · FREC 4 ${W.title} · ${p.pass}/${p.total} passed${r.declared_at ? ' · declaration signed ' + fmtD(r.declared_at) : ' · declaration not signed yet'}</p>
@@ -15969,7 +15979,7 @@ function lmaRender() {
   const toMark = stats.reduce((t, s) => t + s.sub, 0), done = stats.filter(s => s.complete).length;
   const avg = all.length ? Math.round(stats.reduce((t, s) => t + s.pct, 0) / all.length) : 0;
   let h = `<button class="rn-nav-btn rn-no-print" onclick="showView('hub')">← Home</button>
-    <div class="hub-eyebrow" style="margin-top:14px;">Management Panel</div>
+    ${admPortalBar('LMS Overview')}
     <div class="lma-top"><div class="hub-h" style="margin:0;">LMS Overview</div>
       <label class="lma-demo-t"><input type="checkbox" ${lma.demo ? 'checked' : ''} onchange="lma.demo=this.checked;lma.cohort='';lma.cohortSel='';lmaRender()"> Show example learners</label></div>
     <p class="sc-p">Every learner and cohort across the centre. Progress updates as learners submit work and it's marked.</p>
@@ -16513,7 +16523,7 @@ function amRender() {
   const locOpts = [['site', amSites()], ['storage', amStores()], ['instructor', amPeople()]];
   const inUse = [...new Set(all.filter(a => a.location_type === 'client').map(a => a.location))];
   root.innerHTML = `<button class="rn-nav-btn rn-no-print" onclick="showView('hub')">← Home</button>
-    <div class="hub-eyebrow" style="margin-top:14px;">Management Panel</div>
+    ${admPortalBar('Equipment')}
     <div class="lma-top"><div class="hub-h" style="margin:0;">Equipment</div>
       <label class="lma-demo-t"><input type="checkbox" ${am.demo ? 'checked' : ''} onchange="am.demo=this.checked;amRender()"> Show example equipment</label></div>
     <p class="sc-p">Every piece of training kit — where it is, who has it, and when it's next due a service.</p>
